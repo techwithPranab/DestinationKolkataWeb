@@ -288,7 +288,7 @@ export default function ReportPage() {
                     </div>
                   </div>
 
-                  <Button type="submit" disabled={isSubmitting} className="w-full bg-red-500 hover:bg-red-600">
+                  <Button type="submit" disabled={isSubmitting} className="w-full text-white bg-red-500 hover:bg-red-600">
                     {isSubmitting ? (
                       <>
                         <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"></div>

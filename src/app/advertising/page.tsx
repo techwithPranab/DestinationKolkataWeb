@@ -49,8 +49,8 @@ export default function AdvertisingPage() {
                 <li>• Priority customer support</li>
                 <li>• Detailed analytics dashboard</li>
               </ul>
-              <div className="text-2xl font-bold text-orange-600 mb-4">₹2,999/month</div>
-              <Button className="w-full bg-orange-600 hover:bg-orange-700">
+              {/* <div className="text-2xl font-bold text-orange-600 mb-4">₹2,999/month</div> */}
+              <Button className="w-full text-white   bg-orange-600 hover:bg-orange-700">
                 Get Started
               </Button>
             </CardContent>
@@ -71,8 +71,8 @@ export default function AdvertisingPage() {
                 <li>• Custom audience creation</li>
                 <li>• Real-time performance tracking</li>
               </ul>
-              <div className="text-2xl font-bold text-orange-600 mb-4">₹1,499/month</div>
-              <Button className="w-full bg-orange-600 hover:bg-orange-700">
+              {/* <div className="text-2xl font-bold text-orange-600 mb-4">₹1,499/month</div> */}
+              <Button className="w-full text-white bg-orange-600 hover:bg-orange-700">
                 Start Campaign
               </Button>
             </CardContent>
@@ -93,8 +93,8 @@ export default function AdvertisingPage() {
                 <li>• Mobile-optimized banners</li>
                 <li>• Detailed impression reports</li>
               </ul>
-              <div className="text-2xl font-bold text-orange-600 mb-4">₹999/month</div>
-              <Button className="w-full bg-orange-600 hover:bg-orange-700">
+              {/* <div className="text-2xl font-bold text-orange-600 mb-4">₹999/month</div> */}
+              <Button className="w-full text-white bg-orange-600 hover:bg-orange-700">
                 Book Ad Space
               </Button>
             </CardContent>
@@ -140,7 +140,7 @@ export default function AdvertisingPage() {
         </div>
 
         {/* Success Stories */}
-        <div className="mb-16">
+        <div className="mb-16 hidden">
           <h2 className="text-3xl font-bold text-gray-900 text-center mb-12">Success Stories</h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             <Card>

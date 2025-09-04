@@ -271,7 +271,7 @@ export default function FeedbackPage() {
                     </div>
                   )}
 
-                  <Button type="submit" disabled={isSubmitting} className="w-full bg-orange-500 hover:bg-orange-600">
+                  <Button type="submit" disabled={isSubmitting} className="w-full text-white bg-orange-500 hover:bg-orange-600">
                     {isSubmitting ? (
                       <>
                         <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"></div>

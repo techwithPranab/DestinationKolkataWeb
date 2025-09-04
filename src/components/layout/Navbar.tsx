@@ -24,10 +24,8 @@ export default function Navbar() {
         <div className="flex justify-between items-center h-16">
           {/* Logo */}
             <Link href="/" className="flex items-center space-x-2">
-              <img src="/Logo2.png" alt="Destination Kolkata Logo" className="h-10 md:h-24 lg:h-16 w-auto" />
-          </Link>
-
-          {/* Desktop Navigation */}
+              <img src="/Logo2.png" alt="Destination Kolkata Logo" className="h-14 md:h-32 lg:h-24 w-auto" />
+            </Link>          {/* Desktop Navigation */}
           <div className="hidden lg:flex items-center space-x-1">
             {navigationItems.map((item) => (
               <Link

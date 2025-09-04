@@ -9,6 +9,9 @@
     "lint": "eslint",
     "ingest-data": "tsx scripts/ingest-data.ts",
     "seed-db": "tsx scripts/seed-database.ts",
+    "seed-admin": "tsx scripts/seed-admin-user.ts",
+    "verify-admin": "node scripts/verify-admin.js",
+    "generate-admin": "node scripts/generate-admin-info.js",
     "type-check": "tsc --noEmit"
   },
   "dependencies": {
@@ -22,11 +25,13 @@
     "@radix-ui/react-switch": "^1.2.6",
     "@radix-ui/react-tabs": "^1.1.13",
     "@stripe/stripe-js": "^7.9.0",
+    "@tailwindcss/typography": "^0.5.16",
     "@types/bcryptjs": "^2.4.6",
     "@types/jsonwebtoken": "^9.0.10",
     "@types/leaflet": "^1.9.20",
     "@types/nodemailer": "^7.0.1",
     "@types/react-leaflet": "^2.8.3",
+    "autoprefixer": "^10.4.21",
     "bcryptjs": "^3.0.2",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",

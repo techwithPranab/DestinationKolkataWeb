@@ -49,7 +49,7 @@ export default function PartnershipsPage() {
                 <li>• Exclusive partnership benefits</li>
                 <li>• Joint marketing campaigns</li>
               </ul>
-              <Button className="w-full bg-orange-600 hover:bg-orange-700">
+              <Button className="w-full text-white bg-orange-600 hover:bg-orange-700">
                 Become a Partner
               </Button>
             </CardContent>
@@ -70,7 +70,7 @@ export default function PartnershipsPage() {
                 <li>• Co-development opportunities</li>
                 <li>• Revenue sharing models</li>
               </ul>
-              <Button className="w-full bg-orange-600 hover:bg-orange-700">
+              <Button className="w-full text-white bg-orange-600 hover:bg-orange-700">
                 Tech Partnership
               </Button>
             </CardContent>
@@ -91,7 +91,7 @@ export default function PartnershipsPage() {
                 <li>• Exclusive content partnerships</li>
                 <li>• Brand collaboration projects</li>
               </ul>
-              <Button className="w-full bg-orange-600 hover:bg-orange-700">
+              <Button className="w-full text-white bg-orange-600 hover:bg-orange-700">
                 Content Partnership
               </Button>
             </CardContent>

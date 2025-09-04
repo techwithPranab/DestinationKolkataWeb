@@ -1,7 +1,6 @@
 "use client"
 
 import React, { useState } from 'react'
-import { Metadata } from 'next'
 import { Building2, Plus, CheckCircle, ArrowLeft } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
@@ -11,11 +10,6 @@ import { Textarea } from '@/components/ui/textarea'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { Alert, AlertDescription } from '@/components/ui/alert'
 import { useRouter } from 'next/navigation'
-
-export const metadata: Metadata = {
-  title: 'List Your Business | Destination Kolkata',
-  description: 'Add your business to Destination Kolkata and reach more customers. Join our network of trusted businesses in Kolkata.',
-}
 
 type SubmissionType = 'hotel' | 'restaurant' | 'attraction' | 'event' | 'sports' | 'travel'
 
@@ -843,7 +837,7 @@ export default function SubmitBusinessPage() {
             Join our community of successful businesses in Kolkata. It&apos;s free to list your business and start attracting customers today.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Button size="lg" className="bg-orange-600 hover:bg-orange-700" onClick={() => setCurrentStep('form')}>
+            <Button size="lg" className="text-white bg-orange-600 hover:bg-orange-700" onClick={() => setCurrentStep('form')}>
               <Plus className="h-5 w-5 mr-2" />
               List Your Business Now
             </Button>
