@@ -17,7 +17,8 @@ import {
   Bell,
   Menu,
   X,
-  LogOut
+  LogOut,
+  CheckCircle
 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { useAuth } from '@/contexts/AuthContext'
@@ -33,6 +34,12 @@ const navigation = [
     href: '/admin',
     icon: LayoutDashboard,
     description: 'Overview and analytics'
+  },
+  {
+    name: 'Approvals',
+    href: '/admin/approvals',
+    icon: CheckCircle,
+    description: 'Review and approve submissions'
   },
   {
     name: 'Hotels',

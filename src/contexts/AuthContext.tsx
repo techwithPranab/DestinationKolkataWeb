@@ -78,6 +78,13 @@ export function AuthProvider({ children }: AuthProviderProps) {
     }
 
     setUser(user)
+
+    // Redirect after login
+    if (user.role === 'admin' || user.role === 'moderator') {
+      router.push('/admin')
+    } else {
+      router.push('/customer')
+    }
   }
 
   const logout = () => {

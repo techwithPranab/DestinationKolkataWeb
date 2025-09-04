@@ -1,51 +1,77 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { adminUserSeeds, AdminUser } from '@/lib/seeds/admin-users'
-
-// Mock user database - replace with actual database
-const users: AdminUser[] = [...adminUserSeeds]
+import connectDB from '@/lib/mongodb'
+import { User } from '@/models'
+import bcrypt from 'bcryptjs'
+import jwt from 'jsonwebtoken'
 
 export async function POST(request: NextRequest) {
   try {
     const { email, password } = await request.json()
 
-    // Find user by email
-    const user = users.find(u => u.email === email && u.isActive)
+    // Validate input
+    if (!email || !password) {
+      return NextResponse.json(
+        { success: false, message: 'Email and password are required' },
+        { status: 400 }
+      )
+    }
+
+    // Connect to database
+    await connectDB()
+
+    // Find user by email and role
+    const user = await User.findOne({
+      email: email.toLowerCase(),
+      role: { $in: ['admin', 'moderator'] },
+      status: 'active'
+    })
 
     if (!user) {
       return NextResponse.json(
-        { success: false, message: 'User not found' },
+        { success: false, message: 'Invalid credentials or insufficient permissions' },
         { status: 401 }
       )
     }
 
-    // Check password (in production, use proper password hashing)
-    if (user.password !== password) {
+    // Verify password
+    const isValidPassword = await bcrypt.compare(password, user.password)
+    if (!isValidPassword) {
       return NextResponse.json(
-        { success: false, message: 'Invalid password' },
+        { success: false, message: 'Invalid credentials' },
         { status: 401 }
       )
     }
 
     // Update last login
-    const userIndex = users.findIndex(u => u.id === user.id)
-    const updatedUser = {
-      ...user,
-      lastLogin: new Date().toISOString()
-    }
-    users[userIndex] = updatedUser
+    user.lastLogin = new Date()
+    await user.save()
+
+    // Generate JWT token
+    const token = jwt.sign(
+      {
+        userId: user._id,
+        email: user.email,
+        role: user.role
+      },
+      process.env.JWT_SECRET || 'your-secret-key',
+      { expiresIn: '7d' }
+    )
 
     // Create response user object (exclude password)
     const responseUser = {
-      id: user.id,
+      id: user._id.toString(),
       email: user.email,
-      name: user.name,
+      name: user.name || `${user.firstName} ${user.lastName}`.trim(),
+      firstName: user.firstName,
+      lastName: user.lastName,
       role: user.role,
-      permissions: user.permissions,
-      lastLogin: user.lastLogin
+      phone: user.phone,
+      businessName: user.businessName,
+      businessType: user.businessType,
+      city: user.city,
+      membershipType: user.membershipType,
+      membershipExpiry: user.membershipExpiry
     }
-
-    // Generate token (in production, use proper JWT)
-    const token = `admin-token-${user.id}-${Date.now()}`
 
     return NextResponse.json({
       success: true,
@@ -54,38 +80,9 @@ export async function POST(request: NextRequest) {
       message: 'Login successful'
     })
   } catch (error) {
-    console.error('Login error:', error)
+    console.error('Admin login error:', error)
     return NextResponse.json(
       { success: false, message: 'Internal server error' },
-      { status: 500 }
-    )
-  }
-}
-
-// GET endpoint to retrieve all users (for admin management)
-export async function GET(request: NextRequest) {
-  try {
-    // In production, add authentication check here
-    const userList = users.map(user => ({
-      id: user.id,
-      email: user.email,
-      name: user.name,
-      role: user.role,
-      permissions: user.permissions,
-      isActive: user.isActive,
-      createdAt: user.createdAt,
-      lastLogin: user.lastLogin
-    }))
-
-    return NextResponse.json({
-      success: true,
-      users: userList,
-      total: userList.length
-    })
-  } catch (error) {
-    console.error('Error fetching users:', error)
-    return NextResponse.json(
-      { success: false, message: 'Failed to fetch users' },
       { status: 500 }
     )
   }

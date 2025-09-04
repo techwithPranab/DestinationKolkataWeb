@@ -753,6 +753,43 @@ const feedbackSchema = new Schema({
   notes: String
 })
 
+// Submission Schema
+export interface ISubmission extends Document {
+  type: 'hotel' | 'restaurant' | 'attraction' | 'event' | 'sports' | 'travel'
+  title: string
+  description: string
+  userId: mongoose.Types.ObjectId
+  submissionData: Record<string, unknown>
+  status: 'pending' | 'approved' | 'rejected'
+  adminId?: mongoose.Types.ObjectId
+  adminNotes?: string
+  processedAt?: Date
+  createdAt: Date
+  updatedAt: Date
+}
+
+const submissionSchema = new Schema({
+  type: {
+    type: String,
+    enum: ['hotel', 'restaurant', 'attraction', 'event', 'sports', 'travel'],
+    required: true
+  },
+  title: { type: String, required: true, trim: true },
+  description: { type: String, required: true },
+  userId: { type: Schema.Types.ObjectId, ref: 'User', required: true },
+  submissionData: { type: Schema.Types.Mixed, required: true },
+  status: {
+    type: String,
+    enum: ['pending', 'approved', 'rejected'],
+    default: 'pending'
+  },
+  adminId: { type: Schema.Types.ObjectId, ref: 'User' },
+  adminNotes: String,
+  processedAt: Date,
+  createdAt: { type: Date, default: Date.now },
+  updatedAt: { type: Date, default: Date.now }
+})
+
 // Report Issue Schema
 export interface IReportIssue extends Document {
   type: 'inaccurate' | 'outdated' | 'closed' | 'inappropriate' | 'spam' | 'other'
@@ -846,3 +883,4 @@ export const Sports = mongoose.models.Sports || mongoose.model<ISports>('Sports'
 export const Contact = mongoose.models.Contact || mongoose.model<IContact>('Contact', contactSchema)
 export const Feedback = mongoose.models.Feedback || mongoose.model<IFeedback>('Feedback', feedbackSchema)
 export const ReportIssue = mongoose.models.ReportIssue || mongoose.model<IReportIssue>('ReportIssue', reportIssueSchema)
+export const Submission = mongoose.models.Submission || mongoose.model<ISubmission>('Submission', submissionSchema)

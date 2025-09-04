@@ -49,7 +49,7 @@ export async function POST(
     }
 
     const { db } = await connectToDatabase()
-    const submissionId = ObjectId.createFromHexString(id)
+    const submissionId = new ObjectId(id)
 
     // Get the submission
     const submission = await db.collection('submissions').findOne({ _id: submissionId })
@@ -71,7 +71,7 @@ export async function POST(
     // Update submission status
     const updateData: Record<string, unknown> = {
       status: action === 'approve' ? 'approved' : 'rejected',
-      adminId: ObjectId.createFromHexString(user.userId),
+      adminId: new ObjectId(user.userId),
       processedAt: new Date(),
       updatedAt: new Date()
     }
@@ -113,7 +113,7 @@ export async function POST(
       // Add metadata
       documentData.submissionId = submissionId
       documentData.approvedAt = new Date()
-      documentData.approvedBy = ObjectId.createFromHexString(user.userId)
+      documentData.approvedBy = new ObjectId(user.userId)
       documentData.status = 'active'
       documentData.featured = false
       documentData.views = 0

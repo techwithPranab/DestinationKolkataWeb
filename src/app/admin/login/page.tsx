@@ -24,13 +24,14 @@ interface LoginFormData {
 }
 
 export default function AdminLogin() {
-  const { login, isLoading } = useAuth()
+  const { login } = useAuth()
   const [formData, setFormData] = useState<LoginFormData>({
     email: '',
     password: ''
   })
   const [showPassword, setShowPassword] = useState(false)
   const [error, setError] = useState('')
+  const [isSubmitting, setIsSubmitting] = useState(false)
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target
@@ -45,6 +46,9 @@ export default function AdminLogin() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setError('')
+    setIsSubmitting(true)
+
+    console.log('Form submitted with:', formData)
 
     try {
       // Make API call to admin login endpoint
@@ -59,7 +63,10 @@ export default function AdminLogin() {
         }),
       })
 
+      console.log('API response status:', response.status)
+
       const data = await response.json()
+      console.log('API response data:', data)
 
       if (!response.ok) {
         throw new Error(data.message || 'Login failed')
@@ -70,7 +77,10 @@ export default function AdminLogin() {
       
       // Redirect will be handled by the AuthContext
     } catch (err) {
+      console.error('Login error:', err)
       setError(err instanceof Error ? err.message : 'Login failed. Please try again.')
+    } finally {
+      setIsSubmitting(false)
     }
   }
 
@@ -131,7 +141,7 @@ export default function AdminLogin() {
                     onChange={handleInputChange}
                     className="pl-10"
                     required
-                    disabled={isLoading}
+                    disabled={isSubmitting}
                   />
                 </div>
               </div>
@@ -149,13 +159,13 @@ export default function AdminLogin() {
                     onChange={handleInputChange}
                     className="pl-10 pr-10"
                     required
-                    disabled={isLoading}
+                    disabled={isSubmitting}
                   />
                   <button
                     type="button"
                     onClick={() => setShowPassword(!showPassword)}
                     className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600"
-                    disabled={isLoading}
+                    disabled={isSubmitting}
                   >
                     {showPassword ? (
                       <EyeOff className="h-4 w-4" />
@@ -169,9 +179,20 @@ export default function AdminLogin() {
               <Button
                 type="submit"
                 className="w-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700"
-                disabled={isLoading}
+                disabled={isSubmitting}
+                onClick={() => {
+                  console.log('Button clicked')
+                  if (!isSubmitting) {
+                    // Trigger form submission
+                    const form = document.querySelector('form')
+                    if (form) {
+                      const event = new Event('submit', { bubbles: true, cancelable: true })
+                      form.dispatchEvent(event)
+                    }
+                  }
+                }}
               >
-                {isLoading ? (
+                {isSubmitting ? (
                   <>
                     <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                     Signing In...
@@ -189,7 +210,7 @@ export default function AdminLogin() {
                 variant="outline"
                 onClick={demoLogin}
                 className="w-full"
-                disabled={isLoading}
+                disabled={isSubmitting}
               >
                 Use Demo Credentials
               </Button>
