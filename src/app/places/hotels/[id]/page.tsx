@@ -6,6 +6,7 @@ import Image from 'next/image'
 import { ArrowLeft, MapPin, Phone, Globe, Mail, Clock, Star, Users, Bed, Wifi, Car, Dumbbell, Waves, Utensils } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
+import ReviewSection from '@/components/shared/ReviewSection'
 
 interface Hotel {
   _id: string
@@ -306,6 +307,16 @@ export default function HotelDetailPage() {
                 </div>
               </CardContent>
             </Card>
+
+            {/* Reviews Section */}
+            <div className="mt-8">
+              <ReviewSection
+                entityId={hotel._id}
+                entityType="hotel"
+                averageRating={hotel.rating.average}
+                totalReviews={hotel.rating.count}
+              />
+            </div>
           </div>
 
           {/* Sidebar */}

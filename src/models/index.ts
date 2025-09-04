@@ -51,13 +51,6 @@ const baseListingSchema = {
     average: { type: Number, min: 0, max: 5, default: 0 },
     count: { type: Number, default: 0 }
   },
-  reviews: [{
-    user: { type: Schema.Types.ObjectId, ref: 'User' },
-    rating: { type: Number, min: 1, max: 5, required: true },
-    comment: String,
-    date: { type: Date, default: Date.now },
-    helpful: { type: Number, default: 0 }
-  }],
   amenities: [String],
   tags: [String],
   status: {
@@ -884,3 +877,6 @@ export const Contact = mongoose.models.Contact || mongoose.model<IContact>('Cont
 export const Feedback = mongoose.models.Feedback || mongoose.model<IFeedback>('Feedback', feedbackSchema)
 export const ReportIssue = mongoose.models.ReportIssue || mongoose.model<IReportIssue>('ReportIssue', reportIssueSchema)
 export const Submission = mongoose.models.Submission || mongoose.model<ISubmission>('Submission', submissionSchema)
+
+// Import and export Review model
+export { Review } from './Review'

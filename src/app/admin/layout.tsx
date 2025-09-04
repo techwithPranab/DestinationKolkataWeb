@@ -18,7 +18,8 @@ import {
   Menu,
   X,
   LogOut,
-  CheckCircle
+  CheckCircle,
+  MessageSquare
 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { useAuth } from '@/contexts/AuthContext'
@@ -40,6 +41,12 @@ const navigation = [
     href: '/admin/approvals',
     icon: CheckCircle,
     description: 'Review and approve submissions'
+  },
+  {
+    name: 'Reviews',
+    href: '/admin/reviews',
+    icon: MessageSquare,
+    description: 'Manage user reviews and ratings'
   },
   {
     name: 'Hotels',
