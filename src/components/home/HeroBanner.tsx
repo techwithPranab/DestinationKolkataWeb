@@ -25,7 +25,7 @@ export default function HeroBanner() {
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
-          className="text-5xl md:text-7xl font-bold mb-6"
+          className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold mb-6"
         >
           Discover the City of{' '}
           <span className="text-orange-400">Joy</span>
@@ -35,7 +35,7 @@ export default function HeroBanner() {
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.2 }}
-          className="text-xl md:text-2xl mb-8 text-gray-200"
+          className="text-lg sm:text-xl md:text-2xl mb-8 text-gray-200 max-w-2xl mx-auto px-4"
         >
           Experience the rich culture, delicious food, and warm hospitality of Kolkata
         </motion.p>
@@ -116,23 +116,23 @@ export default function HeroBanner() {
         initial={{ opacity: 0, y: 50 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8, delay: 0.8 }}
-        className="absolute bottom-8 left-1/2 transform -translate-x-1/2 flex space-x-8 text-white"
+        className="absolute bottom-8 left-1/2 transform -translate-x-1/2 flex flex-col sm:flex-row gap-4 sm:gap-8 text-white"
       >
         <div className="text-center">
-          <div className="text-3xl font-bold text-orange-400">500+</div>
-          <div className="text-sm text-gray-200">Places to Stay</div>
+          <div className="text-2xl sm:text-3xl font-bold text-orange-400">500+</div>
+          <div className="text-xs sm:text-sm text-gray-200">Places to Stay</div>
         </div>
         <div className="text-center">
-          <div className="text-3xl font-bold text-orange-400">1000+</div>
-          <div className="text-sm text-gray-200">Restaurants</div>
+          <div className="text-2xl sm:text-3xl font-bold text-orange-400">1000+</div>
+          <div className="text-xs sm:text-sm text-gray-200">Restaurants</div>
         </div>
         <div className="text-center">
-          <div className="text-3xl font-bold text-orange-400">100+</div>
-          <div className="text-sm text-gray-200">Attractions</div>
+          <div className="text-2xl sm:text-3xl font-bold text-orange-400">100+</div>
+          <div className="text-xs sm:text-sm text-gray-200">Attractions</div>
         </div>
         <div className="text-center">
-          <div className="text-3xl font-bold text-orange-400">50+</div>
-          <div className="text-sm text-gray-200">Events/Month</div>
+          <div className="text-2xl sm:text-3xl font-bold text-orange-400">50+</div>
+          <div className="text-xs sm:text-sm text-gray-200">Events/Month</div>
         </div>
       </motion.div>
     </section>

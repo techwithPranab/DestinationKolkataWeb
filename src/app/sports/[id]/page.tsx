@@ -137,7 +137,7 @@ export default function SportsFacilityDetailPage() {
 
   if (error || !facility) {
     return (
-      <div className="min-h-screen">
+      <div className="min-h-screen bg-white">
         <div className="flex items-center justify-center min-h-screen">
           <div className="text-center">
             <h1 className="text-2xl font-bold text-gray-900 mb-4">Sports Facility Not Found</h1>
