@@ -28,6 +28,8 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select'
+import { useAuth } from '@/contexts/AuthContext'
+import { useApi } from '@/lib/api-client'
 
 interface Submission {
   id: string
@@ -40,6 +42,8 @@ interface Submission {
 }
 
 export default function CustomerListings() {
+  const { user, isAuthenticated } = useAuth()
+  const api = useApi()
   const [submissions, setSubmissions] = useState<Submission[]>([])
   const [loading, setLoading] = useState(true)
   const [searchTerm, setSearchTerm] = useState('')
@@ -47,8 +51,12 @@ export default function CustomerListings() {
   const [typeFilter, setTypeFilter] = useState('')
 
   useEffect(() => {
-    fetchSubmissions()
-  }, [statusFilter, typeFilter])
+    if (isAuthenticated && user) {
+      fetchSubmissions()
+    } else {
+      setLoading(false)
+    }
+  }, [statusFilter, typeFilter, isAuthenticated, user])
 
   const fetchSubmissions = async () => {
     try {
@@ -57,9 +65,23 @@ export default function CustomerListings() {
       if (statusFilter) params.append('status', statusFilter)
       if (typeFilter && typeFilter !== 'all') params.append('type', typeFilter)
 
-      const response = await fetch(`/api/customer/submissions?${params}`)
-      const data = await response.json()
-      setSubmissions(data.submissions || [])
+      const queryString = params.toString()
+      const url = queryString ? `/api/customer/submissions?${queryString}` : '/api/customer/submissions'
+
+      const result = await api.get<{ submissions: Submission[] }>(url)
+
+      if (result.error) {
+        console.error('API Error:', result.error)
+        if (result.status === 401) {
+          // User will be automatically logged out by the API client
+          console.log('User logged out due to authentication error')
+        }
+        return
+      }
+
+      console.log('Received submissions:', result.data)
+      const submissionsData = result.data as { submissions?: Submission[] } | undefined
+      setSubmissions(submissionsData?.submissions || [])
     } catch (error) {
       console.error('Error fetching submissions:', error)
     } finally {
@@ -120,6 +142,42 @@ export default function CustomerListings() {
         <div className="text-center">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-orange-600 mx-auto"></div>
           <p className="mt-4 text-gray-600">Loading your listings...</p>
+        </div>
+      </div>
+    )
+  }
+
+  // Check if user is authenticated
+  if (!isAuthenticated) {
+    return (
+      <div className="flex items-center justify-center h-64">
+        <div className="text-center">
+          <h2 className="text-2xl font-bold text-gray-900 mb-4">Authentication Required</h2>
+          <p className="text-gray-600 mb-6">Please log in to view your listings.</p>
+          <Button
+            className="bg-orange-600 hover:bg-orange-700 text-white"
+            onClick={() => window.location.href = '/auth/login'}
+          >
+            Go to Login
+          </Button>
+        </div>
+      </div>
+    )
+  }
+
+  // Check if user has customer role
+  if (user && user.role !== 'customer') {
+    return (
+      <div className="flex items-center justify-center h-64">
+        <div className="text-center">
+          <h2 className="text-2xl font-bold text-gray-900 mb-4">Access Denied</h2>
+          <p className="text-gray-600 mb-6">This page is only accessible to customers.</p>
+          <Button
+            className="bg-orange-600 hover:bg-orange-700 text-white"
+            onClick={() => window.location.href = '/'}
+          >
+            Go to Home
+          </Button>
         </div>
       </div>
     )

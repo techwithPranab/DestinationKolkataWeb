@@ -5,11 +5,7 @@ import { useRouter } from 'next/navigation'
 import { 
   Hotel, 
   MapPin, 
-  Phone, 
-  Mail, 
-  Globe, 
-  Save,
-  ArrowLeft
+  Save
 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
@@ -219,86 +215,73 @@ export default function CreateHotelPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 py-8">
-      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Header */}
-        <div className="mb-8">
-          <Button
-            variant="outline"
-            onClick={() => router.back()}
-            className="mb-4"
-          >
-            <ArrowLeft className="w-4 h-4 mr-2" />
-            Back to Dashboard
-          </Button>
-          
-          <div className="flex items-center space-x-3">
-            <Hotel className="w-8 h-8 text-orange-600" />
-            <div>
-              <h1 className="text-3xl font-bold text-gray-900">Add New Hotel</h1>
-              <p className="text-gray-600">Submit your hotel for review and approval</p>
-            </div>
+    <div className="space-y-6">
+      {/* Header */}
+      <div>
+        <h1 className="text-3xl font-bold text-gray-900">Create New Hotel</h1>
+        <p className="text-gray-600 mt-1">Add a new hotel to the Destination Kolkata platform</p>
+      </div>
+
+      <form onSubmit={handleSubmit} className="space-y-6">
+        {error && (
+          <div className="mb-6 bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded">
+            {error}
           </div>
-        </div>
+        )}
 
-        <form onSubmit={handleSubmit}>
-          {error && (
-            <div className="mb-6 bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded">
-              {error}
+        {/* Basic Information */}
+        <Card>
+          <CardHeader>
+            <CardTitle className="flex items-center">
+              <Hotel className="w-5 h-5 mr-2" />
+              Basic Information
+            </CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            <div>
+              <Label htmlFor="name">Hotel Name *</Label>
+              <Input
+                id="name"
+                name="name"
+                value={formData.name}
+                onChange={handleInputChange}
+                placeholder="Enter hotel name"
+                required
+              />
             </div>
-          )}
 
-          {/* Basic Information */}
-          <Card className="mb-6">
-            <CardHeader>
-              <CardTitle>Basic Information</CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div className="space-y-2">
-                  <Label htmlFor="name">Hotel Name *</Label>
-                  <Input
-                    id="name"
-                    name="name"
-                    value={formData.name}
-                    onChange={handleInputChange}
-                    placeholder="Grand Hotel Kolkata"
-                    required
-                  />
-                </div>
-                
-                <div className="space-y-2">
-                  <Label htmlFor="starRating">Star Rating</Label>
-                  <select
-                    id="starRating"
-                    name="starRating"
-                    value={formData.starRating}
-                    onChange={handleInputChange}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500"
-                  >
-                    {[1, 2, 3, 4, 5].map(rating => (
-                      <option key={rating} value={rating}>
-                        {rating} Star{rating > 1 ? 's' : ''}
-                      </option>
-                    ))}
-                  </select>
-                </div>
-              </div>
+            <div>
+              <Label htmlFor="description">Description *</Label>
+              <Textarea
+                id="description"
+                name="description"
+                value={formData.description}
+                onChange={handleInputChange}
+                placeholder="Describe your hotel"
+                rows={4}
+                required
+              />
+            </div>
 
-              <div className="space-y-2">
-                <Label htmlFor="description">Description *</Label>
-                <Textarea
-                  id="description"
-                  name="description"
-                  value={formData.description}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div>
+                <Label htmlFor="starRating">Star Rating</Label>
+                <select
+                  id="starRating"
+                  name="starRating"
+                  value={formData.starRating}
                   onChange={handleInputChange}
-                  rows={4}
-                  placeholder="Describe your hotel, its unique features, and what makes it special..."
-                  required
-                />
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500"
+                >
+                  {[1, 2, 3, 4, 5].map(rating => (
+                    <option key={rating} value={rating}>
+                      {rating} Star{rating > 1 ? 's' : ''}
+                    </option>
+                  ))}
+                </select>
               </div>
 
-              <div className="space-y-2">
+              <div>
                 <Label htmlFor="priceRange">Price Range *</Label>
                 <select
                   id="priceRange"
@@ -314,299 +297,278 @@ export default function CreateHotelPage() {
                   ))}
                 </select>
               </div>
-            </CardContent>
-          </Card>
+            </div>
+          </CardContent>
+        </Card>
 
-          {/* Location */}
-          <Card className="mb-6">
-            <CardHeader>
-              <CardTitle className="flex items-center">
-                <MapPin className="w-5 h-5 mr-2" />
-                Location Details
-              </CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              <div className="space-y-2">
-                <Label htmlFor="address">Address *</Label>
-                <Textarea
-                  id="address"
-                  name="address"
-                  value={formData.address}
+        {/* Location */}
+        <Card>
+          <CardHeader>
+            <CardTitle className="flex items-center">
+              <MapPin className="w-5 h-5 mr-2" />
+              Location Details
+            </CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            <div>
+              <Label htmlFor="address">Address *</Label>
+              <Textarea
+                id="address"
+                name="address"
+                value={formData.address}
+                onChange={handleInputChange}
+                placeholder="Enter full address"
+                rows={2}
+                required
+              />
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+              <div>
+                <Label htmlFor="city">City *</Label>
+                <Input
+                  id="city"
+                  name="city"
+                  value={formData.city}
                   onChange={handleInputChange}
-                  placeholder="Complete address with landmark"
                   required
                 />
               </div>
-
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                <div className="space-y-2">
-                  <Label htmlFor="city">City</Label>
-                  <Input
-                    id="city"
-                    name="city"
-                    value={formData.city}
-                    onChange={handleInputChange}
-                    placeholder="Kolkata"
-                  />
-                </div>
-                
-                <div className="space-y-2">
-                  <Label htmlFor="state">State</Label>
-                  <Input
-                    id="state"
-                    name="state"
-                    value={formData.state}
-                    onChange={handleInputChange}
-                    placeholder="West Bengal"
-                  />
-                </div>
-                
-                <div className="space-y-2">
-                  <Label htmlFor="pincode">Pincode</Label>
-                  <Input
-                    id="pincode"
-                    name="pincode"
-                    value={formData.pincode}
-                    onChange={handleInputChange}
-                    placeholder="700001"
-                  />
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-
-          {/* Contact Information */}
-          <Card className="mb-6">
-            <CardHeader>
-              <CardTitle>Contact Information</CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div className="space-y-2">
-                  <Label htmlFor="phone">Phone Number *</Label>
-                  <div className="relative">
-                    <Phone className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4" />
-                    <Input
-                      id="phone"
-                      name="phone"
-                      value={formData.phone}
-                      onChange={handleInputChange}
-                      className="pl-10"
-                      placeholder="+91 9876543210"
-                      required
-                    />
-                  </div>
-                </div>
-                
-                <div className="space-y-2">
-                  <Label htmlFor="email">Email</Label>
-                  <div className="relative">
-                    <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4" />
-                    <Input
-                      id="email"
-                      name="email"
-                      type="email"
-                      value={formData.email}
-                      onChange={handleInputChange}
-                      className="pl-10"
-                      placeholder="info@hotel.com"
-                    />
-                  </div>
-                </div>
-              </div>
-
-              <div className="space-y-2">
-                <Label htmlFor="website">Website</Label>
-                <div className="relative">
-                  <Globe className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4" />
-                  <Input
-                    id="website"
-                    name="website"
-                    value={formData.website}
-                    onChange={handleInputChange}
-                    className="pl-10"
-                    placeholder="https://www.yourhotel.com"
-                  />
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-
-          {/* Amenities */}
-          <Card className="mb-6">
-            <CardHeader>
-              <CardTitle>Amenities *</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
-                {amenitiesList.map(amenity => (
-                  <label key={amenity} className="flex items-center space-x-2 cursor-pointer">
-                    <input
-                      type="checkbox"
-                      checked={formData.amenities.includes(amenity)}
-                      onChange={() => handleAmenityChange(amenity)}
-                      className="rounded border-gray-300 text-orange-600 focus:ring-orange-500"
-                    />
-                    <span className="text-sm">{amenity}</span>
-                  </label>
-                ))}
-              </div>
-            </CardContent>
-          </Card>
-
-          {/* Room Types */}
-          <Card className="mb-6">
-            <CardHeader>
-              <CardTitle>Room Types *</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
-                {roomTypesList.map(roomType => (
-                  <label key={roomType} className="flex items-center space-x-2 cursor-pointer">
-                    <input
-                      type="checkbox"
-                      checked={formData.roomTypes.includes(roomType)}
-                      onChange={() => handleRoomTypeChange(roomType)}
-                      className="rounded border-gray-300 text-orange-600 focus:ring-orange-500"
-                    />
-                    <span className="text-sm">{roomType}</span>
-                  </label>
-                ))}
-              </div>
-            </CardContent>
-          </Card>
-
-          {/* Check-in/Check-out */}
-          <Card className="mb-6">
-            <CardHeader>
-              <CardTitle>Check-in & Check-out Times</CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div className="space-y-2">
-                  <Label htmlFor="checkInTime">Check-in Time</Label>
-                  <Input
-                    id="checkInTime"
-                    name="checkInTime"
-                    type="time"
-                    value={formData.checkInTime}
-                    onChange={handleInputChange}
-                  />
-                </div>
-                
-                <div className="space-y-2">
-                  <Label htmlFor="checkOutTime">Check-out Time</Label>
-                  <Input
-                    id="checkOutTime"
-                    name="checkOutTime"
-                    type="time"
-                    value={formData.checkOutTime}
-                    onChange={handleInputChange}
-                  />
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-
-          {/* Additional Information */}
-          <Card className="mb-6">
-            <CardHeader>
-              <CardTitle>Additional Information</CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              <div className="space-y-2">
-                <Label htmlFor="policies">Hotel Policies</Label>
-                <Textarea
-                  id="policies"
-                  name="policies"
-                  value={formData.policies}
-                  onChange={handleInputChange}
-                  rows={3}
-                  placeholder="Pet policy, smoking policy, cancellation policy, etc."
-                />
-              </div>
-
-              <div className="space-y-2">
-                <Label htmlFor="nearbyAttractions">Nearby Attractions</Label>
-                <Textarea
-                  id="nearbyAttractions"
-                  name="nearbyAttractions"
-                  value={formData.nearbyAttractions}
-                  onChange={handleInputChange}
-                  rows={3}
-                  placeholder="Victoria Memorial - 2km, Howrah Bridge - 5km, etc."
-                />
-              </div>
-            </CardContent>
-          </Card>
-
-          {/* Images */}
-          <Card className="mb-6">
-            <CardHeader>
-              <CardTitle>Hotel Images</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="space-y-2">
-                <Label htmlFor="images">Upload Images (Max 10 images)</Label>
+              <div>
+                <Label htmlFor="state">State *</Label>
                 <Input
-                  id="images"
-                  name="images"
-                  type="file"
-                  multiple
-                  accept="image/*"
-                  onChange={handleImageChange}
-                  className="file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-orange-50 file:text-orange-700 hover:file:bg-orange-100"
+                  id="state"
+                  name="state"
+                  value={formData.state}
+                  onChange={handleInputChange}
+                  required
                 />
-                <p className="text-sm text-gray-500">
-                  Upload high-quality images of your hotel (exterior, rooms, amenities, etc.)
-                </p>
               </div>
-              
-              {formData.images.length > 0 && (
-                <div className="mt-4">
-                  <p className="text-sm text-gray-600 mb-2">
-                    Selected files: {formData.images.length}
-                  </p>
-                  <div className="text-xs text-gray-500">
-                    {formData.images.map((file) => (
-                      <div key={file.name}>{file.name}</div>
-                    ))}
-                  </div>
-                </div>
-              )}
-            </CardContent>
-          </Card>
+              <div>
+                <Label htmlFor="pincode">Pincode</Label>
+                <Input
+                  id="pincode"
+                  name="pincode"
+                  value={formData.pincode}
+                  onChange={handleInputChange}
+                  placeholder="700001"
+                />
+              </div>
+            </div>
+          </CardContent>
+        </Card>
 
-          {/* Submit Button */}
-          <div className="flex justify-end space-x-4">
-            <Button
-              type="button"
-              variant="outline"
-              onClick={() => router.back()}
-            >
-              Cancel
-            </Button>
-            
-            <Button
-              type="submit"
-              className="bg-orange-600 hover:bg-orange-700 text-white"
-              disabled={loading}
-            >
-              {loading ? (
-                <>
-                  <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"></div>
-                  Submitting...
-                </>
-              ) : (
-                <>
-                  <Save className="w-4 h-4 mr-2" />
-                  Submit Hotel
-                </>
-              )}
-            </Button>
-          </div>
-        </form>
-      </div>
+        {/* Contact Information */}
+        <Card>
+          <CardHeader>
+            <CardTitle>Contact Information</CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div>
+                <Label htmlFor="phone">Phone Number *</Label>
+                <Input
+                  id="phone"
+                  name="phone"
+                  value={formData.phone}
+                  onChange={handleInputChange}
+                  placeholder="+91 9876543210"
+                  required
+                />
+              </div>
+              <div>
+                <Label htmlFor="email">Email</Label>
+                <Input
+                  id="email"
+                  name="email"
+                  type="email"
+                  value={formData.email}
+                  onChange={handleInputChange}
+                  placeholder="info@hotel.com"
+                />
+              </div>
+            </div>
+
+            <div>
+              <Label htmlFor="website">Website</Label>
+              <Input
+                id="website"
+                name="website"
+                value={formData.website}
+                onChange={handleInputChange}
+                placeholder="https://www.yourhotel.com"
+              />
+            </div>
+          </CardContent>
+        </Card>
+
+        {/* Amenities */}
+        <Card>
+          <CardHeader>
+            <CardTitle>Amenities *</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
+              {amenitiesList.map(amenity => (
+                <div key={amenity} className="flex items-center space-x-2">
+                  <input
+                    type="checkbox"
+                    id={amenity}
+                    checked={formData.amenities.includes(amenity)}
+                    onChange={() => handleAmenityChange(amenity)}
+                    className="rounded"
+                  />
+                  <Label htmlFor={amenity} className="text-sm">{amenity}</Label>
+                </div>
+              ))}
+            </div>
+          </CardContent>
+        </Card>
+
+        {/* Room Types */}
+        <Card>
+          <CardHeader>
+            <CardTitle>Room Types *</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
+              {roomTypesList.map(roomType => (
+                <div key={roomType} className="flex items-center space-x-2">
+                  <input
+                    type="checkbox"
+                    id={roomType}
+                    checked={formData.roomTypes.includes(roomType)}
+                    onChange={() => handleRoomTypeChange(roomType)}
+                    className="rounded"
+                  />
+                  <Label htmlFor={roomType} className="text-sm">{roomType}</Label>
+                </div>
+              ))}
+            </div>
+          </CardContent>
+        </Card>
+
+        {/* Check-in & Check-out */}
+        <Card>
+          <CardHeader>
+            <CardTitle>Check-in & Check-out Times</CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div>
+                <Label htmlFor="checkInTime">Check-in Time</Label>
+                <Input
+                  id="checkInTime"
+                  name="checkInTime"
+                  type="time"
+                  value={formData.checkInTime}
+                  onChange={handleInputChange}
+                />
+              </div>
+              <div>
+                <Label htmlFor="checkOutTime">Check-out Time</Label>
+                <Input
+                  id="checkOutTime"
+                  name="checkOutTime"
+                  type="time"
+                  value={formData.checkOutTime}
+                  onChange={handleInputChange}
+                />
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+
+        {/* Additional Information */}
+        <Card>
+          <CardHeader>
+            <CardTitle>Additional Information</CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            <div>
+              <Label htmlFor="policies">Hotel Policies</Label>
+              <Textarea
+                id="policies"
+                name="policies"
+                value={formData.policies}
+                onChange={handleInputChange}
+                rows={3}
+                placeholder="Pet policy, smoking policy, cancellation policy, etc."
+              />
+            </div>
+
+            <div>
+              <Label htmlFor="nearbyAttractions">Nearby Attractions</Label>
+              <Textarea
+                id="nearbyAttractions"
+                name="nearbyAttractions"
+                value={formData.nearbyAttractions}
+                onChange={handleInputChange}
+                rows={3}
+                placeholder="Victoria Memorial - 2km, Howrah Bridge - 5km, etc."
+              />
+            </div>
+          </CardContent>
+        </Card>
+
+        {/* Images */}
+        <Card>
+          <CardHeader>
+            <CardTitle>Hotel Images</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div>
+              <Label htmlFor="images">Upload Images (Max 10 images)</Label>
+              <Input
+                id="images"
+                name="images"
+                type="file"
+                multiple
+                accept="image/*"
+                onChange={handleImageChange}
+                className="file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-orange-50 file:text-orange-700 hover:file:bg-orange-100"
+              />
+              <p className="text-sm text-gray-500 mt-1">
+                Upload high-quality images of your hotel (exterior, rooms, amenities, etc.)
+              </p>
+            </div>
+
+            {formData.images.length > 0 && (
+              <div className="mt-4">
+                <p className="text-sm text-gray-600 mb-2">
+                  Selected files: {formData.images.length}
+                </p>
+                <div className="text-xs text-gray-500">
+                  {formData.images.map((file) => (
+                    <div key={file.name}>{file.name}</div>
+                  ))}
+                </div>
+              </div>
+            )}
+          </CardContent>
+        </Card>
+
+        {/* Submit Button */}
+        <div className="flex justify-end">
+          <Button
+            type="submit"
+            className="bg-orange-600 hover:bg-orange-700 text-white"
+            disabled={loading}
+          >
+            {loading ? (
+              <>
+                <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"></div>
+                Creating Hotel...
+              </>
+            ) : (
+              <>
+                <Save className="w-4 h-4 mr-2" />
+                Create Hotel
+              </>
+            )}
+          </Button>
+        </div>
+      </form>
     </div>
   )
 }

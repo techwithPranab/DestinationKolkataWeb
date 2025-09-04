@@ -3,13 +3,11 @@
 import React, { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { 
-  UtensilsCrossed, 
   MapPin, 
   Phone, 
   Mail, 
   Globe, 
   Save,
-  ArrowLeft,
   Clock
 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
@@ -17,6 +15,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Textarea } from '@/components/ui/textarea'
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 
 interface RestaurantFormData {
   name: string
@@ -120,6 +119,13 @@ export default function CreateRestaurantPage() {
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value } = e.target
+    setFormData(prev => ({
+      ...prev,
+      [name]: value
+    }))
+  }
+
+  const handleSelectChange = (name: string, value: string) => {
     setFormData(prev => ({
       ...prev,
       [name]: value
@@ -257,28 +263,14 @@ export default function CreateRestaurantPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 py-8">
-      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="mb-8">
-          <Button
-            variant="outline"
-            onClick={() => router.back()}
-            className="mb-4"
-          >
-            <ArrowLeft className="w-4 h-4 mr-2" />
-            Back to Dashboard
-          </Button>
-          
-          <div className="flex items-center space-x-3">
-            <UtensilsCrossed className="w-8 h-8 text-orange-600" />
-            <div>
-              <h1 className="text-3xl font-bold text-gray-900">Add New Restaurant</h1>
-              <p className="text-gray-600">Submit your restaurant for review and approval</p>
-            </div>
-          </div>
-        </div>
+    <div className="space-y-6">
+      {/* Header */}
+      <div>
+        <h1 className="text-3xl font-bold text-gray-900">Create New Restaurant</h1>
+        <p className="text-gray-600 mt-1">Add a new restaurant to the Destination Kolkata platform</p>
+      </div>
 
-        <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit} className="space-y-6">
           {error && (
             <div className="mb-6 bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded">
               {error}
@@ -286,7 +278,7 @@ export default function CreateRestaurantPage() {
           )}
 
           {/* Basic Information */}
-          <Card className="mb-6">
+          <Card>
             <CardHeader>
               <CardTitle>Basic Information</CardTitle>
             </CardHeader>
@@ -318,25 +310,22 @@ export default function CreateRestaurantPage() {
 
               <div className="space-y-2">
                 <Label htmlFor="priceRange">Price Range *</Label>
-                <select
-                  id="priceRange"
-                  name="priceRange"
-                  value={formData.priceRange}
-                  onChange={handleInputChange}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500"
-                  required
-                >
-                  <option value="">Select Price Range</option>
-                  {priceRanges.map(range => (
-                    <option key={range} value={range}>{range}</option>
-                  ))}
-                </select>
+                <Select value={formData.priceRange} onValueChange={(value) => handleSelectChange('priceRange', value)}>
+                  <SelectTrigger>
+                    <SelectValue placeholder="Select Price Range" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {priceRanges.map(range => (
+                      <SelectItem key={range} value={range}>{range}</SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
               </div>
             </CardContent>
           </Card>
 
           {/* Location */}
-          <Card className="mb-6">
+          <Card>
             <CardHeader>
               <CardTitle className="flex items-center">
                 <MapPin className="w-5 h-5 mr-2" />
@@ -394,7 +383,7 @@ export default function CreateRestaurantPage() {
           </Card>
 
           {/* Contact Information */}
-          <Card className="mb-6">
+          <Card>
             <CardHeader>
               <CardTitle>Contact Information</CardTitle>
             </CardHeader>
@@ -451,7 +440,7 @@ export default function CreateRestaurantPage() {
           </Card>
 
           {/* Cuisine Types */}
-          <Card className="mb-6">
+          <Card>
             <CardHeader>
               <CardTitle>Cuisine Types *</CardTitle>
             </CardHeader>
@@ -473,7 +462,7 @@ export default function CreateRestaurantPage() {
           </Card>
 
           {/* Opening Hours */}
-          <Card className="mb-6">
+          <Card>
             <CardHeader>
               <CardTitle className="flex items-center">
                 <Clock className="w-5 h-5 mr-2" />
@@ -517,7 +506,7 @@ export default function CreateRestaurantPage() {
           </Card>
 
           {/* Amenities */}
-          <Card className="mb-6">
+          <Card>
             <CardHeader>
               <CardTitle>Amenities & Features</CardTitle>
             </CardHeader>
@@ -539,7 +528,7 @@ export default function CreateRestaurantPage() {
           </Card>
 
           {/* Special Features */}
-          <Card className="mb-6">
+          <Card>
             <CardHeader>
               <CardTitle>Special Features</CardTitle>
             </CardHeader>
@@ -559,7 +548,7 @@ export default function CreateRestaurantPage() {
           </Card>
 
           {/* Images */}
-          <Card className="mb-6">
+          <Card>
             <CardHeader>
               <CardTitle>Restaurant Images</CardTitle>
             </CardHeader>
@@ -595,36 +584,27 @@ export default function CreateRestaurantPage() {
             </CardContent>
           </Card>
 
-          {/* Submit Button */}
-          <div className="flex justify-end space-x-4">
-            <Button
-              type="button"
-              variant="outline"
-              onClick={() => router.back()}
-            >
-              Cancel
-            </Button>
-            
-            <Button
-              type="submit"
-              className="bg-orange-600 hover:bg-orange-700 text-white"
-              disabled={loading}
-            >
-              {loading ? (
-                <>
-                  <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"></div>
-                  Submitting...
-                </>
-              ) : (
-                <>
-                  <Save className="w-4 h-4 mr-2" />
-                  Submit Restaurant
-                </>
-              )}
-            </Button>
-          </div>
-        </form>
-      </div>
+        {/* Submit Button */}
+        <div className="flex justify-end">
+          <Button
+            type="submit"
+            className="bg-orange-600 hover:bg-orange-700 text-white"
+            disabled={loading}
+          >
+            {loading ? (
+              <>
+                <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"></div>
+                Submitting...
+              </>
+            ) : (
+              <>
+                <Save className="w-4 h-4 mr-2" />
+                Submit Restaurant
+              </>
+            )}
+          </Button>
+        </div>
+      </form>
     </div>
   )
 }

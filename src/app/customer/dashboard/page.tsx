@@ -16,14 +16,13 @@ import {
   Star,
   Users,
   CreditCard,
-  Crown,
-  LogOut
+  Crown
 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import { useAuth } from '@/contexts/AuthContext'
-import { useRouter } from 'next/navigation'
+import { useApi } from '@/lib/api-client'
 
 interface UserStats {
   totalSubmissions: number
@@ -46,8 +45,8 @@ interface Submission {
 }
 
 export default function CustomerDashboard() {
-  const { user, logout } = useAuth()
-  const router = useRouter()
+  const { user } = useAuth()
+  const api = useApi()
   const [stats, setStats] = useState<UserStats | null>(null)
   const [submissions, setSubmissions] = useState<Submission[]>([])
   const [loading, setLoading] = useState(true)
@@ -58,16 +57,23 @@ export default function CustomerDashboard() {
 
   const fetchDashboardData = async () => {
     try {
-      const [statsResponse, submissionsResponse] = await Promise.all([
-        fetch('/api/customer/stats'),
-        fetch('/api/customer/submissions')
+      const [statsResult, submissionsResult] = await Promise.all([
+        api.get<UserStats>('/api/customer/stats'),
+        api.get<{ submissions: Submission[] }>('/api/customer/submissions')
       ])
 
-      const statsData = await statsResponse.json()
-      const submissionsData = await submissionsResponse.json()
+      if (statsResult.error) {
+        console.error('Stats API Error:', statsResult.error)
+      } else {
+        setStats(statsResult.data as UserStats)
+      }
 
-      setStats(statsData)
-      setSubmissions(submissionsData.submissions || [])
+      if (submissionsResult.error) {
+        console.error('Submissions API Error:', submissionsResult.error)
+      } else {
+        const submissionsData = submissionsResult.data as { submissions?: Submission[] } | undefined
+        setSubmissions(submissionsData?.submissions || [])
+      }
     } catch (error) {
       console.error('Error fetching dashboard data:', error)
     } finally {
@@ -141,17 +147,6 @@ export default function CustomerDashboard() {
             </div>
             <div className="flex items-center space-x-4">
               {stats && getMembershipBadge(stats.membershipType)}
-              <Button 
-                variant="outline" 
-                onClick={() => {
-                  logout()
-                  router.push('/auth/login')
-                }}
-                className="text-gray-600 hover:text-gray-900"
-              >
-                <LogOut className="w-4 h-4 mr-2" />
-                Logout
-              </Button>
               <Button 
                 className="bg-orange-600 hover:bg-orange-700 text-white"
                 onClick={() => window.location.href = '/customer/membership'}

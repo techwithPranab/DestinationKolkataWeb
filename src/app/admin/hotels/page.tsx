@@ -362,146 +362,6 @@ export default function HotelsAdmin() {
     }))
   }
 
-  const renderTableBody = () => {
-    if (loading) {
-      return Array.from({ length: pageSize }, (_, index) => (
-        <tr key={`skeleton-${index}`} className="animate-pulse">
-          <td className="px-6 py-4 whitespace-nowrap">
-            <div className="flex items-center">
-              <div className="h-10 w-10 bg-gray-200 rounded-full"></div>
-              <div className="ml-4">
-                <div className="h-4 bg-gray-200 rounded w-32"></div>
-                <div className="h-3 bg-gray-200 rounded w-24 mt-1"></div>
-              </div>
-            </div>
-          </td>
-          <td className="px-6 py-4 whitespace-nowrap">
-            <div className="h-4 bg-gray-200 rounded w-20"></div>
-          </td>
-          <td className="px-6 py-4 whitespace-nowrap">
-            <div className="h-4 bg-gray-200 rounded w-32"></div>
-          </td>
-          <td className="px-6 py-4 whitespace-nowrap">
-            <div className="h-4 bg-gray-200 rounded w-24"></div>
-          </td>
-          <td className="px-6 py-4 whitespace-nowrap">
-            <div className="h-4 bg-gray-200 rounded w-16"></div>
-          </td>
-          <td className="px-6 py-4 whitespace-nowrap">
-            <div className="h-6 bg-gray-200 rounded w-16"></div>
-          </td>
-          <td className="px-6 py-4 whitespace-nowrap">
-            <div className="h-6 bg-gray-200 rounded w-16"></div>
-          </td>
-          <td className="px-6 py-4 whitespace-nowrap">
-            <div className="flex space-x-2">
-              <div className="h-8 w-8 bg-gray-200 rounded"></div>
-              <div className="h-8 w-8 bg-gray-200 rounded"></div>
-              <div className="h-8 w-8 bg-gray-200 rounded"></div>
-            </div>
-          </td>
-        </tr>
-      ))
-    }
-
-    if (hotels.length === 0) {
-      return (
-        <tr>
-          <td colSpan={8} className="px-6 py-12 text-center">
-            <Building2 className="h-16 w-16 text-gray-300 mx-auto mb-4" />
-            <p className="text-gray-500">No hotels found matching your criteria.</p>
-          </td>
-        </tr>
-      )
-    }
-
-    return hotels.map((hotel) => (
-      <tr key={hotel._id} className="hover:bg-gray-50">
-        <td className="px-6 py-4 whitespace-nowrap">
-          <div className="flex items-center">
-            <div className="h-10 w-10 flex-shrink-0">
-              {hotel.images && hotel.images.length > 0 ? (
-                <img
-                  className="h-10 w-10 rounded-full object-cover"
-                  src={hotel.images[0].url}
-                  alt={hotel.name}
-                />
-              ) : (
-                <div className="h-10 w-10 rounded-full bg-gray-200 flex items-center justify-center">
-                  <Building2 className="h-5 w-5 text-gray-400" />
-                </div>
-              )}
-            </div>
-            <div className="ml-4">
-              <div className="text-sm font-medium text-gray-900">{hotel.name || 'N/A'}</div>
-              <div className="text-sm text-gray-500 line-clamp-1">{hotel.description || ''}</div>
-            </div>
-          </div>
-        </td>
-        <td className="px-6 py-4 whitespace-nowrap">
-          <div className="text-sm text-gray-900">{hotel.category || 'N/A'}</div>
-        </td>
-        <td className="px-6 py-4 whitespace-nowrap">
-          <div className="text-sm text-gray-900">{hotel.location?.address || 'N/A'}</div>
-        </td>
-        <td className="px-6 py-4 whitespace-nowrap">
-          <div className="text-sm text-gray-900">
-            {hotel.priceRange?.currency
-              ? `${hotel.priceRange.currency} ${hotel.priceRange.min} - ${hotel.priceRange.max}`
-              : 'N/A'
-            }
-          </div>
-        </td>
-        <td className="px-6 py-4 whitespace-nowrap">
-          <div className="flex items-center">
-            <Star className="h-4 w-4 text-yellow-500 fill-current mr-1" />
-            <span className="text-sm font-medium">
-              {hotel.rating && typeof hotel.rating.average === 'number' 
-                ? hotel.rating.average.toFixed(1) 
-                : '0.0'
-              }
-            </span>
-            <span className="text-sm text-gray-500 ml-1">
-              ({hotel.rating && typeof hotel.rating.count === 'number' ? hotel.rating.count : 0})
-            </span>
-          </div>
-        </td>
-        <td className="px-6 py-4 whitespace-nowrap">
-          {hotel.featured ? (
-            <Badge className="bg-yellow-100 text-yellow-800">
-              Featured
-            </Badge>
-          ) : (
-            <span className="text-sm text-gray-500">-</span>
-          )}
-        </td>
-        <td className="px-6 py-4 whitespace-nowrap">
-          <Badge className={getStatusColor(hotel.status || 'pending')}>
-            {hotel.status || 'pending'}
-          </Badge>
-        </td>
-        <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
-          <div className="flex space-x-2">
-            <Button size="sm" variant="outline" onClick={() => handleEdit(hotel)}>
-              <Edit className="h-4 w-4" />
-            </Button>
-            <Button size="sm" variant="outline">
-              <Eye className="h-4 w-4" />
-            </Button>
-            <Button 
-              size="sm" 
-              variant="outline" 
-              onClick={() => handleDelete(hotel._id)}
-              className="text-red-600 hover:text-red-700"
-            >
-              <Trash2 className="h-4 w-4" />
-            </Button>
-          </div>
-        </td>
-      </tr>
-    ))
-  }
-
   const getStatusColor = (status: string) => {
     switch (status) {
       case 'active':
@@ -520,8 +380,8 @@ export default function HotelsAdmin() {
       {/* Header */}
       <div className="flex justify-between items-center">
         <div>
-          <h1 className="text-3xl font-bold text-gray-900">Hotel Management</h1>
-          <p className="text-gray-600 mt-2">Manage all hotels in Kolkata</p>
+          <h1 className="text-3xl font-bold text-gray-900">Hotels Management</h1>
+          <p className="text-gray-600 mt-2">Manage all hotels and accommodations in Kolkata</p>
         </div>
         <Dialog open={isAddModalOpen} onOpenChange={setIsAddModalOpen}>
           <DialogTrigger asChild>
@@ -533,7 +393,7 @@ export default function HotelsAdmin() {
               Add Hotel
             </Button>
           </DialogTrigger>
-          <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
+          <DialogContent className="max-w-3xl max-h-[90vh] overflow-y-auto">
             <DialogHeader>
               <DialogTitle>
                 {editingHotel ? 'Edit Hotel' : 'Add New Hotel'}
@@ -874,7 +734,7 @@ export default function HotelsAdmin() {
                 <p className="text-sm font-medium text-gray-600">Total Hotels</p>
                 <p className="text-2xl font-bold text-gray-900">{totalHotels}</p>
               </div>
-              <Building2 className="h-8 w-8 text-blue-500" />
+              <Building2 className="h-8 w-8 text-purple-500" />
             </div>
           </CardContent>
         </Card>
@@ -897,14 +757,12 @@ export default function HotelsAdmin() {
           <CardContent className="p-6">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm font-medium text-gray-600">Pending</p>
-                <p className="text-2xl font-bold text-yellow-600">
-                  {hotels.filter(h => h.status === 'pending').length}
+                <p className="text-sm font-medium text-gray-600">Total Views</p>
+                <p className="text-2xl font-bold text-blue-600">
+                  {hotels.reduce((acc, h) => acc + (h.views || 0), 0)}
                 </p>
               </div>
-              <div className="h-8 w-8 bg-yellow-100 rounded-full flex items-center justify-center">
-                <div className="h-3 w-3 bg-yellow-500 rounded-full"></div>
-              </div>
+              <Eye className="h-8 w-8 text-blue-500" />
             </div>
           </CardContent>
         </Card>
@@ -993,7 +851,7 @@ export default function HotelsAdmin() {
                     Rating
                   </th>
                   <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Featured
+                    Views
                   </th>
                   <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                     Status
@@ -1004,7 +862,137 @@ export default function HotelsAdmin() {
                 </tr>
               </thead>
               <tbody className="bg-white divide-y divide-gray-200">
-                {renderTableBody()}
+                {(() => {
+                  if (loading) {
+                    return Array.from({ length: pageSize }, (_, index) => (
+                      <tr key={`skeleton-${index}`} className="animate-pulse">
+                        <td className="px-6 py-4 whitespace-nowrap">
+                          <div className="flex items-center">
+                            <div className="h-10 w-10 bg-gray-200 rounded-full"></div>
+                            <div className="ml-4">
+                              <div className="h-4 bg-gray-200 rounded w-32"></div>
+                              <div className="h-3 bg-gray-200 rounded w-24 mt-1"></div>
+                            </div>
+                          </div>
+                        </td>
+                        <td className="px-6 py-4 whitespace-nowrap">
+                          <div className="h-4 bg-gray-200 rounded w-20"></div>
+                        </td>
+                        <td className="px-6 py-4 whitespace-nowrap">
+                          <div className="h-4 bg-gray-200 rounded w-32"></div>
+                        </td>
+                        <td className="px-6 py-4 whitespace-nowrap">
+                          <div className="h-4 bg-gray-200 rounded w-24"></div>
+                        </td>
+                        <td className="px-6 py-4 whitespace-nowrap">
+                          <div className="h-4 bg-gray-200 rounded w-16"></div>
+                        </td>
+                        <td className="px-6 py-4 whitespace-nowrap">
+                          <div className="h-4 bg-gray-200 rounded w-12"></div>
+                        </td>
+                        <td className="px-6 py-4 whitespace-nowrap">
+                          <div className="h-6 bg-gray-200 rounded w-16"></div>
+                        </td>
+                        <td className="px-6 py-4 whitespace-nowrap">
+                          <div className="flex space-x-2">
+                            <div className="h-8 w-8 bg-gray-200 rounded"></div>
+                            <div className="h-8 w-8 bg-gray-200 rounded"></div>
+                            <div className="h-8 w-8 bg-gray-200 rounded"></div>
+                          </div>
+                        </td>
+                      </tr>
+                    ))
+                  } else if (hotels.length === 0) {
+                    return (
+                      <tr>
+                        <td colSpan={8} className="px-6 py-12 text-center">
+                          <Building2 className="h-16 w-16 text-gray-300 mx-auto mb-4" />
+                          <p className="text-gray-500">No hotels found matching your criteria.</p>
+                        </td>
+                      </tr>
+                    )
+                  } else {
+                    return hotels.map((hotel) => (
+                      <tr key={hotel._id} className="hover:bg-gray-50">
+                        <td className="px-6 py-4 whitespace-nowrap">
+                          <div className="flex items-center">
+                            <div className="h-10 w-10 flex-shrink-0">
+                              {hotel.images && hotel.images.length > 0 ? (
+                                <img
+                                  className="h-10 w-10 rounded-full object-cover"
+                                  src={hotel.images[0].url}
+                                  alt={hotel.name}
+                                />
+                              ) : (
+                                <div className="h-10 w-10 rounded-full bg-gray-200 flex items-center justify-center">
+                                  <Building2 className="h-5 w-5 text-gray-400" />
+                                </div>
+                              )}
+                            </div>
+                            <div className="ml-4">
+                              <div className="text-sm font-medium text-gray-900">{hotel.name || 'N/A'}</div>
+                              <div className="text-sm text-gray-500 line-clamp-1">{hotel.shortDescription || hotel.description || ''}</div>
+                            </div>
+                          </div>
+                        </td>
+                        <td className="px-6 py-4 whitespace-nowrap">
+                          <div className="text-sm text-gray-900">{hotel.category || 'N/A'}</div>
+                        </td>
+                        <td className="px-6 py-4 whitespace-nowrap">
+                          <div className="text-sm text-gray-900">{hotel.location?.address || 'N/A'}</div>
+                        </td>
+                        <td className="px-6 py-4 whitespace-nowrap">
+                          <div className="text-sm text-gray-900">
+                            {hotel.priceRange?.currency
+                              ? `${hotel.priceRange.currency} ${hotel.priceRange.min} - ${hotel.priceRange.max}`
+                              : 'N/A'
+                            }
+                          </div>
+                        </td>
+                        <td className="px-6 py-4 whitespace-nowrap">
+                          <div className="flex items-center">
+                            <Star className="h-4 w-4 text-yellow-500 fill-current mr-1" />
+                            <span className="text-sm font-medium">
+                              {hotel.rating && typeof hotel.rating.average === 'number' 
+                                ? hotel.rating.average.toFixed(1) 
+                                : '0.0'
+                              }
+                            </span>
+                            <span className="text-sm text-gray-500 ml-1">
+                              ({hotel.rating && typeof hotel.rating.count === 'number' ? hotel.rating.count : 0})
+                            </span>
+                          </div>
+                        </td>
+                        <td className="px-6 py-4 whitespace-nowrap">
+                          <div className="text-sm text-gray-900">{hotel.views || 0}</div>
+                        </td>
+                        <td className="px-6 py-4 whitespace-nowrap">
+                          <Badge className={getStatusColor(hotel.status || 'pending')}>
+                            {hotel.status || 'pending'}
+                          </Badge>
+                        </td>
+                        <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                          <div className="flex space-x-2">
+                            <Button size="sm" variant="outline" onClick={() => handleEdit(hotel)}>
+                              <Edit className="h-4 w-4" />
+                            </Button>
+                            <Button size="sm" variant="outline">
+                              <Eye className="h-4 w-4" />
+                            </Button>
+                            <Button 
+                              size="sm" 
+                              variant="outline" 
+                              onClick={() => handleDelete(hotel._id)}
+                              className="text-red-600 hover:text-red-700"
+                            >
+                              <Trash2 className="h-4 w-4" />
+                            </Button>
+                          </div>
+                        </td>
+                      </tr>
+                    ))
+                  }
+                })()}
               </tbody>
             </table>
           </div>

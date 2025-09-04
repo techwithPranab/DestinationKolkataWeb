@@ -12,15 +12,16 @@ interface ConditionalLayoutProps {
 export default function ConditionalLayout({ children }: ConditionalLayoutProps) {
   const pathname = usePathname()
 
-  // Don't show navbar and footer for admin and customer pages
+  // Don't show navbar and footer for admin, customer, and auth pages
   const isAdminPage = pathname?.startsWith('/admin')
   const isCustomerPage = pathname?.startsWith('/customer')
+  const isAuthPage = pathname?.startsWith('/auth')
 
   return (
     <AuthProvider>
-      {!isAdminPage && !isCustomerPage && <Navbar />}
+      {!isAdminPage && !isCustomerPage && !isAuthPage && <Navbar />}
       {children}
-      {!isAdminPage && !isCustomerPage && <Footer />}
+      {!isAdminPage && !isCustomerPage && !isAuthPage && <Footer />}
     </AuthProvider>
   )
 }

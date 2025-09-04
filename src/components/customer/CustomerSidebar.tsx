@@ -71,6 +71,13 @@ export default function CustomerSidebar({ className = '' }: CustomerSidebarProps
       href: '/customer/settings',
       icon: Settings,
       current: pathname === '/customer/settings'
+    },
+    {
+      name: 'Logout',
+      href: '#',
+      icon: LogOut,
+      current: false,
+      isLogout: true
     }
   ]
 
@@ -127,6 +134,15 @@ export default function CustomerSidebar({ className = '' }: CustomerSidebarProps
                   ))}
                 </div>
               </div>
+            ) : item.isLogout ? (
+              <Button
+                onClick={handleLogout}
+                variant="ghost"
+                className="w-full justify-start px-3 py-2 text-sm font-medium text-gray-600 hover:bg-gray-100 hover:text-gray-900 rounded-md"
+              >
+                <item.icon className="w-5 h-5 mr-3" />
+                {item.name}
+              </Button>
             ) : (
               <Link
                 href={item.href}
@@ -143,18 +159,6 @@ export default function CustomerSidebar({ className = '' }: CustomerSidebarProps
           </div>
         ))}
       </nav>
-
-      {/* Logout */}
-      <div className="p-4 border-t border-gray-200">
-        <Button
-          onClick={handleLogout}
-          variant="outline"
-          className="w-full justify-start text-gray-600 hover:bg-gray-100 hover:text-gray-900"
-        >
-          <LogOut className="w-4 h-4 mr-3" />
-          Logout
-        </Button>
-      </div>
     </div>
   )
 }

@@ -310,23 +310,44 @@ const eventSchema = new Schema({
 
 // User Schema
 export interface IUser extends Document {
-  name: string
+  firstName?: string
+  lastName?: string
+  name?: string
   email: string
   password: string
   role: string
-  profile: object
-  preferences: object
+  profile?: object
+  preferences?: object
+  resetToken?: string
+  resetTokenExpiry?: Date
+  phone?: string
+  businessName?: string
+  businessType?: string
+  city?: string
+  membershipType?: string
+  status?: string
+  emailVerified?: boolean
+  lastLogin?: Date
 }
 
 const userSchema = new Schema({
-  name: { type: String, required: true, trim: true },
+  firstName: { type: String, trim: true },
+  lastName: { type: String, trim: true },
+  name: { type: String, trim: true }, // For backward compatibility
   email: { type: String, required: true, unique: true, lowercase: true },
   password: { type: String, required: true },
   role: {
     type: String,
-    enum: ['user', 'business', 'admin', 'moderator'],
+    enum: ['user', 'business', 'admin', 'moderator', 'customer'],
     default: 'user'
   },
+  phone: String,
+  businessName: String,
+  businessType: String,
+  city: String,
+  membershipType: { type: String, default: 'free' },
+  status: { type: String, default: 'active' },
+  emailVerified: { type: Boolean, default: false },
   profile: {
     avatar: String,
     phone: String,
@@ -351,6 +372,8 @@ const userSchema = new Schema({
     phone: { type: Boolean, default: false },
     business: { type: Boolean, default: false }
   },
+  resetToken: String,
+  resetTokenExpiry: Date,
   lastLogin: Date,
   createdAt: { type: Date, default: Date.now },
   updatedAt: { type: Date, default: Date.now }

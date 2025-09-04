@@ -50,9 +50,13 @@ async function connectDB(): Promise<mongoose.Connection> {
     const opts = {
       bufferCommands: false,
       maxPoolSize: 10,
-      serverSelectionTimeoutMS: 5000,
-      socketTimeoutMS: 45000,
-      family: 4
+      serverSelectionTimeoutMS: 10000, // Increased from 5000 to 10000ms
+      socketTimeoutMS: 60000, // Increased from 45000 to 60000ms
+      connectTimeoutMS: 10000,
+      family: 4,
+      maxIdleTimeMS: 30000,
+      retryWrites: true,
+      retryReads: true
     }
     cached.promise = mongoose.connect(MONGODB_URI, opts).then((mongoose) => {
       console.log('Successfully connected to MongoDB')
@@ -83,7 +87,7 @@ export async function connectToDatabase(): Promise<{ client: MongoClient; db: Db
   }
 
   if (!clientCached.promise) {
-    clientCached.promise = MongoClient.connect(MONGODB_URI)
+    clientCached.promise ??= MongoClient.connect(MONGODB_URI)
   }
 
   try {
