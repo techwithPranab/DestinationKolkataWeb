@@ -12,7 +12,7 @@ export default function Home() {
       <CustomerReviewCarousel />
 
       {/* Featured sections will be added here */}
-      <div className="py-16 text-center">
+      <div className="py-16 text-center hidden">
         <h2 className="text-3xl font-bold text-gray-900 mb-4">
           Welcome to Destination Kolkata
         </h2>

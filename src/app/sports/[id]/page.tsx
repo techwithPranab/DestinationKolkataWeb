@@ -137,7 +137,7 @@ export default function SportsFacilityDetailPage() {
 
   if (error || !facility) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-purple-50 to-pink-50">
+      <div className="min-h-screen">
         <div className="flex items-center justify-center min-h-screen">
           <div className="text-center">
             <h1 className="text-2xl font-bold text-gray-900 mb-4">Sports Facility Not Found</h1>
@@ -157,7 +157,7 @@ export default function SportsFacilityDetailPage() {
   const primaryImage = facility.images?.find(img => img.isPrimary) || facility.images?.[0]
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-50 to-pink-50">
+    <div className="min-h-screen ">
       {/* Header with Back Button */}
       <div className="bg-white/95 backdrop-blur-sm shadow-lg shadow-gray-200/50 sticky top-0 z-10">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
@@ -537,7 +537,7 @@ export default function SportsFacilityDetailPage() {
                   
                   <Button 
                     variant="outline" 
-                    className="w-full"
+                    className="w-full text-white bg-orange-600 hover:bg-orange-700"
                     onClick={() => window.open(`https://maps.google.com/?q=${facility.location?.coordinates?.[1] || 0},${facility.location?.coordinates?.[0] || 0}`, '_blank')}
                   >
                     <MapPin className="h-4 w-4 mr-2" />

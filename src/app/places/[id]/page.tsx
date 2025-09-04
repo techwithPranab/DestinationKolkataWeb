@@ -136,7 +136,7 @@ export default function HotelDetailPage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-50">
+      <div className="min-h-screen bg-white">
         <div className="flex items-center justify-center min-h-screen">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
         </div>
@@ -146,7 +146,7 @@ export default function HotelDetailPage() {
 
   if (error || !hotel) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-50">
+      <div className="min-h-screen bg-white">
         <div className="flex items-center justify-center min-h-screen">
           <div className="text-center">
             <h1 className="text-2xl font-bold text-gray-900 mb-4">Hotel Not Found</h1>
@@ -164,7 +164,7 @@ export default function HotelDetailPage() {
   const primaryImage = hotel.images.find(img => img.isPrimary) || hotel.images[0]
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-50">
+  <div className="min-h-screen bg-white">
       {/* Header with Back Button */}
       <div className="bg-white/95 backdrop-blur-sm shadow-lg shadow-gray-200/50 sticky top-0 z-10">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">

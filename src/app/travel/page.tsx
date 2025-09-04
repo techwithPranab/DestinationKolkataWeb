@@ -398,7 +398,7 @@ export default function TravelPage() {
                           <Phone className="h-3 w-3" />
                           <span className="text-xs">{transport.contact.phone}</span>
                         </div>
-                        <Button size="sm" className="bg-orange-600 hover:bg-orange-700">
+                        <Button size="sm" className="text-white bg-orange-600 hover:bg-orange-700">
                           Get Directions
                         </Button>
                       </div>

@@ -99,7 +99,7 @@ export default function RestaurantDetailPage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-orange-50 to-red-50">
+      <div className="min-h-screen ">
         <div className="flex items-center justify-center min-h-screen">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-orange-600"></div>
         </div>
@@ -109,7 +109,7 @@ export default function RestaurantDetailPage() {
 
   if (error || !restaurant) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-orange-50 to-red-50">
+      <div className="min-h-screen ">
         <div className="flex items-center justify-center min-h-screen">
           <div className="text-center">
             <h1 className="text-2xl font-bold text-gray-900 mb-4">Restaurant Not Found</h1>
@@ -129,7 +129,7 @@ export default function RestaurantDetailPage() {
   const primaryImage = restaurant.images.find(img => img.isPrimary) || restaurant.images[0]
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-orange-50 to-red-50">
+    <div className="min-h-screen">
       {/* Header with Back Button */}
       <div className="bg-white/95 backdrop-blur-sm shadow-lg shadow-gray-200/50 sticky top-0 z-10">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
@@ -376,7 +376,7 @@ export default function RestaurantDetailPage() {
                 <h3 className="text-lg font-semibold mb-4">Quick Actions</h3>
                 <div className="space-y-3">
                   <Button 
-                    className="w-full bg-green-600 hover:bg-green-700"
+                    className="w-full text-white bg-green-600 hover:bg-green-700"
                     onClick={() => window.open(`tel:${restaurant.contact?.phone?.[0] || ''}`, '_self')}
                   >
                     <Phone className="h-4 w-4 mr-2" />
@@ -385,7 +385,7 @@ export default function RestaurantDetailPage() {
                   
                   <Button 
                     variant="outline" 
-                    className="w-full"
+                    className="w-full text-white bg-orange-600 hover:bg-orange-700"
                     onClick={() => window.open(`https://maps.google.com/?q=${restaurant.location?.coordinates?.[1] || 0},${restaurant.location?.coordinates?.[0] || 0}`, '_blank')}
                   >
                     <MapPin className="h-4 w-4 mr-2" />

@@ -283,7 +283,7 @@ export default function FilterSidebar({
 
             {/* Actions */}
             <div className="sticky bottom-0 bg-white/95 backdrop-blur-sm shadow-lg shadow-gray-200/50 p-4 space-y-2">
-              <Button onClick={applyFilters} className="w-full bg-orange-600 hover:bg-orange-700">
+              <Button onClick={applyFilters} className="w-full text-white bg-orange-600 hover:bg-orange-700">
                 Apply Filters
               </Button>
               <Button onClick={clearFilters} variant="outline" className="w-full shadow-sm">

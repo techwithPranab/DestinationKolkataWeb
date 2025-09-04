@@ -113,7 +113,7 @@ export default function Footer() {
         </div>
 
         {/* Bottom Bar */}
-        <div className="shadow-sm bg-gray-50 mt-8 pt-6 flex flex-col md:flex-row justify-between items-center">
+        <div className="shadow-sm mt-8 pt-6 flex flex-col md:flex-row justify-between items-center">
           <div className="text-sm text-gray-400 mb-4 md:mb-0">
             © 2024 Destination Kolkata. All rights reserved.
           </div>
@@ -134,7 +134,7 @@ export default function Footer() {
         </div>
 
         {/* Attribution */}
-        <div className="shadow-sm bg-gray-50 mt-6 pt-4 text-xs text-gray-500 text-center">
+        <div className="shadow-sm bg-gray-50 mt-6 pt-4 text-xs text-gray-500 text-center hidden">
           <p>
             Map data © <a href="https://openstreetmap.org" className="hover:text-orange-500">OpenStreetMap</a> contributors. 
             Restaurant data sourced from public datasets. 

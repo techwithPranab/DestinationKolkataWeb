@@ -282,6 +282,13 @@ export default function RestaurantsPage() {
             {/* <span className="text-sm text-gray-600">
               {error ? 'Error loading restaurants' : `${filteredRestaurants?.length || 0} restaurants found`}
             </span> */}
+            <span className="text-sm text-gray-600">
+                {!error && totalPages > 0 && (
+                <div className="mt-2 text-sm text-gray-600">
+                  Showing {((currentPage - 1) * itemsPerPage) + 1}-{Math.min(currentPage * itemsPerPage, totalPages)} of {totalPages} restaurant
+                </div>
+              )}
+            </span>
             <select className="text-sm border border-gray-300 rounded-md px-3 py-1">
               <option>Sort by: Recommended</option>
               <option>Price: Low to High</option>
@@ -474,7 +481,7 @@ export default function RestaurantsPage() {
                               variant={currentPage === pageNum ? "default" : "outline"}
                               size="sm"
                               onClick={() => setCurrentPage(pageNum)}
-                              className={currentPage === pageNum ? 'bg-orange-600 hover:bg-orange-700' : ''}
+                              className={currentPage === pageNum ? 'text-white bg-orange-600 hover:bg-orange-700' : ''}
                             >
                               {pageNum}
                             </Button>

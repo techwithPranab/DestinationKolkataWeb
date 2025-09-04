@@ -164,7 +164,7 @@ export default function HotelDetailPage() {
   const primaryImage = hotel.images.find(img => img.isPrimary) || hotel.images[0]
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-50">
+    <div className="min-h-screen">
       {/* Header with Back Button */}
       <div className="bg-white/95 backdrop-blur-sm shadow-lg shadow-gray-200/50 sticky top-0 z-10">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
@@ -405,7 +405,7 @@ export default function HotelDetailPage() {
                 <h3 className="text-lg font-semibold mb-4">Quick Actions</h3>
                 <div className="space-y-3">
                   <Button
-                    className="w-full bg-green-600 hover:bg-green-700"
+                    className="w-full text-white bg-green-600 hover:bg-green-700"
                     onClick={() => window.open(`tel:${hotel.contact.phone[0]}`, '_self')}
                   >
                     <Phone className="h-4 w-4 mr-2" />
@@ -414,7 +414,7 @@ export default function HotelDetailPage() {
 
                   <Button
                     variant="outline"
-                    className="w-full"
+                    className="w-full text-white bg-orange-600 hover:bg-orange-700"
                     onClick={() => window.open(`https://maps.google.com/?q=${hotel.location.coordinates[1]},${hotel.location.coordinates[0]}`, '_blank')}
                   >
                     <MapPin className="h-4 w-4 mr-2" />

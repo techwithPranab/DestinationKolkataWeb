@@ -349,7 +349,11 @@ export default function PlacesPage() {
           {/* Results Summary */}
           <div className="mt-4 flex items-center justify-between">
             <span className="text-sm text-gray-600">
-              {error ? 'Error loading hotels' : `${pagination?.total || 0} properties found`}
+                {!error && pagination.total > 0 && (
+                <div className="mt-2 text-sm text-gray-600">
+                  Showing {((currentPage - 1) * itemsPerPage) + 1}-{Math.min(currentPage * itemsPerPage, pagination.total)} of {pagination.total} properties
+                </div>
+              )}
             </span>
             <select className="text-sm border border-gray-300 rounded-md px-3 py-1">
               <option>Sort by: Recommended</option>
@@ -361,11 +365,11 @@ export default function PlacesPage() {
           </div>
 
           {/* Pagination Info */}
-          {!error && pagination.total > 0 && (
+          {/* {!error && pagination.total > 0 && (
             <div className="mt-2 text-sm text-gray-600">
               Showing {((currentPage - 1) * itemsPerPage) + 1}-{Math.min(currentPage * itemsPerPage, pagination.total)} of {pagination.total} properties
             </div>
-          )}
+          )} */}
         </div>
       </div>
 
@@ -456,7 +460,7 @@ export default function PlacesPage() {
                         variant={currentPage === pageNum ? "default" : "outline"}
                         size="sm"
                         onClick={() => fetchHotels(pageNum, searchQuery, filters)}
-                        className={currentPage === pageNum ? 'bg-orange-600 hover:bg-orange-700' : ''}
+                        className={currentPage === pageNum ? 'text-white bg-orange-600 hover:bg-orange-700' : ''}
                       >
                         {pageNum}
                       </Button>

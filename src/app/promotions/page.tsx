@@ -297,7 +297,7 @@ export default function PromotionsPage() {
                 {/* Action Buttons */}
                 <div className="flex space-x-2 pt-2">
                   <Button 
-                    className="flex-1 bg-orange-600 hover:bg-orange-700"
+                    className="flex-1 text-white bg-orange-600 hover:bg-orange-700"
                     disabled={isExpired(promotion.validUntil)}
                   >
                     <Tag className="h-4 w-4 mr-2" />

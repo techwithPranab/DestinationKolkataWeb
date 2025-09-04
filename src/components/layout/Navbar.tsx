@@ -23,11 +23,8 @@ export default function Navbar() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
           {/* Logo */}
-          <Link href="/" className="flex items-center space-x-2">
-            <MapPin className="h-8 w-8 text-orange-600" />
-            <span className="text-xl font-bold text-gray-900">
-              Destination Kolkata
-            </span>
+            <Link href="/" className="flex items-center space-x-2">
+              <img src="/Logo2.png" alt="Destination Kolkata Logo" className="h-28 w-auto" />
           </Link>
 
           {/* Desktop Navigation */}
