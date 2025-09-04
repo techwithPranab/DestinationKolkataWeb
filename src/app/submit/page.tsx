@@ -33,6 +33,7 @@ interface SubmissionFormData {
     longitude: number
   }
   // Type-specific fields will be added dynamically
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   [key: string]: any
 }
 
@@ -63,7 +64,7 @@ export default function SubmitBusinessPage() {
     }
   })
 
-  const handleInputChange = (field: string, value: any) => {
+  const handleInputChange = (field: string, value: unknown) => {
     if (field.includes('.')) {
       const [parent, child] = field.split('.')
       setFormData(prev => ({
@@ -476,7 +477,7 @@ export default function SubmitBusinessPage() {
             <CheckCircle className="h-16 w-16 text-green-500 mx-auto mb-4" />
             <h2 className="text-2xl font-bold text-gray-900 mb-2">Submission Successful!</h2>
             <p className="text-gray-600 mb-6">
-              Your submission has been received and is pending review. We'll notify you once it's approved.
+              Your submission has been received and is pending review. We&apos;ll notify you once it&apos;s approved.
             </p>
             <Button onClick={() => router.push('/')} className="w-full">
               Return to Home
