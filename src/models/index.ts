@@ -663,6 +663,10 @@ export interface IContact extends Document {
   respondedAt?: Date
   response?: string
   respondedBy?: mongoose.Types.ObjectId
+  // View tracking fields
+  viewedAt?: Date
+  viewedBy?: mongoose.Types.ObjectId
+  viewCount?: number
 }
 
 const contactSchema = new Schema({
@@ -690,7 +694,11 @@ const contactSchema = new Schema({
   updatedAt: { type: Date, default: Date.now },
   respondedAt: Date,
   response: String,
-  respondedBy: { type: Schema.Types.ObjectId, ref: 'User' }
+  respondedBy: { type: Schema.Types.ObjectId, ref: 'User' },
+  // View tracking fields
+  viewedAt: Date,
+  viewedBy: { type: Schema.Types.ObjectId, ref: 'User' },
+  viewCount: { type: Number, default: 0 }
 })
 
 // Feedback Schema
@@ -710,6 +718,10 @@ export interface IFeedback extends Document {
   reviewedAt?: Date
   reviewedBy?: mongoose.Types.ObjectId
   notes?: string
+  // View tracking fields
+  viewedAt?: Date
+  viewedBy?: mongoose.Types.ObjectId
+  viewCount?: number
 }
 
 const feedbackSchema = new Schema({
@@ -743,7 +755,11 @@ const feedbackSchema = new Schema({
   updatedAt: { type: Date, default: Date.now },
   reviewedAt: Date,
   reviewedBy: { type: Schema.Types.ObjectId, ref: 'User' },
-  notes: String
+  notes: String,
+  // View tracking fields
+  viewedAt: Date,
+  viewedBy: { type: Schema.Types.ObjectId, ref: 'User' },
+  viewCount: { type: Number, default: 0 }
 })
 
 // Submission Schema
@@ -800,6 +816,10 @@ export interface IReportIssue extends Document {
   investigatedBy?: mongoose.Types.ObjectId
   resolution?: string
   actionTaken?: string
+  // View tracking fields
+  viewedAt?: Date
+  viewedBy?: mongoose.Types.ObjectId
+  viewCount?: number
 }
 
 const reportIssueSchema = new Schema({
@@ -833,7 +853,38 @@ const reportIssueSchema = new Schema({
   investigatedAt: Date,
   investigatedBy: { type: Schema.Types.ObjectId, ref: 'User' },
   resolution: String,
-  actionTaken: String
+  actionTaken: String,
+  // View tracking fields
+  viewedAt: Date,
+  viewedBy: { type: Schema.Types.ObjectId, ref: 'User' },
+  viewCount: { type: Number, default: 0 }
+})
+
+// Settings Schema
+export interface ISetting extends Document {
+  category: string
+  key: string
+  value: unknown
+  type: 'string' | 'number' | 'boolean' | 'object' | 'array'
+  description?: string
+  isPublic: boolean
+  updatedBy?: mongoose.Types.ObjectId
+  updatedAt: Date
+}
+
+const settingSchema = new Schema({
+  category: { type: String, required: true },
+  key: { type: String, required: true, unique: true },
+  value: { type: Schema.Types.Mixed, required: true },
+  type: {
+    type: String,
+    enum: ['string', 'number', 'boolean', 'object', 'array'],
+    required: true
+  },
+  description: String,
+  isPublic: { type: Boolean, default: false },
+  updatedBy: { type: Schema.Types.ObjectId, ref: 'User' },
+  updatedAt: { type: Date, default: Date.now }
 })
 
 // Create indexes
@@ -877,6 +928,7 @@ export const Contact = mongoose.models.Contact || mongoose.model<IContact>('Cont
 export const Feedback = mongoose.models.Feedback || mongoose.model<IFeedback>('Feedback', feedbackSchema)
 export const ReportIssue = mongoose.models.ReportIssue || mongoose.model<IReportIssue>('ReportIssue', reportIssueSchema)
 export const Submission = mongoose.models.Submission || mongoose.model<ISubmission>('Submission', submissionSchema)
+export const Setting = mongoose.models.Setting || mongoose.model<ISetting>('Setting', settingSchema)
 
 // Import and export Review model
 export { Review } from './Review'

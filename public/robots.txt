@@ -1,0 +1,22 @@
+User-agent: *
+Allow: /
+
+# Block admin areas from search engines
+Disallow: /admin/
+Disallow: /api/admin/
+Disallow: /api/auth/
+
+# Block development and internal files
+Disallow: /_next/
+Disallow: /api/
+Disallow: *.json
+
+# Allow important assets
+Allow: /images/
+Allow: /public/
+
+# Crawl delay for respectful crawling
+Crawl-delay: 1
+
+# Sitemap
+Sitemap: https://destinationkolkata.com/sitemap.xml

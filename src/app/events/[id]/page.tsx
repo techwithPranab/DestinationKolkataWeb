@@ -6,6 +6,7 @@ import Image from 'next/image'
 import { ArrowLeft, MapPin, Phone, Globe, Mail, Clock, Star, Calendar, Users, Ticket, Info, Tag } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
+import ReviewSection from '@/components/shared/ReviewSection'
 
 interface EventDetail {
   _id: string
@@ -369,6 +370,16 @@ export default function EventDetailPage() {
                 )}
               </CardContent>
             </Card>
+
+            {/* Reviews Section */}
+            <div className="mt-8">
+              <ReviewSection
+                entityId={event._id}
+                entityType="event"
+                averageRating={event.rating?.average || 0}
+                totalReviews={event.rating?.count || 0}
+              />
+            </div>
           </div>
 
           {/* Sidebar */}

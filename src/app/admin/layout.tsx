@@ -19,7 +19,9 @@ import {
   X,
   LogOut,
   CheckCircle,
-  MessageSquare
+  MessageSquare,
+  Mail,
+  AlertTriangle
 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { useAuth } from '@/contexts/AuthContext'
@@ -47,6 +49,24 @@ const navigation = [
     href: '/admin/reviews',
     icon: MessageSquare,
     description: 'Manage user reviews and ratings'
+  },
+  {
+    name: 'Feedback',
+    href: '/admin/feedback',
+    icon: MessageSquare,
+    description: 'Manage user feedback and reviews'
+  },
+  {
+    name: 'Contact',
+    href: '/admin/contact',
+    icon: Mail,
+    description: 'Manage contact form submissions'
+  },
+  {
+    name: 'Report Issues',
+    href: '/admin/report-issues',
+    icon: AlertTriangle,
+    description: 'Manage reported issues and bugs'
   },
   {
     name: 'Hotels',

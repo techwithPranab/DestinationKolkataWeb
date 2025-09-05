@@ -142,23 +142,23 @@ export default function PromotionsAdmin() {
     e.preventDefault()
     
     const promotionData = {
-      name: formData.name,
-      description: formData.description,
-      type: formData.type,
-      category: formData.category,
+      name: formData.name || '',
+      description: formData.description || '',
+      type: formData.type || '',
+      category: formData.category || '',
       discountType: formData.discountType,
-      discountValue: formData.discountValue,
+      discountValue: formData.discountValue || 0,
       minimumPurchase: formData.minimumPurchase > 0 ? formData.minimumPurchase : undefined,
       maximumDiscount: formData.maximumDiscount > 0 ? formData.maximumDiscount : undefined,
-      applicableTo: formData.applicableTo,
-      validFrom: formData.validFrom,
-      validUntil: formData.validUntil,
+      applicableTo: formData.applicableTo || [],
+      validFrom: formData.validFrom || '',
+      validUntil: formData.validUntil || '',
       usageLimit: formData.usageLimit > 0 ? formData.usageLimit : undefined,
       usedCount: 0,
-      targetAudience: formData.targetAudience,
-      termsAndConditions: formData.termsAndConditions,
+      targetAudience: formData.targetAudience || [],
+      termsAndConditions: formData.termsAndConditions || '',
       promoCode: formData.promoCode || undefined,
-      isActive: formData.isActive
+      isActive: formData.isActive ?? true
     }
 
     try {
@@ -205,22 +205,22 @@ export default function PromotionsAdmin() {
   const handleEdit = (promotion: Promotion) => {
     setEditingPromotion(promotion)
     setFormData({
-      name: promotion.name,
-      description: promotion.description,
-      type: promotion.type,
-      category: promotion.category,
-      discountType: promotion.discountType,
-      discountValue: promotion.discountValue,
+      name: promotion.name || '',
+      description: promotion.description || '',
+      type: promotion.type || '',
+      category: promotion.category || '',
+      discountType: promotion.discountType || 'percentage',
+      discountValue: promotion.discountValue || 0,
       minimumPurchase: promotion.minimumPurchase || 0,
       maximumDiscount: promotion.maximumDiscount || 0,
-      applicableTo: promotion.applicableTo,
-      validFrom: promotion.validFrom,
-      validUntil: promotion.validUntil,
+      applicableTo: promotion.applicableTo || [],
+      validFrom: promotion.validFrom || '',
+      validUntil: promotion.validUntil || '',
       usageLimit: promotion.usageLimit || 0,
-      targetAudience: promotion.targetAudience,
-      termsAndConditions: promotion.termsAndConditions,
+      targetAudience: promotion.targetAudience || [],
+      termsAndConditions: promotion.termsAndConditions || '',
       promoCode: promotion.promoCode || '',
-      isActive: promotion.isActive
+      isActive: promotion.isActive ?? true
     })
     setIsAddModalOpen(true)
   }
@@ -265,20 +265,23 @@ export default function PromotionsAdmin() {
   }
 
   const filteredPromotions = promotions.filter(promotion => {
-    const matchesSearch = promotion.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                         promotion.type.toLowerCase().includes(searchTerm.toLowerCase())
-    const matchesType = !filterType || filterType === 'all' || promotion.type === filterType
-    const matchesStatus = !filterStatus || filterStatus === 'all' || 
-                         (filterStatus === 'active' && promotion.isActive) || 
+    const promotionName = promotion.name || ''
+    const promotionType = promotion.type || ''
+
+    const matchesSearch = promotionName.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                         promotionType.toLowerCase().includes(searchTerm.toLowerCase())
+    const matchesType = !filterType || filterType === 'all' || promotionType === filterType
+    const matchesStatus = !filterStatus || filterStatus === 'all' ||
+                         (filterStatus === 'active' && promotion.isActive) ||
                          (filterStatus === 'inactive' && !promotion.isActive)
-    
+
     return matchesSearch && matchesType && matchesStatus
   })
 
   const getStatusColor = (isActive: boolean, validUntil: string) => {
-    const isPromotionActive = isActive && !isExpired(validUntil)
-    const isPromotionExpired = isExpired(validUntil)
-    
+    const isPromotionActive = (isActive ?? false) && !isExpired(validUntil || '')
+    const isPromotionExpired = isExpired(validUntil || '')
+
     if (isPromotionActive) {
       return 'bg-green-100 text-green-800'
     } else if (isPromotionExpired) {
@@ -289,9 +292,9 @@ export default function PromotionsAdmin() {
   }
 
   const getStatusText = (isActive: boolean, validUntil: string) => {
-    const isPromotionActive = isActive && !isExpired(validUntil)
-    const isPromotionExpired = isExpired(validUntil)
-    
+    const isPromotionActive = (isActive ?? false) && !isExpired(validUntil || '')
+    const isPromotionExpired = isExpired(validUntil || '')
+
     if (isPromotionActive) {
       return 'Active'
     } else if (isPromotionExpired) {
@@ -302,17 +305,20 @@ export default function PromotionsAdmin() {
   }
 
   const getDiscountDisplay = (promotion: Promotion) => {
-    switch (promotion.discountType) {
+    const discountType = promotion.discountType || 'percentage'
+    const discountValue = promotion.discountValue || 0
+
+    switch (discountType) {
       case 'percentage':
-        return `${promotion.discountValue}% off`
+        return `${discountValue}% off`
       case 'fixed':
-        return `₹${promotion.discountValue} off`
+        return `₹${discountValue} off`
       case 'buy_one_get_one':
         return 'Buy 1 Get 1 Free'
       case 'free_item':
         return 'Free Item'
       default:
-        return `${promotion.discountValue}% off`
+        return `${discountValue}% off`
     }
   }
 
@@ -329,14 +335,20 @@ export default function PromotionsAdmin() {
   }
 
   const formatDate = (dateString: string) => {
-    return new Date(dateString).toLocaleDateString('en-IN', {
-      day: 'numeric',
-      month: 'short',
-      year: 'numeric'
-    })
+    if (!dateString) return 'N/A'
+    try {
+      return new Date(dateString).toLocaleDateString('en-IN', {
+        day: 'numeric',
+        month: 'short',
+        year: 'numeric'
+      })
+    } catch {
+      return 'Invalid Date'
+    }
   }
 
   const isExpired = (validUntil: string) => {
+    if (!validUntil) return false
     return new Date(validUntil) < new Date()
   }
 
@@ -613,7 +625,7 @@ export default function PromotionsAdmin() {
               <div>
                 <p className="text-sm font-medium text-gray-600">Active</p>
                 <p className="text-2xl font-bold text-green-600">
-                  {filteredPromotions.filter(p => p.isActive && !isExpired(p.validUntil)).length}
+                  {filteredPromotions.filter(p => (p.isActive ?? false) && !isExpired(p.validUntil || '')).length}
                 </p>
               </div>
               <div className="h-8 w-8 bg-green-100 rounded-full flex items-center justify-center">
@@ -628,7 +640,7 @@ export default function PromotionsAdmin() {
               <div>
                 <p className="text-sm font-medium text-gray-600">Total Usage</p>
                 <p className="text-2xl font-bold text-purple-600">
-                  {filteredPromotions.reduce((acc, p) => acc + p.usedCount, 0)}
+                  {filteredPromotions.reduce((acc, p) => acc + (p.usedCount || 0), 0)}
                 </p>
               </div>
               <Users className="h-8 w-8 text-purple-500" />
@@ -641,7 +653,7 @@ export default function PromotionsAdmin() {
               <div>
                 <p className="text-sm font-medium text-gray-600">Expired</p>
                 <p className="text-2xl font-bold text-red-600">
-                  {filteredPromotions.filter(p => isExpired(p.validUntil)).length}
+                  {filteredPromotions.filter(p => isExpired(p.validUntil || '')).length}
                 </p>
               </div>
               <Calendar className="h-8 w-8 text-red-500" />
@@ -732,12 +744,12 @@ export default function PromotionsAdmin() {
                       <TableRow key={promotion._id}>
                         <TableCell>
                           <div>
-                            <div className="font-medium text-gray-900">{promotion.name}</div>
-                            <div className="text-sm text-gray-500">{promotion.category}</div>
+                            <div className="font-medium text-gray-900">{promotion.name || 'Unnamed Promotion'}</div>
+                            <div className="text-sm text-gray-500">{promotion.category || 'No Category'}</div>
                           </div>
                         </TableCell>
                         <TableCell>
-                          <Badge variant="outline">{promotion.type}</Badge>
+                          <Badge variant="outline">{promotion.type || 'No Type'}</Badge>
                         </TableCell>
                         <TableCell>
                           <span className="font-semibold text-green-600">{getDiscountDisplay(promotion)}</span>
@@ -747,17 +759,17 @@ export default function PromotionsAdmin() {
                         </TableCell>
                         <TableCell>
                           <div className="text-sm">
-                            {formatDate(promotion.validUntil)}
+                            {formatDate(promotion.validUntil || '')}
                           </div>
                         </TableCell>
                         <TableCell>
-                          <Badge className={getStatusColor(promotion.isActive, promotion.validUntil)}>
-                            {getStatusText(promotion.isActive, promotion.validUntil)}
+                          <Badge className={getStatusColor(promotion.isActive ?? false, promotion.validUntil || '')}>
+                            {getStatusText(promotion.isActive ?? false, promotion.validUntil || '')}
                           </Badge>
                         </TableCell>
                         <TableCell>
                           <div className="text-sm">
-                            {promotion.usedCount}
+                            {promotion.usedCount || 0}
                             {promotion.usageLimit && `/${promotion.usageLimit}`}
                           </div>
                         </TableCell>

@@ -6,6 +6,7 @@ import Image from 'next/image'
 import { ArrowLeft, MapPin, Phone, Globe, Mail, Clock, Star, Trophy, Users, Dumbbell, Car, Calendar, CreditCard, Zap } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
+import ReviewSection from '@/components/shared/ReviewSection'
 
 interface SportsFacility {
   _id: string
@@ -340,6 +341,16 @@ export default function SportsFacilityDetailPage() {
                 </div>
               </CardContent>
             </Card>
+
+            {/* Reviews Section */}
+            <div className="mt-8">
+              <ReviewSection
+                entityId={facility._id}
+                entityType="sports"
+                averageRating={facility.rating?.average || 0}
+                totalReviews={facility.rating?.count || 0}
+              />
+            </div>
           </div>
 
           {/* Sidebar */}

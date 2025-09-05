@@ -170,8 +170,8 @@ export default function UsersAdmin() {
   }
 
   const filteredUsers = users.filter(user => {
-    const matchesSearch = user.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                         user.email.toLowerCase().includes(searchTerm.toLowerCase())
+    const matchesSearch = (user.name?.toLowerCase() || '').includes(searchTerm.toLowerCase()) ||
+                         (user.email?.toLowerCase() || '').includes(searchTerm.toLowerCase())
     const matchesRole = !filterRole || filterRole === 'all' || user.role === filterRole
     const matchesStatus = !filterStatus || filterStatus === 'all' || user.status === filterStatus
 
@@ -385,7 +385,7 @@ export default function UsersAdmin() {
                       <Users className="h-6 w-6 text-orange-600" />
                     </div>
                     <div>
-                      <CardTitle className="text-lg">{user.name}</CardTitle>
+                      <CardTitle className="text-lg">{user.name || 'Unnamed User'}</CardTitle>
                       <Badge className={getStatusColor(user.status)}>
                         {user.status}
                       </Badge>

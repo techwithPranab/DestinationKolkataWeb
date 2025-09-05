@@ -1,0 +1,50 @@
+{
+  "name": "Destination Kolkata - City of Joy",
+  "short_name": "Destination Kolkata",
+  "description": "Discover the best of Kolkata - hotels, restaurants, attractions, events, and cultural experiences in the City of Joy",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#ea580c",
+  "orientation": "portrait-primary",
+  "scope": "/",
+  "lang": "en-US",
+  "categories": ["travel", "lifestyle", "food", "entertainment"],
+  "icons": [
+    {
+      "src": "/icon-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "maskable any"
+    },
+    {
+      "src": "/icon-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable any"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Find Hotels",
+      "short_name": "Hotels",
+      "description": "Browse and book hotels in Kolkata",
+      "url": "/hotels",
+      "icons": [{ "src": "/icon-96x96.png", "sizes": "96x96" }]
+    },
+    {
+      "name": "Explore Restaurants",
+      "short_name": "Restaurants",
+      "description": "Discover the best restaurants in Kolkata",
+      "url": "/restaurants",
+      "icons": [{ "src": "/icon-96x96.png", "sizes": "96x96" }]
+    },
+    {
+      "name": "Visit Places",
+      "short_name": "Attractions",
+      "description": "Explore tourist attractions in Kolkata",
+      "url": "/places",
+      "icons": [{ "src": "/icon-96x96.png", "sizes": "96x96" }]
+    }
+  ]
+}
