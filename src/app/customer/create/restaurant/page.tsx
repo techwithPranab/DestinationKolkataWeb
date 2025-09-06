@@ -1,7 +1,7 @@
 "use client"
 
-import React, { useState } from 'react'
-import { useRouter } from 'next/navigation'
+import React, { useState, useEffect } from 'react'
+import { useRouter, useSearchParams } from 'next/navigation'
 import { 
   MapPin, 
   Phone, 
@@ -18,6 +18,7 @@ import { Textarea } from '@/components/ui/textarea'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import ImageUpload from '@/components/shared/ImageUpload'
 import { getCloudinaryFolder, generateSlug } from '@/lib/cloudinary-utils'
+import { useApi } from '@/lib/api-client'
 
 interface RestaurantFormData {
   name: string
@@ -47,8 +48,12 @@ interface RestaurantFormData {
 
 export default function CreateRestaurantPage() {
   const router = useRouter()
+  const searchParams = useSearchParams()
+  const api = useApi()
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
+  const [isEdit, setIsEdit] = useState(false)
+  const [editId, setEditId] = useState<string | null>(null)
   const [formData, setFormData] = useState<RestaurantFormData>({
     name: '',
     description: '',
@@ -74,6 +79,56 @@ export default function CreateRestaurantPage() {
     specialFeatures: '',
     images: []
   })
+
+  // Check for edit mode
+  useEffect(() => {
+    const editParam = searchParams.get('edit')
+    if (editParam) {
+      setIsEdit(true)
+      setEditId(editParam)
+      loadSubmissionForEdit(editParam)
+    }
+  }, [searchParams])
+
+  const loadSubmissionForEdit = async (id: string) => {
+    try {
+      setLoading(true)
+      const result = await api.get(`/api/customer/submissions/${id}`)
+      
+      if (result.error) {
+        setError('Failed to load submission for editing')
+        return
+      }
+
+      const submission = (result.data as { submission: { data: Record<string, unknown> } })?.submission
+      if (submission?.data) {
+        const data = submission.data
+        // Pre-populate form with existing data
+        setFormData({
+          name: data.name as string || '',
+          description: data.description as string || '',
+          address: data.address as string || '',
+          city: data.city as string || 'Kolkata',
+          state: data.state as string || 'West Bengal',
+          pincode: data.pincode as string || '',
+          phone: data.phone as string || '',
+          email: data.email as string || '',
+          website: data.website as string || '',
+          cuisineTypes: data.cuisineTypes as string[] || [],
+          priceRange: data.priceRange as string || '',
+          amenities: data.amenities as string[] || [],
+          openingHours: data.openingHours as RestaurantFormData['openingHours'] || formData.openingHours,
+          specialFeatures: data.specialFeatures as string || '',
+          images: data.images as { url: string; alt?: string; isPrimary?: boolean }[] || []
+        })
+      }
+    } catch (err) {
+      console.error('Failed to load submission data:', err)
+      setError('Failed to load submission data')
+    } finally {
+      setLoading(false)
+    }
+  }
 
   const cuisineTypesList = [
     'Bengali',
@@ -230,22 +285,42 @@ export default function CreateRestaurantPage() {
         }
       })
 
-      const token = localStorage.getItem('authToken')
-      const response = await fetch('/api/customer/submissions/restaurant', {
-        method: 'POST',
-        headers: {
-          'Authorization': `Bearer ${token}`
-        },
-        body: submitData
-      })
-
-      const result = await response.json()
-
-      if (!response.ok) {
-        throw new Error(result.message || 'Failed to submit restaurant')
+      let result
+      if (isEdit && editId) {
+        // Update existing submission using native fetch for FormData
+        const token = localStorage.getItem('authToken')
+        const response = await fetch(`/api/customer/submissions/${editId}`, {
+          method: 'PUT',
+          headers: {
+            'Authorization': `Bearer ${token}`
+          },
+          body: submitData
+        })
+        result = await response.json()
+        
+        if (!response.ok) {
+          throw new Error(result.message || 'Failed to update restaurant')
+        }
+      } else {
+        // Create new submission
+        const token = localStorage.getItem('authToken')
+        const response = await fetch('/api/customer/submissions/restaurant', {
+          method: 'POST',
+          headers: {
+            'Authorization': `Bearer ${token}`
+          },
+          body: submitData
+        })
+        result = await response.json()
+        
+        if (!response.ok) {
+          throw new Error(result.message || 'Failed to submit restaurant')
+        }
       }
 
-      router.push('/customer/dashboard?message=Restaurant submitted successfully and is pending approval')
+      // Redirect to listings with success message
+      const message = isEdit ? 'Restaurant updated successfully' : 'Restaurant submitted successfully and is pending approval'
+      router.push(`/customer/listings?message=${encodeURIComponent(message)}`)
 
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Failed to submit restaurant')
@@ -258,8 +333,12 @@ export default function CreateRestaurantPage() {
     <div className="space-y-6">
       {/* Header */}
       <div>
-        <h1 className="text-3xl font-bold text-gray-900">Create New Restaurant</h1>
-        <p className="text-gray-600 mt-1">Add a new restaurant to the Destination Kolkata platform</p>
+        <h1 className="text-3xl font-bold text-gray-900">
+          {isEdit ? 'Edit Restaurant' : 'Create New Restaurant'}
+        </h1>
+        <p className="text-gray-600 mt-1">
+          {isEdit ? 'Update your restaurant information' : 'Add a new restaurant to the Destination Kolkata platform'}
+        </p>
       </div>
 
       <form onSubmit={handleSubmit} className="space-y-6">
@@ -565,12 +644,12 @@ export default function CreateRestaurantPage() {
             {loading ? (
               <>
                 <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"></div>
-                Submitting...
+                {isEdit ? 'Updating...' : 'Submitting...'}
               </>
             ) : (
               <>
                 <Save className="w-4 h-4 mr-2" />
-                Submit Restaurant
+                {isEdit ? 'Update Restaurant' : 'Submit Restaurant'}
               </>
             )}
           </Button>

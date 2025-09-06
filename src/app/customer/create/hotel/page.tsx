@@ -1,7 +1,7 @@
 "use client"
 
-import React, { useState } from 'react'
-import { useRouter } from 'next/navigation'
+import React, { useState, useEffect } from 'react'
+import { useRouter, useSearchParams } from 'next/navigation'
 import { 
   Hotel, 
   MapPin, 
@@ -14,6 +14,7 @@ import { Label } from '@/components/ui/label'
 import { Textarea } from '@/components/ui/textarea'
 import ImageUpload from '@/components/shared/ImageUpload'
 import { getCloudinaryFolder, generateSlug } from '@/lib/cloudinary-utils'
+import { useApi } from '@/lib/api-client'
 
 interface HotelFormData {
   name: string
@@ -38,8 +39,12 @@ interface HotelFormData {
 
 export default function CreateHotelPage() {
   const router = useRouter()
+  const searchParams = useSearchParams()
+  const api = useApi()
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
+  const [isEdit, setIsEdit] = useState(false)
+  const [editId, setEditId] = useState<string | null>(null)
   const [formData, setFormData] = useState<HotelFormData>({
     name: '',
     description: '',
@@ -60,6 +65,59 @@ export default function CreateHotelPage() {
     policies: '',
     nearbyAttractions: ''
   })
+
+  // Check for edit mode
+  useEffect(() => {
+    const editParam = searchParams.get('edit')
+    if (editParam) {
+      setIsEdit(true)
+      setEditId(editParam)
+      loadSubmissionForEdit(editParam)
+    }
+  }, [searchParams])
+
+  const loadSubmissionForEdit = async (id: string) => {
+    try {
+      setLoading(true)
+      const result = await api.get(`/api/customer/submissions/${id}`)
+      
+      if (result.error) {
+        setError('Failed to load submission for editing')
+        return
+      }
+
+      const submission = (result.data as { submission: { data: Record<string, unknown> } })?.submission
+      if (submission?.data) {
+        const data = submission.data
+        // Pre-populate form with existing data
+        setFormData({
+          name: data.name as string || '',
+          description: data.description as string || '',
+          address: data.address as string || '',
+          city: data.city as string || 'Kolkata',
+          state: data.state as string || 'West Bengal',
+          pincode: data.pincode as string || '',
+          phone: data.phone as string || '',
+          email: data.email as string || '',
+          website: data.website as string || '',
+          starRating: data.starRating as number || 3,
+          priceRange: data.priceRange as string || '',
+          amenities: data.amenities as string[] || [],
+          roomTypes: data.roomTypes as string[] || [],
+          images: data.images as { url: string; alt?: string; isPrimary?: boolean }[] || [],
+          checkInTime: data.checkInTime as string || '14:00',
+          checkOutTime: data.checkOutTime as string || '12:00',
+          policies: data.policies as string || '',
+          nearbyAttractions: data.nearbyAttractions as string || ''
+        })
+      }
+    } catch (err) {
+      console.error('Failed to load submission data:', err)
+      setError('Failed to load submission data')
+    } finally {
+      setLoading(false)
+    }
+  }
 
   const amenitiesList = [
     'Free WiFi',
@@ -181,23 +239,46 @@ export default function CreateHotelPage() {
         }
       })
 
-      const token = localStorage.getItem('authToken')
-      const response = await fetch('/api/customer/submissions/hotel', {
-        method: 'POST',
-        headers: {
-          'Authorization': `Bearer ${token}`
-        },
-        body: submitData
-      })
+      let result
+      if (isEdit && editId) {
+        // Update existing submission using native fetch for FormData
+        const token = localStorage.getItem('authToken')
+        const response = await fetch(`/api/customer/submissions/${editId}`, {
+          method: 'PUT',
+          headers: {
+            'Authorization': `Bearer ${token}`
+          },
+          body: submitData
+        })
+        result = await response.json()
+        
+        if (!response.ok) {
+          throw new Error(result.message || 'Failed to update hotel')
+        }
+      } else {
+        // Create new submission
+        const token = localStorage.getItem('authToken')
+        const response = await fetch('/api/customer/submissions/hotel', {
+          method: 'POST',
+          headers: {
+            'Authorization': `Bearer ${token}`
+          },
+          body: submitData
+        })
+        result = await response.json()
+        
+        if (!response.ok) {
+          throw new Error(result.message || 'Failed to submit hotel')
+        }
+      }
 
-      const result = await response.json()
-
-      if (!response.ok) {
-        throw new Error(result.message || 'Failed to submit hotel')
+      if (result.error) {
+        throw new Error(result.error)
       }
 
       // Redirect to dashboard with success message
-      router.push('/customer/dashboard?message=Hotel submitted successfully and is pending approval')
+      const message = isEdit ? 'Hotel updated successfully' : 'Hotel submitted successfully and is pending approval'
+      router.push(`/customer/listings?message=${encodeURIComponent(message)}`)
 
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Failed to submit hotel')
@@ -210,8 +291,12 @@ export default function CreateHotelPage() {
     <div className="space-y-6">
       {/* Header */}
       <div>
-        <h1 className="text-3xl font-bold text-gray-900">Create New Hotel</h1>
-        <p className="text-gray-600 mt-1">Add a new hotel to the Destination Kolkata platform</p>
+        <h1 className="text-3xl font-bold text-gray-900">
+          {isEdit ? 'Edit Hotel' : 'Create New Hotel'}
+        </h1>
+        <p className="text-gray-600 mt-1">
+          {isEdit ? 'Update your hotel information' : 'Add a new hotel to the Destination Kolkata platform'}
+        </p>
       </div>
 
       <form onSubmit={handleSubmit} className="space-y-6">
@@ -529,12 +614,12 @@ export default function CreateHotelPage() {
             {loading ? (
               <>
                 <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"></div>
-                Creating Hotel...
+                {isEdit ? 'Updating Hotel...' : 'Creating Hotel...'}
               </>
             ) : (
               <>
                 <Save className="w-4 h-4 mr-2" />
-                Create Hotel
+                {isEdit ? 'Update Hotel' : 'Create Hotel'}
               </>
             )}
           </Button>

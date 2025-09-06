@@ -1,14 +1,34 @@
 "use client"
 
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Bell, Shield, Palette, Save } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Checkbox } from '@/components/ui/checkbox'
 import { Label } from '@/components/ui/label'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
+import { toast } from 'sonner'
+import { useApi } from '@/lib/api-client'
+
+interface SettingsData {
+  preferences?: {
+    emailNotifications?: boolean
+    pushNotifications?: boolean
+    smsNotifications?: boolean
+    marketingEmails?: boolean
+    language?: string
+    timezone?: string
+    theme?: string
+  }
+  privacy?: {
+    profileVisibility?: string
+    showEmail?: boolean
+    showPhone?: boolean
+  }
+}
 
 export default function CustomerSettings() {
+  const api = useApi()
   const [settings, setSettings] = useState({
     // Notifications
     emailNotifications: true,
@@ -28,6 +48,46 @@ export default function CustomerSettings() {
   })
 
   const [loading, setLoading] = useState(false)
+  const [fetching, setFetching] = useState(true)
+
+  // Fetch settings on component mount
+  useEffect(() => {
+    fetchSettings()
+  }, [])
+
+  const fetchSettings = async () => {
+    try {
+      console.log('Fetching settings...')
+
+      const response = await api.get('/api/customer/settings')
+
+      if (response.data) {
+        console.log('Settings data received:', response.data)
+        const userSettings = (response.data as { settings: SettingsData }).settings
+
+        setSettings({
+          emailNotifications: userSettings.preferences?.emailNotifications ?? true,
+          pushNotifications: userSettings.preferences?.pushNotifications ?? false,
+          smsNotifications: userSettings.preferences?.smsNotifications ?? false,
+          marketingEmails: userSettings.preferences?.marketingEmails ?? false,
+          profileVisibility: userSettings.privacy?.profileVisibility ?? 'public',
+          showEmail: userSettings.privacy?.showEmail ?? false,
+          showPhone: userSettings.privacy?.showPhone ?? false,
+          language: userSettings.preferences?.language ?? 'en',
+          timezone: userSettings.preferences?.timezone ?? 'Asia/Kolkata',
+          theme: userSettings.preferences?.theme ?? 'light'
+        })
+      } else {
+        console.error('Failed to load settings:', response.error)
+        toast.error(`Failed to load settings: ${response.error || 'Unknown error'}`)
+      }
+    } catch (error) {
+      console.error('Error fetching settings:', error)
+      toast.error(`Error loading settings: ${error instanceof Error ? error.message : 'Network error'}`)
+    } finally {
+      setFetching(false)
+    }
+  }
 
   const handleSettingChange = (key: string, value: boolean | string) => {
     setSettings(prev => ({
@@ -39,15 +99,46 @@ export default function CustomerSettings() {
   const handleSave = async () => {
     setLoading(true)
     try {
-      // Implement settings save API
-      console.log('Saving settings:', settings)
-      await new Promise(resolve => setTimeout(resolve, 1000))
-      // Show success message
+      console.log('Saving settings...')
+
+      const response = await api.put('/api/customer/settings', {
+        preferences: {
+          emailNotifications: settings.emailNotifications,
+          pushNotifications: settings.pushNotifications,
+          smsNotifications: settings.smsNotifications,
+          marketingEmails: settings.marketingEmails,
+          language: settings.language,
+          timezone: settings.timezone,
+          theme: settings.theme
+        },
+        privacy: {
+          profileVisibility: settings.profileVisibility,
+          showEmail: settings.showEmail,
+          showPhone: settings.showPhone
+        }
+      })
+
+      if (response.data) {
+        console.log('Settings saved successfully:', response.data)
+        toast.success('Settings saved successfully!')
+      } else {
+        console.error('Failed to save settings:', response.error)
+        toast.error(response.error || 'Failed to save settings')
+      }
     } catch (error) {
       console.error('Error saving settings:', error)
+      toast.error(`Error saving settings: ${error instanceof Error ? error.message : 'Network error'}`)
     } finally {
       setLoading(false)
     }
+  }
+
+  if (fetching) {
+    return (
+      <div className="flex justify-center items-center min-h-96">
+        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-orange-600"></div>
+      </div>
+    )
   }
 
   return (

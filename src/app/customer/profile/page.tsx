@@ -1,6 +1,6 @@
 "use client"
 
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { User, Mail, Phone, MapPin, Building, Save } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
@@ -8,20 +8,73 @@ import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Textarea } from '@/components/ui/textarea'
 import { useAuth } from '@/contexts/AuthContext'
+import { useApi } from '@/lib/api-client'
+
+interface ProfileData {
+  firstName?: string
+  lastName?: string
+  email?: string
+  phone?: string
+  businessName?: string
+  businessType?: string
+  city?: string
+  profile?: {
+    bio?: string
+  }
+}
 
 export default function CustomerProfile() {
   const { user } = useAuth()
+  const api = useApi()
   const [loading, setLoading] = useState(false)
+  const [fetching, setFetching] = useState(true)
   const [formData, setFormData] = useState({
-    firstName: user?.firstName || '',
-    lastName: user?.lastName || '',
-    email: user?.email || '',
-    phone: user?.phone || '',
-    businessName: user?.businessName || '',
-    businessType: user?.businessType || '',
-    city: user?.city || '',
+    firstName: '',
+    lastName: '',
+    email: '',
+    phone: '',
+    businessName: '',
+    businessType: '',
+    city: '',
     address: ''
   })
+
+  // Fetch profile data on component mount
+  useEffect(() => {
+    fetchProfile()
+  }, [])
+
+  const fetchProfile = async () => {
+    try {
+      console.log('Fetching profile data...')
+
+      const response = await api.get('/api/customer/profile')
+
+      if (response.data) {
+        console.log('Profile data received:', response.data)
+        const profile = (response.data as { profile: ProfileData }).profile
+
+        setFormData({
+          firstName: profile.firstName || '',
+          lastName: profile.lastName || '',
+          email: profile.email || '',
+          phone: profile.phone || '',
+          businessName: profile.businessName || '',
+          businessType: profile.businessType || '',
+          city: profile.city || '',
+          address: profile.profile?.bio || ''
+        })
+      } else {
+        console.error('Failed to load profile data:', response.error)
+        alert(`Failed to load profile: ${response.error || 'Unknown error'}`)
+      }
+    } catch (error) {
+      console.error('Error fetching profile:', error)
+      alert(`Error loading profile: ${error instanceof Error ? error.message : 'Network error'}`)
+    } finally {
+      setFetching(false)
+    }
+  }
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target
@@ -36,16 +89,42 @@ export default function CustomerProfile() {
     setLoading(true)
 
     try {
-      // Implement profile update API call
-      console.log('Updating profile:', formData)
-      // Simulate API call
-      await new Promise(resolve => setTimeout(resolve, 1000))
-      // Show success message
+      console.log('Updating profile...')
+
+      const response = await api.put('/api/customer/profile', {
+        firstName: formData.firstName,
+        lastName: formData.lastName,
+        phone: formData.phone,
+        businessName: formData.businessName,
+        businessType: formData.businessType,
+        city: formData.city,
+        profile: {
+          bio: formData.address,
+          updatedAt: new Date().toISOString()
+        }
+      })
+
+      if (response.data) {
+        console.log('Profile updated successfully:', response.data)
+        alert('Profile updated successfully!')
+      } else {
+        console.error('Failed to update profile:', response.error)
+        alert(`Failed to update profile: ${response.error || 'Unknown error'}`)
+      }
     } catch (error) {
       console.error('Error updating profile:', error)
+      alert(`Error updating profile: ${error instanceof Error ? error.message : 'Network error'}`)
     } finally {
       setLoading(false)
     }
+  }
+
+  if (fetching) {
+    return (
+      <div className="flex justify-center items-center min-h-96">
+        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-orange-600"></div>
+      </div>
+    )
   }
 
   return (

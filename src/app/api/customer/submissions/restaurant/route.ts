@@ -56,13 +56,17 @@ export async function POST(req: NextRequest) {
       views: 0
     }
 
-    // Handle image files
-    const images = formData.getAll('images') as File[]
-    const imageData = images.map(file => ({
-      name: file.name,
-      size: file.size,
-      type: file.type
-    }))
+    // Handle images from ImageUpload component (already uploaded to Cloudinary)
+    let imageData: Record<string, unknown>[] = []
+    try {
+      const imagesJson = formData.get('images') as string
+      if (imagesJson) {
+        imageData = JSON.parse(imagesJson)
+      }
+    } catch (error) {
+      console.error('Error parsing images:', error)
+      imageData = []
+    }
 
     const { db } = await connectToDatabase()
 
@@ -83,6 +87,94 @@ export async function POST(req: NextRequest) {
 
   } catch (error) {
     console.error('Restaurant submission error:', error)
+    return NextResponse.json(
+      { message: error instanceof Error ? error.message : 'Internal server error' },
+      { status: 500 }
+    )
+  }
+}
+
+export async function PUT(req: NextRequest) {
+  try {
+    const user = await getUserFromToken(req)
+    
+    if (user.role !== 'customer') {
+      return NextResponse.json(
+        { message: 'Unauthorized' },
+        { status: 403 }
+      )
+    }
+
+    // Extract submission ID from URL or body
+    const url = new URL(req.url)
+    const submissionId = url.pathname.split('/').pop()
+    
+    if (!submissionId) {
+      return NextResponse.json(
+        { message: 'Submission ID is required' },
+        { status: 400 }
+      )
+    }
+
+    const { db } = await connectToDatabase()
+    const objectId = new ObjectId(submissionId)
+
+    // Get current submission
+    const currentSubmission = await db.collection('submissions').findOne({
+      _id: objectId,
+      userId: new ObjectId(user.userId)
+    })
+
+    if (!currentSubmission) {
+      return NextResponse.json(
+        { message: 'Submission not found' },
+        { status: 404 }
+      )
+    }
+
+    // Only allow editing pending submissions
+    if (currentSubmission.status !== 'pending') {
+      return NextResponse.json(
+        { message: 'Only pending submissions can be edited' },
+        { status: 400 }
+      )
+    }
+
+    const formData = await req.formData()
+    
+    // Extract form fields and update submission data
+    const submissionData = { ...currentSubmission.submissionData }
+
+    for (const [key, value] of formData.entries()) {
+      if (key === 'images') {
+        // Handle images as JSON
+        submissionData[key] = JSON.parse(value as string)
+      } else if (['amenities', 'cuisineTypes', 'openingHours'].includes(key)) {
+        // Handle arrays/objects
+        submissionData[key] = JSON.parse(value as string)
+      } else {
+        submissionData[key] = value
+      }
+    }
+
+    const updateData: Record<string, unknown> = {
+      updatedAt: new Date(),
+      submissionData,
+      title: submissionData.name || submissionData.title || 'Untitled'
+    }
+
+    // Update the submission
+    await db.collection('submissions').updateOne(
+      { _id: objectId },
+      { $set: updateData }
+    )
+
+    return NextResponse.json({
+      message: 'Restaurant updated successfully'
+    })
+
+  } catch (error) {
+    console.error('Restaurant update error:', error)
     return NextResponse.json(
       { message: error instanceof Error ? error.message : 'Internal server error' },
       { status: 500 }

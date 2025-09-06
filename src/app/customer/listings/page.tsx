@@ -132,6 +132,43 @@ export default function CustomerListings() {
     }
   }
 
+  const handleView = (submission: Submission) => {
+    // For now, we'll show an alert with submission details
+    // In a real app, this might open a modal or navigate to a detail page
+    alert(`Viewing: ${submission.title}
+Type: ${submission.type}
+Status: ${submission.status}
+Created: ${new Date(submission.createdAt).toLocaleDateString()}`)
+  }
+
+  const handleEdit = (submission: Submission) => {
+    // Navigate to the appropriate edit page based on submission type
+    const editUrl = `/customer/create/${submission.type}?edit=${submission.id}`
+    window.location.href = editUrl
+  }
+
+  const handleDelete = async (submission: Submission) => {
+    if (!confirm(`Are you sure you want to delete "${submission.title}"? This action cannot be undone.`)) {
+      return
+    }
+
+    try {
+      const result = await api.delete(`/api/customer/submissions/${submission.id}`)
+
+      if (result.error) {
+        alert('Failed to delete submission: ' + (typeof result.error === 'string' ? result.error : 'Unknown error'))
+        return
+      }
+
+      // Refresh the submissions list
+      await fetchSubmissions()
+      alert('Submission deleted successfully')
+    } catch (error) {
+      console.error('Delete error:', error)
+      alert('Failed to delete submission')
+    }
+  }
+
   const filteredSubmissions = submissions.filter(submission =>
     submission.title.toLowerCase().includes(searchTerm.toLowerCase())
   )
@@ -301,13 +338,13 @@ export default function CustomerListings() {
                       </Badge>
 
                       <div className="flex space-x-2">
-                        <Button size="sm" variant="outline">
+                        <Button size="sm" variant="outline" onClick={() => handleView(submission)}>
                           <Eye className="w-4 h-4" />
                         </Button>
-                        <Button size="sm" variant="outline">
+                        <Button size="sm" variant="outline" onClick={() => handleEdit(submission)}>
                           <Edit className="w-4 h-4" />
                         </Button>
-                        <Button size="sm" variant="outline" className="text-red-600 hover:text-red-700">
+                        <Button size="sm" variant="outline" className="text-red-600 hover:text-red-700" onClick={() => handleDelete(submission)}>
                           <Trash2 className="w-4 h-4" />
                         </Button>
                       </div>

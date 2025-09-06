@@ -22,7 +22,7 @@ async function getUserFromToken(req: NextRequest): Promise<{ userId: string; rol
 export async function POST(req: NextRequest) {
   try {
     const user = await getUserFromToken(req)
-    
+
     if (user.role !== 'customer') {
       return NextResponse.json(
         { message: 'Unauthorized' },
@@ -31,28 +31,27 @@ export async function POST(req: NextRequest) {
     }
 
     const formData = await req.formData()
-    
+
     // Extract form fields
-    const hotelData = {
+    const promotionData = {
       userId: ObjectId.createFromHexString(user.userId),
-      type: 'hotel',
-      name: formData.get('name') as string,
+      type: 'promotion',
+      title: formData.get('title') as string,
       description: formData.get('description') as string,
+      discountType: formData.get('discountType') as string,
+      discountValue: formData.get('discountValue') ? parseFloat(formData.get('discountValue') as string) : 0,
+      originalPrice: formData.get('originalPrice') ? parseFloat(formData.get('originalPrice') as string) : null,
+      discountedPrice: formData.get('discountedPrice') ? parseFloat(formData.get('discountedPrice') as string) : null,
+      startDate: formData.get('startDate') as string,
+      endDate: formData.get('endDate') as string,
+      terms: formData.get('terms') as string,
+      businessName: formData.get('businessName') as string,
+      businessType: formData.get('businessType') as string,
+      contactEmail: formData.get('contactEmail') as string,
+      contactPhone: formData.get('contactPhone') as string,
+      website: formData.get('website') as string,
       address: formData.get('address') as string,
       city: formData.get('city') as string,
-      state: formData.get('state') as string,
-      pincode: formData.get('pincode') as string,
-      phone: formData.get('phone') as string,
-      email: formData.get('email') as string,
-      website: formData.get('website') as string,
-      starRating: parseInt(formData.get('starRating') as string),
-      priceRange: formData.get('priceRange') as string,
-      amenities: JSON.parse(formData.get('amenities') as string),
-      roomTypes: JSON.parse(formData.get('roomTypes') as string),
-      checkInTime: formData.get('checkInTime') as string,
-      checkOutTime: formData.get('checkOutTime') as string,
-      policies: formData.get('policies') as string,
-      nearbyAttractions: formData.get('nearbyAttractions') as string,
       status: 'pending',
       createdAt: new Date(),
       updatedAt: new Date(),
@@ -75,21 +74,21 @@ export async function POST(req: NextRequest) {
 
     // Create submission
     const submission = {
-      ...hotelData,
-      title: hotelData.name,
+      ...promotionData,
+      title: promotionData.title,
       images: imageData,
-      submissionData: hotelData
+      submissionData: promotionData
     }
 
     const result = await db.collection('submissions').insertOne(submission)
 
     return NextResponse.json({
-      message: 'Hotel submission created successfully',
+      message: 'Promotion submission created successfully',
       submissionId: result.insertedId
     }, { status: 201 })
 
   } catch (error) {
-    console.error('Hotel submission error:', error)
+    console.error('Promotion submission error:', error)
     return NextResponse.json(
       { message: error instanceof Error ? error.message : 'Internal server error' },
       { status: 500 }
