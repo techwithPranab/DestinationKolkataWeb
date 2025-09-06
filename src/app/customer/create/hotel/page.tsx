@@ -12,6 +12,8 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Textarea } from '@/components/ui/textarea'
+import ImageUpload from '@/components/shared/ImageUpload'
+import { getCloudinaryFolder, generateSlug } from '@/lib/cloudinary-utils'
 
 interface HotelFormData {
   name: string
@@ -27,7 +29,7 @@ interface HotelFormData {
   priceRange: string
   amenities: string[]
   roomTypes: string[]
-  images: File[]
+  images: { url: string; alt?: string; isPrimary?: boolean }[]
   checkInTime: string
   checkOutTime: string
   policies: string
@@ -123,15 +125,6 @@ export default function CreateHotelPage() {
     }))
   }
 
-  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files) {
-      setFormData(prev => ({
-        ...prev,
-        images: Array.from(e.target.files || [])
-      }))
-    }
-  }
-
   const validateForm = () => {
     if (!formData.name.trim()) {
       setError('Hotel name is required')
@@ -173,15 +166,14 @@ export default function CreateHotelPage() {
     setLoading(true)
 
     try {
-      // Create form data for file upload
+      // Create form data for submission
       const submitData = new FormData()
       
       // Add all form fields
       Object.entries(formData).forEach(([key, value]) => {
         if (key === 'images') {
-          formData.images.forEach(file => {
-            submitData.append('images', file)
-          })
+          // Send images as JSON string since they're already uploaded to Cloudinary
+          submitData.append(key, JSON.stringify(value))
         } else if (Array.isArray(value)) {
           submitData.append(key, JSON.stringify(value))
         } else {
@@ -517,34 +509,13 @@ export default function CreateHotelPage() {
             <CardTitle>Hotel Images</CardTitle>
           </CardHeader>
           <CardContent>
-            <div>
-              <Label htmlFor="images">Upload Images (Max 10 images)</Label>
-              <Input
-                id="images"
-                name="images"
-                type="file"
-                multiple
-                accept="image/*"
-                onChange={handleImageChange}
-                className="file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-orange-50 file:text-orange-700 hover:file:bg-orange-100"
-              />
-              <p className="text-sm text-gray-500 mt-1">
-                Upload high-quality images of your hotel (exterior, rooms, amenities, etc.)
-              </p>
-            </div>
-
-            {formData.images.length > 0 && (
-              <div className="mt-4">
-                <p className="text-sm text-gray-600 mb-2">
-                  Selected files: {formData.images.length}
-                </p>
-                <div className="text-xs text-gray-500">
-                  {formData.images.map((file) => (
-                    <div key={file.name}>{file.name}</div>
-                  ))}
-                </div>
-              </div>
-            )}
+            <ImageUpload
+              images={formData.images}
+              onImagesChange={(images) => setFormData({ ...formData, images })}
+              maxImages={10}
+              folder={getCloudinaryFolder('hotels')}
+              subfolder={formData.name ? generateSlug(formData.name) : 'unnamed-hotel'}
+            />
           </CardContent>
         </Card>
 

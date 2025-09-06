@@ -28,6 +28,8 @@ import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Textarea } from '@/components/ui/textarea'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
+import ImageUpload from '@/components/shared/ImageUpload'
+import { getCloudinaryFolder, generateSlug } from '@/lib/cloudinary-utils'
 
 interface SportsFacility {
   _id: string
@@ -61,7 +63,11 @@ interface SportsFacility {
     count: number
   }
   reviews: number
-  images: string[]
+  images: {
+    url: string
+    alt?: string
+    isPrimary?: boolean
+  }[]
   status: 'active' | 'inactive' | 'pending'
   createdAt: string
   updatedAt: string
@@ -117,7 +123,7 @@ export default function SportsAdmin() {
     closeTime: '',
     closedDays: [] as string[],
     facilities: [] as string[],
-    images: [] as string[]
+    images: [] as { url: string; alt?: string; isPrimary?: boolean }[]
   })
 
   const fetchFacilities = useCallback(async (page = 1) => {
@@ -248,7 +254,9 @@ export default function SportsAdmin() {
       closeTime: facility.operatingHours?.closeTime || '',
       closedDays: facility.operatingHours?.closedDays || [],
       facilities: facility.facilities || [],
-      images: facility.images || []
+      images: facility.images ? facility.images.map(img => 
+        typeof img === 'string' ? { url: img, alt: facility.name } : img
+      ) : []
     })
     setIsAddModalOpen(true)
   }
@@ -532,21 +540,14 @@ export default function SportsAdmin() {
               </div>
 
               <div>
-                <Label>Facilities</Label>
-                <div className="grid grid-cols-3 gap-2 mt-2">
-                  {sportFacilities.map((facility) => (
-                    <div key={facility} className="flex items-center space-x-2">
-                      <input
-                        type="checkbox"
-                        id={facility}
-                        checked={formData.facilities.includes(facility)}
-                        onChange={() => handleFacilityToggle(facility)}
-                        className="rounded"
-                      />
-                      <Label htmlFor={facility} className="text-sm">{facility}</Label>
-                    </div>
-                  ))}
-                </div>
+                <Label>Sports Facility Images</Label>
+                <ImageUpload
+                  images={formData.images}
+                  onImagesChange={(images) => setFormData({ ...formData, images })}
+                  maxImages={10}
+                  folder={getCloudinaryFolder('sports')}
+                  subfolder={formData.name ? generateSlug(formData.name) : 'unnamed-sports-facility'}
+                />
               </div>
 
               <div className="flex justify-end space-x-2">
@@ -754,7 +755,7 @@ export default function SportsAdmin() {
                               {facility.images && facility.images.length > 0 ? (
                                 <img
                                   className="h-10 w-10 rounded-full object-cover"
-                                  src={facility.images[0]}
+                                  src={typeof facility.images[0] === 'string' ? facility.images[0] : facility.images[0].url}
                                   alt={facility.name}
                                 />
                               ) : (

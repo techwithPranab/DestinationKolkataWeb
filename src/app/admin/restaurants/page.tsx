@@ -27,6 +27,8 @@ import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Textarea } from '@/components/ui/textarea'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
+import ImageUpload from '@/components/shared/ImageUpload'
+import { getCloudinaryFolder, generateSlug } from '@/lib/cloudinary-utils'
 
 interface Restaurant {
   _id: string
@@ -101,7 +103,7 @@ export default function RestaurantsAdmin() {
     openTime: '',
     closeTime: '',
     features: [] as string[],
-    images: [] as string[]
+    images: [] as { url: string; alt?: string; isPrimary?: boolean }[]
   })
 
   const fetchRestaurants = useCallback(async (page = 1) => {
@@ -161,7 +163,7 @@ export default function RestaurantsAdmin() {
         close: formData.closeTime
       },
       features: formData.features,
-      images: formData.images,
+      images: formData.images.map(img => img.url),
       status: 'active'
     }
 
@@ -220,7 +222,11 @@ export default function RestaurantsAdmin() {
       openTime: restaurant.openHours?.open || '',
       closeTime: restaurant.openHours?.close || '',
       features: restaurant.features || [],
-      images: restaurant.images || []
+      images: restaurant.images ? restaurant.images.map((url, index) => ({
+        url,
+        alt: `Restaurant image ${index + 1}`,
+        isPrimary: index === 0
+      })) : []
     })
     setIsAddModalOpen(true)
   }
@@ -432,6 +438,17 @@ export default function RestaurantsAdmin() {
                     </div>
                   ))}
                 </div>
+              </div>
+
+              <div>
+                <Label>Restaurant Images</Label>
+                <ImageUpload
+                  images={formData.images}
+                  onImagesChange={(images) => setFormData({ ...formData, images })}
+                  maxImages={10}
+                  folder={getCloudinaryFolder('restaurants')}
+                  subfolder={formData.name ? generateSlug(formData.name) : 'unnamed-restaurant'}
+                />
               </div>
 
               <div className="flex justify-end space-x-2">

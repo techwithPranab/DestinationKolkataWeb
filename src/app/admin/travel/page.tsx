@@ -32,6 +32,8 @@ import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Textarea } from '@/components/ui/textarea'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
+import ImageUpload from '@/components/shared/ImageUpload'
+import { getCloudinaryFolder, generateSlug } from '@/lib/cloudinary-utils'
 
 interface TravelService {
   _id: string
@@ -71,7 +73,11 @@ interface TravelService {
     average: number
     count: number
   }
-  images: string[]
+  images: {
+    url: string
+    alt?: string
+    isPrimary?: boolean
+  }[]
   status: 'active' | 'inactive' | 'pending'
   createdAt: string
   updatedAt: string
@@ -128,7 +134,11 @@ export default function TravelAdmin() {
     capacity: 0,
     inclusions: [] as string[],
     exclusions: [] as string[],
-    images: [] as string[]
+    images: [] as {
+      url: string
+      alt?: string
+      isPrimary?: boolean
+    }[]
   })
 
   const fetchServices = useCallback(async (page = 1) => {
@@ -262,7 +272,7 @@ export default function TravelAdmin() {
       capacity: service.capacity || 0,
       inclusions: service.inclusions || [],
       exclusions: service.exclusions || [],
-      images: service.images || []
+      images: service.images ? service.images.map(img => typeof img === 'string' ? { url: img, alt: service.name } : img) : []
     })
     setIsAddModalOpen(true)
   }
@@ -286,7 +296,11 @@ export default function TravelAdmin() {
       capacity: 0,
       inclusions: [],
       exclusions: [],
-      images: []
+      images: [] as {
+        url: string
+        alt?: string
+        isPrimary?: boolean
+      }[]
     })
   }
 
@@ -593,6 +607,16 @@ export default function TravelAdmin() {
                 </div>
               </div>
 
+              <div>
+                <Label>Images</Label>
+                <ImageUpload
+                  images={formData.images}
+                  onImagesChange={(images) => setFormData({ ...formData, images })}
+                  folder={getCloudinaryFolder('general')}
+                  subfolder={formData.name ? generateSlug(formData.name) : 'unnamed-service'}
+                />
+              </div>
+
               <div className="flex justify-end space-x-2">
                 <Button type="button" variant="outline" onClick={() => setIsAddModalOpen(false)}>
                   Cancel
@@ -798,7 +822,7 @@ export default function TravelAdmin() {
                               {service.images && service.images.length > 0 ? (
                                 <img
                                   className="h-10 w-10 rounded-full object-cover"
-                                  src={service.images[0]}
+                                  src={typeof service.images[0] === 'string' ? service.images[0] : service.images[0].url}
                                   alt={service.name}
                                 />
                               ) : (

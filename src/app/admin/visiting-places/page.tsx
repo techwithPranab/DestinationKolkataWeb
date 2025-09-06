@@ -28,6 +28,8 @@ import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Textarea } from '@/components/ui/textarea'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
+import ImageUpload from '@/components/shared/ImageUpload'
+import { getCloudinaryFolder, generateSlug } from '@/lib/cloudinary-utils'
 
 interface VisitingPlace {
   _id: string
@@ -60,7 +62,11 @@ interface VisitingPlace {
   reviews: number
   features: string[]
   bestTimeToVisit: string[]
-  images: string[]
+  images: {
+    url: string
+    alt?: string
+    isPrimary?: boolean
+  }[]
   status: 'active' | 'inactive' | 'pending'
   createdAt: string
   updatedAt: string
@@ -113,7 +119,7 @@ export default function VisitingPlacesAdmin() {
     closedDays: [] as string[],
     features: [] as string[],
     bestTimeToVisit: [] as string[],
-    images: [] as string[]
+    images: [] as { url: string; alt?: string; isPrimary?: boolean }[]
   })
 
   const fetchPlaces = useCallback(async (page = 1) => {
@@ -242,7 +248,9 @@ export default function VisitingPlacesAdmin() {
       closedDays: place.timings.closedDays,
       features: place.features,
       bestTimeToVisit: place.bestTimeToVisit,
-      images: place.images
+      images: place.images ? place.images.map(img => 
+        typeof img === 'string' ? { url: img, alt: place.name } : img
+      ) : []
     })
     setIsAddModalOpen(true)
   }
@@ -522,21 +530,14 @@ export default function VisitingPlacesAdmin() {
               </div>
 
               <div>
-                <Label>Best Time to Visit</Label>
-                <div className="grid grid-cols-3 gap-2 mt-2">
-                  {bestTimeOptions.map((time) => (
-                    <div key={time} className="flex items-center space-x-2">
-                      <input
-                        type="checkbox"
-                        id={time}
-                        checked={formData.bestTimeToVisit.includes(time)}
-                        onChange={() => handleBestTimeToggle(time)}
-                        className="rounded"
-                      />
-                      <Label htmlFor={time} className="text-sm">{time}</Label>
-                    </div>
-                  ))}
-                </div>
+                <Label>Visiting Place Images</Label>
+                <ImageUpload
+                  images={formData.images}
+                  onImagesChange={(images) => setFormData({ ...formData, images })}
+                  maxImages={10}
+                  folder={getCloudinaryFolder('attractions')}
+                  subfolder={formData.name ? generateSlug(formData.name) : 'unnamed-place'}
+                />
               </div>
 
               <div className="flex justify-end space-x-2">
@@ -744,7 +745,7 @@ export default function VisitingPlacesAdmin() {
                               {place.images && place.images.length > 0 ? (
                                 <img
                                   className="h-10 w-10 rounded-full object-cover"
-                                  src={place.images[0]}
+                                  src={typeof place.images[0] === 'string' ? place.images[0] : place.images[0].url}
                                   alt={place.name}
                                 />
                               ) : (

@@ -67,6 +67,22 @@ export async function PUT(
     const { id } = await params
     const body = await request.json()
 
+    // Transform images field to handle both legacy string arrays and new object arrays
+    if (body.images) {
+      if (Array.isArray(body.images)) {
+        body.images = body.images.map((img: string | { url: string; alt?: string; isPrimary?: boolean }) => {
+          if (typeof img === 'string') {
+            // Convert legacy string format to object format
+            return { url: img, alt: '', isPrimary: false }
+          }
+          return img // Already in correct object format
+        })
+      } else if (typeof body.images === 'string') {
+        // Handle single string case
+        body.images = [{ url: body.images, alt: '', isPrimary: false }]
+      }
+    }
+
     // Find attraction by ObjectId or slug
     let attraction;
     if (ObjectId.isValid(id)) {

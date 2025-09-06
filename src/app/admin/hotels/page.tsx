@@ -27,6 +27,8 @@ import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Textarea } from '@/components/ui/textarea'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
+import ImageUpload from '@/components/shared/ImageUpload'
+import { getCloudinaryFolder, generateSlug } from '@/lib/cloudinary-utils'
 
 type HotelStatus = 'active' | 'inactive' | 'pending' | 'rejected'
 
@@ -393,7 +395,7 @@ export default function HotelsAdmin() {
               Add Hotel
             </Button>
           </DialogTrigger>
-          <DialogContent className="max-w-3xl max-h-[90vh] overflow-y-auto">
+          <DialogContent className="max-w-3xl max-h-[90vh] overflow-y-auto bg-white">
             <DialogHeader>
               <DialogTitle>
                 {editingHotel ? 'Edit Hotel' : 'Add New Hotel'}
@@ -687,6 +689,17 @@ export default function HotelsAdmin() {
                     </div>
                   ))}
                 </div>
+              </div>
+
+              <div>
+                <Label>Hotel Images</Label>
+                <ImageUpload
+                  images={formData.images}
+                  onImagesChange={(images) => setFormData({ ...formData, images })}
+                  maxImages={10}
+                  folder={getCloudinaryFolder('hotels')}
+                  subfolder={formData.name ? generateSlug(formData.name) : 'unnamed-hotel'}
+                />
               </div>
 
               <div className="grid grid-cols-2 gap-4">

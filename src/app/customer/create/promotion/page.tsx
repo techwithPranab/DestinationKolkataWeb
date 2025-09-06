@@ -8,6 +8,8 @@ import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Textarea } from '@/components/ui/textarea'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
+import ImageUpload from '@/components/shared/ImageUpload'
+import { getCloudinaryFolder, generateSlug } from '@/lib/cloudinary-utils'
 
 export default function CreatePromotion() {
   const [formData, setFormData] = useState({
@@ -26,7 +28,8 @@ export default function CreatePromotion() {
     endDate: '',
     terms: '',
     contactEmail: '',
-    contactPhone: ''
+    contactPhone: '',
+    images: [] as { url: string; alt?: string; isPrimary?: boolean }[]
   })
 
   const [loading, setLoading] = useState(false)
@@ -51,6 +54,19 @@ export default function CreatePromotion() {
     setLoading(true)
 
     try {
+      const submitData = new FormData()
+      
+      Object.entries(formData).forEach(([key, value]) => {
+        if (key === 'images') {
+          // Send images as JSON string since they're already uploaded to Cloudinary
+          submitData.append(key, JSON.stringify(value))
+        } else if (Array.isArray(value)) {
+          submitData.append(key, JSON.stringify(value))
+        } else {
+          submitData.append(key, value.toString())
+        }
+      })
+
       // Implement promotion creation API
       console.log('Creating promotion:', formData)
       await new Promise(resolve => setTimeout(resolve, 1000))
@@ -324,6 +340,22 @@ export default function CreatePromotion() {
                 />
               </div>
             </div>
+          </CardContent>
+        </Card>
+
+        {/* Images */}
+        <Card>
+          <CardHeader>
+            <CardTitle>Promotion Images</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <ImageUpload
+              images={formData.images}
+              onImagesChange={(images) => setFormData({ ...formData, images })}
+              maxImages={10}
+              folder={getCloudinaryFolder('general')}
+              subfolder={formData.title ? generateSlug(formData.title) : 'unnamed-promotion'}
+            />
           </CardContent>
         </Card>
 

@@ -30,6 +30,8 @@ import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Textarea } from '@/components/ui/textarea'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
+import ImageUpload from '@/components/shared/ImageUpload'
+import { getCloudinaryFolder, generateSlug } from '@/lib/cloudinary-utils'
 
 interface Event {
   _id: string
@@ -68,7 +70,11 @@ interface Event {
     count: number
   }
   reviews: number
-  images: string[]
+  images: {
+    url: string
+    alt?: string
+    isPrimary?: boolean
+  }[]
   status: 'active' | 'inactive' | 'pending' | 'completed' | 'cancelled'
   createdAt: string
   updatedAt: string
@@ -125,7 +131,7 @@ export default function EventsAdmin() {
     features: [] as string[],
     performers: [] as string[],
     organizers: [] as string[],
-    images: [] as string[]
+    images: [] as { url: string; alt?: string; isPrimary?: boolean }[]
   })
 
   const fetchEvents = useCallback(async (page = 1) => {
@@ -269,7 +275,9 @@ export default function EventsAdmin() {
       features: event.features || [],
       performers: event.performers || [],
       organizers: event.organizers || [],
-      images: event.images || []
+      images: event.images ? event.images.map(img => 
+        typeof img === 'string' ? { url: img, alt: event.name } : img
+      ) : []
     })
     setIsAddModalOpen(true)
   }
@@ -596,21 +604,14 @@ export default function EventsAdmin() {
               </div>
 
               <div>
-                <Label>Features</Label>
-                <div className="grid grid-cols-3 gap-2 mt-2">
-                  {eventFeatures.map((feature) => (
-                    <div key={feature} className="flex items-center space-x-2">
-                      <input
-                        type="checkbox"
-                        id={feature}
-                        checked={formData.features.includes(feature)}
-                        onChange={() => handleFeatureToggle(feature)}
-                        className="rounded"
-                      />
-                      <Label htmlFor={feature} className="text-sm">{feature}</Label>
-                    </div>
-                  ))}
-                </div>
+                <Label>Event Images</Label>
+                <ImageUpload
+                  images={formData.images}
+                  onImagesChange={(images) => setFormData({ ...formData, images })}
+                  maxImages={10}
+                  folder={getCloudinaryFolder('events')}
+                  subfolder={formData.name ? generateSlug(formData.name) : 'unnamed-event'}
+                />
               </div>
 
               <div className="flex justify-end space-x-2">
@@ -826,7 +827,7 @@ export default function EventsAdmin() {
                               {event.images && event.images.length > 0 ? (
                                 <img
                                   className="h-10 w-10 rounded-full object-cover"
-                                  src={event.images[0]}
+                                  src={typeof event.images[0] === 'string' ? event.images[0] : event.images[0].url}
                                   alt={event.name}
                                 />
                               ) : (
