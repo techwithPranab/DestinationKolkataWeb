@@ -48,18 +48,24 @@ async function connectDB(): Promise<mongoose.Connection> {
   }
   if (!cached.promise) {
     const opts = {
-      bufferCommands: false,
+      bufferCommands: false, // Disable buffering to fail fast
       maxPoolSize: 10,
-      serverSelectionTimeoutMS: 10000, // Increased from 5000 to 10000ms
+      serverSelectionTimeoutMS: 15000, // Increased from 10000 to 15000ms
       socketTimeoutMS: 60000, // Increased from 45000 to 60000ms
-      connectTimeoutMS: 10000,
+      connectTimeoutMS: 15000, // Increased from 10000 to 15000ms
       family: 4,
       maxIdleTimeMS: 30000,
       retryWrites: true,
       retryReads: true
     }
     cached.promise = mongoose.connect(MONGODB_URI, opts).then((mongoose) => {
-      console.log('Successfully connected to MongoDB')
+      console.log('✅ Successfully connected to MongoDB')
+      console.log('📊 MongoDB connection details:', {
+        host: mongoose.connection.host,
+        port: mongoose.connection.port,
+        name: mongoose.connection.name,
+        readyState: mongoose.connection.readyState
+      })
       return mongoose.connection
     })
   }
@@ -87,7 +93,7 @@ export async function connectToDatabase(): Promise<{ client: MongoClient; db: Db
   }
 
   if (!clientCached.promise) {
-    clientCached.promise ??= MongoClient.connect(MONGODB_URI)
+    clientCached.promise = MongoClient.connect(MONGODB_URI)
   }
 
   try {

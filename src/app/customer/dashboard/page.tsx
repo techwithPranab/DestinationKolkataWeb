@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
+import { useSession } from 'next-auth/react'
 import { 
   Plus, 
   Hotel, 
@@ -46,10 +47,14 @@ interface Submission {
 
 export default function CustomerDashboard() {
   const { user } = useAuth()
+  const { data: session } = useSession()
   const api = useApi()
   const [stats, setStats] = useState<UserStats | null>(null)
   const [submissions, setSubmissions] = useState<Submission[]>([])
   const [loading, setLoading] = useState(true)
+
+  // Get user info from either AuthContext (form login) or NextAuth session (OAuth)
+  const displayName = user?.firstName || session?.user?.name?.split(' ')[0] || 'User'
 
   useEffect(() => {
     fetchDashboardData()
@@ -141,7 +146,7 @@ export default function CustomerDashboard() {
           <div className="flex justify-between items-center">
             <div>
               <h1 className="text-3xl font-bold text-gray-900">
-                Welcome back, {user?.firstName}!
+                Welcome back, {displayName}!
               </h1>
               <p className="text-gray-600 mt-1">Manage your listings and track performance</p>
             </div>

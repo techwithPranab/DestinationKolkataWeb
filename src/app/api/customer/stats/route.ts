@@ -1,28 +1,11 @@
 import { NextRequest, NextResponse } from 'next/server'
-import jwt from 'jsonwebtoken'
 import { connectToDatabase } from '@/lib/mongodb'
 import { ObjectId } from 'mongodb'
-
-async function getUserFromToken(req: NextRequest): Promise<{ userId: string; role: string; email: string }> {
-  const token = req.headers.get('authorization')?.replace('Bearer ', '') || 
-                req.cookies.get('authToken')?.value
-
-  if (!token) {
-    throw new Error('No token provided')
-  }
-
-  try {
-    const decoded = jwt.verify(token, process.env.JWT_SECRET || 'your-secret-key') as { userId: string; role: string; email: string }
-    return decoded
-  } catch (error) {
-    console.error('Token verification failed:', error)
-    throw new Error('Invalid token')
-  }
-}
+import { getAuthenticatedUser } from '@/lib/auth-helper'
 
 export async function GET(req: NextRequest) {
   try {
-    const user = await getUserFromToken(req)
+    const user = await getAuthenticatedUser(req)
     
     if (user.role !== 'customer') {
       return NextResponse.json(

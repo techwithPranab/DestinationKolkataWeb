@@ -3,6 +3,7 @@
 import React from 'react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
+import { useSession } from 'next-auth/react'
 import {
   LayoutDashboard,
   Plus,
@@ -27,6 +28,13 @@ interface CustomerSidebarProps {
 export default function CustomerSidebar({ className = '' }: CustomerSidebarProps) {
   const pathname = usePathname()
   const { user, logout } = useAuth()
+  const { data: session } = useSession()
+
+  // Get user info from either AuthContext (form login) or NextAuth session (OAuth)
+  const displayName = user?.firstName 
+    ? `${user.firstName} ${user.lastName || ''}`.trim()
+    : session?.user?.name || 'User'
+  const displayEmail = user?.email || session?.user?.email || 'user@example.com'
 
   const navigationItems = [
     {
@@ -100,19 +108,19 @@ export default function CustomerSidebar({ className = '' }: CustomerSidebarProps
           </div>
           <div className="flex-1 min-w-0">
             <p className="text-sm font-medium text-gray-900 truncate">
-              {user?.firstName} {user?.lastName}
+              {displayName}
             </p>
-            <p className="text-xs text-gray-500 truncate">{user?.email}</p>
+            <p className="text-xs text-gray-500 truncate">{displayEmail}</p>
           </div>
         </div>
       </div>
 
       {/* Navigation */}
       <nav className="flex-1 px-4 py-6 space-y-2 overflow-y-auto">
-        {navigationItems.map((item) => (
-          <div key={item.name}>
-            {item.children ? (
-              <div className="space-y-1">
+        {navigationItems.map((item) => {
+          if (item.children) {
+            return (
+              <div key={item.name} className="space-y-1">
                 <div className="flex items-center px-3 py-2 text-sm font-medium text-gray-600 rounded-md">
                   <item.icon className="w-5 h-5 mr-3" />
                   {item.name}
@@ -134,8 +142,13 @@ export default function CustomerSidebar({ className = '' }: CustomerSidebarProps
                   ))}
                 </div>
               </div>
-            ) : item.isLogout ? (
+            )
+          }
+
+          if (item.isLogout) {
+            return (
               <Button
+                key={item.name}
                 onClick={handleLogout}
                 variant="ghost"
                 className="w-full justify-start px-3 py-2 text-sm font-medium text-gray-600 hover:bg-gray-100 hover:text-gray-900 rounded-md"
@@ -143,21 +156,24 @@ export default function CustomerSidebar({ className = '' }: CustomerSidebarProps
                 <item.icon className="w-5 h-5 mr-3" />
                 {item.name}
               </Button>
-            ) : (
-              <Link
-                href={item.href}
-                className={`flex items-center px-3 py-2 text-sm font-medium rounded-md transition-colors ${
-                  item.current
-                    ? 'bg-orange-100 text-orange-700'
-                    : 'text-gray-600 hover:bg-gray-100 hover:text-gray-900'
-                }`}
-              >
-                <item.icon className="w-5 h-5 mr-3" />
-                {item.name}
-              </Link>
-            )}
-          </div>
-        ))}
+            )
+          }
+
+          return (
+            <Link
+              key={item.name}
+              href={item.href}
+              className={`flex items-center px-3 py-2 text-sm font-medium rounded-md transition-colors ${
+                item.current
+                  ? 'bg-orange-100 text-orange-700'
+                  : 'text-gray-600 hover:bg-gray-100 hover:text-gray-900'
+              }`}
+            >
+              <item.icon className="w-5 h-5 mr-3" />
+              {item.name}
+            </Link>
+          )
+        })}
       </nav>
     </div>
   )

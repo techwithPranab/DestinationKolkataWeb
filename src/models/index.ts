@@ -307,8 +307,10 @@ export interface IUser extends Document {
   lastName?: string
   name?: string
   email: string
-  password: string
+  password?: string
   role: string
+  provider?: string
+  providerId?: string
   profile?: object
   preferences?: object
   resetToken?: string
@@ -328,12 +330,14 @@ const userSchema = new Schema({
   lastName: { type: String, trim: true },
   name: { type: String, trim: true }, // For backward compatibility
   email: { type: String, required: true, unique: true, lowercase: true },
-  password: { type: String, required: true },
+  password: { type: String }, // Made optional for OAuth users
   role: {
     type: String,
     enum: ['user', 'business', 'admin', 'moderator', 'customer'],
-    default: 'user'
+    default: 'customer'
   },
+  provider: { type: String, enum: ['google', 'facebook', 'local'] },
+  providerId: { type: String },
   phone: String,
   businessName: String,
   businessType: String,

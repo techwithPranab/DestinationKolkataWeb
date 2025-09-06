@@ -139,8 +139,8 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
     logout()
   }
 
-  // Don't show admin layout for login page
-  if (pathname === '/admin/login') {
+  // Don't show admin layout for login, forgot password, and reset password pages
+  if (pathname === '/admin/login' || pathname === '/admin/forgot-password' || pathname === '/admin/reset-password') {
     return <>{children}</>
   }
 

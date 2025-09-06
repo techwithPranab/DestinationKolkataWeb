@@ -2,6 +2,7 @@
 
 import React, { createContext, useContext, useState, useEffect, ReactNode, useMemo } from 'react'
 import { useRouter } from 'next/navigation'
+import { useSession, signOut } from 'next-auth/react'
 
 interface User {
   id: string
@@ -44,9 +45,22 @@ export function AuthProvider({ children }: AuthProviderProps) {
   const [user, setUser] = useState<User | null>(null)
   const [isLoading, setIsLoading] = useState(true)
   const router = useRouter()
+  const { data: session, status } = useSession()
 
   useEffect(() => {
-    // Check if user is already logged in
+    // If NextAuth session is still loading, keep loading state
+    if (status === 'loading') {
+      return
+    }
+
+    // For OAuth logins, let NextAuth handle the session
+    if (status === 'authenticated' && session?.user) {
+      // Don't set user in AuthContext for OAuth - let NextAuth handle it
+      setIsLoading(false)
+      return
+    }
+
+    // Check if user is already logged in via localStorage (for form login)
     const token = localStorage.getItem('authToken') || localStorage.getItem('adminToken')
     const userData = localStorage.getItem('authUser') || localStorage.getItem('adminUser')
 
@@ -54,6 +68,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
       try {
         const parsedUser = JSON.parse(userData)
         setUser(parsedUser)
+        setIsLoading(false)
       } catch (error) {
         console.error('Error parsing user data:', error)
         // Invalid user data, clear storage
@@ -61,14 +76,16 @@ export function AuthProvider({ children }: AuthProviderProps) {
         localStorage.removeItem('authUser')
         localStorage.removeItem('adminToken')
         localStorage.removeItem('adminUser')
+        setIsLoading(false)
       }
+    } else {
+      // No authentication found
+      setIsLoading(false)
     }
-
-    setIsLoading(false)
-  }, [])
+  }, [session, status])
 
   const login = (user: User, token: string) => {
-    // Store authentication data
+    // Store authentication data first
     if (user.role === 'admin' || user.role === 'moderator') {
       localStorage.setItem('adminToken', token)
       localStorage.setItem('adminUser', JSON.stringify(user))
@@ -77,14 +94,15 @@ export function AuthProvider({ children }: AuthProviderProps) {
       localStorage.setItem('authUser', JSON.stringify(user))
     }
 
+    // Update state
     setUser(user)
-
-    // Redirect after login
-    if (user.role === 'admin' || user.role === 'moderator') {
-      router.push('/admin')
-    } else {
-      router.push('/customer')
-    }
+    
+    // Navigate after a brief delay to ensure state propagation
+    const targetPath = (user.role === 'admin' || user.role === 'moderator') ? '/admin' : '/customer/dashboard'
+    
+    setTimeout(() => {
+      router.push(targetPath)
+    }, 100)
   }
 
   const logout = () => {
@@ -94,12 +112,8 @@ export function AuthProvider({ children }: AuthProviderProps) {
     localStorage.removeItem('adminUser')
     setUser(null)
     
-    // Redirect based on current location
-    if (window.location.pathname.startsWith('/admin')) {
-      router.push('/admin/login')
-    } else {
-      router.push('/auth/login')
-    }
+    // Sign out from NextAuth as well
+    signOut({ callbackUrl: window.location.pathname.startsWith('/admin') ? '/admin/login' : '/auth/login' })
   }
 
   const value: AuthContextType = useMemo(() => ({
@@ -107,8 +121,8 @@ export function AuthProvider({ children }: AuthProviderProps) {
     login,
     logout,
     isLoading,
-    isAuthenticated: !!user
-  }), [user, isLoading])
+    isAuthenticated: !!user || (status === 'authenticated' && !!session)
+  }), [user, isLoading, status, session])
 
   return (
     <AuthContext.Provider value={value}>

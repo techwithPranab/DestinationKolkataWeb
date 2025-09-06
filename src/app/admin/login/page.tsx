@@ -2,6 +2,7 @@
 
 import React, { useState } from 'react'
 import { motion } from 'framer-motion'
+import { useRouter } from 'next/navigation'
 import {
   Shield,
   Eye,
@@ -25,6 +26,7 @@ interface LoginFormData {
 
 export default function AdminLogin() {
   const { login } = useAuth()
+  const router = useRouter()
   const [formData, setFormData] = useState<LoginFormData>({
     email: '',
     password: ''
@@ -225,7 +227,7 @@ export default function AdminLogin() {
                 <button
                   type="button"
                   className="text-blue-600 hover:text-blue-500 font-medium"
-                  onClick={() => alert('Password reset functionality would be implemented here')}
+                  onClick={() => router.push('/admin/forgot-password')}
                 >
                   Reset it here
                 </button>

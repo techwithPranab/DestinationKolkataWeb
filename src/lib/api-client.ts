@@ -1,6 +1,7 @@
 "use client"
 
 import { useAuth } from '@/contexts/AuthContext'
+import { useSession } from 'next-auth/react'
 
 interface ApiResponse<T = unknown> {
   data?: T
@@ -9,6 +10,12 @@ interface ApiResponse<T = unknown> {
 }
 
 class ApiClient {
+  private session: { user?: { email?: string | null; name?: string | null } } | null = null
+
+  setSession(session: { user?: { email?: string | null; name?: string | null } } | null) {
+    this.session = session
+  }
+
   private getAuthToken(): string | null {
     // Try different token storage locations
     return (
@@ -19,7 +26,12 @@ class ApiClient {
   }
 
   private async refreshTokenIfNeeded(): Promise<boolean> {
-    // This could be extended to handle token refresh
+    // For NextAuth sessions, always consider valid if session exists
+    if (this.session?.user) {
+      return true
+    }
+
+    // For localStorage tokens
     const token = this.getAuthToken()
     if (!token) return false
 
@@ -63,11 +75,11 @@ class ApiClient {
 
   private async request<T = unknown>(url: string, options: RequestInit = {}): Promise<ApiResponse<T>> {
     try {
-      // Ensure we have a valid token
-      const hasValidToken = await this.refreshTokenIfNeeded()
-      if (!hasValidToken) {
+      // Ensure we have a valid token or session
+      const hasValidAuth = await this.refreshTokenIfNeeded()
+      if (!hasValidAuth) {
         return {
-          error: 'No valid authentication token found',
+          error: 'No valid authentication found',
           status: 401
         }
       }
@@ -80,28 +92,33 @@ class ApiClient {
         headers.set('Content-Type', 'application/json')
       }
 
-      // Add authorization header
+      // Add authorization header for localStorage tokens
       if (token && !headers.has('Authorization')) {
         headers.set('Authorization', `Bearer ${token}`)
       }
 
       console.log(`API ${options.method || 'GET'}: ${url}`)
       console.log('Auth token present:', !!token)
+      console.log('NextAuth session present:', !!this.session)
 
       const response = await fetch(url, {
         ...options,
-        headers
+        headers,
+        credentials: 'include' // Include cookies for NextAuth session
       })
 
       console.log(`Response status: ${response.status}`)
 
       // Handle authentication errors
       if (response.status === 401) {
-        // Clear invalid tokens
-        localStorage.removeItem('authToken')
-        localStorage.removeItem('authUser')
-        localStorage.removeItem('adminToken')
-        localStorage.removeItem('adminUser')
+        // For OAuth users, don't clear session - let NextAuth handle it
+        if (!this.session) {
+          // Clear invalid tokens only for localStorage auth
+          localStorage.removeItem('authToken')
+          localStorage.removeItem('authUser')
+          localStorage.removeItem('adminToken')
+          localStorage.removeItem('adminUser')
+        }
 
         return {
           error: 'Authentication failed. Please log in again.',
@@ -155,12 +172,21 @@ export const apiClient = new ApiClient()
 
 // React hook for using the API client
 export function useApi() {
-  const { logout } = useAuth()
+  const { logout, user } = useAuth()
+  const { data: session, status } = useSession()
+
+  // Set the session in the API client
+  if (session) {
+    apiClient.setSession(session)
+  }
 
   const handleApiError = (error: ApiResponse) => {
     if (error.status === 401) {
-      // Automatically log out on authentication errors
-      logout()
+      // Only automatically log out for localStorage-based auth
+      // For OAuth users, let NextAuth handle the session
+      if (user || (!session && status !== 'loading')) {
+        logout()
+      }
     }
     return error
   }

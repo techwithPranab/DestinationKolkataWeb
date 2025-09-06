@@ -4,6 +4,8 @@ import Script from "next/script";
 import "./globals.css";
 import ConditionalLayout from "@/components/ConditionalLayout";
 import { AnalyticsProvider } from "@/components/AnalyticsProvider";
+import AuthProvider from "@/components/AuthProvider";
+import { AuthProvider as CustomAuthProvider } from "@/contexts/AuthContext";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -152,11 +154,15 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <AnalyticsProvider>
-          <ConditionalLayout>
-            {children}
-          </ConditionalLayout>
-        </AnalyticsProvider>
+        <AuthProvider>
+          <CustomAuthProvider>
+            <ConditionalLayout>
+              <AnalyticsProvider>
+                {children}
+              </AnalyticsProvider>
+            </ConditionalLayout>
+          </CustomAuthProvider>
+        </AuthProvider>
       </body>
     </html>
   );
