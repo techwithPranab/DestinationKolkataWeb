@@ -186,7 +186,7 @@ export default function AnalyticsPage() {
             <SelectTrigger className="w-32 bg-white">
               <SelectValue />
             </SelectTrigger>
-            <SelectContent>
+            <SelectContent className='bg-white'>
               <SelectItem value="7d">Last 7 days</SelectItem>
               <SelectItem value="30d">Last 30 days</SelectItem>
               <SelectItem value="90d">Last 90 days</SelectItem>
@@ -197,7 +197,7 @@ export default function AnalyticsPage() {
             <SelectTrigger className="w-40 bg-white">
               <SelectValue />
             </SelectTrigger>
-            <SelectContent>
+            <SelectContent className='bg-white'>
               <SelectItem value="all">All Categories</SelectItem>
               <SelectItem value="hotels">Hotels</SelectItem>
               <SelectItem value="restaurants">Restaurants</SelectItem>

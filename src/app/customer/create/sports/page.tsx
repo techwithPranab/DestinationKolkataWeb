@@ -129,7 +129,7 @@ export default function CreateSports() {
                   <SelectTrigger>
                     <SelectValue placeholder="Select sport" />
                   </SelectTrigger>
-                  <SelectContent>
+                  <SelectContent className='bg-white'>
                     <SelectItem value="football">Football</SelectItem>
                     <SelectItem value="cricket">Cricket</SelectItem>
                     <SelectItem value="basketball">Basketball</SelectItem>
@@ -148,7 +148,7 @@ export default function CreateSports() {
                   <SelectTrigger>
                     <SelectValue placeholder="Select category" />
                   </SelectTrigger>
-                  <SelectContent>
+                  <SelectContent className='bg-white'>
                     <SelectItem value="academy">Sports Academy</SelectItem>
                     <SelectItem value="coaching">Coaching Center</SelectItem>
                     <SelectItem value="club">Sports Club</SelectItem>
@@ -293,7 +293,7 @@ export default function CreateSports() {
                   <SelectTrigger>
                     <SelectValue placeholder="Select frequency" />
                   </SelectTrigger>
-                  <SelectContent>
+                  <SelectContent className='bg-white'>
                     <SelectItem value="daily">Daily</SelectItem>
                     <SelectItem value="weekly">Weekly</SelectItem>
                     <SelectItem value="weekends">Weekends Only</SelectItem>

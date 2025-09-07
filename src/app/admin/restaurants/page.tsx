@@ -389,7 +389,7 @@ export default function RestaurantsAdmin() {
                     <SelectTrigger className="bg-white text-black">
                       <SelectValue placeholder="Select cuisine" />
                     </SelectTrigger>
-                    <SelectContent className="bg-white">
+                    <SelectContent className='bg-white'>
                       {cuisineTypes.map((cuisine) => (
                         <SelectItem key={cuisine} value={cuisine}>{cuisine}</SelectItem>
                       ))}
@@ -449,7 +449,7 @@ export default function RestaurantsAdmin() {
                   <SelectTrigger className="bg-white text-black">
                     <SelectValue placeholder="Select price range" />
                   </SelectTrigger>
-                  <SelectContent className="bg-white">
+                  <SelectContent className='bg-white'>
                     {priceRanges.map((range) => (
                       <SelectItem key={range.value} value={range.value}>{range.label}</SelectItem>
                     ))}
@@ -463,7 +463,7 @@ export default function RestaurantsAdmin() {
                   <SelectTrigger className="bg-white text-black">
                     <SelectValue placeholder="Select status" />
                   </SelectTrigger>
-                  <SelectContent className="bg-white">
+                  <SelectContent className='bg-white'>
                     <SelectItem value="active">Active</SelectItem>
                     <SelectItem value="inactive">Inactive</SelectItem>
                     <SelectItem value="pending">Pending</SelectItem>
@@ -618,7 +618,7 @@ export default function RestaurantsAdmin() {
               <SelectTrigger className="w-48 bg-white text-black">
                 <SelectValue placeholder="Filter by cuisine" />
               </SelectTrigger>
-              <SelectContent className="bg-white">
+              <SelectContent className='bg-white'>
                 <SelectItem value="all">All Cuisines</SelectItem>
                 {cuisineTypes.map((cuisine) => (
                   <SelectItem key={cuisine} value={cuisine}>{cuisine}</SelectItem>
@@ -629,7 +629,7 @@ export default function RestaurantsAdmin() {
               <SelectTrigger className="w-40 bg-white text-black">
                 <SelectValue placeholder="Filter by status" />
               </SelectTrigger>
-              <SelectContent className="bg-white">
+              <SelectContent className='bg-white'>
                 <SelectItem value="all">All Status</SelectItem>
                 <SelectItem value="active">Active</SelectItem>
                 <SelectItem value="inactive">Inactive</SelectItem>

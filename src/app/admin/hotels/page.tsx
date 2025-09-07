@@ -414,7 +414,7 @@ export default function HotelsAdmin() {
                     <SelectTrigger className="bg-white text-black">
                       <SelectValue placeholder="Select category" />
                     </SelectTrigger>
-                    <SelectContent className="bg-white">
+                    <SelectContent className='bg-white'>
                       {hotelCategories.map((category) => (
                         <SelectItem key={category} value={category}>{category}</SelectItem>
                       ))}
@@ -427,7 +427,7 @@ export default function HotelsAdmin() {
                     <SelectTrigger className="bg-white text-black">
                       <SelectValue placeholder="Select status" />
                     </SelectTrigger>
-                    <SelectContent className="bg-white">
+                    <SelectContent className='bg-white'>
                       <SelectItem value="active">Active</SelectItem>
                       <SelectItem value="inactive">Inactive</SelectItem>
                       <SelectItem value="pending">Pending</SelectItem>
@@ -807,7 +807,7 @@ export default function HotelsAdmin() {
               <SelectTrigger className="w-48 bg-white text-black">
                 <SelectValue placeholder="Filter by category" />
               </SelectTrigger>
-              <SelectContent className="bg-white">
+              <SelectContent className='bg-white'>
                 <SelectItem value="all">All Categories</SelectItem>
                 {hotelCategories.map((category) => (
                   <SelectItem key={category} value={category}>{category}</SelectItem>
@@ -818,7 +818,7 @@ export default function HotelsAdmin() {
               <SelectTrigger className="w-40 bg-white text-black">
                 <SelectValue placeholder="Filter by status" />
               </SelectTrigger>
-              <SelectContent className="bg-white">
+              <SelectContent className='bg-white'>
                 <SelectItem value="all">All Status</SelectItem>
                 <SelectItem value="active">Active</SelectItem>
                 <SelectItem value="inactive">Inactive</SelectItem>

@@ -352,7 +352,7 @@ export default function SubscriptionsAdmin() {
                     <SelectTrigger className="bg-white text-black">
                       <SelectValue />
                     </SelectTrigger>
-                    <SelectContent className="bg-white">
+                    <SelectContent className='bg-white'>
                       <SelectItem value="free">Free</SelectItem>
                       <SelectItem value="premium">Premium</SelectItem>
                       <SelectItem value="business">Business</SelectItem>
@@ -404,7 +404,7 @@ export default function SubscriptionsAdmin() {
                     <SelectTrigger className="bg-white text-black">
                       <SelectValue />
                     </SelectTrigger>
-                    <SelectContent className="bg-white">
+                    <SelectContent className='bg-white'>
                       <SelectItem value="INR">INR</SelectItem>
                       <SelectItem value="USD">USD</SelectItem>
                       <SelectItem value="EUR">EUR</SelectItem>
@@ -417,7 +417,7 @@ export default function SubscriptionsAdmin() {
                     <SelectTrigger className="bg-white text-black">
                       <SelectValue />
                     </SelectTrigger>
-                    <SelectContent className="bg-white">
+                    <SelectContent className='bg-white'>
                       <SelectItem value="active">Active</SelectItem>
                       <SelectItem value="inactive">Inactive</SelectItem>
                       <SelectItem value="cancelled">Cancelled</SelectItem>
@@ -435,7 +435,7 @@ export default function SubscriptionsAdmin() {
                     <SelectTrigger className="bg-white text-black">
                       <SelectValue />
                     </SelectTrigger>
-                    <SelectContent className="bg-white">
+                    <SelectContent className='bg-white'>
                       <SelectItem value="card">Credit Card</SelectItem>
                       <SelectItem value="upi">UPI</SelectItem>
                       <SelectItem value="netbanking">Net Banking</SelectItem>
@@ -487,7 +487,7 @@ export default function SubscriptionsAdmin() {
               <SelectTrigger className="w-full sm:w-48 bg-white text-black">
                 <SelectValue placeholder="Filter by plan" />
               </SelectTrigger>
-              <SelectContent className="bg-white">
+              <SelectContent className='bg-white'>
                 <SelectItem value="all">All Plans</SelectItem>
                 <SelectItem value="free">Free</SelectItem>
                 <SelectItem value="premium">Premium</SelectItem>
@@ -498,7 +498,7 @@ export default function SubscriptionsAdmin() {
               <SelectTrigger className="w-full sm:w-48 bg-white text-black">
                 <SelectValue placeholder="Filter by status" />
               </SelectTrigger>
-              <SelectContent className="bg-white">
+              <SelectContent className='bg-white'>
                 <SelectItem value="all">All Status</SelectItem>
                 <SelectItem value="active">Active</SelectItem>
                 <SelectItem value="inactive">Inactive</SelectItem>

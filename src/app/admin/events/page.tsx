@@ -38,39 +38,51 @@ interface Event {
   name: string
   description: string
   category: string
-  eventType: string
   location: {
-    address: string
+    type: string
     coordinates: [number, number]
   }
+  address: {
+    street?: string
+    area?: string
+    city?: string
+    state?: string
+    pincode?: string
+    landmark?: string
+  }
   contact: {
-    phone: string
-    email: string
+    phone?: string[]
+    email?: string
     website?: string
   }
-  dateTime: {
-    startDate: string
-    endDate: string
-    startTime: string
-    endTime: string
-  }
-  ticketPricing: {
-    price: number
+  startDate: string
+  endDate: string
+  startTime?: string
+  endTime?: string
+  ticketPrice: {
+    min: number
+    max: number
     currency: string
-    earlyBird?: number
-    groupDiscount?: number
+    isFree?: boolean
   }
-  capacity: number
-  registeredCount: number
-  features: string[]
-  performers?: string[]
-  organizers: string[]
+  organizer: {
+    name: string
+    contact?: string
+    email?: string
+    website?: string
+  }
+  capacity?: number
+  venue?: {
+    name?: string
+    capacity?: number
+    type?: string
+  }
   rating: {
     average: number
     count: number
   }
-  reviews: number
-  images: {
+  reviews?: number
+  images?: {
     url: string
     alt?: string
     isPrimary?: boolean
@@ -81,8 +93,7 @@ interface Event {
 }
 
 const eventCategories = [
-  'Cultural', 'Music', 'Dance', 'Theater', 'Festival', 'Sports', 'Educational',
-  'Business', 'Food', 'Art', 'Religious', 'Entertainment', 'Workshop', 'Conference'
+  'Concerts', 'Festivals', 'Theater', 'Sports', 'Workshops', 'Exhibitions', 'Cultural', 'Religious', 'Food'
 ]
 
 const eventTypes = [
@@ -114,23 +125,22 @@ export default function EventsAdmin() {
     name: '',
     description: '',
     category: '',
-    eventType: '',
     address: '',
-    phone: '',
-    email: '',
     website: '',
     startDate: '',
     endDate: '',
     startTime: '',
     endTime: '',
-    ticketPrice: 0,
+    ticketPriceMin: 0,
+    ticketPriceMax: 0,
     currency: 'INR',
-    earlyBirdPrice: 0,
-    groupDiscount: 0,
+    isFree: false,
+    organizerName: '',
+    organizerContact: '',
+    organizerEmail: '',
+    organizerWebsite: '',
     capacity: 0,
-    features: [] as string[],
-    performers: [] as string[],
-    organizers: [] as string[],
+    status: 'active',
     images: [] as { url: string; alt?: string; isPrimary?: boolean }[]
   })
 
@@ -180,35 +190,37 @@ export default function EventsAdmin() {
       name: formData.name,
       description: formData.description,
       category: formData.category,
-      eventType: formData.eventType,
       location: {
-        address: formData.address,
+        type: 'Point',
         coordinates: editingEvent?.location?.coordinates || [88.3639, 22.5726] // Default to Kolkata coordinates
       },
+      address: {
+        street: formData.address,
+        city: 'Kolkata',
+        state: 'West Bengal'
+      },
       contact: {
-        phone: formData.phone,
-        email: formData.email,
         website: formData.website
       },
-      dateTime: {
-        startDate: formData.startDate,
-        endDate: formData.endDate,
-        startTime: formData.startTime,
-        endTime: formData.endTime
-      },
-      ticketPricing: {
-        price: formData.ticketPrice,
+      startDate: formData.startDate,
+      endDate: formData.endDate,
+      startTime: formData.startTime,
+      endTime: formData.endTime,
+      ticketPrice: {
+        min: formData.ticketPriceMin,
+        max: formData.ticketPriceMax,
         currency: formData.currency,
-        earlyBird: formData.earlyBirdPrice > 0 ? formData.earlyBirdPrice : undefined,
-        groupDiscount: formData.groupDiscount > 0 ? formData.groupDiscount : undefined
+        isFree: formData.isFree
+      },
+      organizer: {
+        name: formData.organizerName,
+        contact: formData.organizerContact,
+        email: formData.organizerEmail,
+        website: formData.organizerWebsite
       },
       capacity: formData.capacity,
-      registeredCount: 0,
-      features: formData.features,
-      performers: formData.performers,
-      organizers: formData.organizers,
       images: formData.images,
-      status: 'active'
+      status: formData.status
     }
 
     try {
@@ -253,28 +265,35 @@ export default function EventsAdmin() {
   }
 
   const handleEdit = (event: Event) => {
+    // Helper function to format date for HTML date input (YYYY-MM-DD)
+    const formatDateForInput = (dateString: string) => {
+      if (!dateString) return ''
+      const date = new Date(dateString)
+      if (isNaN(date.getTime())) return ''
+      return date.toISOString().split('T')[0]
+    }
+
     setEditingEvent(event)
     setFormData({
       name: event.name || '',
       description: event.description || '',
       category: event.category || '',
-      eventType: event.eventType || '',
-      address: event.location?.address || '',
-      phone: event.contact?.phone || '',
-      email: event.contact?.email || '',
+      address: event.address?.street || '',
       website: event.contact?.website || '',
-      startDate: event.dateTime?.startDate || '',
-      endDate: event.dateTime?.endDate || '',
-      startTime: event.dateTime?.startTime || '',
-      endTime: event.dateTime?.endTime || '',
-      ticketPrice: event.ticketPricing?.price || 0,
-      currency: event.ticketPricing?.currency || 'INR',
-      earlyBirdPrice: event.ticketPricing?.earlyBird || 0,
-      groupDiscount: event.ticketPricing?.groupDiscount || 0,
+      startDate: formatDateForInput(event.startDate || ''),
+      endDate: formatDateForInput(event.endDate || ''),
+      startTime: event.startTime || '',
+      endTime: event.endTime || '',
+      ticketPriceMin: event.ticketPrice?.min || 0,
+      ticketPriceMax: event.ticketPrice?.max || 0,
+      currency: event.ticketPrice?.currency || 'INR',
+      isFree: event.ticketPrice?.isFree || false,
+      organizerName: event.organizer?.name || '',
+      organizerContact: event.organizer?.contact || '',
+      organizerEmail: event.organizer?.email || '',
+      organizerWebsite: event.organizer?.website || '',
       capacity: event.capacity || 0,
-      features: event.features || [],
-      performers: event.performers || [],
-      organizers: event.organizers || [],
+      status: event.status || 'active',
       images: event.images ? event.images.map(img => 
         typeof img === 'string' ? { url: img, alt: event.name } : img
       ) : []
@@ -287,34 +306,24 @@ export default function EventsAdmin() {
       name: '',
       description: '',
       category: '',
-      eventType: '',
       address: '',
-      phone: '',
-      email: '',
       website: '',
       startDate: '',
       endDate: '',
       startTime: '',
       endTime: '',
-      ticketPrice: 0,
+      ticketPriceMin: 0,
+      ticketPriceMax: 0,
       currency: 'INR',
-      earlyBirdPrice: 0,
-      groupDiscount: 0,
+      isFree: false,
+      organizerName: '',
+      organizerContact: '',
+      organizerEmail: '',
+      organizerWebsite: '',
       capacity: 0,
-      features: [],
-      performers: [],
-      organizers: [],
+      status: 'active',
       images: []
     })
-  }
-
-  const handleFeatureToggle = (feature: string) => {
-    setFormData(prev => ({
-      ...prev,
-      features: prev.features.includes(feature)
-        ? prev.features.filter(f => f !== feature)
-        : [...prev.features, feature]
-    }))
   }
 
   const getStatusColor = (status: string) => {
@@ -370,10 +379,13 @@ export default function EventsAdmin() {
         </div>
         <Dialog open={isAddModalOpen} onOpenChange={setIsAddModalOpen}>
           <DialogTrigger asChild>
-            <Button onClick={() => {
-              resetForm()
-              setEditingEvent(null)
-            }}>
+            <Button 
+              onClick={() => {
+                resetForm()
+                setEditingEvent(null)
+              }}
+              className="bg-orange-500 hover:bg-orange-600 text-white"
+            >
               <Plus className="h-4 w-4 mr-2" />
               Add Event
             </Button>
@@ -408,7 +420,7 @@ export default function EventsAdmin() {
                     <SelectTrigger className="bg-white text-black">
                       <SelectValue placeholder="Select category" />
                     </SelectTrigger>
-                    <SelectContent>
+                    <SelectContent className='bg-white'>
                       {eventCategories.map((category) => (
                         <SelectItem key={category} value={category}>{category}</SelectItem>
                       ))}
@@ -419,14 +431,14 @@ export default function EventsAdmin() {
 
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <Label htmlFor="eventType">Event Type</Label>
-                  <Select value={formData.eventType} onValueChange={(value: string) => setFormData({ ...formData, eventType: value })}>
+                  <Label htmlFor="category">Category</Label>
+                  <Select value={formData.category} onValueChange={(value: string) => setFormData({ ...formData, category: value })}>
                     <SelectTrigger className="bg-white text-black">
-                      <SelectValue placeholder="Select event type" />
+                      <SelectValue placeholder="Select category" />
                     </SelectTrigger>
-                    <SelectContent>
-                      {eventTypes.map((type) => (
-                        <SelectItem key={type} value={type}>{type}</SelectItem>
+                    <SelectContent className='bg-white'>
+                      {eventCategories.map((category) => (
+                        <SelectItem key={category} value={category}>{category}</SelectItem>
                       ))}
                     </SelectContent>
                   </Select>
@@ -444,14 +456,31 @@ export default function EventsAdmin() {
                 </div>
               </div>
 
-              <div>
-                <Label htmlFor="description">Description</Label>
-                <Textarea
-                  id="description"
-                  value={formData.description}
-                  onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => setFormData({ ...formData, description: e.target.value })}
-                  required
-                />
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <Label htmlFor="status">Status</Label>
+                  <Select value={formData.status} onValueChange={(value: string) => setFormData({ ...formData, status: value })}>
+                    <SelectTrigger className="bg-white text-black">
+                      <SelectValue placeholder="Select status" />
+                    </SelectTrigger>
+                    <SelectContent className='bg-white'>
+                      <SelectItem value="active">Active</SelectItem>
+                      <SelectItem value="inactive">Inactive</SelectItem>
+                      <SelectItem value="pending">Pending</SelectItem>
+                      <SelectItem value="completed">Completed</SelectItem>
+                      <SelectItem value="cancelled">Cancelled</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+                <div>
+                  <Label htmlFor="description">Description</Label>
+                  <Textarea
+                    id="description"
+                    value={formData.description}
+                    onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => setFormData({ ...formData, description: e.target.value })}
+                    required
+                  />
+                </div>
               </div>
 
               <div>
@@ -463,30 +492,6 @@ export default function EventsAdmin() {
                   required
                   className="bg-white text-black"
                 />
-              </div>
-
-              <div className="grid grid-cols-2 gap-4">
-                <div>
-                  <Label htmlFor="phone">Phone</Label>
-                  <Input
-                    id="phone"
-                    value={formData.phone}
-                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => setFormData({ ...formData, phone: e.target.value })}
-                    required
-                    className="bg-white text-black"
-                  />
-                </div>
-                <div>
-                  <Label htmlFor="email">Email</Label>
-                  <Input
-                    id="email"
-                    type="email"
-                    value={formData.email}
-                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => setFormData({ ...formData, email: e.target.value })}
-                    required
-                    className="bg-white text-black"
-                  />
-                </div>
               </div>
 
               <div>
@@ -552,52 +557,69 @@ export default function EventsAdmin() {
 
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <Label htmlFor="ticketPrice">Ticket Price</Label>
+                  <Label htmlFor="ticketPriceMin">Min Ticket Price</Label>
                   <Input
-                    id="ticketPrice"
+                    id="ticketPriceMin"
                     type="number"
                     min="0"
-                    value={formData.ticketPrice}
-                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => setFormData({ ...formData, ticketPrice: parseInt(e.target.value) || 0 })}
+                    value={formData.ticketPriceMin}
+                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => setFormData({ ...formData, ticketPriceMin: parseInt(e.target.value) || 0 })}
                     className="bg-white text-black"
                   />
                 </div>
                 <div>
-                  <Label htmlFor="currency">Currency</Label>
-                  <Select value={formData.currency} onValueChange={(value: string) => setFormData({ ...formData, currency: value })}>
-                    <SelectTrigger className="bg-white text-black">
-                      <SelectValue />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="INR">INR (₹)</SelectItem>
-                      <SelectItem value="USD">USD ($)</SelectItem>
-                      <SelectItem value="EUR">EUR (€)</SelectItem>
-                    </SelectContent>
-                  </Select>
+                  <Label htmlFor="ticketPriceMax">Max Ticket Price</Label>
+                  <Input
+                    id="ticketPriceMax"
+                    type="number"
+                    min="0"
+                    value={formData.ticketPriceMax}
+                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => setFormData({ ...formData, ticketPriceMax: parseInt(e.target.value) || 0 })}
+                    className="bg-white text-black"
+                  />
                 </div>
               </div>
 
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <Label htmlFor="earlyBirdPrice">Early Bird Price (Optional)</Label>
+                  <Label htmlFor="organizerName">Organizer Name</Label>
                   <Input
-                    id="earlyBirdPrice"
-                    type="number"
-                    min="0"
-                    value={formData.earlyBirdPrice}
-                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => setFormData({ ...formData, earlyBirdPrice: parseInt(e.target.value) || 0 })}
+                    id="organizerName"
+                    value={formData.organizerName}
+                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => setFormData({ ...formData, organizerName: e.target.value })}
+                    required
                     className="bg-white text-black"
                   />
                 </div>
                 <div>
-                  <Label htmlFor="groupDiscount">Group Discount % (Optional)</Label>
+                  <Label htmlFor="organizerContact">Organizer Contact</Label>
                   <Input
-                    id="groupDiscount"
-                    type="number"
-                    min="0"
-                    max="100"
-                    value={formData.groupDiscount}
-                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => setFormData({ ...formData, groupDiscount: parseInt(e.target.value) || 0 })}
+                    id="organizerContact"
+                    value={formData.organizerContact}
+                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => setFormData({ ...formData, organizerContact: e.target.value })}
+                    className="bg-white text-black"
+                  />
+                </div>
+              </div>
+
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <Label htmlFor="organizerEmail">Organizer Email</Label>
+                  <Input
+                    id="organizerEmail"
+                    type="email"
+                    value={formData.organizerEmail}
+                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => setFormData({ ...formData, organizerEmail: e.target.value })}
+                    className="bg-white text-black"
+                  />
+                </div>
+                <div>
+                  <Label htmlFor="organizerWebsite">Organizer Website</Label>
+                  <Input
+                    id="organizerWebsite"
+                    type="url"
+                    value={formData.organizerWebsite}
+                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => setFormData({ ...formData, organizerWebsite: e.target.value })}
                     className="bg-white text-black"
                   />
                 </div>
@@ -658,12 +680,12 @@ export default function EventsAdmin() {
         <Card>
           <CardContent className="p-6">
             <div className="flex items-center justify-between">
-              <div>
-                <p className="text-sm font-medium text-gray-600">Total Registrations</p>
-                <p className="text-2xl font-bold text-blue-600">
-                  {events.reduce((acc, e) => acc + (e.registeredCount || 0), 0)}
-                </p>
-              </div>
+                <div>
+                  <p className="text-sm font-medium text-gray-600">Total Events</p>
+                  <p className="text-2xl font-bold text-blue-600">
+                    {totalEvents}
+                  </p>
+                </div>
               <Users className="h-8 w-8 text-blue-500" />
             </div>
           </CardContent>
@@ -705,7 +727,7 @@ export default function EventsAdmin() {
               <SelectTrigger className="w-48 bg-white text-black">
                 <SelectValue placeholder="Filter by category" />
               </SelectTrigger>
-              <SelectContent>
+              <SelectContent className='bg-white'>
                 <SelectItem value="all">All Categories</SelectItem>
                 {eventCategories.map((category) => (
                   <SelectItem key={category} value={category}>{category}</SelectItem>
@@ -716,7 +738,7 @@ export default function EventsAdmin() {
               <SelectTrigger className="w-40 bg-white text-black">
                 <SelectValue placeholder="Filter by status" />
               </SelectTrigger>
-              <SelectContent>
+              <SelectContent className='bg-white'>
                 <SelectItem value="all">All Status</SelectItem>
                 <SelectItem value="active">Active</SelectItem>
                 <SelectItem value="inactive">Inactive</SelectItem>
@@ -744,9 +766,6 @@ export default function EventsAdmin() {
                   </th>
                   <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                     Date & Time
-                  </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Venue
                   </th>
                   <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                     Price
@@ -786,9 +805,6 @@ export default function EventsAdmin() {
                           <div className="h-4 bg-gray-200 rounded w-24"></div>
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap">
-                          <div className="h-4 bg-gray-200 rounded w-32"></div>
-                        </td>
-                        <td className="px-6 py-4 whitespace-nowrap">
                           <div className="h-4 bg-gray-200 rounded w-16"></div>
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap">
@@ -812,7 +828,7 @@ export default function EventsAdmin() {
                   } else if (events.length === 0) {
                     return (
                       <tr>
-                        <td colSpan={9} className="px-6 py-12 text-center">
+                        <td colSpan={8} className="px-6 py-12 text-center">
                           <Calendar className="h-16 w-16 text-gray-300 mx-auto mb-4" />
                           <p className="text-gray-500">No events found matching your criteria.</p>
                         </td>
@@ -838,7 +854,7 @@ export default function EventsAdmin() {
                             </div>
                             <div className="ml-4">
                               <div className="text-sm font-medium text-gray-900">{event.name}</div>
-                              <div className="text-sm text-gray-500">{event.eventType}</div>
+                              <div className="text-sm text-gray-500">{event.category}</div>
                             </div>
                           </div>
                         </td>
@@ -847,24 +863,24 @@ export default function EventsAdmin() {
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap">
                           <div className="text-sm text-gray-900">
-                            <div>{event.dateTime?.startDate ? formatDate(event.dateTime.startDate) : 'N/A'}</div>
-                            <div className="text-gray-500">{event.dateTime?.startTime || 'N/A'} - {event.dateTime?.endTime || 'N/A'}</div>
-                          </div>
-                        </td>
-                        <td className="px-6 py-4 whitespace-nowrap">
-                          <div className="text-sm text-gray-900">{event.location?.address || 'N/A'}</div>
-                        </td>
-                        <td className="px-6 py-4 whitespace-nowrap">
-                          <div className="text-sm text-gray-900">
-                            {event.ticketPricing?.price === 0 
-                              ? 'Free' 
-                              : `${event.ticketPricing?.currency || 'INR'} ${event.ticketPricing?.price || 0}`
-                            }
+                            <div>{event.startDate ? formatDate(event.startDate) : 'N/A'}</div>
+                            <div className="text-gray-500">{event.startTime || 'N/A'} - {event.endTime || 'N/A'}</div>
                           </div>
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap">
                           <div className="text-sm text-gray-900">
-                            {event.capacity > 0 ? `${event.registeredCount || 0}/${event.capacity}` : 'Unlimited'}
+                            {(() => {
+                              if (event.ticketPrice?.isFree) return 'Free'
+                              if (event.ticketPrice?.min === event.ticketPrice?.max) {
+                                return `${event.ticketPrice?.currency || 'INR'} ${event.ticketPrice?.min || 0}`
+                              }
+                              return `${event.ticketPrice?.currency || 'INR'} ${event.ticketPrice?.min || 0} - ${event.ticketPrice?.max || 0}`
+                            })()}
+                          </div>
+                        </td>
+                        <td className="px-6 py-4 whitespace-nowrap">
+                          <div className="text-sm text-gray-900">
+                            {event.capacity && event.capacity > 0 ? `${event.capacity}` : 'Unlimited'}
                           </div>
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap">
@@ -884,9 +900,7 @@ export default function EventsAdmin() {
                             <Button size="sm" variant="outline" onClick={() => handleEdit(event)}>
                               <Edit className="h-4 w-4" />
                             </Button>
-                            <Button size="sm" variant="outline">
-                              <Eye className="h-4 w-4" />
-                            </Button>
+                            
                             <Button 
                               size="sm" 
                               variant="outline" 
@@ -923,6 +937,7 @@ export default function EventsAdmin() {
             <Button
               variant="outline"
               size="sm"
+              className='bg-orange-500 hover:bg-orange-600 text-white'
               onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
               disabled={currentPage === 1}
             >

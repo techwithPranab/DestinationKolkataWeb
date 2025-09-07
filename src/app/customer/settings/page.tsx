@@ -236,7 +236,7 @@ export default function CustomerSettings() {
               <SelectTrigger className="mt-1">
                 <SelectValue />
               </SelectTrigger>
-              <SelectContent>
+              <SelectContent className='bg-white'>
                 <SelectItem value="public">Public</SelectItem>
                 <SelectItem value="private">Private</SelectItem>
                 <SelectItem value="business">Business Only</SelectItem>
@@ -294,7 +294,7 @@ export default function CustomerSettings() {
               <SelectTrigger className="mt-1">
                 <SelectValue />
               </SelectTrigger>
-              <SelectContent>
+              <SelectContent className='bg-white'>
                 <SelectItem value="en">English</SelectItem>
                 <SelectItem value="hi">Hindi</SelectItem>
                 <SelectItem value="bn">Bengali</SelectItem>
@@ -313,7 +313,7 @@ export default function CustomerSettings() {
               <SelectTrigger className="mt-1">
                 <SelectValue />
               </SelectTrigger>
-              <SelectContent>
+              <SelectContent className='bg-white'>
                 <SelectItem value="Asia/Kolkata">Asia/Kolkata (IST)</SelectItem>
                 <SelectItem value="Asia/Dhaka">Asia/Dhaka (BST)</SelectItem>
                 <SelectItem value="Asia/Thimphu">Asia/Thimphu (BTT)</SelectItem>
@@ -332,7 +332,7 @@ export default function CustomerSettings() {
               <SelectTrigger className="mt-1">
                 <SelectValue />
               </SelectTrigger>
-              <SelectContent>
+              <SelectContent className='bg-white'>
                 <SelectItem value="light">Light</SelectItem>
                 <SelectItem value="dark">Dark</SelectItem>
                 <SelectItem value="auto">Auto</SelectItem>

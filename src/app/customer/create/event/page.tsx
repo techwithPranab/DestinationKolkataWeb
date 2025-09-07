@@ -126,7 +126,7 @@ export default function CreateEvent() {
                 <SelectTrigger>
                   <SelectValue placeholder="Select event category" />
                 </SelectTrigger>
-                <SelectContent>
+                <SelectContent className='bg-white'>
                   <SelectItem value="conference">Conference</SelectItem>
                   <SelectItem value="workshop">Workshop</SelectItem>
                   <SelectItem value="concert">Concert</SelectItem>

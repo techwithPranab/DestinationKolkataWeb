@@ -325,7 +325,7 @@ export default function UsersAdmin() {
                     <SelectTrigger className="bg-white text-black">
                       <SelectValue />
                     </SelectTrigger>
-                    <SelectContent className="bg-white">
+                    <SelectContent className='bg-white'>
                       <SelectItem value="Admin">Admin</SelectItem>
                       <SelectItem value="Customer">Customer</SelectItem>
                       <SelectItem value="Moderator">Moderator</SelectItem>
@@ -341,7 +341,7 @@ export default function UsersAdmin() {
                     <SelectTrigger className="bg-white text-black">
                       <SelectValue />
                     </SelectTrigger>
-                    <SelectContent className="bg-white">
+                    <SelectContent className='bg-white'>
                       <SelectItem value="Active">Active</SelectItem>
                       <SelectItem value="Inactive">Inactive</SelectItem>
                       <SelectItem value="Suspended">Suspended</SelectItem>
@@ -393,7 +393,7 @@ export default function UsersAdmin() {
               <SelectTrigger className="w-full sm:w-48 bg-white text-black">
                 <SelectValue placeholder="Filter by role" />
               </SelectTrigger>
-              <SelectContent className="bg-white">
+              <SelectContent className='bg-white'>
                 <SelectItem value="all">All Roles</SelectItem>
                 <SelectItem value="Admin">Admin</SelectItem>
                 <SelectItem value="Customer">Customer</SelectItem>
@@ -404,7 +404,7 @@ export default function UsersAdmin() {
               <SelectTrigger className="w-full sm:w-48 bg-white text-black">
                 <SelectValue placeholder="Filter by status" />
               </SelectTrigger>
-              <SelectContent className="bg-white">
+              <SelectContent className='bg-white'>
                 <SelectItem value="all">All Status</SelectItem>
                 <SelectItem value="Active">Active</SelectItem>
                 <SelectItem value="Inactive">Inactive</SelectItem>

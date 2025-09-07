@@ -127,7 +127,7 @@ export default function CreatePromotion() {
                 <SelectTrigger>
                   <SelectValue placeholder="Select promotion category" />
                 </SelectTrigger>
-                <SelectContent>
+                <SelectContent className='bg-white'>
                   <SelectItem value="food">Food & Dining</SelectItem>
                   <SelectItem value="shopping">Shopping</SelectItem>
                   <SelectItem value="entertainment">Entertainment</SelectItem>
@@ -155,7 +155,7 @@ export default function CreatePromotion() {
                 <SelectTrigger>
                   <SelectValue placeholder="Select discount type" />
                 </SelectTrigger>
-                <SelectContent>
+                <SelectContent className='bg-white'>
                   <SelectItem value="percentage">Percentage Off</SelectItem>
                   <SelectItem value="fixed">Fixed Amount Off</SelectItem>
                   <SelectItem value="buy-one-get-one">Buy One Get One</SelectItem>

@@ -289,7 +289,7 @@ export default function DataIngestionPage() {
                 <SelectTrigger id="ingestion-mode">
                   <SelectValue />
                 </SelectTrigger>
-                <SelectContent>
+                <SelectContent className='bg-white'>
                   <SelectItem value="ingest-and-load">
                     <div>
                       <div className="font-medium">Fresh Data Ingestion</div>

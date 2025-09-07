@@ -185,7 +185,7 @@ export default function AdminReviewsPage() {
             <SelectTrigger className="w-32">
               <SelectValue placeholder="Status" />
             </SelectTrigger>
-            <SelectContent>
+            <SelectContent className='bg-white'>
               <SelectItem value="all">All Status</SelectItem>
               <SelectItem value="pending">Pending</SelectItem>
               <SelectItem value="approved">Approved</SelectItem>
@@ -197,7 +197,7 @@ export default function AdminReviewsPage() {
             <SelectTrigger className="w-40">
               <SelectValue placeholder="Entity Type" />
             </SelectTrigger>
-            <SelectContent>
+            <SelectContent className='bg-white'>
               <SelectItem value="all">All Types</SelectItem>
               <SelectItem value="hotel">Hotels</SelectItem>
               <SelectItem value="restaurant">Restaurants</SelectItem>

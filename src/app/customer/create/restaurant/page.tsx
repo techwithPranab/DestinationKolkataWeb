@@ -385,7 +385,7 @@ export default function CreateRestaurantPage() {
                   <SelectTrigger>
                     <SelectValue placeholder="Select Price Range" />
                   </SelectTrigger>
-                  <SelectContent>
+                  <SelectContent className='bg-white'>
                     {priceRanges.map(range => (
                       <SelectItem key={range} value={range}>{range}</SelectItem>
                     ))}
