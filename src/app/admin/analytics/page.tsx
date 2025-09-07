@@ -174,7 +174,7 @@ export default function AnalyticsPage() {
   }
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 bg-white">
       {/* Header */}
       <div className="flex justify-between items-center">
         <div>
@@ -183,7 +183,7 @@ export default function AnalyticsPage() {
         </div>
         <div className="flex space-x-2">
           <Select value={timeRange} onValueChange={setTimeRange}>
-            <SelectTrigger className="w-32">
+            <SelectTrigger className="w-32 bg-white">
               <SelectValue />
             </SelectTrigger>
             <SelectContent>
@@ -194,7 +194,7 @@ export default function AnalyticsPage() {
             </SelectContent>
           </Select>
           <Select value={selectedCategory} onValueChange={setSelectedCategory}>
-            <SelectTrigger className="w-40">
+            <SelectTrigger className="w-40 bg-white">
               <SelectValue />
             </SelectTrigger>
             <SelectContent>

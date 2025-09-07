@@ -41,7 +41,7 @@ interface IngestionResult {
   logs?: string[]
 }
 
-export async function POST(request: NextRequest) {
+export async function POST(request: NextRequest): Promise<Response> {
   try {
     // Check admin authentication using JWT token
     const user = await getUserFromToken(request)
@@ -70,7 +70,7 @@ export async function POST(request: NextRequest) {
     const logs: string[] = []
     let isCompleted = false
 
-    return new Promise((resolve) => {
+    return new Promise<Response>((resolve) => {
       const child = spawn('npx', ['tsx', scriptPath, mode], {
         cwd: process.cwd(),
         stdio: ['pipe', 'pipe', 'pipe']

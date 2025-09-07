@@ -285,7 +285,7 @@ export default function DataIngestionPage() {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div className="space-y-2">
               <label htmlFor="ingestion-mode" className="text-sm font-medium">Ingestion Mode</label>
-              <Select value={mode} onValueChange={(value: any) => setMode(value)}>
+              <Select value={mode} onValueChange={(value: "ingest-and-load" | "load-existing") => setMode(value)}>
                 <SelectTrigger id="ingestion-mode">
                   <SelectValue />
                 </SelectTrigger>
@@ -423,7 +423,7 @@ export default function DataIngestionPage() {
           </CardHeader>
           <CardContent>
             <ul className="space-y-2 text-sm text-gray-600">
-              <li>• All new records are set to "pending" status</li>
+              <li>• All new records are set to &quot;pending&quot; status</li>
               <li>• Admin approval is required before records become active</li>
               <li>• Duplicate records are automatically skipped</li>
               <li>• Process may take several minutes to complete</li>
