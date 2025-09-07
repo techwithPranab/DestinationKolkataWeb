@@ -132,7 +132,7 @@ export default function SubmitBusinessPage() {
                   <SelectTrigger>
                     <SelectValue placeholder="Select category" />
                   </SelectTrigger>
-                  <SelectContent>
+                  <SelectContent className='bg-white'>
                     <SelectItem value="luxury">Luxury</SelectItem>
                     <SelectItem value="business">Business</SelectItem>
                     <SelectItem value="budget">Budget</SelectItem>
@@ -189,7 +189,7 @@ export default function SubmitBusinessPage() {
                   <SelectTrigger>
                     <SelectValue placeholder="Select price range" />
                   </SelectTrigger>
-                  <SelectContent>
+                  <SelectContent className='bg-white'>
                     <SelectItem value="budget">Budget (₹)</SelectItem>
                     <SelectItem value="mid-range">Mid-range (₹₹)</SelectItem>
                     <SelectItem value="fine-dining">Fine Dining (₹₹₹)</SelectItem>
@@ -225,7 +225,7 @@ export default function SubmitBusinessPage() {
                 <SelectTrigger>
                   <SelectValue placeholder="Select category" />
                 </SelectTrigger>
-                <SelectContent>
+                <SelectContent className='bg-white'>
                   <SelectItem value="historical">Historical</SelectItem>
                   <SelectItem value="religious">Religious</SelectItem>
                   <SelectItem value="museums">Museums</SelectItem>
@@ -268,7 +268,7 @@ export default function SubmitBusinessPage() {
                 <SelectTrigger>
                   <SelectValue placeholder="Select category" />
                 </SelectTrigger>
-                <SelectContent>
+                <SelectContent className='bg-white'>
                   <SelectItem value="concerts">Concerts</SelectItem>
                   <SelectItem value="festivals">Festivals</SelectItem>
                   <SelectItem value="theater">Theater</SelectItem>
@@ -340,7 +340,7 @@ export default function SubmitBusinessPage() {
                   <SelectTrigger>
                     <SelectValue placeholder="Select category" />
                   </SelectTrigger>
-                  <SelectContent>
+                  <SelectContent className='bg-white'>
                     <SelectItem value="stadium">Stadium</SelectItem>
                     <SelectItem value="sports-grounds">Sports Grounds</SelectItem>
                     <SelectItem value="coaching-centers">Coaching Centers</SelectItem>
@@ -391,7 +391,7 @@ export default function SubmitBusinessPage() {
                   <SelectTrigger>
                     <SelectValue placeholder="Select category" />
                   </SelectTrigger>
-                  <SelectContent>
+                  <SelectContent className='bg-white'>
                     <SelectItem value="transport">Transport</SelectItem>
                     <SelectItem value="travel-tip">Travel Tip</SelectItem>
                     <SelectItem value="emergency">Emergency</SelectItem>
@@ -405,7 +405,7 @@ export default function SubmitBusinessPage() {
                   <SelectTrigger>
                     <SelectValue placeholder="Select transport type" />
                   </SelectTrigger>
-                  <SelectContent>
+                  <SelectContent className='bg-white'>
                     <SelectItem value="air">Air</SelectItem>
                     <SelectItem value="train">Train</SelectItem>
                     <SelectItem value="bus">Bus</SelectItem>
@@ -525,7 +525,7 @@ export default function SubmitBusinessPage() {
                     <SelectTrigger>
                       <SelectValue placeholder="Select business type" />
                     </SelectTrigger>
-                    <SelectContent>
+                    <SelectContent className='bg-white'>
                       <SelectItem value="hotel">Hotel</SelectItem>
                       <SelectItem value="restaurant">Restaurant</SelectItem>
                       <SelectItem value="attraction">Attraction</SelectItem>

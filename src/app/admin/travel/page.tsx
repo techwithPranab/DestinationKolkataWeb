@@ -39,7 +39,7 @@ interface TravelService {
   _id: string
   name: string
   description: string
-  serviceType: string
+  transportType: string
   category: string
   location: {
     address: string
@@ -106,7 +106,7 @@ export default function TravelAdmin() {
   const [services, setServices] = useState<TravelService[]>([])
   const [loading, setLoading] = useState(true)
   const [searchTerm, setSearchTerm] = useState('')
-  const [filterServiceType, setFilterServiceType] = useState('')
+  const [filterTransportType, setFilterTransportType] = useState('')
   const [filterStatus, setFilterStatus] = useState('')
   const [isAddModalOpen, setIsAddModalOpen] = useState(false)
   const [editingService, setEditingService] = useState<TravelService | null>(null)
@@ -119,7 +119,7 @@ export default function TravelAdmin() {
   const [formData, setFormData] = useState({
     name: '',
     description: '',
-    serviceType: '',
+    transportType: '',
     category: '',
     address: '',
     phone: '',
@@ -151,7 +151,7 @@ export default function TravelAdmin() {
       })
 
       if (searchTerm) params.append('search', searchTerm)
-      if (filterServiceType && filterServiceType !== 'all') params.append('serviceType', filterServiceType)
+      if (filterTransportType && filterTransportType !== 'all') params.append('transportType', filterTransportType)
       if (filterStatus && filterStatus !== 'all') params.append('status', filterStatus)
 
       const response = await fetch(`/api/travel?${params}`)
@@ -166,7 +166,7 @@ export default function TravelAdmin() {
     } finally {
       setLoading(false)
     }
-  }, [searchTerm, filterServiceType, filterStatus, pageSize])
+  }, [searchTerm, filterTransportType, filterStatus, pageSize])
 
   useEffect(() => {
     fetchServices(currentPage)
@@ -174,7 +174,7 @@ export default function TravelAdmin() {
 
   useEffect(() => {
     setCurrentPage(1)
-  }, [searchTerm, filterServiceType, filterStatus])
+  }, [searchTerm, filterTransportType, filterStatus])
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -182,7 +182,7 @@ export default function TravelAdmin() {
     const serviceData = {
       name: formData.name,
       description: formData.description,
-      serviceType: formData.serviceType,
+      transportType: formData.transportType,
       category: formData.category,
       location: {
         address: formData.address,
@@ -257,7 +257,7 @@ export default function TravelAdmin() {
     setFormData({
       name: service.name || '',
       description: service.description || '',
-      serviceType: service.serviceType || '',
+      transportType: service.transportType || '',
       category: service.category || '',
       address: service.location?.address || '',
       phone: service.contact?.phone || '',
@@ -281,7 +281,7 @@ export default function TravelAdmin() {
     setFormData({
       name: '',
       description: '',
-      serviceType: '',
+      transportType: '',
       category: '',
       address: '',
       phone: '',
@@ -364,7 +364,9 @@ export default function TravelAdmin() {
         </div>
         <Dialog open={isAddModalOpen} onOpenChange={setIsAddModalOpen}>
           <DialogTrigger asChild>
-            <Button onClick={() => {
+            <Button 
+            className='bg-orange-500 hover:bg-orange-600 text-white'
+            onClick={() => {
               resetForm()
               setEditingService(null)
             }}>
@@ -397,12 +399,12 @@ export default function TravelAdmin() {
                   />
                 </div>
                 <div>
-                  <Label htmlFor="serviceType">Service Type</Label>
-                  <Select value={formData.serviceType} onValueChange={(value: string) => setFormData({ ...formData, serviceType: value })}>
+                  <Label htmlFor="transportType">Service Type</Label>
+                  <Select value={formData.transportType} onValueChange={(value: string) => setFormData({ ...formData, transportType: value })}>
                     <SelectTrigger className="bg-white text-black">
                       <SelectValue placeholder="Select service type" />
                     </SelectTrigger>
-                    <SelectContent>
+                    <SelectContent className='bg-white'>
                       {serviceTypes.map((type) => (
                         <SelectItem key={type} value={type}>{type}</SelectItem>
                       ))}
@@ -418,7 +420,7 @@ export default function TravelAdmin() {
                     <SelectTrigger className="bg-white text-black">
                       <SelectValue placeholder="Select category" />
                     </SelectTrigger>
-                    <SelectContent>
+                    <SelectContent className='bg-white'>
                       {transportCategories.map((category) => (
                         <SelectItem key={category} value={category}>{category}</SelectItem>
                       ))}
@@ -513,7 +515,7 @@ export default function TravelAdmin() {
                     <SelectTrigger className="bg-white text-black">
                       <SelectValue />
                     </SelectTrigger>
-                    <SelectContent>
+                    <SelectContent className='bg-white'>
                       <SelectItem value="INR">INR (₹)</SelectItem>
                       <SelectItem value="USD">USD ($)</SelectItem>
                       <SelectItem value="EUR">EUR (€)</SelectItem>
@@ -704,11 +706,11 @@ export default function TravelAdmin() {
                 />
               </div>
             </div>
-            <Select value={filterServiceType} onValueChange={setFilterServiceType}>
+            <Select value={filterTransportType} onValueChange={setFilterTransportType}>
               <SelectTrigger className="w-48 bg-white text-black">
                 <SelectValue placeholder="Filter by type" />
               </SelectTrigger>
-              <SelectContent>
+              <SelectContent className='bg-white'>
                 <SelectItem value="all">All Types</SelectItem>
                 {serviceTypes.map((type) => (
                   <SelectItem key={type} value={type}>{type}</SelectItem>
@@ -719,7 +721,7 @@ export default function TravelAdmin() {
               <SelectTrigger className="w-40 bg-white text-black">
                 <SelectValue placeholder="Filter by status" />
               </SelectTrigger>
-              <SelectContent>
+              <SelectContent className='bg-white'>
                 <SelectItem value="all">All Status</SelectItem>
                 <SelectItem value="active">Active</SelectItem>
                 <SelectItem value="inactive">Inactive</SelectItem>
@@ -742,9 +744,6 @@ export default function TravelAdmin() {
                   </th>
                   <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                     Type
-                  </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Location
                   </th>
                   <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                     Price
@@ -781,9 +780,6 @@ export default function TravelAdmin() {
                           <div className="h-4 bg-gray-200 rounded w-20"></div>
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap">
-                          <div className="h-4 bg-gray-200 rounded w-32"></div>
-                        </td>
-                        <td className="px-6 py-4 whitespace-nowrap">
                           <div className="h-4 bg-gray-200 rounded w-16"></div>
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap">
@@ -807,7 +803,7 @@ export default function TravelAdmin() {
                   } else if (services.length === 0) {
                     return (
                       <tr>
-                        <td colSpan={8} className="px-6 py-12 text-center">
+                        <td colSpan={7} className="px-6 py-12 text-center">
                           <Car className="h-16 w-16 text-gray-300 mx-auto mb-4" />
                           <p className="text-gray-500">No travel services found matching your criteria.</p>
                         </td>
@@ -838,10 +834,7 @@ export default function TravelAdmin() {
                           </div>
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap">
-                          <div className="text-sm text-gray-900">{service.serviceType}</div>
-                        </td>
-                        <td className="px-6 py-4 whitespace-nowrap">
-                          <div className="text-sm text-gray-900">{service.location?.address || 'N/A'}</div>
+                          <div className="text-sm text-gray-900">{service.transportType}</div>
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap">
                           <div className="text-sm text-gray-900">
@@ -872,9 +865,9 @@ export default function TravelAdmin() {
                             <Button size="sm" variant="outline" onClick={() => handleEdit(service)}>
                               <Edit className="h-4 w-4" />
                             </Button>
-                            <Button size="sm" variant="outline">
+                            {/* <Button size="sm" variant="outline">
                               <Eye className="h-4 w-4" />
-                            </Button>
+                            </Button> */}
                             <Button 
                               size="sm" 
                               variant="outline" 

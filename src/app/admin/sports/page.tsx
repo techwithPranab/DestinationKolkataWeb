@@ -6,7 +6,6 @@ import {
   Search, 
   Edit, 
   Trash2, 
-  Eye, 
   Star,
   Trophy,
   Users,
@@ -35,40 +34,59 @@ interface SportsFacility {
   _id: string
   name: string
   description: string
-  sportType: string
-  venueType: string
+  shortDescription: string
   location: {
-    address: string
+    type: 'Point'
     coordinates: [number, number]
   }
-  contact: {
-    phone: string
-    email: string
-    website?: string
+  address: {
+    street: string
+    area: string
+    city: string
+    state: string
+    pincode: string
+    landmark: string
   }
+  contact: {
+    phone: string[]
+    email: string
+    website: string
+    socialMedia: object
+  }
+  category: string
+  sport: string
   capacity: number
   facilities: string[]
-  pricing: {
-    hourly: number
-    daily: number
-    monthly: number
+  entryFee: {
+    adult: number
+    child: number
+    senior: number
+    currency: string
+    isFree: boolean
   }
-  operatingHours: {
-    openTime: string
-    closeTime: string
-    closedDays: string[]
+  timings: {
+    monday: { open: string; close: string; closed: boolean }
+    tuesday: { open: string; close: string; closed: boolean }
+    wednesday: { open: string; close: string; closed: boolean }
+    thursday: { open: string; close: string; closed: boolean }
+    friday: { open: string; close: string; closed: boolean }
+    saturday: { open: string; close: string; closed: boolean }
+    sunday: { open: string; close: string; closed: boolean }
   }
+  bestTimeToVisit: string
+  duration: string
+  amenities: string[]
   rating: {
     average: number
     count: number
   }
-  reviews: number
-  images: {
-    url: string
-    alt?: string
-    isPrimary?: boolean
-  }[]
-  status: 'active' | 'inactive' | 'pending'
+  tags: string[]
+  status: string
+  featured: boolean
+  promoted: boolean
+  images: { url: string; alt?: string; isPrimary?: boolean }[]
+  osmId?: number
+  source: string
   createdAt: string
   updatedAt: string
 }
@@ -80,16 +98,7 @@ const sportTypes = [
 ]
 
 const venueTypes = [
-  'Stadium', 'Ground', 'Court', 'Arena', 'Pool', 'Gym', 'Academy', 'Club'
-]
-
-const sportFacilities = [
-  'Changing Rooms', 'Showers', 'Lockers', 'Parking', 'Cafeteria', 'Equipment Rental',
-  'Coaching Available', 'Floodlights', 'Seating Area', 'First Aid', 'WiFi', 'AC'
-]
-
-const weekDays = [
-  'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'
+  'Stadium', 'Sports Grounds', 'Coaching Centers', 'Sports Clubs', 'Sports Facilities'
 ]
 
 export default function SportsAdmin() {
@@ -109,20 +118,50 @@ export default function SportsAdmin() {
   const [formData, setFormData] = useState({
     name: '',
     description: '',
-    sportType: '',
-    venueType: '',
+    shortDescription: '',
     address: '',
+    area: '',
+    city: 'Kolkata',
+    state: 'West Bengal',
+    pincode: '',
+    landmark: '',
     phone: '',
     email: '',
     website: '',
+    sport: '',
+    category: '',
     capacity: 0,
-    hourlyRate: 0,
-    dailyRate: 0,
-    monthlyRate: 0,
-    openTime: '',
-    closeTime: '',
-    closedDays: [] as string[],
+    adultFee: 0,
+    childFee: 0,
+    seniorFee: 0,
+    mondayOpen: '09:00',
+    mondayClose: '21:00',
+    mondayClosed: false,
+    tuesdayOpen: '09:00',
+    tuesdayClose: '21:00',
+    tuesdayClosed: false,
+    wednesdayOpen: '09:00',
+    wednesdayClose: '21:00',
+    wednesdayClosed: false,
+    thursdayOpen: '09:00',
+    thursdayClose: '21:00',
+    thursdayClosed: false,
+    fridayOpen: '09:00',
+    fridayClose: '21:00',
+    fridayClosed: false,
+    saturdayOpen: '09:00',
+    saturdayClose: '21:00',
+    saturdayClosed: false,
+    sundayOpen: '09:00',
+    sundayClose: '21:00',
+    sundayClosed: false,
+    bestTimeToVisit: 'Morning and evening',
+    duration: '1-2 hours',
     facilities: [] as string[],
+    amenities: [] as string[],
+    tags: [] as string[],
+    featured: false,
+    promoted: false,
     images: [] as { url: string; alt?: string; isPrimary?: boolean }[]
   })
 
@@ -167,29 +206,46 @@ export default function SportsAdmin() {
     const facilityData = {
       name: formData.name,
       description: formData.description,
-      sportType: formData.sportType,
-      venueType: formData.venueType,
-      location: {
-        address: formData.address,
-        coordinates: editingFacility?.location?.coordinates || [88.3639, 22.5726] // Default to Kolkata coordinates
+      shortDescription: formData.shortDescription,
+      address: {
+        street: formData.address,
+        area: formData.area,
+        city: formData.city,
+        state: formData.state,
+        pincode: formData.pincode,
+        landmark: formData.landmark
       },
       contact: {
-        phone: formData.phone,
+        phone: [formData.phone],
         email: formData.email,
         website: formData.website
       },
+      sport: formData.sport,
+      category: formData.category,
       capacity: formData.capacity,
+      entryFee: {
+        adult: formData.adultFee,
+        child: formData.childFee,
+        senior: formData.seniorFee,
+        currency: 'INR',
+        isFree: false
+      },
+      timings: {
+        monday: { open: formData.mondayOpen, close: formData.mondayClose, closed: formData.mondayClosed },
+        tuesday: { open: formData.tuesdayOpen, close: formData.tuesdayClose, closed: formData.tuesdayClosed },
+        wednesday: { open: formData.wednesdayOpen, close: formData.wednesdayClose, closed: formData.wednesdayClosed },
+        thursday: { open: formData.thursdayOpen, close: formData.thursdayClose, closed: formData.thursdayClosed },
+        friday: { open: formData.fridayOpen, close: formData.fridayClose, closed: formData.fridayClosed },
+        saturday: { open: formData.saturdayOpen, close: formData.saturdayClose, closed: formData.saturdayClosed },
+        sunday: { open: formData.sundayOpen, close: formData.sundayClose, closed: formData.sundayClosed }
+      },
+      bestTimeToVisit: formData.bestTimeToVisit,
+      duration: formData.duration,
       facilities: formData.facilities,
-      pricing: {
-        hourly: formData.hourlyRate,
-        daily: formData.dailyRate,
-        monthly: formData.monthlyRate
-      },
-      operatingHours: {
-        openTime: formData.openTime,
-        closeTime: formData.closeTime,
-        closedDays: formData.closedDays
-      },
+      amenities: formData.amenities,
+      tags: formData.tags,
+      featured: formData.featured,
+      promoted: formData.promoted,
       images: formData.images,
       status: 'active'
     }
@@ -240,23 +296,51 @@ export default function SportsAdmin() {
     setFormData({
       name: facility.name || '',
       description: facility.description || '',
-      sportType: facility.sportType || '',
-      venueType: facility.venueType || '',
-      address: facility.location?.address || '',
-      phone: facility.contact?.phone || '',
+      shortDescription: facility.shortDescription || '',
+      address: facility.address?.street || '',
+      area: facility.address?.area || '',
+      city: facility.address?.city || 'Kolkata',
+      state: facility.address?.state || 'West Bengal',
+      pincode: facility.address?.pincode || '',
+      landmark: facility.address?.landmark || '',
+      phone: facility.contact?.phone?.[0] || '',
       email: facility.contact?.email || '',
       website: facility.contact?.website || '',
+      sport: facility.sport || '',
+      category: facility.category || '',
       capacity: facility.capacity || 0,
-      hourlyRate: facility.pricing?.hourly || 0,
-      dailyRate: facility.pricing?.daily || 0,
-      monthlyRate: facility.pricing?.monthly || 0,
-      openTime: facility.operatingHours?.openTime || '',
-      closeTime: facility.operatingHours?.closeTime || '',
-      closedDays: facility.operatingHours?.closedDays || [],
+      adultFee: facility.entryFee?.adult || 0,
+      childFee: facility.entryFee?.child || 0,
+      seniorFee: facility.entryFee?.senior || 0,
+      mondayOpen: facility.timings?.monday?.open || '09:00',
+      mondayClose: facility.timings?.monday?.close || '21:00',
+      mondayClosed: facility.timings?.monday?.closed || false,
+      tuesdayOpen: facility.timings?.tuesday?.open || '09:00',
+      tuesdayClose: facility.timings?.tuesday?.close || '21:00',
+      tuesdayClosed: facility.timings?.tuesday?.closed || false,
+      wednesdayOpen: facility.timings?.wednesday?.open || '09:00',
+      wednesdayClose: facility.timings?.wednesday?.close || '21:00',
+      wednesdayClosed: facility.timings?.wednesday?.closed || false,
+      thursdayOpen: facility.timings?.thursday?.open || '09:00',
+      thursdayClose: facility.timings?.thursday?.close || '21:00',
+      thursdayClosed: facility.timings?.thursday?.closed || false,
+      fridayOpen: facility.timings?.friday?.open || '09:00',
+      fridayClose: facility.timings?.friday?.close || '21:00',
+      fridayClosed: facility.timings?.friday?.closed || false,
+      saturdayOpen: facility.timings?.saturday?.open || '09:00',
+      saturdayClose: facility.timings?.saturday?.close || '21:00',
+      saturdayClosed: facility.timings?.saturday?.closed || false,
+      sundayOpen: facility.timings?.sunday?.open || '09:00',
+      sundayClose: facility.timings?.sunday?.close || '21:00',
+      sundayClosed: facility.timings?.sunday?.closed || false,
+      bestTimeToVisit: facility.bestTimeToVisit || 'Morning and evening',
+      duration: facility.duration || '1-2 hours',
       facilities: facility.facilities || [],
-      images: facility.images ? facility.images.map(img => 
-        typeof img === 'string' ? { url: img, alt: facility.name } : img
-      ) : []
+      amenities: facility.amenities || [],
+      tags: facility.tags || [],
+      featured: facility.featured || false,
+      promoted: facility.promoted || false,
+      images: facility.images || []
     })
     setIsAddModalOpen(true)
   }
@@ -265,41 +349,55 @@ export default function SportsAdmin() {
     setFormData({
       name: '',
       description: '',
-      sportType: '',
-      venueType: '',
+      shortDescription: '',
       address: '',
+      area: '',
+      city: 'Kolkata',
+      state: 'West Bengal',
+      pincode: '',
+      landmark: '',
       phone: '',
       email: '',
       website: '',
+      sport: '',
+      category: '',
       capacity: 0,
-      hourlyRate: 0,
-      dailyRate: 0,
-      monthlyRate: 0,
-      openTime: '',
-      closeTime: '',
-      closedDays: [],
+      adultFee: 0,
+      childFee: 0,
+      seniorFee: 0,
+      mondayOpen: '09:00',
+      mondayClose: '21:00',
+      mondayClosed: false,
+      tuesdayOpen: '09:00',
+      tuesdayClose: '21:00',
+      tuesdayClosed: false,
+      wednesdayOpen: '09:00',
+      wednesdayClose: '21:00',
+      wednesdayClosed: false,
+      thursdayOpen: '09:00',
+      thursdayClose: '21:00',
+      thursdayClosed: false,
+      fridayOpen: '09:00',
+      fridayClose: '21:00',
+      fridayClosed: false,
+      saturdayOpen: '09:00',
+      saturdayClose: '21:00',
+      saturdayClosed: false,
+      sundayOpen: '09:00',
+      sundayClose: '21:00',
+      sundayClosed: false,
+      bestTimeToVisit: 'Morning and evening',
+      duration: '1-2 hours',
       facilities: [],
+      amenities: [],
+      tags: [],
+      featured: false,
+      promoted: false,
       images: []
     })
   }
 
-  const handleFacilityToggle = (facility: string) => {
-    setFormData(prev => ({
-      ...prev,
-      facilities: prev.facilities.includes(facility)
-        ? prev.facilities.filter(f => f !== facility)
-        : [...prev.facilities, facility]
-    }))
-  }
 
-  const handleClosedDayToggle = (day: string) => {
-    setFormData(prev => ({
-      ...prev,
-      closedDays: prev.closedDays.includes(day)
-        ? prev.closedDays.filter(d => d !== day)
-        : [...prev.closedDays, day]
-    }))
-  }
 
 
 
@@ -326,7 +424,9 @@ export default function SportsAdmin() {
         </div>
         <Dialog open={isAddModalOpen} onOpenChange={setIsAddModalOpen}>
           <DialogTrigger asChild>
-            <Button onClick={() => {
+            <Button 
+            className='bg-orange-500 hover:bg-orange-600 text-white'
+            onClick={() => {
               resetForm()
               setEditingFacility(null)
             }}>
@@ -360,11 +460,11 @@ export default function SportsAdmin() {
                 </div>
                 <div>
                   <Label htmlFor="sportType">Sport Type</Label>
-                  <Select value={formData.sportType} onValueChange={(value: string) => setFormData({ ...formData, sportType: value })}>
+                  <Select value={formData.sport} onValueChange={(value: string) => setFormData({ ...formData, sport: value })}>
                     <SelectTrigger className="bg-white text-black">
                       <SelectValue placeholder="Select sport type" />
                     </SelectTrigger>
-                    <SelectContent>
+                    <SelectContent className='bg-white text-black'>
                       {sportTypes.map((sport) => (
                         <SelectItem key={sport} value={sport}>{sport}</SelectItem>
                       ))}
@@ -376,11 +476,11 @@ export default function SportsAdmin() {
               <div className="grid grid-cols-2 gap-4">
                 <div>
                   <Label htmlFor="venueType">Venue Type</Label>
-                  <Select value={formData.venueType} onValueChange={(value: string) => setFormData({ ...formData, venueType: value })}>
+                  <Select value={formData.category} onValueChange={(value: string) => setFormData({ ...formData, category: value })}>
                     <SelectTrigger className="bg-white text-black">
                       <SelectValue placeholder="Select venue type" />
                     </SelectTrigger>
-                    <SelectContent>
+                    <SelectContent className='bg-white text-black'>
                       {venueTypes.map((venue) => (
                         <SelectItem key={venue} value={venue}>{venue}</SelectItem>
                       ))}
@@ -402,23 +502,74 @@ export default function SportsAdmin() {
               </div>
 
               <div>
+                <Label htmlFor="shortDescription">Short Description</Label>
+                <Input
+                  id="shortDescription"
+                  value={formData.shortDescription}
+                  onChange={(e: React.ChangeEvent<HTMLInputElement>) => setFormData({ ...formData, shortDescription: e.target.value })}
+                  placeholder="Brief description for listings"
+                  className="bg-white text-black"
+                />
+              </div>
+
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <Label htmlFor="area">Area</Label>
+                  <Input
+                    id="area"
+                    value={formData.area}
+                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => setFormData({ ...formData, area: e.target.value })}
+                    className="bg-white text-black"
+                  />
+                </div>
+                <div>
+                  <Label htmlFor="landmark">Landmark</Label>
+                  <Input
+                    id="landmark"
+                    value={formData.landmark}
+                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => setFormData({ ...formData, landmark: e.target.value })}
+                    className="bg-white text-black"
+                  />
+                </div>
+              </div>
+
+              <div className="grid grid-cols-3 gap-4">
+                <div>
+                  <Label htmlFor="city">City</Label>
+                  <Input
+                    id="city"
+                    value={formData.city}
+                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => setFormData({ ...formData, city: e.target.value })}
+                    className="bg-white text-black"
+                  />
+                </div>
+                <div>
+                  <Label htmlFor="state">State</Label>
+                  <Input
+                    id="state"
+                    value={formData.state}
+                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => setFormData({ ...formData, state: e.target.value })}
+                    className="bg-white text-black"
+                  />
+                </div>
+                <div>
+                  <Label htmlFor="pincode">Pincode</Label>
+                  <Input
+                    id="pincode"
+                    value={formData.pincode}
+                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => setFormData({ ...formData, pincode: e.target.value })}
+                    className="bg-white text-black"
+                  />
+                </div>
+              </div>
+
+              <div>
                 <Label htmlFor="description">Description</Label>
                 <Textarea
                   id="description"
                   value={formData.description}
                   onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => setFormData({ ...formData, description: e.target.value })}
                   required
-                />
-              </div>
-
-              <div>
-                <Label htmlFor="address">Address</Label>
-                <Input
-                  id="address"
-                  value={formData.address}
-                  onChange={(e: React.ChangeEvent<HTMLInputElement>) => setFormData({ ...formData, address: e.target.value })}
-                  required
-                  className="bg-white text-black"
                 />
               </div>
 
@@ -458,84 +609,131 @@ export default function SportsAdmin() {
               </div>
 
               <div>
-                <Label>Pricing (₹)</Label>
+                <Label>Entry Fees (₹)</Label>
                 <div className="grid grid-cols-3 gap-4 mt-2">
                   <div>
-                    <Label htmlFor="hourlyRate">Hourly</Label>
+                    <Label htmlFor="adultFee">Adult</Label>
                     <Input
-                      id="hourlyRate"
+                      id="adultFee"
                       type="number"
                       min="0"
-                      value={formData.hourlyRate}
-                      onChange={(e: React.ChangeEvent<HTMLInputElement>) => setFormData({ ...formData, hourlyRate: parseInt(e.target.value) || 0 })}
+                      value={formData.adultFee}
+                      onChange={(e: React.ChangeEvent<HTMLInputElement>) => setFormData({ ...formData, adultFee: parseInt(e.target.value) || 0 })}
                       className="bg-white text-black"
                     />
                   </div>
                   <div>
-                    <Label htmlFor="dailyRate">Daily</Label>
+                    <Label htmlFor="childFee">Child</Label>
                     <Input
-                      id="dailyRate"
+                      id="childFee"
                       type="number"
                       min="0"
-                      value={formData.dailyRate}
-                      onChange={(e: React.ChangeEvent<HTMLInputElement>) => setFormData({ ...formData, dailyRate: parseInt(e.target.value) || 0 })}
+                      value={formData.childFee}
+                      onChange={(e: React.ChangeEvent<HTMLInputElement>) => setFormData({ ...formData, childFee: parseInt(e.target.value) || 0 })}
                       className="bg-white text-black"
                     />
                   </div>
                   <div>
-                    <Label htmlFor="monthlyRate">Monthly</Label>
+                    <Label htmlFor="seniorFee">Senior</Label>
                     <Input
-                      id="monthlyRate"
+                      id="seniorFee"
                       type="number"
                       min="0"
-                      value={formData.monthlyRate}
-                      onChange={(e: React.ChangeEvent<HTMLInputElement>) => setFormData({ ...formData, monthlyRate: parseInt(e.target.value) || 0 })}
+                      value={formData.seniorFee}
+                      onChange={(e: React.ChangeEvent<HTMLInputElement>) => setFormData({ ...formData, seniorFee: parseInt(e.target.value) || 0 })}
                       className="bg-white text-black"
                     />
                   </div>
+                </div>
+              </div>
+
+              <div>
+                <Label>Operating Hours</Label>
+                <div className="space-y-3 mt-2">
+                  {[
+                    { key: 'monday', label: 'Monday' },
+                    { key: 'tuesday', label: 'Tuesday' },
+                    { key: 'wednesday', label: 'Wednesday' },
+                    { key: 'thursday', label: 'Thursday' },
+                    { key: 'friday', label: 'Friday' },
+                    { key: 'saturday', label: 'Saturday' },
+                    { key: 'sunday', label: 'Sunday' }
+                  ].map(({ key, label }) => (
+                    <div key={key} className="flex items-center space-x-4">
+                      <div className="w-20">
+                        <Label className="text-sm">{label}</Label>
+                      </div>
+                      <div className="flex items-center space-x-2">
+                        <input
+                          type="checkbox"
+                          id={`${key}Closed`}
+                          checked={formData[`${key}Closed` as keyof typeof formData] as boolean}
+                          onChange={(e: React.ChangeEvent<HTMLInputElement>) => setFormData({ ...formData, [`${key}Closed`]: e.target.checked })}
+                          className="rounded"
+                        />
+                        <Label htmlFor={`${key}Closed`} className="text-sm">Closed</Label>
+                      </div>
+                      <Input
+                        type="time"
+                        value={formData[`${key}Open` as keyof typeof formData] as string}
+                        onChange={(e: React.ChangeEvent<HTMLInputElement>) => setFormData({ ...formData, [`${key}Open`]: e.target.value })}
+                        disabled={formData[`${key}Closed` as keyof typeof formData] as boolean}
+                        className="bg-white text-black w-32"
+                      />
+                      <span className="text-sm text-gray-500">to</span>
+                      <Input
+                        type="time"
+                        value={formData[`${key}Close` as keyof typeof formData] as string}
+                        onChange={(e: React.ChangeEvent<HTMLInputElement>) => setFormData({ ...formData, [`${key}Close`]: e.target.value })}
+                        disabled={formData[`${key}Closed` as keyof typeof formData] as boolean}
+                        className="bg-white text-black w-32"
+                      />
+                    </div>
+                  ))}
                 </div>
               </div>
 
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <Label htmlFor="openTime">Opening Time</Label>
+                  <Label htmlFor="bestTimeToVisit">Best Time to Visit</Label>
                   <Input
-                    id="openTime"
-                    type="time"
-                    value={formData.openTime}
-                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => setFormData({ ...formData, openTime: e.target.value })}
-                    required
+                    id="bestTimeToVisit"
+                    value={formData.bestTimeToVisit}
+                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => setFormData({ ...formData, bestTimeToVisit: e.target.value })}
                     className="bg-white text-black"
                   />
                 </div>
                 <div>
-                  <Label htmlFor="closeTime">Closing Time</Label>
+                  <Label htmlFor="duration">Duration</Label>
                   <Input
-                    id="closeTime"
-                    type="time"
-                    value={formData.closeTime}
-                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => setFormData({ ...formData, closeTime: e.target.value })}
-                    required
+                    id="duration"
+                    value={formData.duration}
+                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => setFormData({ ...formData, duration: e.target.value })}
                     className="bg-white text-black"
                   />
                 </div>
               </div>
 
-              <div>
-                <Label>Closed Days</Label>
-                <div className="grid grid-cols-4 gap-2 mt-2">
-                  {weekDays.map((day) => (
-                    <div key={day} className="flex items-center space-x-2">
-                      <input
-                        type="checkbox"
-                        id={day}
-                        checked={formData.closedDays.includes(day)}
-                        onChange={() => handleClosedDayToggle(day)}
-                        className="rounded"
-                      />
-                      <Label htmlFor={day} className="text-sm">{day}</Label>
-                    </div>
-                  ))}
+              <div className="grid grid-cols-2 gap-4">
+                <div className="flex items-center space-x-2">
+                  <input
+                    type="checkbox"
+                    id="featured"
+                    checked={formData.featured}
+                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => setFormData({ ...formData, featured: e.target.checked })}
+                    className="rounded"
+                  />
+                  <Label htmlFor="featured">Featured</Label>
+                </div>
+                <div className="flex items-center space-x-2">
+                  <input
+                    type="checkbox"
+                    id="promoted"
+                    checked={formData.promoted}
+                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => setFormData({ ...formData, promoted: e.target.checked })}
+                    className="rounded"
+                  />
+                  <Label htmlFor="promoted">Promoted</Label>
                 </div>
               </div>
 
@@ -550,11 +748,22 @@ export default function SportsAdmin() {
                 />
               </div>
 
-              <div className="flex justify-end space-x-2">
-                <Button type="button" variant="outline" onClick={() => setIsAddModalOpen(false)} className="bg-green-500 hover:bg-green-600 text-white">
+              <div className="flex justify-end space-x-2 pt-4">
+                <Button 
+                  type="button" 
+                  variant="outline" 
+                  onClick={() => {
+                    setIsAddModalOpen(false)
+                    setEditingFacility(null)
+                  }}
+                  className="bg-gray-500 hover:bg-gray-600 text-white"
+                >
                   Cancel
                 </Button>
-                <Button type="submit" className="bg-orange-500 hover:bg-orange-600 text-white">
+                <Button 
+                  type="submit" 
+                  className="bg-orange-500 hover:bg-orange-600 text-white"
+                >
                   {editingFacility ? 'Update Facility' : 'Add Facility'}
                 </Button>
               </div>
@@ -641,7 +850,7 @@ export default function SportsAdmin() {
               <SelectTrigger className="w-48 bg-white text-black">
                 <SelectValue placeholder="Filter by sport" />
               </SelectTrigger>
-              <SelectContent>
+              <SelectContent className='bg-white text-black'>
                 <SelectItem value="all">All Sports</SelectItem>
                 {sportTypes.map((sport) => (
                   <SelectItem key={sport} value={sport}>{sport}</SelectItem>
@@ -652,7 +861,7 @@ export default function SportsAdmin() {
               <SelectTrigger className="w-40 bg-white text-black">
                 <SelectValue placeholder="Filter by status" />
               </SelectTrigger>
-              <SelectContent>
+              <SelectContent className='bg-white text-black'>
                 <SelectItem value="all">All Status</SelectItem>
                 <SelectItem value="active">Active</SelectItem>
                 <SelectItem value="inactive">Inactive</SelectItem>
@@ -675,9 +884,6 @@ export default function SportsAdmin() {
                   </th>
                   <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                     Sport Type
-                  </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Location
                   </th>
                   <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                     Capacity
@@ -714,7 +920,7 @@ export default function SportsAdmin() {
                           <div className="h-4 bg-gray-200 rounded w-20"></div>
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap">
-                          <div className="h-4 bg-gray-200 rounded w-32"></div>
+                          <div className="h-4 bg-gray-200 rounded w-16"></div>
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap">
                           <div className="h-4 bg-gray-200 rounded w-16"></div>
@@ -724,9 +930,6 @@ export default function SportsAdmin() {
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap">
                           <div className="h-4 bg-gray-200 rounded w-16"></div>
-                        </td>
-                        <td className="px-6 py-4 whitespace-nowrap">
-                          <div className="h-6 bg-gray-200 rounded w-16"></div>
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap">
                           <div className="flex space-x-2">
@@ -740,7 +943,7 @@ export default function SportsAdmin() {
                   } else if (facilities.length === 0) {
                     return (
                       <tr>
-                        <td colSpan={8} className="px-6 py-12 text-center">
+                        <td colSpan={7} className="px-6 py-12 text-center">
                           <Trophy className="h-16 w-16 text-gray-300 mx-auto mb-4" />
                           <p className="text-gray-500">No sports facilities found matching your criteria.</p>
                         </td>
@@ -766,22 +969,19 @@ export default function SportsAdmin() {
                             </div>
                             <div className="ml-4">
                               <div className="text-sm font-medium text-gray-900">{facility.name}</div>
-                              <div className="text-sm text-gray-500">{facility.venueType}</div>
+                              <div className="text-sm text-gray-500">{facility.category}</div>
                             </div>
                           </div>
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap">
-                          <div className="text-sm text-gray-900">{facility.sportType}</div>
-                        </td>
-                        <td className="px-6 py-4 whitespace-nowrap">
-                          <div className="text-sm text-gray-900">{facility.location?.address || 'N/A'}</div>
+                          <div className="text-sm text-gray-900">{facility.sport}</div>
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap">
                           <div className="text-sm text-gray-900">{facility.capacity || 'N/A'}</div>
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap">
                           <div className="text-sm text-gray-900">
-                            {facility.operatingHours?.openTime || 'N/A'} - {facility.operatingHours?.closeTime || 'N/A'}
+                            {facility.timings?.monday?.open || 'N/A'} - {facility.timings?.monday?.close || 'N/A'}
                           </div>
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap">
@@ -801,9 +1001,9 @@ export default function SportsAdmin() {
                             <Button size="sm" variant="outline" onClick={() => handleEdit(facility)}>
                               <Edit className="h-4 w-4" />
                             </Button>
-                            <Button size="sm" variant="outline">
+                            {/* <Button size="sm" variant="outline">
                               <Eye className="h-4 w-4" />
-                            </Button>
+                            </Button> */}
                             <Button 
                               size="sm" 
                               variant="outline" 
