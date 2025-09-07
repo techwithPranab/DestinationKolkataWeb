@@ -1,28 +1,36 @@
 import { NextRequest, NextResponse } from 'next/server'
+import connectDB from '@/lib/mongodb'
+import { User } from '@/models'
 
-// Mock data for users - replace with actual database
-const users = [
-  {
-    _id: '1',
-    name: 'John Doe',
-    email: 'john.doe@example.com',
-    phone: '+91-98765-43210',
-    role: 'User',
-    status: 'Active',
-    profile: {
-      avatar: '/images/users/john-doe.jpg',
-      bio: 'Travel enthusiast exploring Kolkata',
-      preferences: ['Heritage', 'Food', 'Culture']
-    },
-    bookingHistory: [
-      { id: 'B001', type: 'Hotel', date: '2024-01-15', amount: 2500 },
-      { id: 'B002', type: 'Restaurant', date: '2024-01-20', amount: 800 }
-    ],
-    lastLogin: '2024-01-20T10:30:00Z',
-    createdAt: '2024-01-01T00:00:00Z',
-    updatedAt: new Date().toISOString()
+// Define proper types for user data
+interface UserProfile {
+  avatar?: string
+  phone?: string
+  dateOfBirth?: Date
+  gender?: string
+  location?: {
+    city?: string
+    state?: string
+    country?: string
   }
-]
+  interests?: string[]
+  bio?: string
+}
+
+interface UserData {
+  _id: string
+  firstName?: string
+  lastName?: string
+  name?: string
+  email: string
+  phone?: string
+  role: string
+  status?: string
+  profile?: UserProfile
+  lastLogin?: Date
+  createdAt?: Date
+  updatedAt?: Date
+}
 
 // GET /api/admin/users/[id] - Get specific user
 export async function GET(
@@ -30,8 +38,10 @@ export async function GET(
   { params }: { params: Promise<{ id: string }> }
 ) {
   try {
+    await connectDB()
     const { id } = await params
-    const user = users.find(u => u._id === id)
+
+    const user = await User.findById(id).lean() as UserData | null
 
     if (!user) {
       return NextResponse.json(
@@ -40,9 +50,28 @@ export async function GET(
       )
     }
 
+    // Transform user data to match frontend interface
+    const transformedUser = {
+      _id: user._id,
+      name: user.name || `${user.firstName || ''} ${user.lastName || ''}`.trim() || 'Unnamed User',
+      email: user.email,
+      phone: user.phone || '',
+      role: user.role || 'customer',
+      status: user.status || 'active',
+      profile: {
+        avatar: user.profile?.avatar || '/images/users/default.jpg',
+        bio: user.profile?.bio || '',
+        preferences: user.profile?.interests || []
+      },
+      bookingHistory: [], // Not implemented yet
+      lastLogin: user.lastLogin,
+      createdAt: user.createdAt,
+      updatedAt: user.updatedAt
+    }
+
     return NextResponse.json({
       success: true,
-      user
+      user: transformedUser
     })
   } catch (error) {
     console.error('Error fetching user:', error)
@@ -59,29 +88,72 @@ export async function PUT(
   { params }: { params: Promise<{ id: string }> }
 ) {
   try {
+    await connectDB()
     const body = await request.json()
     const { id } = await params
-    const userIndex = users.findIndex(u => u._id === id)
 
-    if (userIndex === -1) {
+    // Transform frontend data to database format
+    const roleValue = body.role?.toLowerCase()
+    let dbRole: string
+    switch (roleValue) {
+      case 'admin':
+        dbRole = 'admin'
+        break
+      case 'moderator':
+        dbRole = 'moderator'
+        break
+      default:
+        dbRole = 'customer'
+    }
+
+    const updateData = {
+      name: body.name,
+      email: body.email,
+      phone: body.phone,
+      role: dbRole,
+      status: body.status?.toLowerCase() || 'active',
+      firstName: body.name?.split(' ')[0] || '',
+      lastName: body.name?.split(' ').slice(1).join(' ') || '',
+      profile: {
+        avatar: body.profile?.avatar || '/images/users/default.jpg',
+        bio: body.profile?.bio || '',
+        interests: body.profile?.preferences || []
+      },
+      updatedAt: new Date()
+    }
+
+    const updatedUser = await User.findByIdAndUpdate(id, updateData, { new: true }).lean() as UserData | null
+
+    if (!updatedUser) {
       return NextResponse.json(
         { success: false, message: 'User not found' },
         { status: 404 }
       )
     }
 
-    const updatedUser = {
-      ...users[userIndex],
-      ...body,
-      updatedAt: new Date().toISOString()
+    // Transform response to match frontend format
+    const transformedUser = {
+      _id: updatedUser._id,
+      name: updatedUser.name || `${updatedUser.firstName || ''} ${updatedUser.lastName || ''}`.trim() || 'Unnamed User',
+      email: updatedUser.email,
+      phone: updatedUser.phone || '',
+      role: updatedUser.role || 'customer',
+      status: updatedUser.status || 'active',
+      profile: {
+        avatar: updatedUser.profile?.avatar || '/images/users/default.jpg',
+        bio: updatedUser.profile?.bio || '',
+        preferences: updatedUser.profile?.interests || []
+      },
+      bookingHistory: [],
+      lastLogin: updatedUser.lastLogin,
+      createdAt: updatedUser.createdAt,
+      updatedAt: updatedUser.updatedAt
     }
-
-    users[userIndex] = updatedUser
 
     return NextResponse.json({
       success: true,
       message: 'User updated successfully',
-      user: updatedUser
+      user: transformedUser
     })
   } catch (error) {
     console.error('Error updating user:', error)
@@ -98,22 +170,21 @@ export async function DELETE(
   { params }: { params: Promise<{ id: string }> }
 ) {
   try {
+    await connectDB()
     const { id } = await params
-    const userIndex = users.findIndex(u => u._id === id)
 
-    if (userIndex === -1) {
+    const deletedUser = await User.findByIdAndDelete(id).lean() as UserData | null
+
+    if (!deletedUser) {
       return NextResponse.json(
         { success: false, message: 'User not found' },
         { status: 404 }
       )
     }
 
-    const deletedUser = users.splice(userIndex, 1)[0]
-
     return NextResponse.json({
       success: true,
-      message: 'User deleted successfully',
-      user: deletedUser
+      message: 'User deleted successfully'
     })
   } catch (error) {
     console.error('Error deleting user:', error)

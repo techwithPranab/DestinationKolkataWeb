@@ -9,7 +9,6 @@ import {
   Eye, 
   Star,
   Camera,
-  Ticket,
   ChevronLeft,
   ChevronRight
 } from 'lucide-react'
@@ -103,11 +102,17 @@ export default function VisitingPlacesAdmin() {
   const [totalPages, setTotalPages] = useState(1)
   const [totalPlaces, setTotalPlaces] = useState(0)
   const [pageSize] = useState(10) // Items per page
+  // Overall stats (not affected by filtering)
+  const [overallStats, setOverallStats] = useState({
+    total: 0,
+    active: 0,
+    pending: 0,
+    inactive: 0
+  })
   const [formData, setFormData] = useState({
     name: '',
     description: '',
     category: '',
-    address: '',
     phone: '',
     email: '',
     website: '',
@@ -119,6 +124,7 @@ export default function VisitingPlacesAdmin() {
     closedDays: [] as string[],
     features: [] as string[],
     bestTimeToVisit: [] as string[],
+    status: 'active',
     images: [] as { url: string; alt?: string; isPrimary?: boolean }[]
   })
 
@@ -149,9 +155,32 @@ export default function VisitingPlacesAdmin() {
     }
   }, [searchTerm, filterCategory, filterStatus, pageSize])
 
+  const fetchOverallStats = useCallback(async () => {
+    try {
+      // Get all places in one call to calculate stats
+      const response = await fetch('/api/attractions?status=all&page=1&limit=10000')
+      const data = await response.json()
+      
+      const places = data.places || []
+      const activeCount = places.filter((p: VisitingPlace) => p.status === 'active').length
+      const pendingCount = places.filter((p: VisitingPlace) => p.status === 'pending').length
+      const inactiveCount = places.filter((p: VisitingPlace) => p.status === 'inactive').length
+      
+      setOverallStats({
+        total: data.pagination?.total || places.length,
+        active: activeCount,
+        pending: pendingCount,
+        inactive: inactiveCount
+      })
+    } catch (error) {
+      console.error('Error fetching overall stats:', error)
+    }
+  }, [])
+
   useEffect(() => {
     fetchPlaces(currentPage)
-  }, [currentPage, fetchPlaces])
+    fetchOverallStats()
+  }, [currentPage, fetchPlaces, fetchOverallStats])
 
   useEffect(() => {
     setCurrentPage(1)
@@ -165,28 +194,27 @@ export default function VisitingPlacesAdmin() {
       description: formData.description,
       category: formData.category,
       location: {
-        address: formData.address,
-        coordinates: [88.3639, 22.5726] // Default to Kolkata coordinates
+        coordinates: editingPlace?.location?.coordinates || [88.3639, 22.5726] // Default to Kolkata coordinates
       },
       contact: {
-        phone: formData.phone,
-        email: formData.email,
-        website: formData.website
+        phone: formData.phone || null,
+        email: formData.email || null,
+        website: formData.website || null
       },
       entryFee: {
-        adult: formData.adultFee,
-        child: formData.childFee,
-        senior: formData.seniorFee
+        adult: formData.adultFee || 0,
+        child: formData.childFee || 0,
+        senior: formData.seniorFee || 0
       },
       timings: {
-        openTime: formData.openTime,
-        closeTime: formData.closeTime,
-        closedDays: formData.closedDays
+        openTime: formData.openTime || '',
+        closeTime: formData.closeTime || '',
+        closedDays: formData.closedDays || []
       },
-      features: formData.features,
-      bestTimeToVisit: formData.bestTimeToVisit,
-      images: formData.images,
-      status: 'active'
+      features: formData.features || [],
+      bestTimeToVisit: formData.bestTimeToVisit || [],
+      images: formData.images || [],
+      status: formData.status || 'active'
     }
 
     try {
@@ -206,6 +234,7 @@ export default function VisitingPlacesAdmin() {
 
       if (response.ok) {
         await fetchPlaces()
+        await fetchOverallStats()
         resetForm()
         setIsAddModalOpen(false)
         setEditingPlace(null)
@@ -223,6 +252,7 @@ export default function VisitingPlacesAdmin() {
         })
         if (response.ok) {
           await fetchPlaces()
+          await fetchOverallStats()
         }
       } catch (error) {
         console.error('Error deleting place:', error)
@@ -231,23 +261,27 @@ export default function VisitingPlacesAdmin() {
   }
 
   const handleEdit = (place: VisitingPlace) => {
+    console.log('Editing place:', place)
+    console.log('Place timings:', place.timings)
+    console.log('Open time:', place.timings?.openTime)
+    console.log('Close time:', place.timings?.closeTime)
     setEditingPlace(place)
     setFormData({
-      name: place.name,
-      description: place.description,
-      category: place.category,
-      address: place.location.address,
-      phone: place.contact.phone || '',
-      email: place.contact.email || '',
-      website: place.contact.website || '',
-      adultFee: place.entryFee.adult,
-      childFee: place.entryFee.child,
-      seniorFee: place.entryFee.senior,
-      openTime: place.timings.openTime,
-      closeTime: place.timings.closeTime,
-      closedDays: place.timings.closedDays,
-      features: place.features,
-      bestTimeToVisit: place.bestTimeToVisit,
+      name: place.name || '',
+      description: place.description || '',
+      category: place.category || '',
+      phone: place.contact?.phone || '',
+      email: place.contact?.email || '',
+      website: place.contact?.website || '',
+      adultFee: place.entryFee?.adult || 0,
+      childFee: place.entryFee?.child || 0,
+      seniorFee: place.entryFee?.senior || 0,
+      openTime: place.timings?.openTime ? formatTimeForInput(place.timings.openTime) : '',
+      closeTime: place.timings?.closeTime ? formatTimeForInput(place.timings.closeTime) : '',
+      closedDays: place.timings?.closedDays || [],
+      features: place.features || [],
+      bestTimeToVisit: place.bestTimeToVisit || [],
+      status: place.status || 'active',
       images: place.images ? place.images.map(img => 
         typeof img === 'string' ? { url: img, alt: place.name } : img
       ) : []
@@ -260,7 +294,6 @@ export default function VisitingPlacesAdmin() {
       name: '',
       description: '',
       category: '',
-      address: '',
       phone: '',
       email: '',
       website: '',
@@ -272,6 +305,7 @@ export default function VisitingPlacesAdmin() {
       closedDays: [],
       features: [],
       bestTimeToVisit: [],
+      status: 'active',
       images: []
     })
   }
@@ -279,31 +313,74 @@ export default function VisitingPlacesAdmin() {
   const handleFeatureToggle = (feature: string) => {
     setFormData(prev => ({
       ...prev,
-      features: prev.features.includes(feature)
-        ? prev.features.filter(f => f !== feature)
-        : [...prev.features, feature]
+      features: (prev.features || []).includes(feature)
+        ? (prev.features || []).filter(f => f !== feature)
+        : [...(prev.features || []), feature]
     }))
   }
 
   const handleBestTimeToggle = (time: string) => {
     setFormData(prev => ({
       ...prev,
-      bestTimeToVisit: prev.bestTimeToVisit.includes(time)
-        ? prev.bestTimeToVisit.filter(t => t !== time)
-        : [...prev.bestTimeToVisit, time]
+      bestTimeToVisit: (prev.bestTimeToVisit || []).includes(time)
+        ? (prev.bestTimeToVisit || []).filter(t => t !== time)
+        : [...(prev.bestTimeToVisit || []), time]
     }))
   }
 
   const handleClosedDayToggle = (day: string) => {
     setFormData(prev => ({
       ...prev,
-      closedDays: prev.closedDays.includes(day)
-        ? prev.closedDays.filter(d => d !== day)
-        : [...prev.closedDays, day]
+      closedDays: (prev.closedDays || []).includes(day)
+        ? (prev.closedDays || []).filter(d => d !== day)
+        : [...(prev.closedDays || []), day]
     }))
   }
 
 
+
+  const formatTimeForInput = (timeString: string) => {
+    console.log('Formatting time input:', timeString)
+    if (!timeString) return ''
+    
+    // If it's already in HH:MM format, return as is
+    if (/^\d{2}:\d{2}$/.test(timeString)) {
+      console.log('Time already in correct format:', timeString)
+      return timeString
+    }
+    
+    // Try to parse various time formats
+    try {
+      // If it's a full date-time string, extract time part
+      if (timeString.includes('T')) {
+        const timePart = timeString.split('T')[1]?.split('.')[0]
+        if (timePart && /^\d{2}:\d{2}:\d{2}$/.test(timePart)) {
+          const formatted = timePart.substring(0, 5) // Take HH:MM part
+          console.log('Extracted time from datetime:', formatted)
+          return formatted
+        }
+      }
+      
+      // If it's just HH:MM:SS format
+      if (/^\d{2}:\d{2}:\d{2}$/.test(timeString)) {
+        const formatted = timeString.substring(0, 5)
+        console.log('Converted HH:MM:SS to HH:MM:', formatted)
+        return formatted
+      }
+      
+      // If it's just HH:MM format already
+      if (/^\d{2}:\d{2}$/.test(timeString)) {
+        console.log('Time already in HH:MM format:', timeString)
+        return timeString
+      }
+      
+      console.log('Unrecognized time format:', timeString)
+      return ''
+    } catch (error) {
+      console.error('Error formatting time:', error, timeString)
+      return ''
+    }
+  }
 
   const getStatusColor = (status: string) => {
     switch (status) {
@@ -328,7 +405,9 @@ export default function VisitingPlacesAdmin() {
         </div>
         <Dialog open={isAddModalOpen} onOpenChange={setIsAddModalOpen}>
           <DialogTrigger asChild>
-            <Button onClick={() => {
+            <Button 
+            className='bg-orange-600 hover:bg-orange-700 text-white'
+            onClick={() => {
               resetForm()
               setEditingPlace(null)
             }}>
@@ -336,7 +415,7 @@ export default function VisitingPlacesAdmin() {
               Add Place
             </Button>
           </DialogTrigger>
-          <DialogContent className="max-w-3xl max-h-[90vh] overflow-y-auto">
+          <DialogContent className="max-w-3xl max-h-[90vh] overflow-y-auto bg-white">
             <DialogHeader>
               <DialogTitle>
                 {editingPlace ? 'Edit Visiting Place' : 'Add New Visiting Place'}
@@ -366,7 +445,7 @@ export default function VisitingPlacesAdmin() {
                     <SelectTrigger className="bg-white text-black">
                       <SelectValue placeholder="Select category" />
                     </SelectTrigger>
-                    <SelectContent>
+                    <SelectContent className="bg-white">
                       {placeCategories.map((category) => (
                         <SelectItem key={category} value={category}>{category}</SelectItem>
                       ))}
@@ -382,17 +461,6 @@ export default function VisitingPlacesAdmin() {
                   value={formData.description}
                   onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => setFormData({ ...formData, description: e.target.value })}
                   required
-                />
-              </div>
-
-              <div>
-                <Label htmlFor="address">Address</Label>
-                <Input
-                  id="address"
-                  value={formData.address}
-                  onChange={(e: React.ChangeEvent<HTMLInputElement>) => setFormData({ ...formData, address: e.target.value })}
-                  required
-                  className="bg-white text-black"
                 />
               </div>
 
@@ -427,6 +495,20 @@ export default function VisitingPlacesAdmin() {
                   onChange={(e: React.ChangeEvent<HTMLInputElement>) => setFormData({ ...formData, website: e.target.value })}
                   className="bg-white text-black"
                 />
+              </div>
+
+              <div>
+                <Label htmlFor="status">Status</Label>
+                <Select value={formData.status} onValueChange={(value: string) => setFormData({ ...formData, status: value })}>
+                  <SelectTrigger className="bg-white text-black">
+                    <SelectValue placeholder="Select status" />
+                  </SelectTrigger>
+                  <SelectContent className="bg-white">
+                    <SelectItem value="active">Active</SelectItem>
+                    <SelectItem value="inactive">Inactive</SelectItem>
+                    <SelectItem value="pending">Pending</SelectItem>
+                  </SelectContent>
+                </Select>
               </div>
 
               <div>
@@ -501,7 +583,7 @@ export default function VisitingPlacesAdmin() {
                       <input
                         type="checkbox"
                         id={day}
-                        checked={formData.closedDays.includes(day)}
+                        checked={(formData.closedDays || []).includes(day)}
                         onChange={() => handleClosedDayToggle(day)}
                         className="rounded"
                       />
@@ -519,11 +601,29 @@ export default function VisitingPlacesAdmin() {
                       <input
                         type="checkbox"
                         id={feature}
-                        checked={formData.features.includes(feature)}
+                        checked={(formData.features || []).includes(feature)}
                         onChange={() => handleFeatureToggle(feature)}
                         className="rounded"
                       />
                       <Label htmlFor={feature} className="text-sm">{feature}</Label>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              <div>
+                <Label>Best Time to Visit</Label>
+                <div className="grid grid-cols-3 gap-2 mt-2">
+                  {bestTimeOptions.map((time) => (
+                    <div key={time} className="flex items-center space-x-2">
+                      <input
+                        type="checkbox"
+                        id={time}
+                        checked={(formData.bestTimeToVisit || []).includes(time)}
+                        onChange={() => handleBestTimeToggle(time)}
+                        className="rounded"
+                      />
+                      <Label htmlFor={time} className="text-sm">{time}</Label>
                     </div>
                   ))}
                 </div>
@@ -541,10 +641,10 @@ export default function VisitingPlacesAdmin() {
               </div>
 
               <div className="flex justify-end space-x-2">
-                <Button type="button" variant="outline" onClick={() => setIsAddModalOpen(false)}>
+                <Button type="button" variant="outline" onClick={() => setIsAddModalOpen(false)} className="bg-green-500 hover:bg-green-600 text-white">
                   Cancel
                 </Button>
-                <Button type="submit">
+                <Button type="submit" className="bg-orange-500 hover:bg-orange-600 text-white">
                   {editingPlace ? 'Update Place' : 'Add Place'}
                 </Button>
               </div>
@@ -560,7 +660,7 @@ export default function VisitingPlacesAdmin() {
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-sm font-medium text-gray-600">Total Places</p>
-                <p className="text-2xl font-bold text-gray-900">{totalPlaces}</p>
+                <p className="text-2xl font-bold text-gray-900">{overallStats.total}</p>
               </div>
               <Camera className="h-8 w-8 text-purple-500" />
             </div>
@@ -572,7 +672,7 @@ export default function VisitingPlacesAdmin() {
               <div>
                 <p className="text-sm font-medium text-gray-600">Active</p>
                 <p className="text-2xl font-bold text-green-600">
-                  {places.filter(p => p.status === 'active').length}
+                  {overallStats.active}
                 </p>
               </div>
               <div className="h-8 w-8 bg-green-100 rounded-full flex items-center justify-center">
@@ -585,12 +685,14 @@ export default function VisitingPlacesAdmin() {
           <CardContent className="p-6">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm font-medium text-gray-600">Free Entry</p>
-                <p className="text-2xl font-bold text-blue-600">
-                  {places.filter(p => p.entryFee.adult === 0).length}
+                <p className="text-sm font-medium text-gray-600">Pending</p>
+                <p className="text-2xl font-bold text-yellow-600">
+                  {overallStats.pending}
                 </p>
               </div>
-              <Ticket className="h-8 w-8 text-blue-500" />
+              <div className="h-8 w-8 bg-yellow-100 rounded-full flex items-center justify-center">
+                <div className="h-3 w-3 bg-yellow-500 rounded-full"></div>
+              </div>
             </div>
           </CardContent>
         </Card>
@@ -631,7 +733,7 @@ export default function VisitingPlacesAdmin() {
               <SelectTrigger className="w-48 bg-white text-black">
                 <SelectValue placeholder="Filter by category" />
               </SelectTrigger>
-              <SelectContent>
+              <SelectContent className="bg-white">
                 <SelectItem value="all">All Categories</SelectItem>
                 {placeCategories.map((category) => (
                   <SelectItem key={category} value={category}>{category}</SelectItem>
@@ -642,7 +744,7 @@ export default function VisitingPlacesAdmin() {
               <SelectTrigger className="w-40 bg-white text-black">
                 <SelectValue placeholder="Filter by status" />
               </SelectTrigger>
-              <SelectContent>
+              <SelectContent className="bg-white">
                 <SelectItem value="all">All Status</SelectItem>
                 <SelectItem value="active">Active</SelectItem>
                 <SelectItem value="inactive">Inactive</SelectItem>
@@ -665,9 +767,6 @@ export default function VisitingPlacesAdmin() {
                   </th>
                   <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                     Category
-                  </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Location
                   </th>
                   <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                     Entry Fee
@@ -730,7 +829,7 @@ export default function VisitingPlacesAdmin() {
                   } else if (places.length === 0) {
                     return (
                       <tr>
-                        <td colSpan={8} className="px-6 py-12 text-center">
+                        <td colSpan={7} className="px-6 py-12 text-center">
                           <Camera className="h-16 w-16 text-gray-300 mx-auto mb-4" />
                           <p className="text-gray-500">No places found matching your criteria.</p>
                         </td>
@@ -764,9 +863,6 @@ export default function VisitingPlacesAdmin() {
                           <div className="text-sm text-gray-900">{place.category}</div>
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap">
-                          <div className="text-sm text-gray-900">{place.location?.address || 'N/A'}</div>
-                        </td>
-                        <td className="px-6 py-4 whitespace-nowrap">
                           <div className="text-sm text-gray-900">
                             ₹{place.entryFee?.adult || 0}
                             {place.entryFee?.adult === 0 && <span className="ml-1 text-green-600 font-medium">Free</span>}
@@ -794,9 +890,7 @@ export default function VisitingPlacesAdmin() {
                             <Button size="sm" variant="outline" onClick={() => handleEdit(place)}>
                               <Edit className="h-4 w-4" />
                             </Button>
-                            <Button size="sm" variant="outline">
-                              <Eye className="h-4 w-4" />
-                            </Button>
+                            
                             <Button 
                               size="sm" 
                               variant="outline" 
@@ -833,6 +927,7 @@ export default function VisitingPlacesAdmin() {
             <Button
               variant="outline"
               size="sm"
+              className='bg-orange-600 hover:bg-orange-700 text-white'
               onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
               disabled={currentPage === 1}
             >
@@ -862,6 +957,7 @@ export default function VisitingPlacesAdmin() {
             <Button
               variant="outline"
               size="sm"
+              className='bg-orange-600 hover:bg-orange-700 text-white'
               onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))}
               disabled={currentPage === totalPages}
             >

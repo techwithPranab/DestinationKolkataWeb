@@ -19,13 +19,16 @@ import {
   LogOut,
   CheckCircle,
   MessageSquare,
+  CreditCard,
+
   Mail,
   AlertTriangle,
   ChevronDown,
   ChevronRight,
   Building2,
   MessageCircle,
-  Cog
+  Cog,
+  Database
 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { useAuth } from '@/contexts/AuthContext'
@@ -87,6 +90,12 @@ const navigation = [
         href: '/admin/promotions',
         icon: Gift,
         description: 'Manage offers and deals'
+      },
+      {
+        name: 'Data Ingestion',
+        href: '/admin/data-ingestion',
+        icon: Database,
+        description: 'Import data from external sources'
       }
     ]
   },
@@ -99,6 +108,12 @@ const navigation = [
         href: '/admin/users',
         icon: Users,
         description: 'User management'
+      },
+      {
+        name: 'Subscriptions',
+        href: '/admin/subscriptions',
+        icon: CreditCard,
+        description: 'Subscription management'
       },
       {
         name: 'Approvals',

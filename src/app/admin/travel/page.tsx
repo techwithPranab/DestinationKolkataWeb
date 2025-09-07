@@ -372,7 +372,7 @@ export default function TravelAdmin() {
               Add Service
             </Button>
           </DialogTrigger>
-          <DialogContent className="max-w-3xl max-h-[90vh] overflow-y-auto">
+          <DialogContent className="max-w-3xl max-h-[90vh] overflow-y-auto bg-white">
             <DialogHeader>
               <DialogTitle>
                 {editingService ? 'Edit Travel Service' : 'Add New Travel Service'}
@@ -618,10 +618,10 @@ export default function TravelAdmin() {
               </div>
 
               <div className="flex justify-end space-x-2">
-                <Button type="button" variant="outline" onClick={() => setIsAddModalOpen(false)}>
+                <Button type="button" variant="outline" onClick={() => setIsAddModalOpen(false)} className="bg-green-500 hover:bg-green-600 text-white">
                   Cancel
                 </Button>
-                <Button type="submit">
+                <Button type="submit" className="bg-orange-500 hover:bg-orange-600 text-white">
                   {editingService ? 'Update Service' : 'Add Service'}
                 </Button>
               </div>

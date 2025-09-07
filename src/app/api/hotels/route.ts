@@ -394,6 +394,8 @@ function buildHotelPipeline(query: Record<string, unknown>, searchParams: URLSea
       promoted: 1,
       distance: 1,
       tags: 1,
+      checkInTime: 1,
+      checkOutTime: 1,
       createdAt: 1
     }
   })
@@ -427,7 +429,7 @@ export async function GET(request: NextRequest) {
 
     const hotels = await Hotel.aggregate(pipeline)
     
-    // Get total count for pagination
+    // Get total count for pagination (filtered)
     const totalQuery: PipelineStage[] = lat && lng
       ? [{
           $geoNear: {
@@ -448,6 +450,12 @@ export async function GET(request: NextRequest) {
     const total = totalResults[0]?.total || 0
     const totalPages = Math.ceil(total / limit)
 
+    // Get overall total count (unfiltered)
+    const overallTotalResults = await Hotel.countDocuments()
+    
+    // Get overall active hotels count (unfiltered)
+    const overallActiveResults = await Hotel.countDocuments({ status: 'active' })
+
     return NextResponse.json({
       hotels,
       pagination: {
@@ -456,7 +464,9 @@ export async function GET(request: NextRequest) {
         total,
         totalPages,
         hasNext: page < totalPages,
-        hasPrev: page > 1
+        hasPrev: page > 1,
+        activeCount: overallActiveResults,
+        overallTotal: overallTotalResults
       },
       filters: {
         category,

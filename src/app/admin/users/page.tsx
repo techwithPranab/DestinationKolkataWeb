@@ -11,7 +11,10 @@ import {
   Users,
   Mail,
   Phone,
-  Calendar
+  Calendar,
+  ChevronLeft,
+  ChevronRight,
+  MoreHorizontal
 } from 'lucide-react'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
@@ -28,6 +31,20 @@ import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Textarea } from '@/components/ui/textarea'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from '@/components/ui/table'
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu'
 
 interface User {
   _id: string
@@ -64,21 +81,36 @@ export default function UsersAdmin() {
     name: '',
     email: '',
     phone: '',
-    role: 'User',
+    role: 'Customer',
     status: 'Active',
     bio: '',
     preferences: [] as string[]
   })
 
+  // Pagination states
+  const [currentPage, setCurrentPage] = useState(1)
+  const [itemsPerPage] = useState(10)
+  const [totalUsers, setTotalUsers] = useState(0)
+
   useEffect(() => {
     fetchUsers()
-  }, [])
+  }, [currentPage, searchTerm, filterRole, filterStatus])
 
   const fetchUsers = async () => {
     try {
-      const response = await fetch('/api/admin/users')
+      setLoading(true)
+      const params = new URLSearchParams({
+        page: currentPage.toString(),
+        limit: itemsPerPage.toString(),
+        search: searchTerm,
+        role: filterRole || 'all',
+        status: filterStatus || 'all'
+      })
+
+      const response = await fetch(`/api/admin/users?${params}`)
       const data = await response.json()
       setUsers(data.users || [])
+      setTotalUsers(data.total || 0)
     } catch (error) {
       console.error('Error fetching users:', error)
     } finally {
@@ -162,21 +194,36 @@ export default function UsersAdmin() {
       name: '',
       email: '',
       phone: '',
-      role: 'User',
+      role: 'Customer',
       status: 'Active',
       bio: '',
       preferences: []
     })
   }
 
-  const filteredUsers = users.filter(user => {
-    const matchesSearch = (user.name?.toLowerCase() || '').includes(searchTerm.toLowerCase()) ||
-                         (user.email?.toLowerCase() || '').includes(searchTerm.toLowerCase())
-    const matchesRole = !filterRole || filterRole === 'all' || user.role === filterRole
-    const matchesStatus = !filterStatus || filterStatus === 'all' || user.status === filterStatus
+  // Pagination calculations
+  const totalPages = Math.ceil(totalUsers / itemsPerPage)
+  const startIndex = (currentPage - 1) * itemsPerPage + 1
+  const endIndex = Math.min(currentPage * itemsPerPage, totalUsers)
 
-    return matchesSearch && matchesRole && matchesStatus
-  })
+  const handlePageChange = (page: number) => {
+    setCurrentPage(page)
+  }
+
+  const handleSearchChange = (value: string) => {
+    setSearchTerm(value)
+    setCurrentPage(1) // Reset to first page when searching
+  }
+
+  const handleRoleFilterChange = (value: string) => {
+    setFilterRole(value)
+    setCurrentPage(1) // Reset to first page when filtering
+  }
+
+  const handleStatusFilterChange = (value: string) => {
+    setFilterStatus(value)
+    setCurrentPage(1) // Reset to first page when filtering
+  }
 
   const getStatusColor = (status: string) => {
     switch (status) {
@@ -225,7 +272,7 @@ export default function UsersAdmin() {
               Add User
             </Button>
           </DialogTrigger>
-          <DialogContent className="max-w-2xl">
+          <DialogContent className="max-w-2xl bg-white">
             <DialogHeader>
               <DialogTitle>
                 {editingUser ? 'Edit User' : 'Add New User'}
@@ -278,10 +325,10 @@ export default function UsersAdmin() {
                     <SelectTrigger className="bg-white text-black">
                       <SelectValue />
                     </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="User">User</SelectItem>
-                      <SelectItem value="Premium">Premium</SelectItem>
-                      <SelectItem value="VIP">VIP</SelectItem>
+                    <SelectContent className="bg-white">
+                      <SelectItem value="Admin">Admin</SelectItem>
+                      <SelectItem value="Customer">Customer</SelectItem>
+                      <SelectItem value="Moderator">Moderator</SelectItem>
                     </SelectContent>
                   </Select>
                 </div>
@@ -294,7 +341,7 @@ export default function UsersAdmin() {
                     <SelectTrigger className="bg-white text-black">
                       <SelectValue />
                     </SelectTrigger>
-                    <SelectContent>
+                    <SelectContent className="bg-white">
                       <SelectItem value="Active">Active</SelectItem>
                       <SelectItem value="Inactive">Inactive</SelectItem>
                       <SelectItem value="Suspended">Suspended</SelectItem>
@@ -315,10 +362,10 @@ export default function UsersAdmin() {
               </div>
 
               <div className="flex justify-end space-x-2">
-                <Button type="button" variant="outline" onClick={() => setIsAddModalOpen(false)}>
+                <Button type="button" variant="outline" onClick={() => setIsAddModalOpen(false)} className="bg-green-500 hover:bg-green-600 text-white">
                   Cancel
                 </Button>
-                <Button type="submit">
+                <Button type="submit" className="bg-orange-600 hover:bg-orange-700 text-white">
                   {editingUser ? 'Update User' : 'Add User'}
                 </Button>
               </div>
@@ -337,27 +384,27 @@ export default function UsersAdmin() {
                 <Input
                   placeholder="Search users by name or email..."
                   value={searchTerm}
-                  onChange={(e) => setSearchTerm(e.target.value)}
+                  onChange={(e) => handleSearchChange(e.target.value)}
                   className="pl-10 bg-white text-black"
                 />
               </div>
             </div>
-            <Select value={filterRole} onValueChange={setFilterRole}>
+            <Select value={filterRole} onValueChange={handleRoleFilterChange}>
               <SelectTrigger className="w-full sm:w-48 bg-white text-black">
                 <SelectValue placeholder="Filter by role" />
               </SelectTrigger>
-              <SelectContent>
+              <SelectContent className="bg-white">
                 <SelectItem value="all">All Roles</SelectItem>
-                <SelectItem value="User">User</SelectItem>
-                <SelectItem value="Premium">Premium</SelectItem>
-                <SelectItem value="VIP">VIP</SelectItem>
+                <SelectItem value="Admin">Admin</SelectItem>
+                <SelectItem value="Customer">Customer</SelectItem>
+                <SelectItem value="Moderator">Moderator</SelectItem>
               </SelectContent>
             </Select>
-            <Select value={filterStatus} onValueChange={setFilterStatus}>
+            <Select value={filterStatus} onValueChange={handleStatusFilterChange}>
               <SelectTrigger className="w-full sm:w-48 bg-white text-black">
                 <SelectValue placeholder="Filter by status" />
               </SelectTrigger>
-              <SelectContent>
+              <SelectContent className="bg-white">
                 <SelectItem value="all">All Status</SelectItem>
                 <SelectItem value="Active">Active</SelectItem>
                 <SelectItem value="Inactive">Inactive</SelectItem>
@@ -368,87 +415,153 @@ export default function UsersAdmin() {
         </CardContent>
       </Card>
 
-      {/* Users Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {filteredUsers.map((user) => (
-          <motion.div
-            key={user._id}
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.3 }}
-          >
-            <Card className="hover:shadow-lg transition-shadow">
-              <CardHeader className="pb-3">
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center space-x-3">
-                    <div className="w-12 h-12 bg-orange-100 rounded-full flex items-center justify-center">
-                      <Users className="h-6 w-6 text-orange-600" />
-                    </div>
-                    <div>
-                      <CardTitle className="text-lg">{user.name || 'Unnamed User'}</CardTitle>
+      {/* Users Table */}
+      <Card>
+        <CardHeader>
+          <CardTitle className="flex items-center">
+            <Users className="w-5 h-5 mr-2" />
+            Users ({totalUsers})
+          </CardTitle>
+        </CardHeader>
+        <CardContent>
+          <div className="overflow-x-auto">
+            <Table>
+              <TableHeader>
+                <TableRow>
+                  <TableHead>User</TableHead>
+                  <TableHead>Contact</TableHead>
+                  <TableHead>Role</TableHead>
+                  <TableHead>Status</TableHead>
+                  <TableHead>Joined</TableHead>
+                  <TableHead>Last Login</TableHead>
+                  <TableHead className="text-right">Actions</TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                {users.map((user) => (
+                  <TableRow key={user._id}>
+                    <TableCell>
+                      <div className="flex items-center space-x-3">
+                        <div className="w-10 h-10 bg-orange-100 rounded-full flex items-center justify-center">
+                          <Users className="h-5 w-5 text-orange-600" />
+                        </div>
+                        <div>
+                          <div className="font-medium text-gray-900">
+                            {user.name || 'Unnamed User'}
+                          </div>
+                          <div className="text-sm text-gray-500">
+                            ID: {user._id.slice(-8)}
+                          </div>
+                        </div>
+                      </div>
+                    </TableCell>
+                    <TableCell>
+                      <div className="space-y-1">
+                        <div className="flex items-center text-sm">
+                          <Mail className="h-4 w-4 mr-2 text-gray-400" />
+                          {user.email}
+                        </div>
+                        {user.phone && (
+                          <div className="flex items-center text-sm text-gray-600">
+                            <Phone className="h-4 w-4 mr-2" />
+                            {user.phone}
+                          </div>
+                        )}
+                      </div>
+                    </TableCell>
+                    <TableCell>
+                      <Badge variant="outline" className="text-xs">
+                        {user.role}
+                      </Badge>
+                    </TableCell>
+                    <TableCell>
                       <Badge className={getStatusColor(user.status)}>
                         {user.status}
                       </Badge>
-                    </div>
-                  </div>
-                  <div className="flex space-x-1">
-                    <Button
-                      variant="ghost"
-                      size="sm"
-                      onClick={() => handleEdit(user)}
-                      className="h-8 w-8 p-0"
-                    >
-                      <Edit className="h-4 w-4" />
-                    </Button>
-                    <Button
-                      variant="ghost"
-                      size="sm"
-                      onClick={() => handleDelete(user._id)}
-                      className="h-8 w-8 p-0 text-red-600 hover:text-red-700"
-                    >
-                      <Trash2 className="h-4 w-4" />
-                    </Button>
-                  </div>
-                </div>
-              </CardHeader>
-              <CardContent className="space-y-3">
-                <div className="flex items-center text-sm text-gray-600">
-                  <Mail className="h-4 w-4 mr-2" />
-                  {user.email}
-                </div>
-                {user.phone && (
-                  <div className="flex items-center text-sm text-gray-600">
-                    <Phone className="h-4 w-4 mr-2" />
-                    {user.phone}
-                  </div>
-                )}
-                <div className="flex items-center text-sm text-gray-600">
-                  <Calendar className="h-4 w-4 mr-2" />
-                  Joined {formatDate(user.createdAt)}
-                </div>
-                <div className="flex items-center text-sm text-gray-600">
-                  <Eye className="h-4 w-4 mr-2" />
-                  Last login: {user.lastLogin ? formatDate(user.lastLogin) : 'Never'}
-                </div>
-                <div className="pt-2">
-                  <Badge variant="outline" className="text-xs">
-                    {user.role}
-                  </Badge>
-                </div>
-                {user.bookingHistory && user.bookingHistory.length > 0 && (
-                  <div className="pt-2 border-t">
-                    <p className="text-sm text-gray-600">
-                      {user.bookingHistory.length} booking{user.bookingHistory.length !== 1 ? 's' : ''}
-                    </p>
-                  </div>
-                )}
-              </CardContent>
-            </Card>
-          </motion.div>
-        ))}
-      </div>
+                    </TableCell>
+                    <TableCell className="text-sm text-gray-600">
+                      {formatDate(user.createdAt)}
+                    </TableCell>
+                    <TableCell className="text-sm text-gray-600">
+                      {user.lastLogin ? formatDate(user.lastLogin) : 'Never'}
+                    </TableCell>
+                    <TableCell className="text-right">
+                      <DropdownMenu>
+                        <DropdownMenuTrigger asChild>
+                          <Button variant="ghost" className="h-8 w-8 p-0">
+                            <MoreHorizontal className="h-4 w-4" />
+                          </Button>
+                        </DropdownMenuTrigger>
+                        <DropdownMenuContent align="end">
+                          <DropdownMenuItem onClick={() => handleEdit(user)}>
+                            <Edit className="mr-2 h-4 w-4" />
+                            Edit
+                          </DropdownMenuItem>
+                          <DropdownMenuItem onClick={() => handleDelete(user._id)}>
+                            <Trash2 className="mr-2 h-4 w-4" />
+                            Delete
+                          </DropdownMenuItem>
+                        </DropdownMenuContent>
+                      </DropdownMenu>
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </div>
 
-      {filteredUsers.length === 0 && (
+          {/* Pagination */}
+          {totalPages > 1 && (
+            <div className="flex items-center justify-between px-2 py-4">
+              <div className="flex-1 text-sm text-gray-700">
+                Showing {startIndex} to {endIndex} of {totalUsers} users
+              </div>
+              <div className="flex items-center space-x-2">
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={() => handlePageChange(currentPage - 1)}
+                  disabled={currentPage === 1}
+                >
+                  <ChevronLeft className="h-4 w-4" />
+                  Previous
+                </Button>
+
+                <div className="flex items-center space-x-1">
+                  {Array.from({ length: Math.min(5, totalPages) }, (_, i) => {
+                    const pageNumber = Math.max(1, Math.min(totalPages - 4, currentPage - 2)) + i
+                    if (pageNumber > totalPages) return null
+
+                    return (
+                      <Button
+                        key={pageNumber}
+                        variant={currentPage === pageNumber ? "default" : "outline"}
+                        size="sm"
+                        onClick={() => handlePageChange(pageNumber)}
+                        className="w-8 h-8 p-0"
+                      >
+                        {pageNumber}
+                      </Button>
+                    )
+                  })}
+                </div>
+
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={() => handlePageChange(currentPage + 1)}
+                  disabled={currentPage === totalPages}
+                >
+                  Next
+                  <ChevronRight className="h-4 w-4" />
+                </Button>
+              </div>
+            </div>
+          )}
+        </CardContent>
+      </Card>
+
+      {users.length === 0 && !loading && (
         <div className="text-center py-12">
           <Users className="h-12 w-12 text-gray-400 mx-auto mb-4" />
           <h3 className="text-lg font-medium text-gray-900 mb-2">No users found</h3>

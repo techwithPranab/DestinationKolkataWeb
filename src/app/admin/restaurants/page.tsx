@@ -50,9 +50,12 @@ interface Restaurant {
     count: number
   }
   reviews: number
-  openHours: {
-    open: string
-    close: string
+  openingHours: {
+    [key: string]: {
+      open: string
+      close: string
+      closed: boolean
+    }
   }
   features: string[]
   images: string[]
@@ -63,7 +66,9 @@ interface Restaurant {
 
 const cuisineTypes = [
   'Bengali', 'North Indian', 'South Indian', 'Chinese', 'Continental',
-  'Italian', 'Mexican', 'Thai', 'Japanese', 'Mughlai', 'Street Food'
+  'Italian', 'Mexican', 'Thai', 'Japanese', 'Mughlai', 'Street Food',
+  'Pizza', 'Burger', 'Chicken', 'Regional', 'Fast Food', 'American',
+  'French', 'German', 'Korean', 'Vietnamese', 'Middle Eastern', 'Lebanese'
 ]
 
 const priceRanges = [
@@ -91,17 +96,25 @@ export default function RestaurantsAdmin() {
   const [totalPages, setTotalPages] = useState(1)
   const [totalRestaurants, setTotalRestaurants] = useState(0)
   const [pageSize] = useState(10) // Items per page
+  
+  // Overall stats (not affected by filtering)
+  const [overallStats, setOverallStats] = useState({
+    total: 0,
+    active: 0,
+    pending: 0,
+    inactive: 0
+  })
   const [formData, setFormData] = useState({
     name: '',
     description: '',
     cuisine: '',
-    address: '',
     phone: '',
     email: '',
     website: '',
     priceRange: '',
     openTime: '',
     closeTime: '',
+    status: 'active',
     features: [] as string[],
     images: [] as { url: string; alt?: string; isPrimary?: boolean }[]
   })
@@ -133,9 +146,32 @@ export default function RestaurantsAdmin() {
     }
   }, [searchTerm, filterCuisine, filterStatus, pageSize])
 
+  const fetchOverallStats = useCallback(async () => {
+    try {
+      // Get all restaurants in one call to calculate stats
+      const response = await fetch('/api/restaurants?status=all&page=1&limit=10000')
+      const data = await response.json()
+      
+      const restaurants = data.restaurants || []
+      const activeCount = restaurants.filter((r: Restaurant) => r.status === 'active').length
+      const pendingCount = restaurants.filter((r: Restaurant) => r.status === 'pending').length
+      const inactiveCount = restaurants.filter((r: Restaurant) => r.status === 'inactive').length
+      
+      setOverallStats({
+        total: data.pagination?.total || restaurants.length,
+        active: activeCount,
+        pending: pendingCount,
+        inactive: inactiveCount
+      })
+    } catch (error) {
+      console.error('Error fetching overall stats:', error)
+    }
+  }, [])
+
   useEffect(() => {
     fetchRestaurants(currentPage)
-  }, [currentPage, fetchRestaurants])
+    fetchOverallStats()
+  }, [currentPage, fetchRestaurants, fetchOverallStats])
 
   useEffect(() => {
     setCurrentPage(1)
@@ -147,9 +183,8 @@ export default function RestaurantsAdmin() {
     const restaurantData = {
       name: formData.name,
       description: formData.description,
-      cuisine: formData.cuisine,
+      cuisine: formData.cuisine ? [formData.cuisine] : [],
       location: {
-        address: formData.address,
         coordinates: editingRestaurant?.location?.coordinates || [88.3639, 22.5726] // Default to Kolkata coordinates
       },
       contact: {
@@ -158,13 +193,46 @@ export default function RestaurantsAdmin() {
         website: formData.website
       },
       priceRange: formData.priceRange,
-      openHours: {
-        open: formData.openTime,
-        close: formData.closeTime
+      openingHours: {
+        monday: {
+          open: formData.openTime,
+          close: formData.closeTime,
+          closed: false
+        },
+        tuesday: {
+          open: formData.openTime,
+          close: formData.closeTime,
+          closed: false
+        },
+        wednesday: {
+          open: formData.openTime,
+          close: formData.closeTime,
+          closed: false
+        },
+        thursday: {
+          open: formData.openTime,
+          close: formData.closeTime,
+          closed: false
+        },
+        friday: {
+          open: formData.openTime,
+          close: formData.closeTime,
+          closed: false
+        },
+        saturday: {
+          open: formData.openTime,
+          close: formData.closeTime,
+          closed: false
+        },
+        sunday: {
+          open: formData.openTime,
+          close: formData.closeTime,
+          closed: false
+        }
       },
       features: formData.features,
       images: formData.images.map(img => img.url),
-      status: 'active'
+      status: formData.status
     }
 
     try {
@@ -184,6 +252,7 @@ export default function RestaurantsAdmin() {
 
       if (response.ok) {
         await fetchRestaurants()
+        await fetchOverallStats()
         resetForm()
         setIsAddModalOpen(false)
         setEditingRestaurant(null)
@@ -201,6 +270,7 @@ export default function RestaurantsAdmin() {
         })
         if (response.ok) {
           await fetchRestaurants()
+          await fetchOverallStats()
         }
       } catch (error) {
         console.error('Error deleting restaurant:', error)
@@ -213,14 +283,14 @@ export default function RestaurantsAdmin() {
     setFormData({
       name: restaurant.name || '',
       description: restaurant.description || '',
-      cuisine: restaurant.cuisine || '',
-      address: restaurant.location?.address || '',
+      cuisine: Array.isArray(restaurant.cuisine) ? restaurant.cuisine[0] || '' : restaurant.cuisine || '',
       phone: restaurant.contact?.phone || '',
       email: restaurant.contact?.email || '',
       website: restaurant.contact?.website || '',
       priceRange: restaurant.priceRange || '',
-      openTime: restaurant.openHours?.open || '',
-      closeTime: restaurant.openHours?.close || '',
+      openTime: restaurant.openingHours?.monday?.open || '',
+      closeTime: restaurant.openingHours?.monday?.close || '',
+      status: restaurant.status || 'active',
       features: restaurant.features || [],
       images: restaurant.images ? restaurant.images.map((url, index) => ({
         url,
@@ -236,13 +306,13 @@ export default function RestaurantsAdmin() {
       name: '',
       description: '',
       cuisine: '',
-      address: '',
       phone: '',
       email: '',
       website: '',
       priceRange: '',
       openTime: '',
       closeTime: '',
+      status: 'active',
       features: [],
       images: []
     })
@@ -280,15 +350,16 @@ export default function RestaurantsAdmin() {
         </div>
         <Dialog open={isAddModalOpen} onOpenChange={setIsAddModalOpen}>
           <DialogTrigger asChild>
-            <Button onClick={() => {
+            <Button className="bg-orange-500 hover:bg-orange-600 text-white" onClick={() => {
               resetForm()
               setEditingRestaurant(null)
+            
             }}>
               <Plus className="h-4 w-4 mr-2" />
               Add Restaurant
             </Button>
           </DialogTrigger>
-          <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
+          <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto bg-white">
             <DialogHeader>
               <DialogTitle>
                 {editingRestaurant ? 'Edit Restaurant' : 'Add New Restaurant'}
@@ -318,7 +389,7 @@ export default function RestaurantsAdmin() {
                     <SelectTrigger className="bg-white text-black">
                       <SelectValue placeholder="Select cuisine" />
                     </SelectTrigger>
-                    <SelectContent>
+                    <SelectContent className="bg-white">
                       {cuisineTypes.map((cuisine) => (
                         <SelectItem key={cuisine} value={cuisine}>{cuisine}</SelectItem>
                       ))}
@@ -334,17 +405,6 @@ export default function RestaurantsAdmin() {
                   value={formData.description}
                   onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => setFormData({ ...formData, description: e.target.value })}
                   required
-                />
-              </div>
-
-              <div>
-                <Label htmlFor="address">Address</Label>
-                <Input
-                  id="address"
-                  value={formData.address}
-                  onChange={(e: React.ChangeEvent<HTMLInputElement>) => setFormData({ ...formData, address: e.target.value })}
-                  required
-                  className="bg-white text-black"
                 />
               </div>
 
@@ -389,10 +449,24 @@ export default function RestaurantsAdmin() {
                   <SelectTrigger className="bg-white text-black">
                     <SelectValue placeholder="Select price range" />
                   </SelectTrigger>
-                  <SelectContent>
+                  <SelectContent className="bg-white">
                     {priceRanges.map((range) => (
                       <SelectItem key={range.value} value={range.value}>{range.label}</SelectItem>
                     ))}
+                  </SelectContent>
+                </Select>
+              </div>
+
+              <div>
+                <Label htmlFor="status">Status</Label>
+                <Select value={formData.status} onValueChange={(value: string) => setFormData({ ...formData, status: value })}>
+                  <SelectTrigger className="bg-white text-black">
+                    <SelectValue placeholder="Select status" />
+                  </SelectTrigger>
+                  <SelectContent className="bg-white">
+                    <SelectItem value="active">Active</SelectItem>
+                    <SelectItem value="inactive">Inactive</SelectItem>
+                    <SelectItem value="pending">Pending</SelectItem>
                   </SelectContent>
                 </Select>
               </div>
@@ -452,10 +526,10 @@ export default function RestaurantsAdmin() {
               </div>
 
               <div className="flex justify-end space-x-2">
-                <Button type="button" variant="outline" onClick={() => setIsAddModalOpen(false)}>
+                <Button type="button" variant="outline" onClick={() => setIsAddModalOpen(false)} className="bg-green-500 hover:bg-green-600 text-white">
                   Cancel
                 </Button>
-                <Button type="submit">
+                <Button type="submit" className="bg-orange-500 hover:bg-orange-600 text-white">
                   {editingRestaurant ? 'Update Restaurant' : 'Add Restaurant'}
                 </Button>
               </div>
@@ -471,7 +545,7 @@ export default function RestaurantsAdmin() {
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-sm font-medium text-gray-600">Total Restaurants</p>
-                <p className="text-2xl font-bold text-gray-900">{totalRestaurants}</p>
+                <p className="text-2xl font-bold text-gray-900">{overallStats.total}</p>
               </div>
               <ChefHat className="h-8 w-8 text-orange-500" />
             </div>
@@ -483,7 +557,7 @@ export default function RestaurantsAdmin() {
               <div>
                 <p className="text-sm font-medium text-gray-600">Active</p>
                 <p className="text-2xl font-bold text-green-600">
-                  {restaurants.filter(r => r.status === 'active').length}
+                  {overallStats.active}
                 </p>
               </div>
               <div className="h-8 w-8 bg-green-100 rounded-full flex items-center justify-center">
@@ -498,7 +572,7 @@ export default function RestaurantsAdmin() {
               <div>
                 <p className="text-sm font-medium text-gray-600">Pending</p>
                 <p className="text-2xl font-bold text-yellow-600">
-                  {restaurants.filter(r => r.status === 'pending').length}
+                  {overallStats.pending}
                 </p>
               </div>
               <div className="h-8 w-8 bg-yellow-100 rounded-full flex items-center justify-center">
@@ -544,7 +618,7 @@ export default function RestaurantsAdmin() {
               <SelectTrigger className="w-48 bg-white text-black">
                 <SelectValue placeholder="Filter by cuisine" />
               </SelectTrigger>
-              <SelectContent>
+              <SelectContent className="bg-white">
                 <SelectItem value="all">All Cuisines</SelectItem>
                 {cuisineTypes.map((cuisine) => (
                   <SelectItem key={cuisine} value={cuisine}>{cuisine}</SelectItem>
@@ -555,7 +629,7 @@ export default function RestaurantsAdmin() {
               <SelectTrigger className="w-40 bg-white text-black">
                 <SelectValue placeholder="Filter by status" />
               </SelectTrigger>
-              <SelectContent>
+              <SelectContent className="bg-white">
                 <SelectItem value="all">All Status</SelectItem>
                 <SelectItem value="active">Active</SelectItem>
                 <SelectItem value="inactive">Inactive</SelectItem>
@@ -578,9 +652,6 @@ export default function RestaurantsAdmin() {
                   </th>
                   <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                     Cuisine
-                  </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Location
                   </th>
                   <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                     Price Range
@@ -617,9 +688,6 @@ export default function RestaurantsAdmin() {
                           <div className="h-4 bg-gray-200 rounded w-20"></div>
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap">
-                          <div className="h-4 bg-gray-200 rounded w-32"></div>
-                        </td>
-                        <td className="px-6 py-4 whitespace-nowrap">
                           <div className="h-4 bg-gray-200 rounded w-16"></div>
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap">
@@ -643,7 +711,7 @@ export default function RestaurantsAdmin() {
                   } else if (restaurants.length === 0) {
                     return (
                       <tr>
-                        <td colSpan={8} className="px-6 py-12 text-center">
+                        <td colSpan={7} className="px-6 py-12 text-center">
                           <ChefHat className="h-16 w-16 text-gray-300 mx-auto mb-4" />
                           <p className="text-gray-500">No restaurants found matching your criteria.</p>
                         </td>
@@ -674,10 +742,9 @@ export default function RestaurantsAdmin() {
                           </div>
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap">
-                          <div className="text-sm text-gray-900">{restaurant.cuisine}</div>
-                        </td>
-                        <td className="px-6 py-4 whitespace-nowrap">
-                          <div className="text-sm text-gray-900">{restaurant.location?.address || 'N/A'}</div>
+                          <div className="text-sm text-gray-900">
+                            {Array.isArray(restaurant.cuisine) ? restaurant.cuisine.join(', ') : restaurant.cuisine}
+                          </div>
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap">
                           <div className="text-sm text-gray-900">
@@ -686,7 +753,7 @@ export default function RestaurantsAdmin() {
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap">
                           <div className="text-sm text-gray-900">
-                            {restaurant.openHours?.open || 'N/A'} - {restaurant.openHours?.close || 'N/A'}
+                            {restaurant.openingHours?.monday?.open || 'N/A'} - {restaurant.openingHours?.monday?.close || 'N/A'}
                           </div>
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap">
@@ -706,9 +773,7 @@ export default function RestaurantsAdmin() {
                             <Button size="sm" variant="outline" onClick={() => handleEdit(restaurant)}>
                               <Edit className="h-4 w-4" />
                             </Button>
-                            <Button size="sm" variant="outline">
-                              <Eye className="h-4 w-4" />
-                            </Button>
+                            
                             <Button 
                               size="sm" 
                               variant="outline" 
@@ -745,6 +810,7 @@ export default function RestaurantsAdmin() {
             <Button
               variant="outline"
               size="sm"
+              className="bg-orange-500 hover:bg-orange-600 text-white"
               onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
               disabled={currentPage === 1}
             >
@@ -774,6 +840,7 @@ export default function RestaurantsAdmin() {
             <Button
               variant="outline"
               size="sm"
+              className="bg-orange-500 hover:bg-orange-600 text-white"
               onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))}
               disabled={currentPage === totalPages}
             >

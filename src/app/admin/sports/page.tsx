@@ -334,7 +334,7 @@ export default function SportsAdmin() {
               Add Facility
             </Button>
           </DialogTrigger>
-          <DialogContent className="max-w-3xl max-h-[90vh] overflow-y-auto">
+          <DialogContent className="max-w-3xl max-h-[90vh] overflow-y-auto bg-white">
             <DialogHeader>
               <DialogTitle>
                 {editingFacility ? 'Edit Sports Facility' : 'Add New Sports Facility'}
@@ -551,10 +551,10 @@ export default function SportsAdmin() {
               </div>
 
               <div className="flex justify-end space-x-2">
-                <Button type="button" variant="outline" onClick={() => setIsAddModalOpen(false)}>
+                <Button type="button" variant="outline" onClick={() => setIsAddModalOpen(false)} className="bg-green-500 hover:bg-green-600 text-white">
                   Cancel
                 </Button>
-                <Button type="submit">
+                <Button type="submit" className="bg-orange-500 hover:bg-orange-600 text-white">
                   {editingFacility ? 'Update Facility' : 'Add Facility'}
                 </Button>
               </div>

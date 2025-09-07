@@ -1,37 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
-
-// Mock data for events - replace with actual database
-const events = [
-  {
-    _id: '1',
-    title: 'Durga Puja Festival',
-    description: 'The biggest festival in Kolkata celebrating Goddess Durga',
-    category: 'Festival',
-    startDate: '2024-10-01',
-    endDate: '2024-10-05',
-    venue: 'Various locations across Kolkata',
-    organizer: 'Kolkata Municipal Corporation',
-    contactInfo: {
-      phone: '+91-33-2210-0000',
-      email: 'info@durga-puja-kolkata.com',
-      website: 'https://durga-puja-kolkata.com'
-    },
-    ticketInfo: {
-      price: { general: 0, vip: 500 },
-      availability: 'Free entry for most pandals',
-      bookingRequired: false
-    },
-    schedule: [
-      { day: 'Day 1', activities: ['Pandal hopping', 'Cultural programs'] },
-      { day: 'Day 2', activities: ['Art exhibitions', 'Food stalls'] }
-    ],
-    highlights: ['Traditional pandals', 'Cultural performances', 'Street food'],
-    images: ['/images/events/durga-puja.jpg'],
-    isActive: true,
-    createdAt: new Date().toISOString(),
-    updatedAt: new Date().toISOString()
-  }
-]
+import connectDB from '@/lib/mongodb'
+import { Event } from '@/models'
 
 // GET /api/admin/events/[id] - Get specific event
 export async function GET(
@@ -39,8 +8,10 @@ export async function GET(
   { params }: { params: Promise<{ id: string }> }
 ) {
   try {
+    await connectDB()
     const { id } = await params
-    const event = events.find(e => e._id === id)
+
+    const event = await Event.findById(id).lean()
 
     if (!event) {
       return NextResponse.json(
@@ -68,24 +39,25 @@ export async function PUT(
   { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    const body = await request.json()
+    await connectDB()
     const { id } = await params
-    const eventIndex = events.findIndex(e => e._id === id)
+    const body = await request.json()
 
-    if (eventIndex === -1) {
+    const updatedEvent = await Event.findByIdAndUpdate(
+      id,
+      {
+        ...body,
+        updatedAt: new Date()
+      },
+      { new: true, runValidators: true }
+    ).lean()
+
+    if (!updatedEvent) {
       return NextResponse.json(
         { success: false, message: 'Event not found' },
         { status: 404 }
       )
     }
-
-    const updatedEvent = {
-      ...events[eventIndex],
-      ...body,
-      updatedAt: new Date().toISOString()
-    }
-
-    events[eventIndex] = updatedEvent
 
     return NextResponse.json({
       success: true,
@@ -107,17 +79,17 @@ export async function DELETE(
   { params }: { params: Promise<{ id: string }> }
 ) {
   try {
+    await connectDB()
     const { id } = await params
-    const eventIndex = events.findIndex(e => e._id === id)
 
-    if (eventIndex === -1) {
+    const deletedEvent = await Event.findByIdAndDelete(id).lean()
+
+    if (!deletedEvent) {
       return NextResponse.json(
         { success: false, message: 'Event not found' },
         { status: 404 }
       )
     }
-
-    const deletedEvent = events.splice(eventIndex, 1)[0]
 
     return NextResponse.json({
       success: true,

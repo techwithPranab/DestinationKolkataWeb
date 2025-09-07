@@ -20,22 +20,23 @@ export async function GET(request: NextRequest) {
 
     if (search) {
       query.$or = [
-        { title: { $regex: search, $options: 'i' } },
+        { name: { $regex: search, $options: 'i' } },
         { description: { $regex: search, $options: 'i' } },
-        { category: { $regex: search, $options: 'i' } }
+        { category: { $regex: search, $options: 'i' } },
+        { eventType: { $regex: search, $options: 'i' } }
       ]
     }
 
-    if (category) {
+    if (category && category !== 'all') {
       query.category = category
     }
 
-    if (status) {
+    if (status && status !== 'all') {
       query.status = status
     }
 
     if (upcoming === 'true') {
-      query.startDate = { $gte: new Date() }
+      query['dateTime.startDate'] = { $gte: new Date() }
     }
 
     // Get total count for pagination
@@ -43,7 +44,7 @@ export async function GET(request: NextRequest) {
 
     // Get events with pagination
     const events = await Event.find(query)
-      .sort({ startDate: 1 })
+      .sort({ 'dateTime.startDate': 1 })
       .skip((page - 1) * limit)
       .limit(limit)
       .lean()

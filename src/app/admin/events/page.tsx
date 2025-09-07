@@ -147,13 +147,13 @@ export default function EventsAdmin() {
       if (filterCategory && filterCategory !== 'all') params.append('category', filterCategory)
       if (filterStatus && filterStatus !== 'all') params.append('status', filterStatus)
 
-      const response = await fetch(`/api/events?${params}`)
+      const response = await fetch(`/api/admin/events?${params}`)
       const data = await response.json()
       
       setEvents(data.events || [])
-      setTotalEvents(data.pagination?.total || 0)
-      setTotalPages(data.pagination?.totalPages || 1)
-      setCurrentPage(data.pagination?.page || 1)
+      setTotalEvents(data.total || 0)
+      setTotalPages(data.pages || 1)
+      setCurrentPage(data.page || 1)
     } catch (error) {
       console.error('Error fetching events:', error)
     } finally {
@@ -213,8 +213,8 @@ export default function EventsAdmin() {
 
     try {
       const url = editingEvent 
-        ? `/api/events/${editingEvent._id}`
-        : '/api/events'
+        ? `/api/admin/events/${editingEvent._id}`
+        : '/api/admin/events'
       
       const method = editingEvent ? 'PUT' : 'POST'
       
@@ -240,7 +240,7 @@ export default function EventsAdmin() {
   const handleDelete = async (id: string) => {
     if (confirm('Are you sure you want to delete this event?')) {
       try {
-        const response = await fetch(`/api/events/${id}`, {
+        const response = await fetch(`/api/admin/events/${id}`, {
           method: 'DELETE',
         })
         if (response.ok) {
@@ -378,7 +378,7 @@ export default function EventsAdmin() {
               Add Event
             </Button>
           </DialogTrigger>
-          <DialogContent className="max-w-3xl max-h-[90vh] overflow-y-auto">
+          <DialogContent className="max-w-3xl max-h-[90vh] overflow-y-auto bg-white">
             <DialogHeader>
               <DialogTitle>
                 {editingEvent ? 'Edit Event' : 'Add New Event'}
@@ -615,10 +615,10 @@ export default function EventsAdmin() {
               </div>
 
               <div className="flex justify-end space-x-2">
-                <Button type="button" variant="outline" onClick={() => setIsAddModalOpen(false)}>
+                <Button type="button" variant="outline" onClick={() => setIsAddModalOpen(false)} className="bg-green-500 hover:bg-green-600 text-white">
                   Cancel
                 </Button>
-                <Button type="submit">
+                <Button type="submit" className="bg-orange-500 hover:bg-orange-600 text-white">
                   {editingEvent ? 'Update Event' : 'Add Event'}
                 </Button>
               </div>

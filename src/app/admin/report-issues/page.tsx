@@ -729,10 +729,10 @@ export default function ReportIssuesAdmin() {
               </div>
 
               <div className="flex justify-end space-x-2">
-                <Button type="button" variant="outline" onClick={() => setIsUpdateModalOpen(false)}>
+                <Button type="button" variant="outline" onClick={() => setIsUpdateModalOpen(false)} className="bg-green-500 hover:bg-green-600 text-white">
                   Cancel
                 </Button>
-                <Button type="submit" disabled={updating}>
+                <Button type="submit" disabled={updating} className="bg-orange-500 hover:bg-orange-600 text-white">
                   {updating ? 'Updating...' : 'Update Issue'}
                 </Button>
               </div>

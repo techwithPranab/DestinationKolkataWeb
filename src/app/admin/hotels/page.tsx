@@ -70,8 +70,8 @@ interface Hotel {
     count: number
   }
   reviews: number
-  checkIn: string
-  checkOut: string
+  checkInTime: string
+  checkOutTime: string
   amenities: string[]
   roomTypes: {
     name: string
@@ -119,13 +119,13 @@ export default function HotelsAdmin() {
   const [currentPage, setCurrentPage] = useState(1)
   const [totalPages, setTotalPages] = useState(1)
   const [totalHotels, setTotalHotels] = useState(0)
+  const [activeHotelsCount, setActiveHotelsCount] = useState(0)
   const [pageSize] = useState(10) // Items per page
   const [formData, setFormData] = useState({
     name: '',
     description: '',
     shortDescription: '',
     category: '',
-    address: '',
     phone: '',
     email: '',
     website: '',
@@ -174,9 +174,10 @@ export default function HotelsAdmin() {
       console.log('Fetched hotels:', data)
       
       setHotels(data.hotels || [])
-      setTotalHotels(data.pagination?.total || 0)
+      setTotalHotels(data.pagination?.overallTotal || 0)
       setTotalPages(data.pagination?.totalPages || 1)
       setCurrentPage(data.pagination?.page || 1)
+      setActiveHotelsCount(data.pagination?.activeCount || 0)
     } catch (error) {
       console.error('Error fetching hotels:', error)
     } finally {
@@ -201,7 +202,7 @@ export default function HotelsAdmin() {
       shortDescription: formData.shortDescription,
       category: formData.category,
       location: {
-        address: formData.address,
+        address: `${formData.street}, ${formData.area}, ${formData.city}, ${formData.state} ${formData.pincode}`.replace(/, ,/g, '').replace(/(^,|,$)/g, '').trim(),
         coordinates: [88.3639, 22.5726] // Default to Kolkata coordinates
       },
       address: {
@@ -233,7 +234,7 @@ export default function HotelsAdmin() {
       promoted: formData.promoted,
       cancellationPolicy: formData.cancellationPolicy,
       policies: formData.policies,
-      status: 'active'
+      status: formData.status
     }
 
     try {
@@ -283,8 +284,7 @@ export default function HotelsAdmin() {
       name: hotel.name,
       description: hotel.description,
       shortDescription: hotel.shortDescription || '',
-      category: hotel.category,
-      address: hotel.location?.address || '',
+      category: (hotel.category && hotelCategories.includes(hotel.category)) ? hotel.category : '',
       phone: hotel.contact?.phone?.[0] || '',
       email: hotel.contact?.email || '',
       website: hotel.contact?.website || '',
@@ -302,8 +302,8 @@ export default function HotelsAdmin() {
         max: 0,
         currency: 'INR'
       },
-      checkIn: hotel.checkIn || '',
-      checkOut: hotel.checkOut || '',
+      checkIn: hotel.checkInTime || '',
+      checkOut: hotel.checkOutTime || '',
       amenities: hotel.amenities || [],
       roomTypes: hotel.roomTypes || [],
       images: hotel.images || [],
@@ -323,7 +323,6 @@ export default function HotelsAdmin() {
       description: '',
       shortDescription: '',
       category: '',
-      address: '',
       phone: '',
       email: '',
       website: '',
@@ -387,7 +386,7 @@ export default function HotelsAdmin() {
         </div>
         <Dialog open={isAddModalOpen} onOpenChange={setIsAddModalOpen}>
           <DialogTrigger asChild>
-            <Button onClick={() => {
+            <Button className="bg-orange-500 hover:bg-orange-600 text-white" onClick={() => {
               resetForm()
               setEditingHotel(null)
             }}>
@@ -415,7 +414,7 @@ export default function HotelsAdmin() {
                     <SelectTrigger className="bg-white text-black">
                       <SelectValue placeholder="Select category" />
                     </SelectTrigger>
-                    <SelectContent>
+                    <SelectContent className="bg-white">
                       {hotelCategories.map((category) => (
                         <SelectItem key={category} value={category}>{category}</SelectItem>
                       ))}
@@ -428,7 +427,7 @@ export default function HotelsAdmin() {
                     <SelectTrigger className="bg-white text-black">
                       <SelectValue placeholder="Select status" />
                     </SelectTrigger>
-                    <SelectContent>
+                    <SelectContent className="bg-white">
                       <SelectItem value="active">Active</SelectItem>
                       <SelectItem value="inactive">Inactive</SelectItem>
                       <SelectItem value="pending">Pending</SelectItem>
@@ -439,34 +438,23 @@ export default function HotelsAdmin() {
               </div>
 
               <div>
+                <Label htmlFor="name">Hotel Name</Label>
+                <Input
+                  id="name"
+                  value={formData.name}
+                  onChange={(e: React.ChangeEvent<HTMLInputElement>) => setFormData({ ...formData, name: e.target.value })}
+                  required
+                  className="bg-white text-black"
+                />
+              </div>
+
+              <div>
                 <Label htmlFor="description">Description</Label>
                 <Textarea
                   id="description"
                   value={formData.description}
                   onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => setFormData({ ...formData, description: e.target.value })}
                   required
-                />
-              </div>
-
-              <div>
-                <Label htmlFor="shortDescription">Short Description</Label>
-                <Textarea
-                  id="shortDescription"
-                  value={formData.shortDescription}
-                  onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => setFormData({ ...formData, shortDescription: e.target.value })}
-                  placeholder="Brief description for listings (max 200 characters)"
-                  maxLength={200}
-                />
-              </div>
-
-              <div>
-                <Label htmlFor="address">Address</Label>
-                <Input
-                  id="address"
-                  value={formData.address}
-                  onChange={(e: React.ChangeEvent<HTMLInputElement>) => setFormData({ ...formData, address: e.target.value })}
-                  required
-                  className="bg-white text-black"
                 />
               </div>
 
@@ -726,10 +714,10 @@ export default function HotelsAdmin() {
               </div>
 
               <div className="flex justify-end space-x-2">
-                <Button type="button" variant="outline" onClick={() => setIsAddModalOpen(false)}>
+                <Button type="button" variant="outline" onClick={() => setIsAddModalOpen(false)} className="bg-green-500 hover:bg-green-600 text-white">
                   Cancel
                 </Button>
-                <Button type="submit">
+                <Button type="submit" className="bg-orange-500 hover:bg-orange-600 text-white">
                   {editingHotel ? 'Update Hotel' : 'Add Hotel'}
                 </Button>
               </div>
@@ -757,7 +745,7 @@ export default function HotelsAdmin() {
               <div>
                 <p className="text-sm font-medium text-gray-600">Active</p>
                 <p className="text-2xl font-bold text-green-600">
-                  {hotels.filter(h => h.status === 'active').length}
+                  {activeHotelsCount}
                 </p>
               </div>
               <div className="h-8 w-8 bg-green-100 rounded-full flex items-center justify-center">
@@ -819,7 +807,7 @@ export default function HotelsAdmin() {
               <SelectTrigger className="w-48 bg-white text-black">
                 <SelectValue placeholder="Filter by category" />
               </SelectTrigger>
-              <SelectContent>
+              <SelectContent className="bg-white">
                 <SelectItem value="all">All Categories</SelectItem>
                 {hotelCategories.map((category) => (
                   <SelectItem key={category} value={category}>{category}</SelectItem>
@@ -830,11 +818,12 @@ export default function HotelsAdmin() {
               <SelectTrigger className="w-40 bg-white text-black">
                 <SelectValue placeholder="Filter by status" />
               </SelectTrigger>
-              <SelectContent>
+              <SelectContent className="bg-white">
                 <SelectItem value="all">All Status</SelectItem>
                 <SelectItem value="active">Active</SelectItem>
                 <SelectItem value="inactive">Inactive</SelectItem>
                 <SelectItem value="pending">Pending</SelectItem>
+                <SelectItem value="rejected">Rejected</SelectItem>
               </SelectContent>
             </Select>
           </div>
@@ -854,7 +843,7 @@ export default function HotelsAdmin() {
                   <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                     Category
                   </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  <th className="hidden px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                     Location
                   </th>
                   <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
@@ -951,7 +940,7 @@ export default function HotelsAdmin() {
                         <td className="px-6 py-4 whitespace-nowrap">
                           <div className="text-sm text-gray-900">{hotel.category || 'N/A'}</div>
                         </td>
-                        <td className="px-6 py-4 whitespace-nowrap">
+                        <td className="hidden px-6 py-4 whitespace-nowrap">
                           <div className="text-sm text-gray-900">{hotel.location?.address || 'N/A'}</div>
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap">
@@ -989,9 +978,9 @@ export default function HotelsAdmin() {
                             <Button size="sm" variant="outline" onClick={() => handleEdit(hotel)}>
                               <Edit className="h-4 w-4" />
                             </Button>
-                            <Button size="sm" variant="outline">
+                            {/* <Button size="sm" variant="outline">
                               <Eye className="h-4 w-4" />
-                            </Button>
+                            </Button> */}
                             <Button 
                               size="sm" 
                               variant="outline" 
@@ -1028,6 +1017,7 @@ export default function HotelsAdmin() {
             <Button
               variant="outline"
               size="sm"
+              className='bg-orange-500 hover:bg-orange-600 text-white'
               onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
               disabled={currentPage === 1}
             >
@@ -1056,6 +1046,7 @@ export default function HotelsAdmin() {
             
             <Button
               variant="outline"
+              className='bg-orange-500 hover:bg-orange-600 text-white'
               size="sm"
               onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))}
               disabled={currentPage === totalPages}
