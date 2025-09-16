@@ -2,6 +2,8 @@ import { NextRequest, NextResponse } from 'next/server'
 import connectDB from '@/lib/mongodb'
 import { Hotel } from '@/models'
 import { PipelineStage } from 'mongoose'
+import CacheManager, { CACHE_TTL } from '@/lib/cache'
+import { withCache } from '@/lib/caching-middleware'
 
 // Sample hotel data
 const sampleHotels = [
@@ -403,14 +405,15 @@ function buildHotelPipeline(query: Record<string, unknown>, searchParams: URLSea
   return pipeline
 }
 
-export async function GET(request: NextRequest) {
-  try {
-    await connectDB()
+export const GET = withCache(
+  async function getHotels(request: NextRequest, context?: { params?: Promise<Record<string, string>> }) {
+    try {
+      await connectDB()
 
-    // Create sample hotels if needed
-    await createSampleHotelsIfNeeded()
+      // Create sample hotels if needed
+      await createSampleHotelsIfNeeded()
 
-    const { searchParams } = new URL(request.url)
+      const { searchParams } = new URL(request.url)
     const page = parseInt(searchParams.get('page') || '1')
     const limit = parseInt(searchParams.get('limit') || '12')
     const lat = parseFloat(searchParams.get('lat') || '0')
@@ -478,14 +481,24 @@ export async function GET(request: NextRequest) {
       }
     })
 
-  } catch (error) {
-    console.error('Error fetching hotels:', error)
-    return NextResponse.json(
-      { success: false, error: 'Failed to fetch hotels' },
-      { status: 500 }
-    )
+    } catch (error) {
+      console.error('Error fetching hotels:', error)
+      return NextResponse.json(
+        { success: false, error: 'Failed to fetch hotels' },
+        { status: 500 }
+      )
+    }
+  },
+  {
+    ttl: CACHE_TTL.MEDIUM,
+    keyPrefix: 'hotels',
+    cacheKey: (req) => {
+      const { searchParams } = new URL(req.url)
+      const params = Object.fromEntries(searchParams.entries())
+      return CacheManager.generateKey('hotels', params)
+    }
   }
-}
+)
 
 export async function POST(request: NextRequest) {
   try {

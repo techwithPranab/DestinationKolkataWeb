@@ -323,6 +323,24 @@ export interface IUser extends Document {
   status?: string
   emailVerified?: boolean
   lastLogin?: Date
+  bookingHistory?: Array<{
+    type: 'hotel' | 'restaurant' | 'attraction' | 'event' | 'sports'
+    itemId: mongoose.Types.ObjectId
+    itemName: string
+    bookingDate: Date
+    visitDate?: Date
+    status: 'confirmed' | 'cancelled' | 'completed'
+    amount?: number
+    currency?: string
+    notes?: string
+  }>
+  wishlist?: Array<{
+    type: 'hotel' | 'restaurant' | 'attraction' | 'event' | 'sports'
+    itemId: mongoose.Types.ObjectId
+    itemName: string
+    addedDate: Date
+    notes?: string
+  }>
 }
 
 const userSchema = new Schema({
@@ -343,6 +361,22 @@ const userSchema = new Schema({
   businessType: String,
   city: String,
   membershipType: { type: String, default: 'free' },
+  membershipStatus: { type: String, default: 'active' },
+  membershipStartDate: Date,
+  membershipExpiryDate: Date,
+  stripeCustomerId: String,
+  stripeSubscriptionId: String,
+  lastPaymentDate: Date,
+  billingInfo: {
+    firstName: String,
+    lastName: String,
+    company: String,
+    address: String,
+    city: String,
+    state: String,
+    pincode: String,
+    gstNumber: String
+  },
   status: { type: String, default: 'active' },
   emailVerified: { type: Boolean, default: false },
   profile: {
@@ -372,11 +406,71 @@ const userSchema = new Schema({
   resetToken: String,
   resetTokenExpiry: Date,
   lastLogin: Date,
+  bookingHistory: [{
+    type: {
+      type: String,
+      enum: ['hotel', 'restaurant', 'attraction', 'event', 'sports'],
+      required: true
+    },
+    itemId: { type: Schema.Types.ObjectId, required: true },
+    itemName: { type: String, required: true },
+    bookingDate: { type: Date, default: Date.now },
+    visitDate: Date,
+    status: {
+      type: String,
+      enum: ['confirmed', 'cancelled', 'completed'],
+      default: 'confirmed'
+    },
+    amount: Number,
+    currency: { type: String, default: 'INR' },
+    notes: String
+  }],
+  wishlist: [{
+    type: {
+      type: String,
+      enum: ['hotel', 'restaurant', 'attraction', 'event', 'sports'],
+      required: true
+    },
+    itemId: { type: Schema.Types.ObjectId, required: true },
+    itemName: { type: String, required: true },
+    addedDate: { type: Date, default: Date.now },
+    notes: String
+  }],
   createdAt: { type: Date, default: Date.now },
   updatedAt: { type: Date, default: Date.now }
 })
 
-// Travel Schema
+// Trip Schema
+export interface ITrip extends Document {
+  userId: mongoose.Types.ObjectId
+  title: string
+  description?: string
+  startDate: Date
+  endDate: Date
+  destinations: Array<{
+    location: {
+      name: string
+      coordinates: [number, number]
+    }
+    arrivalDate: Date
+    departureDate: Date
+    activities: Array<{
+      type: 'hotel' | 'restaurant' | 'attraction' | 'event' | 'sports' | 'transport'
+      itemId?: mongoose.Types.ObjectId
+      itemName: string
+      time?: Date
+      notes?: string
+    }>
+    notes?: string
+  }>
+  totalBudget?: number
+  currency: string
+  status: 'planning' | 'confirmed' | 'completed' | 'cancelled'
+  isPublic: boolean
+  tags: string[]
+  createdAt: Date
+  updatedAt: Date
+}
 export interface ITravel extends Document {
   name: string
   description: string
@@ -467,6 +561,81 @@ const travelTipSchema = new Schema({
   createdAt: { type: Date, default: Date.now },
   updatedAt: { type: Date, default: Date.now }
 })
+
+// Trip Schema
+export interface ITrip extends Document {
+  userId: mongoose.Types.ObjectId
+  title: string
+  description?: string
+  startDate: Date
+  endDate: Date
+  destinations: Array<{
+    location: {
+      name: string
+      coordinates: [number, number]
+    }
+    arrivalDate: Date
+    departureDate: Date
+    activities: Array<{
+      type: 'hotel' | 'restaurant' | 'attraction' | 'event' | 'sports' | 'transport'
+      itemId?: mongoose.Types.ObjectId
+      itemName: string
+      time?: Date
+      notes?: string
+    }>
+    notes?: string
+  }>
+  totalBudget?: number
+  currency: string
+  status: 'planning' | 'confirmed' | 'completed' | 'cancelled'
+  isPublic: boolean
+  tags: string[]
+  createdAt: Date
+  updatedAt: Date
+}
+
+const tripSchema = new Schema({
+  userId: { type: Schema.Types.ObjectId, ref: 'User', required: true },
+  title: { type: String, required: true, trim: true },
+  description: { type: String, trim: true },
+  startDate: { type: Date, required: true },
+  endDate: { type: Date, required: true },
+  destinations: [{
+    location: {
+      name: { type: String, required: true },
+      coordinates: { type: [Number], required: true }
+    },
+    arrivalDate: { type: Date, required: true },
+    departureDate: { type: Date, required: true },
+    activities: [{
+      type: {
+        type: String,
+        enum: ['hotel', 'restaurant', 'attraction', 'event', 'sports', 'transport'],
+        required: true
+      },
+      itemId: { type: Schema.Types.ObjectId },
+      itemName: { type: String, required: true },
+      time: Date,
+      notes: String
+    }],
+    notes: String
+  }],
+  totalBudget: Number,
+  currency: { type: String, default: 'INR' },
+  status: {
+    type: String,
+    enum: ['planning', 'confirmed', 'completed', 'cancelled'],
+    default: 'planning'
+  },
+  isPublic: { type: Boolean, default: false },
+  tags: [{ type: String }],
+  createdAt: { type: Date, default: Date.now },
+  updatedAt: { type: Date, default: Date.now }
+})
+
+// Create indexes
+tripSchema.index({ userId: 1, createdAt: -1 })
+tripSchema.index({ status: 1, startDate: 1 })
 
 // Emergency Contacts Schema
 export interface IEmergencyContact extends Document {
@@ -924,6 +1093,7 @@ export const Attraction = mongoose.models.Attraction || mongoose.model<IAttracti
 export const Event = mongoose.models.Event || mongoose.model<IEvent>('Event', eventSchema)
 export const Travel = mongoose.models.Travel || mongoose.model<ITravel>('Travel', travelSchema)
 export const TravelTip = mongoose.models.TravelTip || mongoose.model<ITravelTip>('TravelTip', travelTipSchema)
+export const Trip = mongoose.models.Trip || mongoose.model<ITrip>('Trip', tripSchema)
 export const EmergencyContact = mongoose.models.EmergencyContact || mongoose.model<IEmergencyContact>('EmergencyContact', emergencyContactSchema)
 export const User = mongoose.models.User || mongoose.model<IUser>('User', userSchema)
 export const Promotion = mongoose.models.Promotion || mongoose.model<IPromotion>('Promotion', promotionSchema)

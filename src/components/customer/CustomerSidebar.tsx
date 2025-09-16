@@ -16,10 +16,16 @@ import {
   Calendar,
   Megaphone,
   Trophy,
-  User
+  User,
+  Heart,
+  MessageSquare,
+  HelpCircle,
+  Activity,
+  BarChart3
 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { useAuth } from '@/contexts/AuthContext'
+import { NotificationDropdown } from '@/components/shared/NotificationDropdown'
 
 interface CustomerSidebarProps {
   readonly className?: string
@@ -63,6 +69,36 @@ export default function CustomerSidebar({ className = '' }: CustomerSidebarProps
       current: pathname === '/customer/listings'
     },
     {
+      name: 'Favorites',
+      href: '/customer/favorites',
+      icon: Heart,
+      current: pathname === '/customer/favorites'
+    },
+    {
+      name: 'Reviews',
+      href: '/customer/reviews',
+      icon: MessageSquare,
+      current: pathname === '/customer/reviews'
+    },
+    {
+      name: 'Activity Feed',
+      href: '/customer/activity',
+      icon: Activity,
+      current: pathname === '/customer/activity'
+    },
+    {
+      name: 'Analytics',
+      href: '/customer/analytics',
+      icon: BarChart3,
+      current: pathname === '/customer/analytics'
+    },
+    {
+      name: 'Help & Support',
+      href: '/customer/help',
+      icon: HelpCircle,
+      current: pathname === '/customer/help'
+    },
+    {
       name: 'Membership',
       href: '/customer/membership',
       icon: CreditCard,
@@ -102,16 +138,19 @@ export default function CustomerSidebar({ className = '' }: CustomerSidebarProps
 
       {/* User Info */}
       <div className="p-4 border-b border-gray-200">
-        <div className="flex items-center space-x-3">
-          <div className="w-10 h-10 bg-orange-100 rounded-full flex items-center justify-center">
-            <User className="w-5 h-5 text-orange-600" />
+        <div className="flex items-center justify-between">
+          <div className="flex items-center space-x-3 flex-1 min-w-0">
+            <div className="w-10 h-10 bg-orange-100 rounded-full flex items-center justify-center">
+              <User className="w-5 h-5 text-orange-600" />
+            </div>
+            <div className="flex-1 min-w-0">
+              <p className="text-sm font-medium text-gray-900 truncate">
+                {displayName}
+              </p>
+              <p className="text-xs text-gray-500 truncate">{displayEmail}</p>
+            </div>
           </div>
-          <div className="flex-1 min-w-0">
-            <p className="text-sm font-medium text-gray-900 truncate">
-              {displayName}
-            </p>
-            <p className="text-xs text-gray-500 truncate">{displayEmail}</p>
-          </div>
+          <NotificationDropdown />
         </div>
       </div>
 

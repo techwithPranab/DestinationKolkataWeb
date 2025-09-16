@@ -32,8 +32,8 @@
     "category": "Business",
     "amenities": [],
     "rating": {
-      "average": 3.0224098406629762,
-      "count": 43
+      "average": 4.55629629873677,
+      "count": 25
     },
     "roomTypes": [
       {
@@ -53,8 +53,8 @@
     "tags": [
       "hotel"
     ],
-    "status": "active",
-    "featured": true,
+    "status": "pending",
+    "featured": false,
     "promoted": false,
     "osmId": 664464565,
     "source": "OpenStreetMap"
@@ -92,8 +92,8 @@
     "category": "Business",
     "amenities": [],
     "rating": {
-      "average": 3.181590765398448,
-      "count": 71
+      "average": 4.679461053995219,
+      "count": 91
     },
     "roomTypes": [
       {
@@ -113,7 +113,7 @@
     "tags": [
       "hotel"
     ],
-    "status": "active",
+    "status": "pending",
     "featured": false,
     "promoted": false,
     "osmId": 1171065437,
@@ -152,8 +152,8 @@
     "category": "Business",
     "amenities": [],
     "rating": {
-      "average": 3.7932362020078503,
-      "count": 56
+      "average": 3.9026340048992316,
+      "count": 95
     },
     "roomTypes": [
       {
@@ -173,7 +173,7 @@
     "tags": [
       "hotel"
     ],
-    "status": "active",
+    "status": "pending",
     "featured": false,
     "promoted": false,
     "osmId": 2041813454,
@@ -212,8 +212,8 @@
     "category": "Budget",
     "amenities": [],
     "rating": {
-      "average": 3.133573723592784,
-      "count": 72
+      "average": 3.0291778240951097,
+      "count": 60
     },
     "roomTypes": [
       {
@@ -233,7 +233,7 @@
     "tags": [
       "guest_house"
     ],
-    "status": "active",
+    "status": "pending",
     "featured": false,
     "promoted": false,
     "osmId": 2061919387,
@@ -272,8 +272,8 @@
     "category": "Business",
     "amenities": [],
     "rating": {
-      "average": 4.370040482123779,
-      "count": 95
+      "average": 4.168989679916516,
+      "count": 51
     },
     "roomTypes": [
       {
@@ -293,9 +293,9 @@
     "tags": [
       "hotel"
     ],
-    "status": "active",
+    "status": "pending",
     "featured": false,
-    "promoted": true,
+    "promoted": false,
     "osmId": 2209959275,
     "source": "OpenStreetMap"
   },
@@ -332,8 +332,8 @@
     "category": "Business",
     "amenities": [],
     "rating": {
-      "average": 4.433320173217121,
-      "count": 69
+      "average": 3.0295152637067466,
+      "count": 39
     },
     "roomTypes": [
       {
@@ -353,7 +353,7 @@
     "tags": [
       "hotel"
     ],
-    "status": "active",
+    "status": "pending",
     "featured": false,
     "promoted": false,
     "osmId": 2234881727,
@@ -394,8 +394,8 @@
     "category": "Business",
     "amenities": [],
     "rating": {
-      "average": 3.4158793228724584,
-      "count": 67
+      "average": 4.830341251981351,
+      "count": 24
     },
     "roomTypes": [
       {
@@ -415,9 +415,9 @@
     "tags": [
       "hotel"
     ],
-    "status": "active",
+    "status": "pending",
     "featured": false,
-    "promoted": true,
+    "promoted": false,
     "osmId": 2234881752,
     "source": "OpenStreetMap"
   },
@@ -454,8 +454,8 @@
     "category": "Business",
     "amenities": [],
     "rating": {
-      "average": 3.2314785446485357,
-      "count": 65
+      "average": 4.260903461917502,
+      "count": 37
     },
     "roomTypes": [
       {
@@ -475,7 +475,7 @@
     "tags": [
       "hotel"
     ],
-    "status": "active",
+    "status": "pending",
     "featured": false,
     "promoted": false,
     "osmId": 2453260661,
@@ -514,8 +514,8 @@
     "category": "Budget",
     "amenities": [],
     "rating": {
-      "average": 4.104702425013885,
-      "count": 77
+      "average": 3.3830961793205927,
+      "count": 94
     },
     "roomTypes": [
       {
@@ -535,7 +535,7 @@
     "tags": [
       "guest_house"
     ],
-    "status": "active",
+    "status": "pending",
     "featured": false,
     "promoted": false,
     "osmId": 2461173843,
@@ -574,8 +574,8 @@
     "category": "Budget",
     "amenities": [],
     "rating": {
-      "average": 3.98056781677703,
-      "count": 89
+      "average": 4.8635449485314215,
+      "count": 82
     },
     "roomTypes": [
       {
@@ -595,7 +595,7 @@
     "tags": [
       "hostel"
     ],
-    "status": "active",
+    "status": "pending",
     "featured": false,
     "promoted": false,
     "osmId": 2461201411,
@@ -634,8 +634,8 @@
     "category": "Budget",
     "amenities": [],
     "rating": {
-      "average": 3.461506557244918,
-      "count": 29
+      "average": 4.951971930977042,
+      "count": 36
     },
     "roomTypes": [
       {
@@ -655,8 +655,8 @@
     "tags": [
       "hostel"
     ],
-    "status": "active",
-    "featured": true,
+    "status": "pending",
+    "featured": false,
     "promoted": false,
     "osmId": 2461201425,
     "source": "OpenStreetMap"
@@ -694,8 +694,8 @@
     "category": "Budget",
     "amenities": [],
     "rating": {
-      "average": 4.74833462501714,
-      "count": 22
+      "average": 3.704784126157179,
+      "count": 57
     },
     "roomTypes": [
       {
@@ -715,9 +715,9 @@
     "tags": [
       "hostel"
     ],
-    "status": "active",
-    "featured": true,
-    "promoted": true,
+    "status": "pending",
+    "featured": false,
+    "promoted": false,
     "osmId": 2461201429,
     "source": "OpenStreetMap"
   },
@@ -754,8 +754,8 @@
     "category": "Budget",
     "amenities": [],
     "rating": {
-      "average": 4.137470165213287,
-      "count": 79
+      "average": 3.2221491898650565,
+      "count": 69
     },
     "roomTypes": [
       {
@@ -775,7 +775,7 @@
     "tags": [
       "hostel"
     ],
-    "status": "active",
+    "status": "pending",
     "featured": false,
     "promoted": false,
     "osmId": 2461204975,
@@ -814,8 +814,8 @@
     "category": "Business",
     "amenities": [],
     "rating": {
-      "average": 3.861930390944448,
-      "count": 61
+      "average": 4.908722757771113,
+      "count": 89
     },
     "roomTypes": [
       {
@@ -835,8 +835,8 @@
     "tags": [
       "hotel"
     ],
-    "status": "active",
-    "featured": true,
+    "status": "pending",
+    "featured": false,
     "promoted": false,
     "osmId": 2461251739,
     "source": "OpenStreetMap"
@@ -874,8 +874,8 @@
     "category": "Business",
     "amenities": [],
     "rating": {
-      "average": 4.722603879723058,
-      "count": 29
+      "average": 3.8283608755783765,
+      "count": 63
     },
     "roomTypes": [
       {
@@ -895,7 +895,7 @@
     "tags": [
       "hotel"
     ],
-    "status": "active",
+    "status": "pending",
     "featured": false,
     "promoted": false,
     "osmId": 2461308597,
@@ -934,8 +934,8 @@
     "category": "Business",
     "amenities": [],
     "rating": {
-      "average": 4.261345895707783,
-      "count": 30
+      "average": 4.509036812125652,
+      "count": 56
     },
     "roomTypes": [
       {
@@ -955,7 +955,7 @@
     "tags": [
       "hotel"
     ],
-    "status": "active",
+    "status": "pending",
     "featured": false,
     "promoted": false,
     "osmId": 2934412980,
@@ -994,8 +994,8 @@
     "category": "Business",
     "amenities": [],
     "rating": {
-      "average": 3.862251754396172,
-      "count": 84
+      "average": 3.3785394489873415,
+      "count": 48
     },
     "roomTypes": [
       {
@@ -1015,8 +1015,8 @@
     "tags": [
       "hotel"
     ],
-    "status": "active",
-    "featured": true,
+    "status": "pending",
+    "featured": false,
     "promoted": false,
     "osmId": 2934412983,
     "source": "OpenStreetMap"
@@ -1054,8 +1054,8 @@
     "category": "Business",
     "amenities": [],
     "rating": {
-      "average": 3.369962751218698,
-      "count": 94
+      "average": 3.051574548136046,
+      "count": 75
     },
     "roomTypes": [
       {
@@ -1075,7 +1075,7 @@
     "tags": [
       "hotel"
     ],
-    "status": "active",
+    "status": "pending",
     "featured": false,
     "promoted": false,
     "osmId": 2934412984,
@@ -1114,8 +1114,8 @@
     "category": "Budget",
     "amenities": [],
     "rating": {
-      "average": 4.74387213570872,
-      "count": 107
+      "average": 3.1623877779134997,
+      "count": 28
     },
     "roomTypes": [
       {
@@ -1135,8 +1135,8 @@
     "tags": [
       "hostel"
     ],
-    "status": "active",
-    "featured": true,
+    "status": "pending",
+    "featured": false,
     "promoted": false,
     "osmId": 2934412986,
     "source": "OpenStreetMap"
@@ -1176,8 +1176,8 @@
     "category": "Business",
     "amenities": [],
     "rating": {
-      "average": 4.217867320414337,
-      "count": 31
+      "average": 4.023705178473142,
+      "count": 19
     },
     "roomTypes": [
       {
@@ -1197,7 +1197,7 @@
     "tags": [
       "hotel"
     ],
-    "status": "active",
+    "status": "pending",
     "featured": false,
     "promoted": false,
     "osmId": 3250354078,
@@ -1236,8 +1236,8 @@
     "category": "Business",
     "amenities": [],
     "rating": {
-      "average": 4.869033748278307,
-      "count": 72
+      "average": 3.959824533193722,
+      "count": 76
     },
     "roomTypes": [
       {
@@ -1258,7 +1258,7 @@
       "hotel",
       "library"
     ],
-    "status": "active",
+    "status": "pending",
     "featured": false,
     "promoted": false,
     "osmId": 3251622461,
@@ -1297,8 +1297,8 @@
     "category": "Business",
     "amenities": [],
     "rating": {
-      "average": 4.672151803298924,
-      "count": 54
+      "average": 3.7723333113403226,
+      "count": 46
     },
     "roomTypes": [
       {
@@ -1318,7 +1318,7 @@
     "tags": [
       "hotel"
     ],
-    "status": "active",
+    "status": "pending",
     "featured": false,
     "promoted": false,
     "osmId": 3277932861,
@@ -1357,8 +1357,8 @@
     "category": "Business",
     "amenities": [],
     "rating": {
-      "average": 3.922068989109582,
-      "count": 42
+      "average": 4.672767142132182,
+      "count": 47
     },
     "roomTypes": [
       {
@@ -1378,7 +1378,7 @@
     "tags": [
       "hotel"
     ],
-    "status": "active",
+    "status": "pending",
     "featured": false,
     "promoted": false,
     "osmId": 3628918620,
@@ -1417,8 +1417,8 @@
     "category": "Business",
     "amenities": [],
     "rating": {
-      "average": 4.858950076144843,
-      "count": 52
+      "average": 3.757057389571726,
+      "count": 28
     },
     "roomTypes": [
       {
@@ -1438,7 +1438,7 @@
     "tags": [
       "hotel"
     ],
-    "status": "active",
+    "status": "pending",
     "featured": false,
     "promoted": false,
     "osmId": 4175378890,
@@ -1477,8 +1477,8 @@
     "category": "Business",
     "amenities": [],
     "rating": {
-      "average": 4.738313253981623,
-      "count": 99
+      "average": 4.262949452984718,
+      "count": 46
     },
     "roomTypes": [
       {
@@ -1498,7 +1498,7 @@
     "tags": [
       "hotel"
     ],
-    "status": "active",
+    "status": "pending",
     "featured": false,
     "promoted": false,
     "osmId": 4177657190,
@@ -1537,8 +1537,8 @@
     "category": "Business",
     "amenities": [],
     "rating": {
-      "average": 3.970460061502104,
-      "count": 34
+      "average": 3.3625094456820404,
+      "count": 106
     },
     "roomTypes": [
       {
@@ -1558,7 +1558,7 @@
     "tags": [
       "hotel"
     ],
-    "status": "active",
+    "status": "pending",
     "featured": false,
     "promoted": false,
     "osmId": 4209577086,
@@ -1597,8 +1597,8 @@
     "category": "Business",
     "amenities": [],
     "rating": {
-      "average": 3.8733437238281114,
-      "count": 58
+      "average": 4.1744006405386616,
+      "count": 95
     },
     "roomTypes": [
       {
@@ -1618,7 +1618,7 @@
     "tags": [
       "hotel"
     ],
-    "status": "active",
+    "status": "pending",
     "featured": false,
     "promoted": false,
     "osmId": 4209577088,
@@ -1657,8 +1657,8 @@
     "category": "Business",
     "amenities": [],
     "rating": {
-      "average": 4.631595005318879,
-      "count": 54
+      "average": 4.541578659592268,
+      "count": 73
     },
     "roomTypes": [
       {
@@ -1678,9 +1678,9 @@
     "tags": [
       "hotel"
     ],
-    "status": "active",
+    "status": "pending",
     "featured": false,
-    "promoted": true,
+    "promoted": false,
     "osmId": 4209893880,
     "source": "OpenStreetMap"
   },
@@ -1717,8 +1717,8 @@
     "category": "Budget",
     "amenities": [],
     "rating": {
-      "average": 4.983112216206244,
-      "count": 56
+      "average": 4.753085262123278,
+      "count": 40
     },
     "roomTypes": [
       {
@@ -1738,7 +1738,7 @@
     "tags": [
       "guest_house"
     ],
-    "status": "active",
+    "status": "pending",
     "featured": false,
     "promoted": false,
     "osmId": 4243787191,
@@ -1779,8 +1779,8 @@
     "category": "Budget",
     "amenities": [],
     "rating": {
-      "average": 4.2105149330660065,
-      "count": 83
+      "average": 3.782607982755393,
+      "count": 19
     },
     "roomTypes": [
       {
@@ -1800,9 +1800,9 @@
     "tags": [
       "hostel"
     ],
-    "status": "active",
+    "status": "pending",
     "featured": false,
-    "promoted": true,
+    "promoted": false,
     "osmId": 4345252190,
     "source": "OpenStreetMap"
   },
@@ -1839,8 +1839,8 @@
     "category": "Business",
     "amenities": [],
     "rating": {
-      "average": 3.9252004370075104,
-      "count": 79
+      "average": 4.678197781182384,
+      "count": 104
     },
     "roomTypes": [
       {
@@ -1860,7 +1860,7 @@
     "tags": [
       "hotel"
     ],
-    "status": "active",
+    "status": "pending",
     "featured": false,
     "promoted": false,
     "osmId": 4364249791,
@@ -1899,8 +1899,8 @@
     "category": "Business",
     "amenities": [],
     "rating": {
-      "average": 4.576288673299345,
-      "count": 94
+      "average": 3.1111457740038206,
+      "count": 49
     },
     "roomTypes": [
       {
@@ -1920,7 +1920,7 @@
     "tags": [
       "hotel"
     ],
-    "status": "active",
+    "status": "pending",
     "featured": false,
     "promoted": false,
     "osmId": 4368161896,
@@ -1961,8 +1961,8 @@
     "category": "Budget",
     "amenities": [],
     "rating": {
-      "average": 4.342754857882182,
-      "count": 24
+      "average": 3.3507551388989167,
+      "count": 27
     },
     "roomTypes": [
       {
@@ -1982,7 +1982,7 @@
     "tags": [
       "hostel"
     ],
-    "status": "active",
+    "status": "pending",
     "featured": false,
     "promoted": false,
     "osmId": 4368170790,
@@ -2023,8 +2023,8 @@
     "category": "Business",
     "amenities": [],
     "rating": {
-      "average": 3.563199854668206,
-      "count": 37
+      "average": 3.7579792443922018,
+      "count": 23
     },
     "roomTypes": [
       {
@@ -2044,7 +2044,7 @@
     "tags": [
       "hotel"
     ],
-    "status": "active",
+    "status": "pending",
     "featured": false,
     "promoted": false,
     "osmId": 4393789097,
@@ -2085,8 +2085,8 @@
     "category": "Business",
     "amenities": [],
     "rating": {
-      "average": 4.765987954187995,
-      "count": 79
+      "average": 3.680371306600739,
+      "count": 98
     },
     "roomTypes": [
       {
@@ -2106,7 +2106,7 @@
     "tags": [
       "hotel"
     ],
-    "status": "active",
+    "status": "pending",
     "featured": false,
     "promoted": false,
     "osmId": 4406715689,
@@ -2147,8 +2147,8 @@
     "category": "Business",
     "amenities": [],
     "rating": {
-      "average": 3.02430211469781,
-      "count": 102
+      "average": 4.144218718935965,
+      "count": 53
     },
     "roomTypes": [
       {
@@ -2168,9 +2168,9 @@
     "tags": [
       "hotel"
     ],
-    "status": "active",
+    "status": "pending",
     "featured": false,
-    "promoted": true,
+    "promoted": false,
     "osmId": 4441996089,
     "source": "OpenStreetMap"
   },
@@ -2207,8 +2207,8 @@
     "category": "Business",
     "amenities": [],
     "rating": {
-      "average": 4.7845796442389865,
-      "count": 43
+      "average": 3.7176989684723685,
+      "count": 11
     },
     "roomTypes": [
       {
@@ -2228,9 +2228,9 @@
     "tags": [
       "hotel"
     ],
-    "status": "active",
+    "status": "pending",
     "featured": false,
-    "promoted": true,
+    "promoted": false,
     "osmId": 4523292425,
     "source": "OpenStreetMap"
   },
@@ -2267,8 +2267,8 @@
     "category": "Budget",
     "amenities": [],
     "rating": {
-      "average": 4.954591117545595,
-      "count": 26
+      "average": 4.908157986261332,
+      "count": 83
     },
     "roomTypes": [
       {
@@ -2288,8 +2288,8 @@
     "tags": [
       "guest_house"
     ],
-    "status": "active",
-    "featured": true,
+    "status": "pending",
+    "featured": false,
     "promoted": false,
     "osmId": 4564538894,
     "source": "OpenStreetMap"
@@ -2327,8 +2327,8 @@
     "category": "Business",
     "amenities": [],
     "rating": {
-      "average": 4.39622664962415,
-      "count": 22
+      "average": 3.6914692089018115,
+      "count": 11
     },
     "roomTypes": [
       {
@@ -2348,7 +2348,7 @@
     "tags": [
       "hotel"
     ],
-    "status": "active",
+    "status": "pending",
     "featured": false,
     "promoted": false,
     "osmId": 4607222892,
@@ -2387,8 +2387,8 @@
     "category": "Budget",
     "amenities": [],
     "rating": {
-      "average": 4.018811403077868,
-      "count": 87
+      "average": 4.818143534260993,
+      "count": 79
     },
     "roomTypes": [
       {
@@ -2408,7 +2408,7 @@
     "tags": [
       "guest_house"
     ],
-    "status": "active",
+    "status": "pending",
     "featured": false,
     "promoted": false,
     "osmId": 4718248697,
@@ -2447,8 +2447,8 @@
     "category": "Business",
     "amenities": [],
     "rating": {
-      "average": 3.03971517869605,
-      "count": 74
+      "average": 4.610772034469717,
+      "count": 29
     },
     "roomTypes": [
       {
@@ -2468,8 +2468,8 @@
     "tags": [
       "hotel"
     ],
-    "status": "active",
-    "featured": true,
+    "status": "pending",
+    "featured": false,
     "promoted": false,
     "osmId": 4725550224,
     "source": "OpenStreetMap"
@@ -2507,8 +2507,8 @@
     "category": "Business",
     "amenities": [],
     "rating": {
-      "average": 4.413768903691453,
-      "count": 45
+      "average": 3.2442669604979244,
+      "count": 50
     },
     "roomTypes": [
       {
@@ -2528,8 +2528,8 @@
     "tags": [
       "hotel"
     ],
-    "status": "active",
-    "featured": true,
+    "status": "pending",
+    "featured": false,
     "promoted": false,
     "osmId": 4739253321,
     "source": "OpenStreetMap"
@@ -2567,8 +2567,8 @@
     "category": "Business",
     "amenities": [],
     "rating": {
-      "average": 3.3037014682445784,
-      "count": 22
+      "average": 3.1371131901244977,
+      "count": 86
     },
     "roomTypes": [
       {
@@ -2588,8 +2588,8 @@
     "tags": [
       "hotel"
     ],
-    "status": "active",
-    "featured": true,
+    "status": "pending",
+    "featured": false,
     "promoted": false,
     "osmId": 4818053922,
     "source": "OpenStreetMap"
@@ -2627,8 +2627,8 @@
     "category": "Business",
     "amenities": [],
     "rating": {
-      "average": 3.987905634159587,
-      "count": 79
+      "average": 3.7686409210154976,
+      "count": 24
     },
     "roomTypes": [
       {
@@ -2648,7 +2648,7 @@
     "tags": [
       "hotel"
     ],
-    "status": "active",
+    "status": "pending",
     "featured": false,
     "promoted": false,
     "osmId": 4819569521,
@@ -2687,8 +2687,8 @@
     "category": "Business",
     "amenities": [],
     "rating": {
-      "average": 4.926936865840155,
-      "count": 50
+      "average": 3.1038547278925557,
+      "count": 87
     },
     "roomTypes": [
       {
@@ -2708,7 +2708,7 @@
     "tags": [
       "hotel"
     ],
-    "status": "active",
+    "status": "pending",
     "featured": false,
     "promoted": false,
     "osmId": 4859921921,
@@ -2747,8 +2747,8 @@
     "category": "Business",
     "amenities": [],
     "rating": {
-      "average": 4.350516226546399,
-      "count": 35
+      "average": 3.4559569211619086,
+      "count": 40
     },
     "roomTypes": [
       {
@@ -2768,7 +2768,7 @@
     "tags": [
       "hotel"
     ],
-    "status": "active",
+    "status": "pending",
     "featured": false,
     "promoted": false,
     "osmId": 4865710921,
@@ -2807,8 +2807,8 @@
     "category": "Business",
     "amenities": [],
     "rating": {
-      "average": 3.184665651151173,
-      "count": 52
+      "average": 4.031765687332964,
+      "count": 92
     },
     "roomTypes": [
       {
@@ -2828,7 +2828,7 @@
     "tags": [
       "hotel"
     ],
-    "status": "active",
+    "status": "pending",
     "featured": false,
     "promoted": false,
     "osmId": 4885176223,
@@ -2867,8 +2867,8 @@
     "category": "Business",
     "amenities": [],
     "rating": {
-      "average": 4.925423731631719,
-      "count": 18
+      "average": 3.708049547119752,
+      "count": 41
     },
     "roomTypes": [
       {
@@ -2888,8 +2888,8 @@
     "tags": [
       "hotel"
     ],
-    "status": "active",
-    "featured": true,
+    "status": "pending",
+    "featured": false,
     "promoted": false,
     "osmId": 4891258742,
     "source": "OpenStreetMap"
@@ -2927,8 +2927,8 @@
     "category": "Business",
     "amenities": [],
     "rating": {
-      "average": 3.8822253575744154,
-      "count": 82
+      "average": 4.771017529665462,
+      "count": 52
     },
     "roomTypes": [
       {
@@ -2948,9 +2948,9 @@
     "tags": [
       "hotel"
     ],
-    "status": "active",
+    "status": "pending",
     "featured": false,
-    "promoted": true,
+    "promoted": false,
     "osmId": 4891258744,
     "source": "OpenStreetMap"
   },
@@ -2989,8 +2989,8 @@
     "category": "Budget",
     "amenities": [],
     "rating": {
-      "average": 4.565031162955393,
-      "count": 45
+      "average": 4.401488121681235,
+      "count": 36
     },
     "roomTypes": [
       {
@@ -3010,7 +3010,7 @@
     "tags": [
       "guest_house"
     ],
-    "status": "active",
+    "status": "pending",
     "featured": false,
     "promoted": false,
     "osmId": 4971752621,
@@ -3051,8 +3051,8 @@
     "category": "Business",
     "amenities": [],
     "rating": {
-      "average": 3.8712121932590784,
-      "count": 41
+      "average": 4.540425111393883,
+      "count": 90
     },
     "roomTypes": [
       {
@@ -3072,7 +3072,7 @@
     "tags": [
       "hotel"
     ],
-    "status": "active",
+    "status": "pending",
     "featured": false,
     "promoted": false,
     "osmId": 5101582322,
@@ -3111,8 +3111,8 @@
     "category": "Business",
     "amenities": [],
     "rating": {
-      "average": 3.741360777412596,
-      "count": 83
+      "average": 4.5800449253365265,
+      "count": 93
     },
     "roomTypes": [
       {
@@ -3132,8 +3132,8 @@
     "tags": [
       "hotel"
     ],
-    "status": "active",
-    "featured": true,
+    "status": "pending",
+    "featured": false,
     "promoted": false,
     "osmId": 5136807023,
     "source": "OpenStreetMap"
@@ -3171,8 +3171,8 @@
     "category": "Budget",
     "amenities": [],
     "rating": {
-      "average": 4.15129920133975,
-      "count": 96
+      "average": 3.3809740983584438,
+      "count": 57
     },
     "roomTypes": [
       {
@@ -3192,7 +3192,7 @@
     "tags": [
       "hostel"
     ],
-    "status": "active",
+    "status": "pending",
     "featured": false,
     "promoted": false,
     "osmId": 5242759814,
@@ -3231,8 +3231,8 @@
     "category": "Budget",
     "amenities": [],
     "rating": {
-      "average": 4.1499465258894705,
-      "count": 29
+      "average": 4.324061842541098,
+      "count": 28
     },
     "roomTypes": [
       {
@@ -3252,8 +3252,8 @@
     "tags": [
       "guest_house"
     ],
-    "status": "active",
-    "featured": true,
+    "status": "pending",
+    "featured": false,
     "promoted": false,
     "osmId": 5242857321,
     "source": "OpenStreetMap"
@@ -3291,8 +3291,8 @@
     "category": "Budget",
     "amenities": [],
     "rating": {
-      "average": 3.4209298802269763,
-      "count": 58
+      "average": 3.2161461380769736,
+      "count": 25
     },
     "roomTypes": [
       {
@@ -3312,7 +3312,7 @@
     "tags": [
       "guest_house"
     ],
-    "status": "active",
+    "status": "pending",
     "featured": false,
     "promoted": false,
     "osmId": 5303976321,
@@ -3351,8 +3351,8 @@
     "category": "Budget",
     "amenities": [],
     "rating": {
-      "average": 4.390846269170975,
-      "count": 63
+      "average": 4.799982269371798,
+      "count": 98
     },
     "roomTypes": [
       {
@@ -3372,7 +3372,7 @@
     "tags": [
       "guest_house"
     ],
-    "status": "active",
+    "status": "pending",
     "featured": false,
     "promoted": false,
     "osmId": 5309805521,
@@ -3411,8 +3411,8 @@
     "category": "Business",
     "amenities": [],
     "rating": {
-      "average": 3.8858445644217534,
-      "count": 60
+      "average": 4.403259445598383,
+      "count": 30
     },
     "roomTypes": [
       {
@@ -3432,7 +3432,7 @@
     "tags": [
       "hotel"
     ],
-    "status": "active",
+    "status": "pending",
     "featured": false,
     "promoted": false,
     "osmId": 5323269622,
@@ -3471,8 +3471,8 @@
     "category": "Business",
     "amenities": [],
     "rating": {
-      "average": 4.490364724770597,
-      "count": 72
+      "average": 4.805732101479817,
+      "count": 24
     },
     "roomTypes": [
       {
@@ -3492,7 +3492,7 @@
     "tags": [
       "hotel"
     ],
-    "status": "active",
+    "status": "pending",
     "featured": false,
     "promoted": false,
     "osmId": 5595874221,
@@ -3531,8 +3531,8 @@
     "category": "Business",
     "amenities": [],
     "rating": {
-      "average": 3.6843260636363326,
-      "count": 81
+      "average": 4.361753088517735,
+      "count": 27
     },
     "roomTypes": [
       {
@@ -3552,7 +3552,7 @@
     "tags": [
       "hotel"
     ],
-    "status": "active",
+    "status": "pending",
     "featured": false,
     "promoted": false,
     "osmId": 5776269053,
@@ -3591,8 +3591,8 @@
     "category": "Business",
     "amenities": [],
     "rating": {
-      "average": 3.2555729588823428,
-      "count": 63
+      "average": 3.548451368476455,
+      "count": 62
     },
     "roomTypes": [
       {
@@ -3612,7 +3612,7 @@
     "tags": [
       "hotel"
     ],
-    "status": "active",
+    "status": "pending",
     "featured": false,
     "promoted": false,
     "osmId": 5837398485,
@@ -3653,8 +3653,8 @@
     "category": "Budget",
     "amenities": [],
     "rating": {
-      "average": 4.455979810626674,
-      "count": 67
+      "average": 3.814631383702887,
+      "count": 65
     },
     "roomTypes": [
       {
@@ -3674,7 +3674,7 @@
     "tags": [
       "guest_house"
     ],
-    "status": "active",
+    "status": "pending",
     "featured": false,
     "promoted": false,
     "osmId": 6125952789,
@@ -3715,8 +3715,8 @@
     "category": "Business",
     "amenities": [],
     "rating": {
-      "average": 3.3637565635481668,
-      "count": 98
+      "average": 4.984633946291158,
+      "count": 108
     },
     "roomTypes": [
       {
@@ -3736,8 +3736,8 @@
     "tags": [
       "hotel"
     ],
-    "status": "active",
-    "featured": true,
+    "status": "pending",
+    "featured": false,
     "promoted": false,
     "osmId": 6126300685,
     "source": "OpenStreetMap"
@@ -3777,8 +3777,8 @@
     "category": "Business",
     "amenities": [],
     "rating": {
-      "average": 3.5599166051462547,
-      "count": 101
+      "average": 4.279799611263254,
+      "count": 68
     },
     "roomTypes": [
       {
@@ -3798,7 +3798,7 @@
     "tags": [
       "hotel"
     ],
-    "status": "active",
+    "status": "pending",
     "featured": false,
     "promoted": false,
     "osmId": 6135363743,
@@ -3837,8 +3837,8 @@
     "category": "Business",
     "amenities": [],
     "rating": {
-      "average": 3.950866686809724,
-      "count": 15
+      "average": 4.437267187198666,
+      "count": 66
     },
     "roomTypes": [
       {
@@ -3858,7 +3858,7 @@
     "tags": [
       "hotel"
     ],
-    "status": "active",
+    "status": "pending",
     "featured": false,
     "promoted": false,
     "osmId": 6135364890,
@@ -3897,8 +3897,8 @@
     "category": "Business",
     "amenities": [],
     "rating": {
-      "average": 4.6932313729594135,
-      "count": 107
+      "average": 4.316375765412436,
+      "count": 89
     },
     "roomTypes": [
       {
@@ -3918,7 +3918,7 @@
     "tags": [
       "hotel"
     ],
-    "status": "active",
+    "status": "pending",
     "featured": false,
     "promoted": false,
     "osmId": 6141500110,
@@ -3959,8 +3959,8 @@
     "category": "Business",
     "amenities": [],
     "rating": {
-      "average": 4.26878674725665,
-      "count": 48
+      "average": 4.293732823517305,
+      "count": 80
     },
     "roomTypes": [
       {
@@ -3980,7 +3980,7 @@
     "tags": [
       "hotel"
     ],
-    "status": "active",
+    "status": "pending",
     "featured": false,
     "promoted": false,
     "osmId": 6143228770,
@@ -4019,8 +4019,8 @@
     "category": "Business",
     "amenities": [],
     "rating": {
-      "average": 3.1344141419885734,
-      "count": 23
+      "average": 3.409588370965937,
+      "count": 82
     },
     "roomTypes": [
       {
@@ -4040,7 +4040,7 @@
     "tags": [
       "hotel"
     ],
-    "status": "active",
+    "status": "pending",
     "featured": false,
     "promoted": false,
     "osmId": 6143232536,
@@ -4079,8 +4079,8 @@
     "category": "Budget",
     "amenities": [],
     "rating": {
-      "average": 4.539353375209178,
-      "count": 87
+      "average": 3.978280055737725,
+      "count": 71
     },
     "roomTypes": [
       {
@@ -4100,7 +4100,7 @@
     "tags": [
       "guest_house"
     ],
-    "status": "active",
+    "status": "pending",
     "featured": false,
     "promoted": false,
     "osmId": 6174337693,
@@ -4139,8 +4139,8 @@
     "category": "Budget",
     "amenities": [],
     "rating": {
-      "average": 3.024533395295153,
-      "count": 69
+      "average": 4.629348325628184,
+      "count": 72
     },
     "roomTypes": [
       {
@@ -4160,8 +4160,8 @@
     "tags": [
       "hostel"
     ],
-    "status": "active",
-    "featured": true,
+    "status": "pending",
+    "featured": false,
     "promoted": false,
     "osmId": 6269609392,
     "source": "OpenStreetMap"
@@ -4199,8 +4199,8 @@
     "category": "Business",
     "amenities": [],
     "rating": {
-      "average": 3.312455632926638,
-      "count": 25
+      "average": 3.0828133281104164,
+      "count": 13
     },
     "roomTypes": [
       {
@@ -4220,7 +4220,7 @@
     "tags": [
       "hotel"
     ],
-    "status": "active",
+    "status": "pending",
     "featured": false,
     "promoted": false,
     "osmId": 6371565896,
@@ -4261,8 +4261,8 @@
     "category": "Business",
     "amenities": [],
     "rating": {
-      "average": 3.7757222870430582,
-      "count": 94
+      "average": 3.9113459465039226,
+      "count": 26
     },
     "roomTypes": [
       {
@@ -4282,7 +4282,7 @@
     "tags": [
       "hotel"
     ],
-    "status": "active",
+    "status": "pending",
     "featured": false,
     "promoted": false,
     "osmId": 7048837891,
@@ -4321,8 +4321,8 @@
     "category": "Business",
     "amenities": [],
     "rating": {
-      "average": 3.4361814866596045,
-      "count": 50
+      "average": 4.774835524094945,
+      "count": 75
     },
     "roomTypes": [
       {
@@ -4342,7 +4342,7 @@
     "tags": [
       "hotel"
     ],
-    "status": "active",
+    "status": "pending",
     "featured": false,
     "promoted": false,
     "osmId": 7049106897,
@@ -4381,8 +4381,8 @@
     "category": "Business",
     "amenities": [],
     "rating": {
-      "average": 4.579416790484217,
-      "count": 71
+      "average": 3.571524632586058,
+      "count": 85
     },
     "roomTypes": [
       {
@@ -4402,8 +4402,8 @@
     "tags": [
       "hotel"
     ],
-    "status": "active",
-    "featured": true,
+    "status": "pending",
+    "featured": false,
     "promoted": false,
     "osmId": 7053793925,
     "source": "OpenStreetMap"
@@ -4441,8 +4441,8 @@
     "category": "Business",
     "amenities": [],
     "rating": {
-      "average": 3.2494888454681314,
-      "count": 83
+      "average": 3.2564214845452146,
+      "count": 14
     },
     "roomTypes": [
       {
@@ -4462,7 +4462,7 @@
     "tags": [
       "hotel"
     ],
-    "status": "active",
+    "status": "pending",
     "featured": false,
     "promoted": false,
     "osmId": 7053793931,
@@ -4501,8 +4501,8 @@
     "category": "Business",
     "amenities": [],
     "rating": {
-      "average": 4.379080509457605,
-      "count": 63
+      "average": 3.6496041939974466,
+      "count": 85
     },
     "roomTypes": [
       {
@@ -4522,8 +4522,8 @@
     "tags": [
       "hotel"
     ],
-    "status": "active",
-    "featured": true,
+    "status": "pending",
+    "featured": false,
     "promoted": false,
     "osmId": 7055897010,
     "source": "OpenStreetMap"
@@ -4561,8 +4561,8 @@
     "category": "Business",
     "amenities": [],
     "rating": {
-      "average": 3.1059513563974845,
-      "count": 12
+      "average": 3.404500158165682,
+      "count": 90
     },
     "roomTypes": [
       {
@@ -4582,7 +4582,7 @@
     "tags": [
       "hotel"
     ],
-    "status": "active",
+    "status": "pending",
     "featured": false,
     "promoted": false,
     "osmId": 7055897023,
@@ -4621,8 +4621,8 @@
     "category": "Business",
     "amenities": [],
     "rating": {
-      "average": 3.1472617657951862,
-      "count": 69
+      "average": 3.682516733892677,
+      "count": 62
     },
     "roomTypes": [
       {
@@ -4642,7 +4642,7 @@
     "tags": [
       "hotel"
     ],
-    "status": "active",
+    "status": "pending",
     "featured": false,
     "promoted": false,
     "osmId": 7059347927,
@@ -4681,8 +4681,8 @@
     "category": "Business",
     "amenities": [],
     "rating": {
-      "average": 3.145621576534116,
-      "count": 43
+      "average": 4.600972680669857,
+      "count": 16
     },
     "roomTypes": [
       {
@@ -4702,7 +4702,7 @@
     "tags": [
       "hotel"
     ],
-    "status": "active",
+    "status": "pending",
     "featured": false,
     "promoted": false,
     "osmId": 7059347939,
@@ -4741,8 +4741,8 @@
     "category": "Business",
     "amenities": [],
     "rating": {
-      "average": 4.563407054632453,
-      "count": 47
+      "average": 4.096706704928362,
+      "count": 79
     },
     "roomTypes": [
       {
@@ -4762,7 +4762,7 @@
     "tags": [
       "hotel"
     ],
-    "status": "active",
+    "status": "pending",
     "featured": false,
     "promoted": false,
     "osmId": 7059347940,
@@ -4801,8 +4801,8 @@
     "category": "Business",
     "amenities": [],
     "rating": {
-      "average": 4.934478057245055,
-      "count": 92
+      "average": 3.333921691431991,
+      "count": 16
     },
     "roomTypes": [
       {
@@ -4822,7 +4822,7 @@
     "tags": [
       "hotel"
     ],
-    "status": "active",
+    "status": "pending",
     "featured": false,
     "promoted": false,
     "osmId": 7059347942,
@@ -4861,8 +4861,8 @@
     "category": "Business",
     "amenities": [],
     "rating": {
-      "average": 4.339337177754491,
-      "count": 16
+      "average": 4.277266882913494,
+      "count": 106
     },
     "roomTypes": [
       {
@@ -4882,7 +4882,7 @@
     "tags": [
       "hotel"
     ],
-    "status": "active",
+    "status": "pending",
     "featured": false,
     "promoted": false,
     "osmId": 7059347944,
@@ -4921,8 +4921,8 @@
     "category": "Business",
     "amenities": [],
     "rating": {
-      "average": 3.1330234972222937,
-      "count": 93
+      "average": 4.701970231694304,
+      "count": 100
     },
     "roomTypes": [
       {
@@ -4942,7 +4942,7 @@
     "tags": [
       "hotel"
     ],
-    "status": "active",
+    "status": "pending",
     "featured": false,
     "promoted": false,
     "osmId": 7059692992,
@@ -4981,8 +4981,8 @@
     "category": "Business",
     "amenities": [],
     "rating": {
-      "average": 4.373926825239785,
-      "count": 20
+      "average": 3.126373560671286,
+      "count": 94
     },
     "roomTypes": [
       {
@@ -5002,7 +5002,7 @@
     "tags": [
       "hotel"
     ],
-    "status": "active",
+    "status": "pending",
     "featured": false,
     "promoted": false,
     "osmId": 7059693008,
@@ -5041,8 +5041,8 @@
     "category": "Budget",
     "amenities": [],
     "rating": {
-      "average": 3.613340773989227,
-      "count": 52
+      "average": 3.9311296886515907,
+      "count": 80
     },
     "roomTypes": [
       {
@@ -5062,7 +5062,7 @@
     "tags": [
       "hostel"
     ],
-    "status": "active",
+    "status": "pending",
     "featured": false,
     "promoted": false,
     "osmId": 7896979515,
@@ -5101,8 +5101,8 @@
     "category": "Budget",
     "amenities": [],
     "rating": {
-      "average": 4.565645973314657,
-      "count": 31
+      "average": 4.227670514453109,
+      "count": 58
     },
     "roomTypes": [
       {
@@ -5122,9 +5122,9 @@
     "tags": [
       "hostel"
     ],
-    "status": "active",
+    "status": "pending",
     "featured": false,
-    "promoted": true,
+    "promoted": false,
     "osmId": 7896979516,
     "source": "OpenStreetMap"
   },
@@ -5161,8 +5161,8 @@
     "category": "Budget",
     "amenities": [],
     "rating": {
-      "average": 3.8962796126819557,
-      "count": 42
+      "average": 4.387718752957028,
+      "count": 40
     },
     "roomTypes": [
       {
@@ -5183,7 +5183,7 @@
       "Kolkata",
       "hotel"
     ],
-    "status": "active",
+    "status": "pending",
     "featured": false,
     "promoted": false,
     "osmId": 9528094217,
@@ -5224,8 +5224,8 @@
     "category": "Business",
     "amenities": [],
     "rating": {
-      "average": 4.620341966033887,
-      "count": 103
+      "average": 4.835524580220486,
+      "count": 69
     },
     "roomTypes": [
       {
@@ -5245,7 +5245,7 @@
     "tags": [
       "hotel"
     ],
-    "status": "active",
+    "status": "pending",
     "featured": false,
     "promoted": false,
     "osmId": 9561668717,
@@ -5286,8 +5286,8 @@
     "category": "Budget",
     "amenities": [],
     "rating": {
-      "average": 3.6753427936081215,
-      "count": 62
+      "average": 4.562424828569821,
+      "count": 91
     },
     "roomTypes": [
       {
@@ -5307,7 +5307,7 @@
     "tags": [
       "hostel"
     ],
-    "status": "active",
+    "status": "pending",
     "featured": false,
     "promoted": false,
     "osmId": 9561674217,
@@ -5346,8 +5346,8 @@
     "category": "Budget",
     "amenities": [],
     "rating": {
-      "average": 3.319933770869632,
-      "count": 81
+      "average": 4.353065903127014,
+      "count": 42
     },
     "roomTypes": [
       {
@@ -5367,7 +5367,7 @@
     "tags": [
       "guest_house"
     ],
-    "status": "active",
+    "status": "pending",
     "featured": false,
     "promoted": false,
     "osmId": 9566132417,
@@ -5406,8 +5406,8 @@
     "category": "Budget",
     "amenities": [],
     "rating": {
-      "average": 4.491882457998134,
-      "count": 91
+      "average": 4.31659182143861,
+      "count": 35
     },
     "roomTypes": [
       {
@@ -5427,7 +5427,7 @@
     "tags": [
       "hostel"
     ],
-    "status": "active",
+    "status": "pending",
     "featured": false,
     "promoted": false,
     "osmId": 9570236417,
@@ -5468,8 +5468,8 @@
     "category": "Budget",
     "amenities": [],
     "rating": {
-      "average": 3.444175755107039,
-      "count": 97
+      "average": 4.337335649591168,
+      "count": 43
     },
     "roomTypes": [
       {
@@ -5489,9 +5489,9 @@
     "tags": [
       "guest_house"
     ],
-    "status": "active",
+    "status": "pending",
     "featured": false,
-    "promoted": true,
+    "promoted": false,
     "osmId": 9602582017,
     "source": "OpenStreetMap"
   },
@@ -5528,8 +5528,8 @@
     "category": "Business",
     "amenities": [],
     "rating": {
-      "average": 3.762911312396606,
-      "count": 31
+      "average": 3.3379351699168356,
+      "count": 48
     },
     "roomTypes": [
       {
@@ -5549,7 +5549,7 @@
     "tags": [
       "hotel"
     ],
-    "status": "active",
+    "status": "pending",
     "featured": false,
     "promoted": false,
     "osmId": 9602582917,
@@ -5588,8 +5588,8 @@
     "category": "Budget",
     "amenities": [],
     "rating": {
-      "average": 3.315269943069686,
-      "count": 39
+      "average": 4.808471364589646,
+      "count": 35
     },
     "roomTypes": [
       {
@@ -5609,7 +5609,7 @@
     "tags": [
       "guest_house"
     ],
-    "status": "active",
+    "status": "pending",
     "featured": false,
     "promoted": false,
     "osmId": 9640619618,
@@ -5648,8 +5648,8 @@
     "category": "Budget",
     "amenities": [],
     "rating": {
-      "average": 3.2684584290621443,
-      "count": 26
+      "average": 4.627331241327546,
+      "count": 47
     },
     "roomTypes": [
       {
@@ -5669,7 +5669,7 @@
     "tags": [
       "guest_house"
     ],
-    "status": "active",
+    "status": "pending",
     "featured": false,
     "promoted": false,
     "osmId": 9743229636,
@@ -5708,8 +5708,8 @@
     "category": "Budget",
     "amenities": [],
     "rating": {
-      "average": 4.328871054629141,
-      "count": 80
+      "average": 3.758970217048834,
+      "count": 62
     },
     "roomTypes": [
       {
@@ -5729,8 +5729,8 @@
     "tags": [
       "guest_house"
     ],
-    "status": "active",
-    "featured": true,
+    "status": "pending",
+    "featured": false,
     "promoted": false,
     "osmId": 9911032317,
     "source": "OpenStreetMap"
@@ -5768,7 +5768,7 @@
     "category": "Budget",
     "amenities": [],
     "rating": {
-      "average": 4.1278142008106515,
+      "average": 4.211599465570571,
       "count": 11
     },
     "roomTypes": [
@@ -5789,7 +5789,7 @@
     "tags": [
       "hostel"
     ],
-    "status": "active",
+    "status": "pending",
     "featured": false,
     "promoted": false,
     "osmId": 9911046617,
@@ -5828,8 +5828,8 @@
     "category": "Business",
     "amenities": [],
     "rating": {
-      "average": 4.124879551691473,
-      "count": 38
+      "average": 4.24096441953597,
+      "count": 88
     },
     "roomTypes": [
       {
@@ -5849,7 +5849,7 @@
     "tags": [
       "hotel"
     ],
-    "status": "active",
+    "status": "pending",
     "featured": false,
     "promoted": false,
     "osmId": 10294718911,
@@ -5888,8 +5888,8 @@
     "category": "Budget",
     "amenities": [],
     "rating": {
-      "average": 3.6328621387779414,
-      "count": 76
+      "average": 3.1751776355567047,
+      "count": 16
     },
     "roomTypes": [
       {
@@ -5909,8 +5909,8 @@
     "tags": [
       "hostel"
     ],
-    "status": "active",
-    "featured": true,
+    "status": "pending",
+    "featured": false,
     "promoted": false,
     "osmId": 10300022193,
     "source": "OpenStreetMap"
@@ -5948,8 +5948,8 @@
     "category": "Budget",
     "amenities": [],
     "rating": {
-      "average": 4.144126887255485,
-      "count": 94
+      "average": 4.971927141675652,
+      "count": 77
     },
     "roomTypes": [
       {
@@ -5969,8 +5969,8 @@
     "tags": [
       "guest_house"
     ],
-    "status": "active",
-    "featured": true,
+    "status": "pending",
+    "featured": false,
     "promoted": false,
     "osmId": 10864035907,
     "source": "OpenStreetMap"
@@ -6010,8 +6010,8 @@
     "category": "Budget",
     "amenities": [],
     "rating": {
-      "average": 3.414486033696741,
-      "count": 67
+      "average": 3.927288091702752,
+      "count": 28
     },
     "roomTypes": [
       {
@@ -6031,7 +6031,7 @@
     "tags": [
       "guest_house"
     ],
-    "status": "active",
+    "status": "pending",
     "featured": false,
     "promoted": false,
     "osmId": 10931965205,
@@ -6070,8 +6070,8 @@
     "category": "Budget",
     "amenities": [],
     "rating": {
-      "average": 4.239457206874254,
-      "count": 23
+      "average": 4.327152236688094,
+      "count": 22
     },
     "roomTypes": [
       {
@@ -6091,7 +6091,7 @@
     "tags": [
       "guest_house"
     ],
-    "status": "active",
+    "status": "pending",
     "featured": false,
     "promoted": false,
     "osmId": 11390837970,
@@ -6130,8 +6130,8 @@
     "category": "Budget",
     "amenities": [],
     "rating": {
-      "average": 3.502254995930422,
-      "count": 85
+      "average": 3.3377329372921802,
+      "count": 64
     },
     "roomTypes": [
       {
@@ -6151,7 +6151,7 @@
     "tags": [
       "hostel"
     ],
-    "status": "active",
+    "status": "pending",
     "featured": false,
     "promoted": false,
     "osmId": 11435392254,
@@ -6190,8 +6190,8 @@
     "category": "Budget",
     "amenities": [],
     "rating": {
-      "average": 3.188592887595777,
-      "count": 38
+      "average": 3.1779634275248694,
+      "count": 94
     },
     "roomTypes": [
       {
@@ -6211,7 +6211,7 @@
     "tags": [
       "hostel"
     ],
-    "status": "active",
+    "status": "pending",
     "featured": false,
     "promoted": false,
     "osmId": 11633678069,
@@ -6250,8 +6250,8 @@
     "category": "Budget",
     "amenities": [],
     "rating": {
-      "average": 3.785792438629121,
-      "count": 83
+      "average": 3.1533987095923894,
+      "count": 22
     },
     "roomTypes": [
       {
@@ -6271,7 +6271,7 @@
     "tags": [
       "guest_house"
     ],
-    "status": "active",
+    "status": "pending",
     "featured": false,
     "promoted": false,
     "osmId": 11704701169,
@@ -6312,8 +6312,8 @@
     "category": "Budget",
     "amenities": [],
     "rating": {
-      "average": 3.3251487297346682,
-      "count": 45
+      "average": 3.5650678323281224,
+      "count": 68
     },
     "roomTypes": [
       {
@@ -6333,8 +6333,8 @@
     "tags": [
       "guest_house"
     ],
-    "status": "active",
-    "featured": true,
+    "status": "pending",
+    "featured": false,
     "promoted": false,
     "osmId": 11949729569,
     "source": "OpenStreetMap"
@@ -6372,8 +6372,8 @@
     "category": "Budget",
     "amenities": [],
     "rating": {
-      "average": 3.609773065707227,
-      "count": 27
+      "average": 4.669844158692307,
+      "count": 104
     },
     "roomTypes": [
       {
@@ -6393,7 +6393,7 @@
     "tags": [
       "guest_house"
     ],
-    "status": "active",
+    "status": "pending",
     "featured": false,
     "promoted": false,
     "osmId": 11949734169,
@@ -6434,8 +6434,8 @@
     "category": "Business",
     "amenities": [],
     "rating": {
-      "average": 3.688591998374893,
-      "count": 41
+      "average": 4.717293974137409,
+      "count": 106
     },
     "roomTypes": [
       {
@@ -6455,9 +6455,9 @@
     "tags": [
       "hotel"
     ],
-    "status": "active",
+    "status": "pending",
     "featured": false,
-    "promoted": true,
+    "promoted": false,
     "osmId": 11949776270,
     "source": "OpenStreetMap"
   },
@@ -6496,8 +6496,8 @@
     "category": "Business",
     "amenities": [],
     "rating": {
-      "average": 4.344200946102837,
-      "count": 81
+      "average": 3.9993942550115666,
+      "count": 27
     },
     "roomTypes": [
       {
@@ -6517,9 +6517,9 @@
     "tags": [
       "hotel"
     ],
-    "status": "active",
+    "status": "pending",
     "featured": false,
-    "promoted": true,
+    "promoted": false,
     "osmId": 12791792190,
     "source": "OpenStreetMap"
   },
@@ -6556,8 +6556,8 @@
     "category": "Budget",
     "amenities": [],
     "rating": {
-      "average": 4.9545591773715145,
-      "count": 87
+      "average": 4.223943187049787,
+      "count": 48
     },
     "roomTypes": [
       {
@@ -6577,7 +6577,7 @@
     "tags": [
       "hostel"
     ],
-    "status": "active",
+    "status": "pending",
     "featured": false,
     "promoted": false,
     "osmId": 12925608687,
@@ -6616,8 +6616,8 @@
     "category": "Budget",
     "amenities": [],
     "rating": {
-      "average": 3.745399988333417,
-      "count": 72
+      "average": 3.867549077253113,
+      "count": 91
     },
     "roomTypes": [
       {
@@ -6637,8 +6637,8 @@
     "tags": [
       "hostel"
     ],
-    "status": "active",
-    "featured": true,
+    "status": "pending",
+    "featured": false,
     "promoted": false,
     "osmId": 13020954401,
     "source": "OpenStreetMap"
@@ -6680,8 +6680,8 @@
       "WiFi"
     ],
     "rating": {
-      "average": 3.2315041312576747,
-      "count": 78
+      "average": 3.7856864373645958,
+      "count": 42
     },
     "roomTypes": [
       {
@@ -6702,7 +6702,7 @@
       "Kolkata",
       "hotel"
     ],
-    "status": "active",
+    "status": "pending",
     "featured": false,
     "promoted": false,
     "osmId": 13045823415,

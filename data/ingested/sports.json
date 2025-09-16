@@ -76,11 +76,11 @@
     "duration": "1-3 hours",
     "amenities": [],
     "rating": {
-      "average": 4.518746355768702,
-      "count": 95
+      "average": 3.739454937774137,
+      "count": 75
     },
     "tags": [],
-    "status": "active",
+    "status": "pending",
     "featured": false,
     "promoted": false,
     "osmId": 5586180251,
@@ -163,11 +163,11 @@
     "duration": "2-4 hours",
     "amenities": [],
     "rating": {
-      "average": 4.065010316422111,
-      "count": 156
+      "average": 4.407671385488486,
+      "count": 107
     },
     "tags": [],
-    "status": "active",
+    "status": "pending",
     "featured": false,
     "promoted": false,
     "osmId": 6192290971,
@@ -250,12 +250,12 @@
     "duration": "1-3 hours",
     "amenities": [],
     "rating": {
-      "average": 3.2519439793675478,
-      "count": 148
+      "average": 3.6266831384562206,
+      "count": 107
     },
     "tags": [],
-    "status": "active",
-    "featured": true,
+    "status": "pending",
+    "featured": false,
     "promoted": false,
     "osmId": 6257358519,
     "source": "OpenStreetMap"
@@ -339,13 +339,13 @@
     "duration": "1-3 hours",
     "amenities": [],
     "rating": {
-      "average": 4.5095502634160365,
-      "count": 12
+      "average": 4.377798226567974,
+      "count": 124
     },
     "tags": [
       "social_center"
     ],
-    "status": "active",
+    "status": "pending",
     "featured": false,
     "promoted": false,
     "osmId": 6439695295,
@@ -428,13 +428,13 @@
     "duration": "1-3 hours",
     "amenities": [],
     "rating": {
-      "average": 4.206161844889207,
-      "count": 34
+      "average": 4.535637366730683,
+      "count": 31
     },
     "tags": [],
-    "status": "active",
-    "featured": true,
-    "promoted": true,
+    "status": "pending",
+    "featured": false,
+    "promoted": false,
     "osmId": 11300199636,
     "source": "OpenStreetMap"
   },
@@ -515,13 +515,13 @@
     "duration": "1-3 hours",
     "amenities": [],
     "rating": {
-      "average": 3.579235841053984,
-      "count": 73
+      "average": 4.101782636809064,
+      "count": 136
     },
     "tags": [
       "Kolkata"
     ],
-    "status": "active",
+    "status": "pending",
     "featured": false,
     "promoted": false,
     "osmId": 11365834323,
@@ -607,11 +607,11 @@
     "duration": "1-2 hours",
     "amenities": [],
     "rating": {
-      "average": 4.740397983143428,
-      "count": 193
+      "average": 4.280833616605717,
+      "count": 166
     },
     "tags": [],
-    "status": "active",
+    "status": "pending",
     "featured": false,
     "promoted": false,
     "osmId": 11494579590,
@@ -696,11 +696,11 @@
     "duration": "1-3 hours",
     "amenities": [],
     "rating": {
-      "average": 3.235932149877822,
-      "count": 138
+      "average": 4.2598404389834315,
+      "count": 192
     },
     "tags": [],
-    "status": "active",
+    "status": "pending",
     "featured": false,
     "promoted": false,
     "osmId": 12254643617,
@@ -785,11 +785,11 @@
     "duration": "1-3 hours",
     "amenities": [],
     "rating": {
-      "average": 3.5494389036292153,
-      "count": 175
+      "average": 4.758602538180866,
+      "count": 176
     },
     "tags": [],
-    "status": "active",
+    "status": "pending",
     "featured": false,
     "promoted": false,
     "osmId": 12254643618,

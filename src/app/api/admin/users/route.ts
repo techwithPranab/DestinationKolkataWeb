@@ -68,7 +68,7 @@ export async function GET(request: NextRequest) {
         bio: user.profile?.bio || '',
         preferences: user.profile?.interests || []
       },
-      bookingHistory: [], // Not implemented yet
+      bookingHistory: user.bookingHistory || [],
       lastLogin: user.lastLogin,
       createdAt: user.createdAt,
       updatedAt: user.updatedAt
@@ -150,7 +150,7 @@ export async function POST(request: NextRequest) {
         bio: savedUser.profile?.bio || '',
         preferences: savedUser.profile?.interests || []
       },
-      bookingHistory: [],
+      bookingHistory: savedUser.bookingHistory || [],
       lastLogin: savedUser.lastLogin,
       createdAt: savedUser.createdAt,
       updatedAt: savedUser.updatedAt

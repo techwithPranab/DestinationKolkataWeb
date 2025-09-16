@@ -1,12 +1,34 @@
 import { NextRequest, NextResponse } from 'next/server'
+import connectDB from '@/lib/mongodb'
 import Stripe from 'stripe'
 
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
-  apiVersion: '2025-08-27.basil'
+if (!process.env.STRIPE_SECRET_KEY) {
+  throw new Error('STRIPE_SECRET_KEY is not set')
+}
+
+const stripe = new Stripe(process.env.STRIPE_SECRET_KEY, {
+  apiVersion: '2025-08-27.basil',
 })
+
+const MEMBERSHIP_PRICES = {
+  premium: {
+    priceId: process.env.STRIPE_PREMIUM_PRICE_ID,
+    amount: 99900, // ₹999 in paisa
+    name: 'Premium Membership',
+    description: 'Premium membership with enhanced features'
+  },
+  business: {
+    priceId: process.env.STRIPE_BUSINESS_PRICE_ID,
+    amount: 299900, // ₹2999 in paisa
+    name: 'Business Membership',
+    description: 'Business membership with unlimited features'
+  },
+} as const
 
 export async function POST(request: NextRequest) {
   try {
+    await connectDB()
+
     const { planId, billingInfo, paymentInfo } = await request.json()
 
     // Validate required fields
@@ -17,34 +39,15 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    // Validate plan
-    const validPlans = ['premium', 'business']
-    if (!validPlans.includes(planId)) {
-      return NextResponse.json(
-        { message: 'Invalid plan' },
-        { status: 400 }
-      )
+    if (!MEMBERSHIP_PRICES[planId as keyof typeof MEMBERSHIP_PRICES]) {
+      return NextResponse.json({ error: 'Invalid plan selected' }, { status: 400 })
     }
 
-    // Plan details
-    const planDetails = {
-      premium: {
-        name: 'Premium Membership',
-        price: 99900, // Price in cents (₹999)
-        description: 'Premium membership with 15 listings'
-      },
-      business: {
-        name: 'Business Membership',
-        price: 299900, // Price in cents (₹2999)
-        description: 'Business membership with unlimited listings'
-      }
-    }
-
-    const plan = planDetails[planId as keyof typeof planDetails]
-
+    const plan = MEMBERSHIP_PRICES[planId as keyof typeof MEMBERSHIP_PRICES]
+    
     // Create Stripe checkout session
-    const session = await stripe.checkout.sessions.create({
-      payment_method_types: ['card'],
+    const checkoutSession = await stripe.checkout.sessions.create({
+      customer_email: billingInfo.email,
       line_items: [
         {
           price_data: {
@@ -53,47 +56,48 @@ export async function POST(request: NextRequest) {
               name: plan.name,
               description: plan.description,
             },
-            unit_amount: plan.price,
+            unit_amount: plan.amount,
+            recurring: {
+              interval: 'month',
+            },
           },
           quantity: 1,
         },
       ],
-      mode: 'payment',
-      success_url: `${process.env.NEXT_PUBLIC_BASE_URL}/customer/checkout/success?session_id={CHECKOUT_SESSION_ID}&plan=${planId}`,
-      cancel_url: `${process.env.NEXT_PUBLIC_BASE_URL}/customer/checkout?canceled=true`,
-      customer_email: billingInfo.email,
+      mode: 'subscription',
+      success_url: `${process.env.NEXT_PUBLIC_BASE_URL}/customer/checkout/success?session_id={CHECKOUT_SESSION_ID}`,
+      cancel_url: `${process.env.NEXT_PUBLIC_BASE_URL}/customer/checkout?plan=${planId}`,
       metadata: {
         planId,
-        firstName: billingInfo.firstName,
-        lastName: billingInfo.lastName,
-        phone: billingInfo.phone,
-        address: billingInfo.address,
-        city: billingInfo.city,
-        state: billingInfo.state,
-        pincode: billingInfo.pincode,
-        company: billingInfo.company || '',
-        gstNumber: billingInfo.gstNumber || '',
-        paymentMethod: paymentInfo.method
-      }
+        billingInfo: JSON.stringify(billingInfo),
+      },
+      billing_address_collection: 'required',
+      allow_promotion_codes: true,
     })
 
+    if (!checkoutSession.url) {
+      throw new Error('Failed to create checkout session')
+    }
+
     return NextResponse.json({
-      sessionId: session.id,
-      url: session.url
+      sessionId: checkoutSession.id,
+      url: checkoutSession.url
     })
 
   } catch (error) {
-    console.error('Stripe checkout session creation error:', error)
+    console.error('Membership checkout error:', error)
     return NextResponse.json(
-      { message: 'Failed to create checkout session' },
+      { error: 'Internal server error' },
       { status: 500 }
     )
   }
 }
 
-export async function GET(request: NextRequest) {
+export async function GET() {
   try {
-    // Mock membership data for demo
+    await connectDB()
+
+    // For demo purposes, return basic membership info
     const membership = {
       plan: 'free',
       planName: 'Free',
@@ -103,9 +107,7 @@ export async function GET(request: NextRequest) {
       status: 'active'
     }
 
-    return NextResponse.json({
-      membership
-    })
+    return NextResponse.json({ membership })
 
   } catch (error) {
     console.error('Get membership error:', error)

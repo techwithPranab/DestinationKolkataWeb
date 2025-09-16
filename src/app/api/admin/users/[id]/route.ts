@@ -30,6 +30,17 @@ interface UserData {
   lastLogin?: Date
   createdAt?: Date
   updatedAt?: Date
+  bookingHistory?: Array<{
+    type: string
+    itemId: string
+    itemName: string
+    bookingDate: Date
+    visitDate?: Date
+    status: string
+    amount?: number
+    currency?: string
+    notes?: string
+  }>
 }
 
 // GET /api/admin/users/[id] - Get specific user
@@ -63,7 +74,7 @@ export async function GET(
         bio: user.profile?.bio || '',
         preferences: user.profile?.interests || []
       },
-      bookingHistory: [], // Not implemented yet
+      bookingHistory: user.bookingHistory || [],
       lastLogin: user.lastLogin,
       createdAt: user.createdAt,
       updatedAt: user.updatedAt
@@ -144,7 +155,7 @@ export async function PUT(
         bio: updatedUser.profile?.bio || '',
         preferences: updatedUser.profile?.interests || []
       },
-      bookingHistory: [],
+      bookingHistory: updatedUser.bookingHistory || [],
       lastLogin: updatedUser.lastLogin,
       createdAt: updatedUser.createdAt,
       updatedAt: updatedUser.updatedAt

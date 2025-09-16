@@ -1,11 +1,21 @@
 import { NextRequest, NextResponse } from 'next/server'
 import connectDB from '@/lib/mongodb'
 import { Restaurant } from '@/models'
+import { getAuthenticatedUser } from '@/lib/auth-helper'
 
 // GET /api/admin/restaurants - Get all restaurants
 export async function GET(request: NextRequest) {
   try {
     await connectDB()
+
+    // Check admin authentication
+    const user = await getAuthenticatedUser(request)
+    if (!['admin', 'moderator'].includes(user.role)) {
+      return NextResponse.json(
+        { success: false, message: 'Unauthorized access' },
+        { status: 403 }
+      )
+    }
 
     const { searchParams } = new URL(request.url)
     const search = searchParams.get('search')
@@ -68,6 +78,15 @@ export async function GET(request: NextRequest) {
 export async function POST(request: NextRequest) {
   try {
     await connectDB()
+
+    // Check admin authentication
+    const user = await getAuthenticatedUser(request)
+    if (!['admin', 'moderator'].includes(user.role)) {
+      return NextResponse.json(
+        { success: false, message: 'Unauthorized access' },
+        { status: 403 }
+      )
+    }
 
     const body = await request.json()
 

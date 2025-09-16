@@ -15,11 +15,16 @@ import {
   UtensilsCrossed,
   Calendar,
   Megaphone,
-  Trophy
+  Trophy,
+  ChevronLeft,
+  ChevronRight,
+  Download,
+  Trash
 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
+import { Label } from '@/components/ui/label'
 import { Badge } from '@/components/ui/badge'
 import {
   Select,
@@ -28,6 +33,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select'
+import { FavoriteButton } from '@/components/shared/FavoriteButton'
 import { useAuth } from '@/contexts/AuthContext'
 import { useApi } from '@/lib/api-client'
 
@@ -49,26 +55,49 @@ export default function CustomerListings() {
   const [searchTerm, setSearchTerm] = useState('')
   const [statusFilter, setStatusFilter] = useState('')
   const [typeFilter, setTypeFilter] = useState('')
+  const [sortBy, setSortBy] = useState('createdAt')
+  const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('desc')
+  const [currentPage, setCurrentPage] = useState(1)
+  const [totalPages, setTotalPages] = useState(1)
+  const [totalCount, setTotalCount] = useState(0)
+  const [pageSize] = useState(10)
+  const [selectedItems, setSelectedItems] = useState<Set<string>>(new Set())
+  const [selectAll, setSelectAll] = useState(false)
+  const [dateFrom, setDateFrom] = useState('')
+  const [dateTo, setDateTo] = useState('')
 
   useEffect(() => {
     if (isAuthenticated && user) {
-      fetchSubmissions()
+      fetchSubmissions(currentPage)
     } else {
       setLoading(false)
     }
-  }, [statusFilter, typeFilter, isAuthenticated, user])
+  }, [currentPage, isAuthenticated, user])
 
-  const fetchSubmissions = async () => {
+  useEffect(() => {
+    if (isAuthenticated && user) {
+      setCurrentPage(1) // Reset to first page when filters or sorting change
+      fetchSubmissions(1)
+    }
+  }, [statusFilter, typeFilter, sortBy, sortOrder, dateFrom, dateTo, isAuthenticated, user])
+
+  const fetchSubmissions = async (page = 1) => {
     try {
       setLoading(true)
       const params = new URLSearchParams()
       if (statusFilter) params.append('status', statusFilter)
       if (typeFilter && typeFilter !== 'all') params.append('type', typeFilter)
+      if (dateFrom) params.append('dateFrom', dateFrom)
+      if (dateTo) params.append('dateTo', dateTo)
+      params.append('sortBy', sortBy)
+      params.append('sortOrder', sortOrder)
+      params.append('page', page.toString())
+      params.append('limit', pageSize.toString())
 
       const queryString = params.toString()
       const url = queryString ? `/api/customer/submissions?${queryString}` : '/api/customer/submissions'
 
-      const result = await api.get<{ submissions: Submission[] }>(url)
+      const result = await api.get<{ submissions: Submission[], totalCount: number, currentPage: number, totalPages: number }>(url)
 
       if (result.error) {
         console.error('API Error:', result.error)
@@ -80,8 +109,11 @@ export default function CustomerListings() {
       }
 
       console.log('Received submissions:', result.data)
-      const submissionsData = result.data as { submissions?: Submission[] } | undefined
+      const submissionsData = result.data as { submissions?: Submission[], totalCount?: number, currentPage?: number, totalPages?: number } | undefined
       setSubmissions(submissionsData?.submissions || [])
+      setTotalCount(submissionsData?.totalCount || 0)
+      setCurrentPage(submissionsData?.currentPage || 1)
+      setTotalPages(submissionsData?.totalPages || 1)
     } catch (error) {
       console.error('Error fetching submissions:', error)
     } finally {
@@ -161,7 +193,7 @@ Created: ${new Date(submission.createdAt).toLocaleDateString()}`)
       }
 
       // Refresh the submissions list
-      await fetchSubmissions()
+      await fetchSubmissions(currentPage)
       alert('Submission deleted successfully')
     } catch (error) {
       console.error('Delete error:', error)
@@ -172,6 +204,88 @@ Created: ${new Date(submission.createdAt).toLocaleDateString()}`)
   const filteredSubmissions = submissions.filter(submission =>
     submission.title.toLowerCase().includes(searchTerm.toLowerCase())
   )
+
+  // Handle item selection
+  const handleSelectItem = (id: string) => {
+    const newSelected = new Set(selectedItems)
+    if (newSelected.has(id)) {
+      newSelected.delete(id)
+    } else {
+      newSelected.add(id)
+    }
+    setSelectedItems(newSelected)
+    setSelectAll(newSelected.size === filteredSubmissions.length)
+  }
+
+  const handleSelectAll = () => {
+    if (selectAll) {
+      setSelectedItems(new Set())
+      setSelectAll(false)
+    } else {
+      setSelectedItems(new Set(filteredSubmissions.map(s => s.id)))
+      setSelectAll(true)
+    }
+  }
+
+  // Bulk operations
+  const handleBulkDelete = async () => {
+    if (selectedItems.size === 0) return
+
+    if (!confirm(`Are you sure you want to delete ${selectedItems.size} submission(s)? This action cannot be undone.`)) {
+      return
+    }
+
+    try {
+      setLoading(true)
+      const deletePromises = Array.from(selectedItems).map(id =>
+        api.delete(`/api/customer/submissions/${id}`)
+      )
+
+      const results = await Promise.all(deletePromises)
+      const failedDeletes = results.filter(result => result.error).length
+
+      if (failedDeletes > 0) {
+        alert(`${failedDeletes} deletion(s) failed. Please try again.`)
+      } else {
+        alert(`Successfully deleted ${selectedItems.size} submission(s)`)
+      }
+
+      setSelectedItems(new Set())
+      setSelectAll(false)
+      await fetchSubmissions(currentPage)
+    } catch (error) {
+      console.error('Bulk delete error:', error)
+      alert('Failed to delete submissions')
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  const handleExport = () => {
+    if (selectedItems.size === 0) return
+
+    const selectedSubmissions = filteredSubmissions.filter(s => selectedItems.has(s.id))
+    const csvContent = [
+      ['Title', 'Type', 'Status', 'Created Date', 'Views'].join(','),
+      ...selectedSubmissions.map(s => [
+        `"${s.title}"`,
+        s.type,
+        s.status,
+        new Date(s.createdAt).toLocaleDateString(),
+        s.views || 0
+      ].join(','))
+    ].join('\n')
+
+    const blob = new Blob([csvContent], { type: 'text/csv' })
+    const url = window.URL.createObjectURL(blob)
+    const a = document.createElement('a')
+    a.href = url
+    a.download = `listings-export-${new Date().toISOString().split('T')[0]}.csv`
+    document.body.appendChild(a)
+    a.click()
+    document.body.removeChild(a)
+    window.URL.revokeObjectURL(url)
+  }
 
   if (loading) {
     return (
@@ -233,48 +347,153 @@ Created: ${new Date(submission.createdAt).toLocaleDateString()}`)
       {/* Filters */}
       <Card>
         <CardContent className="p-6">
-          <div className="flex flex-col md:flex-row gap-4">
-            <div className="flex-1">
-              <div className="relative">
-                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4" />
+          <div className="flex flex-col space-y-4">
+            <div className="flex flex-col md:flex-row gap-4">
+              <div className="flex-1">
+                <div className="relative">
+                  <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4" />
+                  <Input
+                    placeholder="Search listings..."
+                    value={searchTerm}
+                    onChange={(e) => setSearchTerm(e.target.value)}
+                    className="pl-10"
+                  />
+                </div>
+              </div>
+              <Select value={statusFilter} onValueChange={setStatusFilter}>
+                <SelectTrigger className="w-48">
+                  <SelectValue placeholder="Filter by status" />
+                </SelectTrigger>
+                <SelectContent className='bg-white'>
+                  <SelectItem value="all">All Status</SelectItem>
+                  <SelectItem value="pending">Pending</SelectItem>
+                  <SelectItem value="approved">Approved</SelectItem>
+                  <SelectItem value="rejected">Rejected</SelectItem>
+                </SelectContent>
+              </Select>
+              <Select value={typeFilter} onValueChange={setTypeFilter}>
+                <SelectTrigger className="w-48">
+                  <SelectValue placeholder="Filter by type" />
+                </SelectTrigger>
+                <SelectContent className='bg-white'>
+                  <SelectItem value="all">All Types</SelectItem>
+                  <SelectItem value="hotel">Hotel</SelectItem>
+                  <SelectItem value="restaurant">Restaurant</SelectItem>
+                  <SelectItem value="event">Event</SelectItem>
+                  <SelectItem value="promotion">Promotion</SelectItem>
+                  <SelectItem value="sports">Sports</SelectItem>
+                </SelectContent>
+              </Select>
+              <Select value={`${sortBy}-${sortOrder}`} onValueChange={(value) => {
+                const [field, order] = value.split('-')
+                setSortBy(field)
+                setSortOrder(order as 'asc' | 'desc')
+              }}>
+                <SelectTrigger className="w-48">
+                  <SelectValue placeholder="Sort by" />
+                </SelectTrigger>
+                <SelectContent className='bg-white'>
+                  <SelectItem value="createdAt-desc">Newest First</SelectItem>
+                  <SelectItem value="createdAt-asc">Oldest First</SelectItem>
+                  <SelectItem value="title-asc">Title A-Z</SelectItem>
+                  <SelectItem value="title-desc">Title Z-A</SelectItem>
+                  <SelectItem value="status-asc">Status A-Z</SelectItem>
+                  <SelectItem value="status-desc">Status Z-A</SelectItem>
+                  <SelectItem value="type-asc">Type A-Z</SelectItem>
+                  <SelectItem value="type-desc">Type Z-A</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+
+            {/* Date Range Filters */}
+            <div className="flex flex-col md:flex-row gap-4">
+              <div className="flex-1">
+                <Label htmlFor="dateFrom" className="text-sm font-medium">From Date</Label>
                 <Input
-                  placeholder="Search listings..."
-                  value={searchTerm}
-                  onChange={(e) => setSearchTerm(e.target.value)}
-                  className="pl-10"
+                  id="dateFrom"
+                  type="date"
+                  value={dateFrom}
+                  onChange={(e) => setDateFrom(e.target.value)}
+                  className="mt-1"
                 />
               </div>
+              <div className="flex-1">
+                <Label htmlFor="dateTo" className="text-sm font-medium">To Date</Label>
+                <Input
+                  id="dateTo"
+                  type="date"
+                  value={dateTo}
+                  onChange={(e) => setDateTo(e.target.value)}
+                  className="mt-1"
+                />
+              </div>
+              <div className="flex items-end">
+                <Button
+                  variant="outline"
+                  onClick={() => {
+                    setDateFrom('')
+                    setDateTo('')
+                  }}
+                  className="px-4 py-2"
+                >
+                  Clear Dates
+                </Button>
+              </div>
             </div>
-            <Select value={statusFilter} onValueChange={setStatusFilter}>
-              <SelectTrigger className="w-48">
-                <SelectValue placeholder="Filter by status" />
-              </SelectTrigger>
-              <SelectContent className='bg-white'>
-                <SelectItem value="all">All Status</SelectItem>
-                <SelectItem value="pending">Pending</SelectItem>
-                <SelectItem value="approved">Approved</SelectItem>
-                <SelectItem value="rejected">Rejected</SelectItem>
-              </SelectContent>
-            </Select>
-            <Select value={typeFilter} onValueChange={setTypeFilter}>
-              <SelectTrigger className="w-48">
-                <SelectValue placeholder="Filter by type" />
-              </SelectTrigger>
-              <SelectContent className='bg-white'>
-                <SelectItem value="all">All Types</SelectItem>
-                <SelectItem value="hotel">Hotel</SelectItem>
-                <SelectItem value="restaurant">Restaurant</SelectItem>
-                <SelectItem value="event">Event</SelectItem>
-                <SelectItem value="promotion">Promotion</SelectItem>
-                <SelectItem value="sports">Sports</SelectItem>
-              </SelectContent>
-            </Select>
           </div>
         </CardContent>
       </Card>
 
+      {/* Bulk Actions */}
+      {selectedItems.size > 0 && (
+        <Card className="bg-blue-50 border-blue-200">
+          <CardContent className="p-4">
+            <div className="flex items-center justify-between">
+              <span className="text-sm text-blue-800">
+                {selectedItems.size} item(s) selected
+              </span>
+              <div className="flex space-x-2">
+                <Button
+                  size="sm"
+                  variant="outline"
+                  onClick={handleExport}
+                  className="text-blue-600 border-blue-300 hover:bg-blue-100"
+                >
+                  <Download className="w-4 h-4 mr-2" />
+                  Export CSV
+                </Button>
+                <Button
+                  size="sm"
+                  variant="outline"
+                  onClick={handleBulkDelete}
+                  className="text-red-600 border-red-300 hover:bg-red-100"
+                  disabled={loading}
+                >
+                  <Trash className="w-4 h-4 mr-2" />
+                  Delete Selected
+                </Button>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+      )}
+
       {/* Listings */}
       <div className="space-y-4">
+        {filteredSubmissions.length > 0 && (
+          <div className="flex items-center space-x-3 p-4 bg-gray-50 rounded-lg">
+            <input
+              type="checkbox"
+              checked={selectAll}
+              onChange={handleSelectAll}
+              className="rounded"
+            />
+            <span className="text-sm text-gray-600">
+              Select all {filteredSubmissions.length} items
+            </span>
+          </div>
+        )}
+
         {filteredSubmissions.length === 0 ? (
           <Card>
             <CardContent className="p-12 text-center">
@@ -308,6 +527,12 @@ Created: ${new Date(submission.createdAt).toLocaleDateString()}`)
                 <CardContent className="p-6">
                   <div className="flex items-center justify-between">
                     <div className="flex items-center space-x-4">
+                      <input
+                        type="checkbox"
+                        checked={selectedItems.has(submission.id)}
+                        onChange={() => handleSelectItem(submission.id)}
+                        className="rounded"
+                      />
                       <div className="flex-shrink-0">
                         {getTypeIcon(submission.type)}
                       </div>
@@ -338,6 +563,13 @@ Created: ${new Date(submission.createdAt).toLocaleDateString()}`)
                       </Badge>
 
                       <div className="flex space-x-2">
+                        {submission.type !== 'promotion' && (
+                          <FavoriteButton
+                            type={submission.type}
+                            itemId={submission.id}
+                            itemName={submission.title}
+                          />
+                        )}
                         <Button size="sm" variant="outline" onClick={() => handleView(submission)}>
                           <Eye className="w-4 h-4" />
                         </Button>
@@ -364,6 +596,56 @@ Created: ${new Date(submission.createdAt).toLocaleDateString()}`)
           ))
         )}
       </div>
+
+      {/* Pagination */}
+      {totalPages > 1 && (
+        <div className="flex items-center justify-between mt-6">
+          <div className="text-sm text-gray-700">
+            Showing {((currentPage - 1) * pageSize) + 1} to {Math.min(currentPage * pageSize, totalCount)} of {totalCount} results
+          </div>
+          <div className="flex items-center space-x-2">
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => setCurrentPage(prev => Math.max(1, prev - 1))}
+              disabled={currentPage === 1 || loading}
+            >
+              <ChevronLeft className="w-4 h-4 mr-1" />
+              Previous
+            </Button>
+
+            {/* Page numbers */}
+            <div className="flex items-center space-x-1">
+              {Array.from({ length: Math.min(5, totalPages) }, (_, i) => {
+                const pageNum = Math.max(1, Math.min(totalPages - 4, currentPage - 2)) + i
+                if (pageNum > totalPages) return null
+                return (
+                  <Button
+                    key={pageNum}
+                    variant={currentPage === pageNum ? "default" : "outline"}
+                    size="sm"
+                    onClick={() => setCurrentPage(pageNum)}
+                    disabled={loading}
+                    className={currentPage === pageNum ? "bg-orange-600 hover:bg-orange-700" : ""}
+                  >
+                    {pageNum}
+                  </Button>
+                )
+              })}
+            </div>
+
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => setCurrentPage(prev => Math.min(totalPages, prev + 1))}
+              disabled={currentPage === totalPages || loading}
+            >
+              Next
+              <ChevronRight className="w-4 h-4 ml-1" />
+            </Button>
+          </div>
+        </div>
+      )}
     </div>
   )
 }

@@ -1,6 +1,12 @@
 import mongoose, { Schema, Document } from 'mongoose'
 
 // Review Schema for all entities (hotels, restaurants, attractions, events, sports)
+export interface IHelpfulVote {
+  user: mongoose.Types.ObjectId
+  helpful: boolean
+  votedAt: Date
+}
+
 export interface IReview extends Document {
   entityId: mongoose.Types.ObjectId
   entityType: 'hotel' | 'restaurant' | 'attraction' | 'event' | 'sports'
@@ -12,8 +18,16 @@ export interface IReview extends Document {
   comment: string
   images?: string[] // URLs to review images
   helpful: number // Number of users who found this helpful
+  helpfulUsers?: IHelpfulVote[] // Users who marked this as helpful with vote data
   verified: boolean // Whether the reviewer actually visited/used the service
   status: 'pending' | 'approved' | 'rejected'
+  moderatedBy?: mongoose.Types.ObjectId // Admin who approved/rejected
+  moderatedAt?: Date
+  moderationNotes?: string
+  reportedBy?: mongoose.Types.ObjectId[] // Users who reported this review
+  isEdited: boolean // Whether review was edited after posting
+  lastEditedAt?: Date
+  visitDate?: Date // When the user visited the place
   createdAt: Date
   updatedAt: Date
 }
@@ -96,6 +110,21 @@ const reviewSchema = new Schema({
     default: 0,
     min: 0
   },
+  helpfulUsers: [{
+    user: {
+      type: Schema.Types.ObjectId,
+      ref: 'User',
+      required: true
+    },
+    helpful: {
+      type: Boolean,
+      required: true
+    },
+    votedAt: {
+      type: Date,
+      default: Date.now
+    }
+  }],
   verified: {
     type: Boolean,
     default: false
@@ -105,7 +134,23 @@ const reviewSchema = new Schema({
     enum: ['pending', 'approved', 'rejected'],
     default: 'pending',
     index: true
-  }
+  },
+  moderatedBy: {
+    type: Schema.Types.ObjectId,
+    ref: 'User'
+  },
+  moderatedAt: Date,
+  moderationNotes: String,
+  reportedBy: [{
+    type: Schema.Types.ObjectId,
+    ref: 'User'
+  }],
+  isEdited: {
+    type: Boolean,
+    default: false
+  },
+  lastEditedAt: Date,
+  visitDate: Date
 }, {
   timestamps: true
 })

@@ -23,16 +23,29 @@ export async function GET(req: NextRequest) {
     const limit = parseInt(searchParams.get('limit') || '10')
     const status = searchParams.get('status')
     const type = searchParams.get('type')
+    const sortBy = searchParams.get('sortBy') || 'createdAt'
+    const sortOrder = searchParams.get('sortOrder') || 'desc'
+    const dateFrom = searchParams.get('dateFrom')
+    const dateTo = searchParams.get('dateTo')
 
     // Build query
     const query: Record<string, unknown> = { userId: userId }
     if (status) query.status = status
     if (type) query.type = type
+    if (dateFrom || dateTo) {
+      const dateQuery: Record<string, Date> = {}
+      if (dateFrom) dateQuery.$gte = new Date(dateFrom)
+      if (dateTo) dateQuery.$lte = new Date(dateTo)
+      query.createdAt = dateQuery
+    }
 
     // Get submissions with pagination
+    const sortOptions: Record<string, 1 | -1> = {}
+    sortOptions[sortBy] = sortOrder === 'asc' ? 1 : -1
+
     const submissions = await db.collection('submissions')
       .find(query)
-      .sort({ createdAt: -1 })
+      .sort(sortOptions)
       .skip((page - 1) * limit)
       .limit(limit)
       .toArray()

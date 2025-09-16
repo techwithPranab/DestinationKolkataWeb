@@ -5,6 +5,7 @@ import { useAuth } from '@/contexts/AuthContext'
 import { useRouter } from 'next/navigation'
 import { useSession } from 'next-auth/react'
 import CustomerSidebar from '@/components/customer/CustomerSidebar'
+import { NotificationProvider } from '@/contexts/NotificationContext'
 
 interface CustomerLayoutProps {
   readonly children: React.ReactNode
@@ -69,38 +70,42 @@ export default function CustomerLayout({ children }: CustomerLayoutProps) {
   // Allow access if authenticated via NextAuth session (OAuth)
   if (session && status === 'authenticated') {
     return (
-      <div className="min-h-screen bg-gray-50 flex">
-        {/* Sidebar */}
-        <div className="w-64 flex-shrink-0">
-          <CustomerSidebar />
-        </div>
+      <NotificationProvider>
+        <div className="min-h-screen bg-gray-50 flex">
+          {/* Sidebar */}
+          <div className="w-64 flex-shrink-0">
+            <CustomerSidebar />
+          </div>
 
-        {/* Main Content */}
-        <div className="flex-1 flex flex-col min-h-screen">
-          <main className="flex-1 p-8">
-            {children}
-          </main>
+          {/* Main Content */}
+          <div className="flex-1 flex flex-col min-h-screen">
+            <main className="flex-1 p-8">
+              {children}
+            </main>
+          </div>
         </div>
-      </div>
+      </NotificationProvider>
     )
   }
 
   // Allow access if authenticated via AuthContext (form login)
   if (user && user.role === 'customer') {
     return (
-      <div className="min-h-screen bg-gray-50 flex">
-        {/* Sidebar */}
-        <div className="w-64 flex-shrink-0">
-          <CustomerSidebar />
-        </div>
+      <NotificationProvider>
+        <div className="min-h-screen bg-gray-50 flex">
+          {/* Sidebar */}
+          <div className="w-64 flex-shrink-0">
+            <CustomerSidebar />
+          </div>
 
-        {/* Main Content */}
-        <div className="flex-1 flex flex-col min-h-screen">
-          <main className="flex-1 p-8">
-            {children}
-          </main>
+          {/* Main Content */}
+          <div className="flex-1 flex flex-col min-h-screen">
+            <main className="flex-1 p-8">
+              {children}
+            </main>
+          </div>
         </div>
-      </div>
+      </NotificationProvider>
     )
   }
 

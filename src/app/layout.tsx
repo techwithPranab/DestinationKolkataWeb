@@ -6,6 +6,8 @@ import ConditionalLayout from "@/components/ConditionalLayout";
 import { AnalyticsProvider } from "@/components/AnalyticsProvider";
 import AuthProvider from "@/components/AuthProvider";
 import { AuthProvider as CustomAuthProvider } from "@/contexts/AuthContext";
+import JSONLD from "@/components/SEO/JSONLD";
+import { generateOrganizationSchema } from "@/lib/seo-utils";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -126,9 +128,12 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const organizationSchema = generateOrganizationSchema()
+
   return (
     <html lang="en">
       <head>
+        <JSONLD data={organizationSchema} />
         {/* Google Analytics */}
         {process.env.NEXT_PUBLIC_GA_TRACKING_ID && (
           <>
