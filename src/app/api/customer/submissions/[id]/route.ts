@@ -92,10 +92,11 @@ export async function PUT(
       )
     }
 
-    // Only allow editing pending submissions
-    if (currentSubmission.status !== 'pending') {
+    // Allow editing pending and approved submissions
+    // Rejected submissions cannot be edited (must be resubmitted as new)
+    if (currentSubmission.status === 'rejected') {
       return NextResponse.json(
-        { message: 'Only pending submissions can be edited' },
+        { message: 'Rejected submissions cannot be edited. Please create a new submission.' },
         { status: 400 }
       )
     }
@@ -138,6 +139,14 @@ export async function PUT(
       updatedAt: new Date(),
       submissionData,
       title: submissionData.name || submissionData.title || 'Untitled'
+    }
+
+    // If updating an approved submission, mark it as pending for re-review
+    if (currentSubmission.status === 'approved') {
+      updateData.status = 'pending'
+      updateData.adminNotes = 'Updated by customer - pending re-review'
+      updateData.previousStatus = 'approved'
+      updateData.lastApprovedAt = currentSubmission.approvedAt
     }
 
     // Update the submission

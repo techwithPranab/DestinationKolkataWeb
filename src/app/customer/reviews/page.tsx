@@ -416,7 +416,7 @@ export default function CustomerReviews() {
                 <SelectValue placeholder="Filter by status" />
               </SelectTrigger>
               <SelectContent className='bg-white'>
-                <SelectItem value="">All Status</SelectItem>
+                <SelectItem value="all">All Status</SelectItem>
                 <SelectItem value="approved">Approved</SelectItem>
                 <SelectItem value="pending">Pending</SelectItem>
                 <SelectItem value="rejected">Rejected</SelectItem>
@@ -427,7 +427,7 @@ export default function CustomerReviews() {
                 <SelectValue placeholder="Filter by rating" />
               </SelectTrigger>
               <SelectContent className='bg-white'>
-                <SelectItem value="">All Ratings</SelectItem>
+                <SelectItem value="all">All Ratings</SelectItem>
                 <SelectItem value="5">5 Stars</SelectItem>
                 <SelectItem value="4">4 Stars</SelectItem>
                 <SelectItem value="3">3 Stars</SelectItem>
@@ -533,7 +533,7 @@ export default function CustomerReviews() {
                         size="sm"
                         variant="outline"
                         onClick={() => openEditDialog(review)}
-                        disabled={review.status === 'approved'}
+                        disabled={review.status === 'rejected'}
                       >
                         <Edit className="w-4 h-4" />
                       </Button>

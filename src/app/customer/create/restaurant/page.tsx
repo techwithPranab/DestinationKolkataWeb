@@ -319,7 +319,9 @@ export default function CreateRestaurantPage() {
       }
 
       // Redirect to listings with success message
-      const message = isEdit ? 'Restaurant updated successfully' : 'Restaurant submitted successfully and is pending approval'
+      const message = isEdit 
+        ? 'Restaurant updated successfully. If this was an approved listing, it is now pending admin re-review.' 
+        : 'Restaurant submitted successfully and is pending approval'
       router.push(`/customer/listings?message=${encodeURIComponent(message)}`)
 
     } catch (err) {

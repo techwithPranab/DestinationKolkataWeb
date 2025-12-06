@@ -277,7 +277,9 @@ export default function CreateHotelPage() {
       }
 
       // Redirect to dashboard with success message
-      const message = isEdit ? 'Hotel updated successfully' : 'Hotel submitted successfully and is pending approval'
+      const message = isEdit 
+        ? 'Hotel updated successfully. If this was an approved listing, it is now pending admin re-review.' 
+        : 'Hotel submitted successfully and is pending approval'
       router.push(`/customer/listings?message=${encodeURIComponent(message)}`)
 
     } catch (err) {

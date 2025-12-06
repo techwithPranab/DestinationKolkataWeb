@@ -174,6 +174,15 @@ Created: ${new Date(submission.createdAt).toLocaleDateString()}`)
   }
 
   const handleEdit = (submission: Submission) => {
+    // Show confirmation for approved submissions
+    if (submission.status === 'approved') {
+      const confirmEdit = confirm(
+        `Editing an approved listing will change its status back to "pending" for admin re-review. ` +
+        `Do you want to continue editing "${submission.title}"?`
+      )
+      if (!confirmEdit) return
+    }
+    
     // Navigate to the appropriate edit page based on submission type
     const editUrl = `/customer/create/${submission.type}?edit=${submission.id}`
     window.location.href = editUrl
