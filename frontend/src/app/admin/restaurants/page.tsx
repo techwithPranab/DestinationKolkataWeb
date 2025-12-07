@@ -348,7 +348,7 @@ export default function RestaurantsAdmin() {
       {/* Header */}
       <div className="flex justify-between items-center">
         <div>
-          <h1 className="text-3xl font-bold text-gray-900">Restaurant Management</h1>
+          <h1 className="text-2xl font-bold text-gray-900">Restaurant Management</h1>
           <p className="text-gray-600 mt-2">Manage all restaurants in Kolkata</p>
         </div>
         <Dialog open={isAddModalOpen} onOpenChange={setIsAddModalOpen}>

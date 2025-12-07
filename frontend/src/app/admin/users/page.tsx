@@ -32,14 +32,6 @@ import { Label } from '@/components/ui/label'
 import { Textarea } from '@/components/ui/textarea'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from '@/components/ui/table'
-import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
@@ -262,7 +254,7 @@ export default function UsersAdmin() {
       {/* Header */}
       <div className="flex justify-between items-center">
         <div>
-          <h1 className="text-3xl font-bold text-gray-900">User Management</h1>
+          <h1 className="text-2xl font-bold text-gray-900">User Management</h1>
           <p className="text-gray-600 mt-2">Manage all users and their information</p>
         </div>
         <Dialog open={isAddModalOpen} onOpenChange={setIsAddModalOpen}>
@@ -428,22 +420,36 @@ export default function UsersAdmin() {
         </CardHeader>
         <CardContent>
           <div className="overflow-x-auto">
-            <Table>
-              <TableHeader>
-                <TableRow>
-                  <TableHead>User</TableHead>
-                  <TableHead>Contact</TableHead>
-                  <TableHead>Role</TableHead>
-                  <TableHead>Status</TableHead>
-                  <TableHead>Joined</TableHead>
-                  <TableHead>Last Login</TableHead>
-                  <TableHead className="text-right">Actions</TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody>
+            <table className="w-full">
+              <thead className="bg-gray-50">
+                <tr>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    User
+                  </th>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    Contact
+                  </th>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    Role
+                  </th>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    Status
+                  </th>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    Joined
+                  </th>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    Last Login
+                  </th>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    Actions
+                  </th>
+                </tr>
+              </thead>
+              <tbody className="bg-white divide-y divide-gray-200">
                 {users.map((user) => (
-                  <TableRow key={user._id}>
-                    <TableCell>
+                  <tr key={user._id} className="hover:bg-gray-50">
+                    <td className="px-6 py-4 whitespace-nowrap">
                       <div className="flex items-center space-x-3">
                         <div className="w-10 h-10 bg-orange-100 rounded-full flex items-center justify-center">
                           <Users className="h-5 w-5 text-orange-600" />
@@ -457,8 +463,8 @@ export default function UsersAdmin() {
                           </div>
                         </div>
                       </div>
-                    </TableCell>
-                    <TableCell>
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap">
                       <div className="space-y-1">
                         <div className="flex items-center text-sm">
                           <Mail className="h-4 w-4 mr-2 text-gray-400" />
@@ -471,24 +477,24 @@ export default function UsersAdmin() {
                           </div>
                         )}
                       </div>
-                    </TableCell>
-                    <TableCell>
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap">
                       <Badge variant="outline" className="text-xs">
                         {user.role}
                       </Badge>
-                    </TableCell>
-                    <TableCell>
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap">
                       <Badge className={getStatusColor(user.status)}>
                         {user.status}
                       </Badge>
-                    </TableCell>
-                    <TableCell className="text-sm text-gray-600">
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-600">
                       {formatDate(user.createdAt)}
-                    </TableCell>
-                    <TableCell className="text-sm text-gray-600">
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-600">
                       {user.lastLogin ? formatDate(user.lastLogin) : 'Never'}
-                    </TableCell>
-                    <TableCell className="text-right">
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
                       <DropdownMenu>
                         <DropdownMenuTrigger asChild>
                           <Button variant="ghost" className="h-8 w-8 p-0">
@@ -506,11 +512,11 @@ export default function UsersAdmin() {
                           </DropdownMenuItem>
                         </DropdownMenuContent>
                       </DropdownMenu>
-                    </TableCell>
-                  </TableRow>
+                    </td>
+                  </tr>
                 ))}
-              </TableBody>
-            </Table>
+              </tbody>
+            </table>
           </div>
 
           {/* Pagination */}

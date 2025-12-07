@@ -146,7 +146,7 @@ export default function AdminApprovalsPage() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
         <div className="mb-8">
-          <h1 className="text-3xl font-bold text-gray-900">Content Approvals</h1>
+          <h1 className="text-2xl font-bold text-gray-900">Content Approvals</h1>
           <p className="text-gray-600 mt-1">Review and manage submitted content</p>
         </div>
 

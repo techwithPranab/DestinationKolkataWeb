@@ -281,6 +281,5 @@ export default function AdminLogin() {
           </div>
         </motion.div>
       </motion.div>
-    </div>
-  )
-}
+    )
+  }

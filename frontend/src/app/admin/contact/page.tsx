@@ -216,7 +216,7 @@ export default function ContactAdmin() {
       {/* Header */}
       <div className="flex justify-between items-center">
         <div>
-          <h1 className="text-3xl font-bold text-gray-900">Contact Management</h1>
+          <h1 className="text-2xl font-bold text-gray-900">Contact Management</h1>
           <p className="text-gray-600 mt-2">Manage customer inquiries and support requests</p>
         </div>
         <Button onClick={() => fetchContacts()} variant="outline">

@@ -33,14 +33,6 @@ import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Textarea } from '@/components/ui/textarea'
 import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from '@/components/ui/table'
-import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
@@ -231,7 +223,7 @@ export default function FeedbackAdmin() {
       {/* Header */}
       <div className="flex justify-between items-center">
         <div>
-          <h1 className="text-3xl font-bold text-gray-900">Feedback Management</h1>
+          <h1 className="text-2xl font-bold text-gray-900">Feedback Management</h1>
           <p className="text-gray-600 mt-2">Manage user feedback and feature requests</p>
         </div>
         <Button onClick={() => fetchFeedback()} variant="outline">
@@ -352,56 +344,73 @@ export default function FeedbackAdmin() {
       {/* Feedback Table */}
       <Card>
         <CardContent className="p-0">
-          <Table>
-            <TableHeader>
-              <TableRow>
-                <TableHead>Type</TableHead>
-                <TableHead>Subject</TableHead>
-                <TableHead>User</TableHead>
-                <TableHead>Rating</TableHead>
-                <TableHead>Status</TableHead>
-                <TableHead>Priority</TableHead>
-                <TableHead>Date</TableHead>
-                <TableHead>Actions</TableHead>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
+          <div className="overflow-x-auto">
+            <table className="w-full">
+              <thead className="bg-gray-50">
+                <tr>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    Type
+                  </th>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    Subject
+                  </th>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    User
+                  </th>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    Rating
+                  </th>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    Status
+                  </th>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    Priority
+                  </th>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    Date
+                  </th>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    Actions
+                  </th>
+                </tr>
+              </thead>
+              <tbody className="bg-white divide-y divide-gray-200">
               {loading ? (
                 Array.from({ length: 10 }, (_, index) => (
-                  <TableRow key={`skeleton-${index}`}>
-                    <TableCell><div className="h-4 bg-gray-200 rounded w-20 animate-pulse"></div></TableCell>
-                    <TableCell><div className="h-4 bg-gray-200 rounded w-32 animate-pulse"></div></TableCell>
-                    <TableCell><div className="h-4 bg-gray-200 rounded w-24 animate-pulse"></div></TableCell>
-                    <TableCell><div className="h-4 bg-gray-200 rounded w-16 animate-pulse"></div></TableCell>
-                    <TableCell><div className="h-4 bg-gray-200 rounded w-16 animate-pulse"></div></TableCell>
-                    <TableCell><div className="h-4 bg-gray-200 rounded w-16 animate-pulse"></div></TableCell>
-                    <TableCell><div className="h-4 bg-gray-200 rounded w-20 animate-pulse"></div></TableCell>
-                    <TableCell><div className="h-4 bg-gray-200 rounded w-20 animate-pulse"></div></TableCell>
-                  </TableRow>
+                  <tr key={`skeleton-${index}`} className="animate-pulse">
+                    <td className="px-6 py-4 whitespace-nowrap"><div className="h-4 bg-gray-200 rounded w-20 animate-pulse"></div></td>
+                    <td className="px-6 py-4 whitespace-nowrap"><div className="h-4 bg-gray-200 rounded w-32 animate-pulse"></div></td>
+                    <td className="px-6 py-4 whitespace-nowrap"><div className="h-4 bg-gray-200 rounded w-24 animate-pulse"></div></td>
+                    <td className="px-6 py-4 whitespace-nowrap"><div className="h-4 bg-gray-200 rounded w-16 animate-pulse"></div></td>
+                    <td className="px-6 py-4 whitespace-nowrap"><div className="h-4 bg-gray-200 rounded w-16 animate-pulse"></div></td>
+                    <td className="px-6 py-4 whitespace-nowrap"><div className="h-4 bg-gray-200 rounded w-16 animate-pulse"></div></td>
+                    <td className="px-6 py-4 whitespace-nowrap"><div className="h-4 bg-gray-200 rounded w-20 animate-pulse"></div></td>
+                    <td className="px-6 py-4 whitespace-nowrap"><div className="h-4 bg-gray-200 rounded w-20 animate-pulse"></div></td>
+                  </tr>
                 ))
               ) : (
                 <>
                   {feedback.length === 0 ? (
-                    <TableRow>
-                      <TableCell colSpan={8} className="text-center py-8">
+                    <tr>
+                      <td colSpan={8} className="px-6 py-12 text-center">
                         <MessageSquare className="h-16 w-16 text-gray-300 mx-auto mb-4" />
                         <p className="text-gray-500">No feedback found matching your criteria.</p>
-                      </TableCell>
-                    </TableRow>
+                      </td>
+                    </tr>
                   ) : (
                     feedback.map((item) => (
-                      <TableRow key={item._id}>
-                        <TableCell>
+                      <tr key={item._id} className="hover:bg-gray-50">
+                        <td className="px-6 py-4 whitespace-nowrap">
                           <Badge className={getTypeColor(item.type)}>
                             {feedbackTypes.find(t => t.value === item.type)?.label || item.type}
                           </Badge>
-                        </TableCell>
-                        <TableCell>
+                        </td>
+                        <td className="px-6 py-4 whitespace-nowrap">
                           <div className="max-w-xs truncate" title={item.subject}>
                             {item.subject}
                           </div>
-                        </TableCell>
-                        <TableCell>
+                        </td>
+                        <td className="px-6 py-4 whitespace-nowrap">
                           <div className="text-sm">
                             {item.email ? (
                               <div className="flex items-center">
@@ -412,26 +421,24 @@ export default function FeedbackAdmin() {
                               <span className="text-gray-500">Anonymous</span>
                             )}
                           </div>
-                        </TableCell>
-                        <TableCell>
+                        </td>
+                        <td className="px-6 py-4 whitespace-nowrap">
                           {renderStars(item.rating)}
-                        </TableCell>
-                        <TableCell>
+                        </td>
+                        <td className="px-6 py-4 whitespace-nowrap">
                           <Badge className={getStatusColor(item.status)}>
                             {statusOptions.find(s => s.value === item.status)?.label || item.status}
                           </Badge>
-                        </TableCell>
-                        <TableCell>
+                        </td>
+                        <td className="px-6 py-4 whitespace-nowrap">
                           <Badge className={getPriorityColor(item.priority)}>
                             {priorityOptions.find(p => p.value === item.priority)?.label || item.priority}
                           </Badge>
-                        </TableCell>
-                        <TableCell>
-                          <div className="text-sm text-gray-600">
-                            {formatDate(item.createdAt)}
-                          </div>
-                        </TableCell>
-                        <TableCell>
+                        </td>
+                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-600">
+                          {formatDate(item.createdAt)}
+                        </td>
+                        <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
                           <DropdownMenu>
                             <DropdownMenuTrigger asChild>
                               <Button variant="ghost" size="sm">
@@ -449,14 +456,15 @@ export default function FeedbackAdmin() {
                               </DropdownMenuItem>
                             </DropdownMenuContent>
                           </DropdownMenu>
-                        </TableCell>
-                      </TableRow>
+                        </td>
+                      </tr>
                     ))
                   )}
                 </>
               )}
-            </TableBody>
-          </Table>
+              </tbody>
+            </table>
+          </div>
         </CardContent>
       </Card>
 

@@ -361,7 +361,7 @@ export default function PromotionsAdmin() {
       {/* Header */}
       <div className="flex justify-between items-center">
         <div>
-          <h1 className="text-3xl font-bold text-gray-900">Promotions Management</h1>
+          <h1 className="text-2xl font-bold text-gray-900">Promotions Management</h1>
           <p className="text-gray-600 mt-2">Manage all promotional offers and discounts in Kolkata</p>
         </div>
         <Dialog open={isAddModalOpen} onOpenChange={setIsAddModalOpen}>

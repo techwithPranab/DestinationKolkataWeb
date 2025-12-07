@@ -136,7 +136,7 @@ export default function AdminForgotPasswordPage() {
           >
             <Shield className="h-8 w-8 text-white" />
           </motion.div>
-          <h1 className="text-3xl font-bold text-gray-900 mb-2">Admin Password Reset</h1>
+          <h1 className="text-2xl font-bold text-gray-900 mb-2">Admin Password Reset</h1>
           <p className="text-gray-600">Reset your admin account password</p>
         </div>
 

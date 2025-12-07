@@ -171,7 +171,7 @@ export default function SettingsPage() {
       {/* Header */}
       <div className="flex justify-between items-center">
         <div>
-          <h1 className="text-3xl font-bold text-gray-900">System Settings</h1>
+          <h1 className="text-2xl font-bold text-gray-900">System Settings</h1>
           <p className="text-gray-600 mt-2">Configure your platform settings and preferences</p>
         </div>
         <div className="flex space-x-2">
