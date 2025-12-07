@@ -1,5 +1,5 @@
 "use client"
-import { fetchAPI } from '@/lib/backend-api'
+import { fetchAuthenticatedAPI } from '@/lib/backend-api'
 
 import React, { useState, useEffect, useCallback } from 'react'
 import {
@@ -142,7 +142,7 @@ export default function ReportIssuesAdmin() {
       if (filterStatus) params.append('status', filterStatus)
       if (filterPriority) params.append('priority', filterPriority)
 
-      const response = await fetch(`${backendURL}/api/admin/report-issues?${params}`)
+      const response = await fetchAuthenticatedAPI(`/api/admin/report-issues?${params}`)
       const data = await response.json()
 
       if (data.success) {
@@ -172,7 +172,7 @@ export default function ReportIssuesAdmin() {
     
     // Increment view count
     try {
-      await fetchAPI('/api/admin/report-issues', {
+      await fetchAuthenticatedAPI('/api/admin/report-issues', {
         method: 'PATCH',
         headers: {
           'Content-Type': 'application/json',
@@ -195,7 +195,7 @@ export default function ReportIssuesAdmin() {
   const handleStatusUpdate = async (id: string, status: string, priority: string, actionTaken: string, resolution: string) => {
     setUpdating(true)
     try {
-      const responseData = await fetchAPI('/api/admin/report-issues', {
+      const responseData = await fetchAuthenticatedAPI('/api/admin/report-issues', {
         method: 'PATCH',
         headers: {
           'Content-Type': 'application/json',

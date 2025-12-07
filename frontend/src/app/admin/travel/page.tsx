@@ -34,6 +34,7 @@ import { Textarea } from '@/components/ui/textarea'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import ImageUpload from '@/components/shared/ImageUpload'
 import { getCloudinaryFolder, generateSlug } from '@/lib/cloudinary-utils'
+import { fetchAuthenticatedAPI } from '@/lib/backend-api'
 
 interface TravelService {
   _id: string
@@ -156,10 +157,10 @@ export default function TravelAdmin() {
       if (filterTransportType && filterTransportType !== 'all') params.append('transportType', filterTransportType)
       if (filterStatus && filterStatus !== 'all') params.append('status', filterStatus)
 
-      const response = await fetch(`${backendURL}/api/travel?${params}`)
+      const response = await fetchAuthenticatedAPI(`/api/travel?${params}`)
       const data = await response.json()
       
-      setServices(data.services || [])
+      setServices(data.data || [])
       setTotalServices(data.pagination?.total || 0)
       setTotalPages(data.pagination?.totalPages || 1)
       setCurrentPage(data.pagination?.page || 1)
@@ -215,12 +216,12 @@ export default function TravelAdmin() {
 
     try {
       const url = editingService 
-        ? `${backendURL}/api/travel/${editingService._id}`
-        : `${backendURL}/api/travel`
+        ? `/api/travel/${editingService._id}`
+        : `/api/travel`
       
       const method = editingService ? 'PUT' : 'POST'
       
-      const response = await fetch(url, {
+      const response = await fetchAuthenticatedAPI(url, {
         method,
         headers: {
           'Content-Type': 'application/json',
@@ -242,7 +243,7 @@ export default function TravelAdmin() {
   const handleDelete = async (id: string) => {
     if (confirm('Are you sure you want to delete this travel service?')) {
       try {
-        const response = await fetch(`${backendURL}/api/travel/${id}`, {
+        const response = await fetchAuthenticatedAPI(`/api/travel/${id}`, {
           method: 'DELETE',
         })
         if (response.ok) {

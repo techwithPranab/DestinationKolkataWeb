@@ -36,6 +36,7 @@ import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Textarea } from '@/components/ui/textarea'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
+import { fetchAuthenticatedAPI } from '@/lib/backend-api'
 
 type DiscountType = 'percentage' | 'fixed' | 'buy_one_get_one' | 'free_item'
 
@@ -127,11 +128,12 @@ export default function PromotionsAdmin() {
 
   const fetchPromotions = async (page = 1) => {
     try {
-      const response = await fetch(`${backendURL}/api/promotions?page=${page}&limit=${pageSize}`)
+      const response = await fetchAuthenticatedAPI(`/api/promotions?page=${page}&limit=${pageSize}`)
       const data = await response.json()
-      setPromotions(data.promotions || [])
-      setTotalPages(data.totalPages || 1)
-      setTotalPromotions(data.total || 0)
+      console.log('Fetched promotions data:', data);
+      setPromotions(data.data || [])
+      setTotalPages(data.pagination?.totalPages || 1)
+      setTotalPromotions(data.pagination?.total || 0)
       setCurrentPage(page)
     } catch (error) {
       console.error('Error fetching promotions:', error)
@@ -165,12 +167,12 @@ export default function PromotionsAdmin() {
 
     try {
       const url = editingPromotion 
-        ? `${backendURL}/api/promotions/${editingPromotion._id}`
-        : `${backendURL}/api/promotions`
+        ? `/api/promotions/${editingPromotion._id}`
+        : `/api/promotions`
       
       const method = editingPromotion ? 'PUT' : 'POST'
       
-      const response = await fetch(url, {
+      const response = await fetchAuthenticatedAPI(url, {
         method,
         headers: {
           'Content-Type': 'application/json',
@@ -192,7 +194,7 @@ export default function PromotionsAdmin() {
   const handleDelete = async (id: string) => {
     if (confirm('Are you sure you want to delete this promotion?')) {
       try {
-        const response = await fetch(`${backendURL}/api/promotions/${id}`, {
+        const response = await fetchAuthenticatedAPI(`/api/promotions/${id}`, {
           method: 'DELETE',
         })
         if (response.ok) {

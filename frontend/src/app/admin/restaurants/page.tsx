@@ -1,5 +1,5 @@
 "use client"
-import { fetchAPI } from '@/lib/backend-api'
+import { fetchAuthenticatedAPI } from '@/lib/backend-api'
 
 import React, { useState, useEffect, useCallback } from 'react'
 import { 
@@ -135,7 +135,7 @@ export default function RestaurantsAdmin() {
       if (filterCuisine && filterCuisine !== 'all') params.append('cuisine', filterCuisine)
       if (filterStatus && filterStatus !== 'all') params.append('status', filterStatus)
 
-      const response = await fetchAPI(`/api/restaurants?${params}`)
+      const response = await fetchAuthenticatedAPI(`/api/restaurants?${params}`)
       const data = await response.json()
       
       setRestaurants(data.restaurants || [])
@@ -152,7 +152,7 @@ export default function RestaurantsAdmin() {
   const fetchOverallStats = useCallback(async () => {
     try {
       // Get all restaurants in one call to calculate stats
-      const response = await fetchAPI('/api/restaurants?status=all&page=1&limit=10000')
+      const response = await fetchAuthenticatedAPI('/api/restaurants?status=all&page=1&limit=10000')
       const data = await response.json()
       
       const restaurants = data.restaurants || []
@@ -240,12 +240,12 @@ export default function RestaurantsAdmin() {
 
     try {
       const url = editingRestaurant 
-        ? `${backendURL}/api/restaurants/${editingRestaurant._id}`
-        : `${backendURL}/api/restaurants`
+        ? `/api/restaurants/${editingRestaurant._id}`
+        : `/api/restaurants`
       
       const method = editingRestaurant ? 'PUT' : 'POST'
       
-      const response = await fetch(url, {
+      const response = await fetchAuthenticatedAPI(url, {
         method,
         headers: {
           'Content-Type': 'application/json',
@@ -268,7 +268,7 @@ export default function RestaurantsAdmin() {
   const handleDelete = async (id: string) => {
     if (confirm('Are you sure you want to delete this restaurant?')) {
       try {
-        const response = await fetchAPI(`/api/restaurants/${id}`, {
+        const response = await fetchAuthenticatedAPI(`/api/restaurants/${id}`, {
           method: 'DELETE',
         })
         if (response.ok) {

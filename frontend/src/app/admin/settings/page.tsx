@@ -1,5 +1,5 @@
 "use client"
-import { fetchAPI } from '@/lib/backend-api'
+import { fetchAuthenticatedAPI } from '@/lib/backend-api'
 
 import React, { useState, useEffect } from 'react'
 import {
@@ -95,7 +95,7 @@ export default function SettingsPage() {
   const fetchSettings = async () => {
     try {
       setLoading(true)
-      const response = await fetchAPI('/api/admin/settings')
+      const response = await fetchAuthenticatedAPI('/api/admin/settings')
       const data = await response.json()
       if (data.success) {
         setSettings(data.data)
@@ -114,7 +114,7 @@ export default function SettingsPage() {
       setSaving(true)
       setSaveStatus('idle')
 
-      const response = await fetchAPI('/api/admin/settings', {
+      const response = await fetchAuthenticatedAPI('/api/admin/settings', {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',

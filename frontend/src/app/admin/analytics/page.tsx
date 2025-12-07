@@ -21,7 +21,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
-import { fetchAPI } from '@/lib/backend-api'
+import { fetchAuthenticatedAPI } from '@/lib/backend-api'
 
 interface AnalyticsData {
   overview: {
@@ -124,7 +124,7 @@ export default function AnalyticsPage() {
   const fetchAnalytics = async () => {
     try {
       setLoading(true)
-      const response = await fetchAPI(`/api/admin/analytics?timeRange=${timeRange}&category=${selectedCategory}`)
+      const response = await fetchAuthenticatedAPI(`/api/admin/analytics?timeRange=${timeRange}&category=${selectedCategory}`)
       const data = await response.json()
       setAnalyticsData(data.data)
     } catch (error) {

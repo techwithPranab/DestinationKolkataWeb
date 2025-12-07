@@ -45,7 +45,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
-import { fetchAPI } from '@/lib/backend-api'
+import { fetchAuthenticatedAPI } from '@/lib/backend-api'
 
 interface User {
   _id: string
@@ -110,7 +110,7 @@ export default function UsersAdmin() {
         status: filterStatus || 'all'
       })
 
-      const response = await fetchAPI(`/api/admin/users?${params}`)
+      const response = await fetchAuthenticatedAPI(`/api/admin/users?${params}`)
       const data = await response.json()
       setUsers(data.users || [])
       setTotalUsers(data.total || 0)
@@ -139,12 +139,12 @@ export default function UsersAdmin() {
 
     try {
       const url = editingUser
-        ? `${backendURL}/api/admin/users/${editingUser._id}`
-        : `${backendURL}/api/admin/users`
+        ? `/api/admin/users/${editingUser._id}`
+        : `/api/admin/users`
 
       const method = editingUser ? 'PUT' : 'POST'
 
-      const response = await fetch(url, {
+      const response = await fetchAuthenticatedAPI(url, {
         method,
         headers: {
           'Content-Type': 'application/json',
@@ -166,7 +166,7 @@ export default function UsersAdmin() {
   const handleDelete = async (id: string) => {
     if (confirm('Are you sure you want to delete this user?')) {
       try {
-        const response = await fetchAPI(`/api/admin/users/${id}`, {
+        const response = await fetchAuthenticatedAPI(`/api/admin/users/${id}`, {
           method: 'DELETE',
         })
         if (response.ok) {

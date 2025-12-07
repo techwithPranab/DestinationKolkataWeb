@@ -19,10 +19,43 @@ export const buildApiURL = (path: string): string => {
 }
 
 /**
+ * Get authentication headers for API requests
+ */
+const getAuthHeaders = (): Record<string, string> => {
+  const token = localStorage.getItem('adminToken') || localStorage.getItem('authToken')
+  if (token) {
+    return {
+      'Authorization': `Bearer ${token}`,
+      'Content-Type': 'application/json'
+    }
+  }
+  return {
+    'Content-Type': 'application/json'
+  }
+}
+
+/**
  * Fetch with backend URL automatically applied
  * @param path - API path (e.g., '/api/admin/login')
  * @param options - Fetch options
  */
 export const fetchAPI = (path: string, options?: RequestInit): Promise<Response> => {
   return fetch(buildApiURL(path), options)
+}
+
+/**
+ * Fetch with authentication headers automatically applied
+ * @param path - API path (e.g., '/api/admin/dashboard')
+ * @param options - Fetch options (auth headers will be merged)
+ */
+export const fetchAuthenticatedAPI = (path: string, options?: RequestInit): Promise<Response> => {
+  const authHeaders = getAuthHeaders()
+  const mergedOptions: RequestInit = {
+    ...options,
+    headers: {
+      ...authHeaders,
+      ...options?.headers
+    }
+  }
+  return fetch(buildApiURL(path), mergedOptions)
 }

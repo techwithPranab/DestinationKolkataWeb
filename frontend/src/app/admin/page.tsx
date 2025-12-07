@@ -18,7 +18,7 @@ import {
 } from 'lucide-react'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
-import { fetchAPI } from '@/lib/backend-api'
+import { fetchAuthenticatedAPI } from '@/lib/backend-api'
 
 interface StatsCard {
   title: string
@@ -61,7 +61,7 @@ export default function AdminDashboard() {
   const fetchDashboardData = async () => {
     try {
       setLoading(true)
-      const response = await fetchAPI('/api/admin/dashboard')
+      const response = await fetchAuthenticatedAPI('/api/admin/dashboard')
       const data = await response.json()
 
       if (data.success) {
@@ -347,9 +347,17 @@ export default function AdminDashboard() {
                   <div className="text-right">
                     <div className="flex items-center space-x-1">
                       <Star className="h-3 w-3 text-yellow-500 fill-current" />
-                      <span className="text-sm font-medium">{performer.rating.toFixed(1)}</span>
+                      <span className="text-sm font-medium">
+                        {typeof performer.rating === 'number' && !isNaN(performer.rating) 
+                          ? performer.rating.toFixed(1) 
+                          : 'N/A'}
+                      </span>
                     </div>
-                    <p className="text-xs text-gray-500">{performer.views.toLocaleString()} views</p>
+                    <p className="text-xs text-gray-500">
+                      {typeof performer.views === 'number' && !isNaN(performer.views) 
+                        ? performer.views.toLocaleString() 
+                        : '0'} views
+                    </p>
                   </div>
                 </div>
               ))}

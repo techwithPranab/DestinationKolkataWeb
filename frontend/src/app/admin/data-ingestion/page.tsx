@@ -1,5 +1,5 @@
 'use client'
-import { fetchAPI } from '@/lib/backend-api'
+import { fetchAuthenticatedAPI } from '@/lib/backend-api'
 
 import { useState } from 'react'
 import { Alert, AlertDescription } from '@/components/ui/alert'
@@ -85,11 +85,10 @@ export default function DataIngestionPage() {
         return
       }
 
-      const response = await fetchAPI('/api/admin/data-ingestion', {
+      const response = await fetchAuthenticatedAPI('/api/admin/data-ingestion', {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json'
         },
         body: JSON.stringify({ mode }),
       })

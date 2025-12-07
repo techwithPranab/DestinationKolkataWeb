@@ -1,5 +1,5 @@
 "use client"
-import { fetchAPI } from '@/lib/backend-api'
+import { fetchAuthenticatedAPI } from '@/lib/backend-api'
 
 import React, { useState, useEffect, useCallback } from 'react'
 import {
@@ -122,7 +122,7 @@ export default function FeedbackAdmin() {
       if (filterStatus) params.append('status', filterStatus)
       if (filterPriority) params.append('priority', filterPriority)
 
-      const response = await fetch(`${backendURL}/api/admin/feedback?${params}`)
+      const response = await fetchAuthenticatedAPI(`/api/admin/feedback?${params}`)
       const data = await response.json()
 
       if (data.success) {
@@ -159,7 +159,7 @@ export default function FeedbackAdmin() {
   const handleStatusUpdate = async (id: string, status: string, priority: string, notes: string) => {
     setUpdating(true)
     try {
-      const response = await fetchAPI('/api/admin/feedback', {
+      const response = await fetchAuthenticatedAPI('/api/admin/feedback', {
         method: 'PATCH',
         headers: {
           'Content-Type': 'application/json',

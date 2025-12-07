@@ -22,6 +22,7 @@ import uploadRouter from './routes/upload';
 import webhooksRouter from './routes/webhooks';
 import customerRouter from './routes/customer';
 import authRouter from './routes/auth';
+import adminRouter from './routes/admin';
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -76,6 +77,7 @@ app.use('/api/upload', uploadRouter);
 app.use('/api/webhooks', webhooksRouter);
 app.use('/api/customer', customerRouter);
 app.use('/api/auth', authRouter);
+app.use('/api/admin', adminRouter);
 
 // 404 handler
 app.use((req, res) => {

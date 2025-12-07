@@ -9,7 +9,19 @@ const router = Router();
 
 // GET /api/sports - Get all sports facilities with filtering and pagination
 router.get('/', async (req: Request, res: Response) => {
+  console.log('GET /api/sports called with query:', req.query);
+  
   try {
+    // Check database connection
+    const dbState = mongoose.connection.readyState;
+    console.log('Database connection state:', dbState); // 0 = disconnected, 1 = connected, 2 = connecting, 3 = disconnecting
+    
+    if (dbState !== 1) {
+      return res.status(500).json({
+        success: false,
+        message: 'Database not connected'
+      });
+    }
     const {
       page = 1,
       limit = 10,
@@ -102,11 +114,13 @@ router.get('/', async (req: Request, res: Response) => {
       total = await Sports.countDocuments(filter);
     }
 
+    console.log('Sports query results:', { total, sportsCount: sports.length });
+
     const totalPages = Math.ceil(total / limitNum);
 
     res.json({
       success: true,
-      data: sports,
+      facilities: sports,
       pagination: {
         page: pageNum,
         limit: limitNum,

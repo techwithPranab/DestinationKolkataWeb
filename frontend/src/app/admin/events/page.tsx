@@ -32,7 +32,7 @@ import { Textarea } from '@/components/ui/textarea'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import ImageUpload from '@/components/shared/ImageUpload'
 import { getCloudinaryFolder, generateSlug } from '@/lib/cloudinary-utils'
-import { fetchAPI } from '@/lib/backend-api'
+import { fetchAuthenticatedAPI } from '@/lib/backend-api'
 
 interface Event {
   _id: string
@@ -160,7 +160,7 @@ export default function EventsAdmin() {
       if (filterCategory && filterCategory !== 'all') params.append('category', filterCategory)
       if (filterStatus && filterStatus !== 'all') params.append('status', filterStatus)
 
-      const response = await fetchAPI(`/api/admin/events?${params}`)
+      const response = await fetchAuthenticatedAPI(`/api/admin/events?${params}`)
       const data = await response.json()
       
       setEvents(data.events || [])
@@ -228,12 +228,12 @@ export default function EventsAdmin() {
 
     try {
       const url = editingEvent 
-        ? `${backendURL}/api/admin/events/${editingEvent._id}`
-        : `${backendURL}/api/admin/events`
+        ? `/api/admin/events/${editingEvent._id}`
+        : `/api/admin/events`
       
       const method = editingEvent ? 'PUT' : 'POST'
       
-      const response = await fetch(url, {
+      const response = await fetchAuthenticatedAPI(url, {
         method,
         headers: {
           'Content-Type': 'application/json',
@@ -255,7 +255,7 @@ export default function EventsAdmin() {
   const handleDelete = async (id: string) => {
     if (confirm('Are you sure you want to delete this event?')) {
       try {
-        const response = await fetchAPI(`/api/admin/events/${id}`, {
+        const response = await fetchAuthenticatedAPI(`/api/admin/events/${id}`, {
           method: 'DELETE',
         })
         if (response.ok) {

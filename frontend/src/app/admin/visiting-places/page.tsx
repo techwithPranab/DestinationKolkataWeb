@@ -1,5 +1,5 @@
 "use client"
-import { fetchAPI } from '@/lib/backend-api'
+import { fetchAuthenticatedAPI } from '@/lib/backend-api'
 
 import React, { useState, useEffect, useCallback } from 'react'
 import { 
@@ -144,7 +144,7 @@ export default function VisitingPlacesAdmin() {
       if (filterCategory && filterCategory !== 'all') params.append('category', filterCategory)
       if (filterStatus && filterStatus !== 'all') params.append('status', filterStatus)
 
-      const response = await fetch(`${backendURL}/api/attractions?${params}`)
+      const response = await fetchAuthenticatedAPI(`/api/attractions?${params}`)
       const data = await response.json()
       
       setPlaces(data.places || [])
@@ -161,7 +161,7 @@ export default function VisitingPlacesAdmin() {
   const fetchOverallStats = useCallback(async () => {
     try {
       // Get all places in one call to calculate stats
-      const response = await fetchAPI('/api/attractions?status=all&page=1&limit=10000')
+      const response = await fetchAuthenticatedAPI('/api/attractions?status=all&page=1&limit=10000')
       const data = await response.json()
       
       const places = data.places || []
@@ -222,12 +222,12 @@ export default function VisitingPlacesAdmin() {
 
     try {
       const url = editingPlace 
-        ? `${backendURL}/api/attractions/${editingPlace._id}`
-        : `${backendURL}/api/attractions`
+        ? `/api/attractions/${editingPlace._id}`
+        : `/api/attractions`
       
       const method = editingPlace ? 'PUT' : 'POST'
       
-      const response = await fetch(url, {
+      const response = await fetchAuthenticatedAPI(url, {
         method,
         headers: {
           'Content-Type': 'application/json',
@@ -250,7 +250,7 @@ export default function VisitingPlacesAdmin() {
   const handleDelete = async (id: string) => {
     if (confirm('Are you sure you want to delete this place?')) {
       try {
-        const response = await fetch(`${backendURL}/api/attractions/${id}`, {
+        const response = await fetchAuthenticatedAPI(`/api/attractions/${id}`, {
           method: 'DELETE',
         })
         if (response.ok) {

@@ -47,7 +47,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
-import { fetchAPI } from '@/lib/backend-api'
+import { fetchAuthenticatedAPI } from '@/lib/backend-api'
 
 interface Contact {
   _id: string
@@ -122,7 +122,7 @@ export default function ContactAdmin() {
       if (filterStatus) params.append('status', filterStatus)
       if (filterPriority) params.append('priority', filterPriority)
 
-      const response = await fetch(`${backendURL}/api/admin/contact?${params}`)
+      const response = await fetchAuthenticatedAPI(`/api/admin/contact?${params}`)
       const data = await response.json()
 
       if (data.success) {
@@ -159,7 +159,7 @@ export default function ContactAdmin() {
   const handleStatusUpdate = async (id: string, status: string, priority: string, response: string, notes: string) => {
     setUpdating(true)
     try {
-      const responseData = await fetchAPI('/api/admin/contact', {
+      const responseData = await fetchAuthenticatedAPI('/api/admin/contact', {
         method: 'PATCH',
         headers: {
           'Content-Type': 'application/json',

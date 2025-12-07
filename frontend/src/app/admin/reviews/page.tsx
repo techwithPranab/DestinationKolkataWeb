@@ -1,5 +1,5 @@
 'use client'
-import { fetchAPI } from '@/lib/backend-api'
+import { fetchAuthenticatedAPI } from '@/lib/backend-api'
 
 import { useState, useEffect } from 'react'
 import { CheckCircle, XCircle, Eye, Trash2, Star, User, Calendar, MessageSquare } from 'lucide-react'
@@ -58,12 +58,7 @@ export default function AdminReviewsPage() {
       if (statusFilter !== 'all') params.append('status', statusFilter)
       if (entityTypeFilter !== 'all') params.append('entityType', entityTypeFilter)
 
-      const token = localStorage.getItem('adminToken')
-      const response = await fetch(`${backendURL}/api/admin/reviews?${params}`, {
-        headers: {
-          'Authorization': `Bearer ${token}`
-        }
-      })
+      const response = await fetchAuthenticatedAPI(`/api/admin/reviews?${params}`)
       if (response.ok) {
         const result = await response.json()
         setReviews(result.data.reviews)
@@ -78,12 +73,10 @@ export default function AdminReviewsPage() {
 
   const handleStatusChange = async (reviewId: string, newStatus: 'approved' | 'rejected') => {
     try {
-      const token = localStorage.getItem('adminToken')
-      const response = await fetchAPI('/api/admin/reviews', {
+      const response = await fetchAuthenticatedAPI('/api/admin/reviews', {
         method: 'PATCH',
         headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`
+          'Content-Type': 'application/json'
         },
         body: JSON.stringify({
           reviewId,
@@ -112,12 +105,8 @@ export default function AdminReviewsPage() {
     if (!confirm('Are you sure you want to delete this review?')) return
 
     try {
-      const token = localStorage.getItem('adminToken')
-      const response = await fetch(`${backendURL}/api/admin/reviews?reviewId=${reviewId}`, {
+      const response = await fetchAuthenticatedAPI(`/api/admin/reviews?reviewId=${reviewId}`, {
         method: 'DELETE',
-        headers: {
-          'Authorization': `Bearer ${token}`
-        }
       })
 
       if (response.ok) {

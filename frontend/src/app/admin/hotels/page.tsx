@@ -29,7 +29,7 @@ import { Textarea } from '@/components/ui/textarea'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import ImageUpload from '@/components/shared/ImageUpload'
 import { getCloudinaryFolder, generateSlug } from '@/lib/cloudinary-utils'
-import { fetchAPI } from '@/lib/backend-api'
+import { fetchAuthenticatedAPI } from '@/lib/backend-api'
 
 type HotelStatus = 'active' | 'inactive' | 'pending' | 'rejected'
 
@@ -172,7 +172,7 @@ export default function HotelsAdmin() {
       if (filterCategory && filterCategory !== 'all') params.append('category', filterCategory)
       if (filterStatus && filterStatus !== 'all') params.append('status', filterStatus)
 
-      const response = await fetchAPI(`/api/hotels?${params}`)
+      const response = await fetchAuthenticatedAPI(`/api/hotels?${params}`)
       const data = await response.json()
       console.log('Fetched hotels:', data)
       
@@ -242,12 +242,12 @@ export default function HotelsAdmin() {
 
     try {
       const url = editingHotel 
-        ? `${backendURL}/api/hotels/${editingHotel._id}`
-        : `${backendURL}/api/hotels`
+        ? `/api/hotels/${editingHotel._id}`
+        : `/api/hotels`
       
       const method = editingHotel ? 'PUT' : 'POST'
       
-      const response = await fetch(url, {
+      const response = await fetchAuthenticatedAPI(url, {
         method,
         headers: {
           'Content-Type': 'application/json',
@@ -269,7 +269,7 @@ export default function HotelsAdmin() {
   const handleDelete = async (id: string) => {
     if (confirm('Are you sure you want to delete this hotel?')) {
       try {
-        const response = await fetchAPI(`/api/hotels/${id}`, {
+        const response = await fetchAuthenticatedAPI(`/api/hotels/${id}`, {
           method: 'DELETE',
         })
         if (response.ok) {

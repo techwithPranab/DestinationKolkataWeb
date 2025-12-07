@@ -20,6 +20,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import { Input } from '@/components/ui/input'
 import { Textarea } from '@/components/ui/textarea'
+import { fetchAuthenticatedAPI } from '@/lib/backend-api'
 
 interface Submission {
   id: string
@@ -55,12 +56,7 @@ export default function AdminApprovalsPage() {
   const fetchSubmissions = async () => {
     try {
       setLoading(true)
-      const token = localStorage.getItem('adminToken')
-      const response = await fetch(`${backendURL}/api/admin/submissions?status=${filter}`, {
-        headers: {
-          'Authorization': `Bearer ${token}`
-        }
-      })
+      const response = await fetchAuthenticatedAPI(`/api/admin/submissions?status=${filter}`)
       
       if (response.ok) {
         const data = await response.json()
@@ -77,12 +73,10 @@ export default function AdminApprovalsPage() {
     setActionLoading(submissionId)
     
     try {
-      const token = localStorage.getItem('adminToken')
-      const response = await fetch(`${backendURL}/api/admin/submissions/${submissionId}/${action}`, {
+      const response = await fetchAuthenticatedAPI(`/api/admin/submissions/${submissionId}/${action}`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`
         },
         body: JSON.stringify({
           adminNotes: adminNotes

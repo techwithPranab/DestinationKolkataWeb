@@ -29,7 +29,7 @@ import { Textarea } from '@/components/ui/textarea'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import ImageUpload from '@/components/shared/ImageUpload'
 import { getCloudinaryFolder, generateSlug } from '@/lib/cloudinary-utils'
-import { fetchAPI } from '@/lib/backend-api'
+import { fetchAuthenticatedAPI } from '@/lib/backend-api'
 
 interface SportsFacility {
   _id: string
@@ -181,9 +181,9 @@ export default function SportsAdmin() {
       if (filterSportType && filterSportType !== 'all') params.append('sport', filterSportType)
       if (filterStatus && filterStatus !== 'all') params.append('status', filterStatus)
 
-      const response = await fetchAPI(`/api/sports?${params}`)
+      const response = await fetchAuthenticatedAPI(`/api/sports?${params}`)
       const data = await response.json()
-      
+      console.log('Fetched sports facilities data:', data);
       setFacilities(data.facilities || [])
       setTotalFacilities(data.pagination?.total || 0)
       setTotalPages(data.pagination?.totalPages || 1)
@@ -255,12 +255,12 @@ export default function SportsAdmin() {
 
     try {
       const url = editingFacility 
-        ? `${backendURL}/api/sports/${editingFacility._id}`
-        : `${backendURL}/api/sports`
+        ? `/api/sports/${editingFacility._id}`
+        : `/api/sports`
       
       const method = editingFacility ? 'PUT' : 'POST'
       
-      const response = await fetch(url, {
+      const response = await fetchAuthenticatedAPI(url, {
         method,
         headers: {
           'Content-Type': 'application/json',
@@ -282,7 +282,7 @@ export default function SportsAdmin() {
   const handleDelete = async (id: string) => {
     if (confirm('Are you sure you want to delete this sports facility?')) {
       try {
-        const response = await fetchAPI(`/api/sports/${id}`, {
+        const response = await fetchAuthenticatedAPI(`/api/sports/${id}`, {
           method: 'DELETE',
         })
         if (response.ok) {

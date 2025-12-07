@@ -49,7 +49,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
-import { fetchAPI } from '@/lib/backend-api'
+import { fetchAuthenticatedAPI } from '@/lib/backend-api'
 
 interface Subscription {
   _id: string
@@ -114,7 +114,7 @@ export default function SubscriptionsAdmin() {
         status: filterStatus || 'all'
       })
 
-      const response = await fetchAPI(`/api/admin/subscriptions?${params}`)
+      const response = await fetchAuthenticatedAPI(`/api/admin/subscriptions?${params}`)
       const data = await response.json()
       setSubscriptions(data.subscriptions || [])
       setTotalSubscriptions(data.total || 0)
@@ -143,12 +143,12 @@ export default function SubscriptionsAdmin() {
 
     try {
       const url = editingSubscription
-        ? `${backendURL}/api/admin/subscriptions/${editingSubscription._id}`
-        : `${backendURL}/api/admin/subscriptions`
+        ? `/api/admin/subscriptions/${editingSubscription._id}`
+        : `/api/admin/subscriptions`
 
       const method = editingSubscription ? 'PUT' : 'POST'
 
-      const response = await fetch(url, {
+      const response = await fetchAuthenticatedAPI(url, {
         method,
         headers: {
           'Content-Type': 'application/json',
@@ -170,7 +170,7 @@ export default function SubscriptionsAdmin() {
   const handleDelete = async (id: string) => {
     if (confirm('Are you sure you want to delete this subscription?')) {
       try {
-        const response = await fetchAPI(`/api/admin/subscriptions/${id}`, {
+        const response = await fetchAuthenticatedAPI(`/api/admin/subscriptions/${id}`, {
           method: 'DELETE',
         })
         if (response.ok) {
@@ -201,7 +201,7 @@ export default function SubscriptionsAdmin() {
 
   const handleStatusChange = async (id: string, newStatus: string) => {
     try {
-      const response = await fetchAPI(`/api/admin/subscriptions/${id}`, {
+      const response = await fetchAuthenticatedAPI(`/api/admin/subscriptions/${id}`, {
         method: 'PATCH',
         headers: {
           'Content-Type': 'application/json',
