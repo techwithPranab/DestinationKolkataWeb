@@ -1,0 +1,1071 @@
+[
+  {
+    "name": "Balia Balak sangha",
+    "description": "Balia Balak sangha is a sports club providing facilities and training for various sports enthusiasts.",
+    "shortDescription": "",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        88.3976907,
+        22.4629935
+      ]
+    },
+    "address": {
+      "street": "",
+      "area": "",
+      "city": "Kolkata",
+      "state": "West Bengal",
+      "pincode": "",
+      "landmark": ""
+    },
+    "contact": {
+      "phone": [],
+      "email": "",
+      "website": "",
+      "socialMedia": {}
+    },
+    "category": "Sports Clubs",
+    "sport": "multi-sport",
+    "capacity": 500,
+    "facilities": [],
+    "entryFee": {
+      "adult": 200,
+      "child": 100,
+      "senior": 100,
+      "currency": "INR",
+      "isFree": false
+    },
+    "timings": {
+      "monday": {
+        "open": "09:00",
+        "close": "21:00",
+        "closed": false
+      },
+      "tuesday": {
+        "open": "09:00",
+        "close": "21:00",
+        "closed": false
+      },
+      "wednesday": {
+        "open": "09:00",
+        "close": "21:00",
+        "closed": false
+      },
+      "thursday": {
+        "open": "09:00",
+        "close": "21:00",
+        "closed": false
+      },
+      "friday": {
+        "open": "09:00",
+        "close": "21:00",
+        "closed": false
+      },
+      "saturday": {
+        "open": "09:00",
+        "close": "21:00",
+        "closed": false
+      },
+      "sunday": {
+        "open": "09:00",
+        "close": "21:00",
+        "closed": false
+      }
+    },
+    "bestTimeToVisit": "All day with peak hours in evening",
+    "duration": "1-3 hours",
+    "amenities": [],
+    "rating": {
+      "average": 4.3055978638609655,
+      "count": 134
+    },
+    "tags": [],
+    "slug": "balia-balak-sangha-3118239906",
+    "status": "pending",
+    "featured": false,
+    "promoted": false,
+    "osmId": 3118239906,
+    "source": "OpenStreetMap"
+  },
+  {
+    "name": "Baghajatin Abhijan Sangha",
+    "description": "Baghajatin Abhijan Sangha is a sports club providing facilities and training for various sports enthusiasts.",
+    "shortDescription": "",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        88.3872619,
+        22.4833377
+      ]
+    },
+    "address": {
+      "street": "",
+      "area": "",
+      "city": "Kolkata",
+      "state": "West Bengal",
+      "pincode": "700094",
+      "landmark": ""
+    },
+    "contact": {
+      "phone": [],
+      "email": "",
+      "website": "",
+      "socialMedia": {}
+    },
+    "category": "Sports Clubs",
+    "sport": "multi-sport",
+    "capacity": 500,
+    "facilities": [],
+    "entryFee": {
+      "adult": 200,
+      "child": 100,
+      "senior": 100,
+      "currency": "INR",
+      "isFree": false
+    },
+    "timings": {
+      "monday": {
+        "open": "09:00",
+        "close": "21:00",
+        "closed": false
+      },
+      "tuesday": {
+        "open": "09:00",
+        "close": "21:00",
+        "closed": false
+      },
+      "wednesday": {
+        "open": "09:00",
+        "close": "21:00",
+        "closed": false
+      },
+      "thursday": {
+        "open": "09:00",
+        "close": "21:00",
+        "closed": false
+      },
+      "friday": {
+        "open": "09:00",
+        "close": "21:00",
+        "closed": false
+      },
+      "saturday": {
+        "open": "09:00",
+        "close": "21:00",
+        "closed": false
+      },
+      "sunday": {
+        "open": "09:00",
+        "close": "21:00",
+        "closed": false
+      }
+    },
+    "bestTimeToVisit": "All day with peak hours in evening",
+    "duration": "1-3 hours",
+    "amenities": [],
+    "rating": {
+      "average": 3.0846090786138407,
+      "count": 175
+    },
+    "tags": [],
+    "slug": "baghajatin-abhijan-sangha-5586180251",
+    "status": "pending",
+    "featured": false,
+    "promoted": false,
+    "osmId": 5586180251,
+    "source": "OpenStreetMap"
+  },
+  {
+    "name": "Sailen Manna Stadium",
+    "description": "Sailen Manna Stadium is a premier sports stadium in Kolkata, hosting major sporting events and matches.",
+    "shortDescription": "",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        88.3348429,
+        22.5834346
+      ]
+    },
+    "address": {
+      "street": "",
+      "area": "",
+      "city": "Kolkata",
+      "state": "West Bengal",
+      "pincode": "",
+      "landmark": ""
+    },
+    "contact": {
+      "phone": [],
+      "email": "",
+      "website": "",
+      "socialMedia": {}
+    },
+    "category": "Stadium",
+    "sport": "cricket",
+    "capacity": 50000,
+    "facilities": [],
+    "entryFee": {
+      "adult": 100,
+      "child": 50,
+      "senior": 50,
+      "currency": "INR",
+      "isFree": false
+    },
+    "timings": {
+      "monday": {
+        "open": "09:00",
+        "close": "21:00",
+        "closed": false
+      },
+      "tuesday": {
+        "open": "09:00",
+        "close": "21:00",
+        "closed": false
+      },
+      "wednesday": {
+        "open": "09:00",
+        "close": "21:00",
+        "closed": false
+      },
+      "thursday": {
+        "open": "09:00",
+        "close": "21:00",
+        "closed": false
+      },
+      "friday": {
+        "open": "09:00",
+        "close": "21:00",
+        "closed": false
+      },
+      "saturday": {
+        "open": "09:00",
+        "close": "21:00",
+        "closed": false
+      },
+      "sunday": {
+        "open": "09:00",
+        "close": "21:00",
+        "closed": false
+      }
+    },
+    "bestTimeToVisit": "Evening matches, daytime practice",
+    "duration": "2-4 hours",
+    "amenities": [],
+    "rating": {
+      "average": 4.4689301005648305,
+      "count": 18
+    },
+    "tags": [],
+    "slug": "sailen-manna-stadium-6192290971",
+    "status": "pending",
+    "featured": false,
+    "promoted": false,
+    "osmId": 6192290971,
+    "source": "OpenStreetMap"
+  },
+  {
+    "name": "Tollygunge place club",
+    "description": "A club for all the members of locality organising various social events",
+    "shortDescription": "A club for all the members of locality organising various social events",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        88.3471713,
+        22.4998784
+      ]
+    },
+    "address": {
+      "street": "Russa Road south",
+      "area": "",
+      "city": "Kolkata",
+      "state": "West Bengal",
+      "pincode": "",
+      "landmark": ""
+    },
+    "contact": {
+      "phone": [],
+      "email": "",
+      "website": "",
+      "socialMedia": {}
+    },
+    "category": "Sports Clubs",
+    "sport": "multi-sport",
+    "capacity": 500,
+    "facilities": [],
+    "entryFee": {
+      "adult": 200,
+      "child": 100,
+      "senior": 100,
+      "currency": "INR",
+      "isFree": false
+    },
+    "timings": {
+      "monday": {
+        "open": "09:00",
+        "close": "21:00",
+        "closed": false
+      },
+      "tuesday": {
+        "open": "09:00",
+        "close": "21:00",
+        "closed": false
+      },
+      "wednesday": {
+        "open": "09:00",
+        "close": "21:00",
+        "closed": false
+      },
+      "thursday": {
+        "open": "09:00",
+        "close": "21:00",
+        "closed": false
+      },
+      "friday": {
+        "open": "09:00",
+        "close": "21:00",
+        "closed": false
+      },
+      "saturday": {
+        "open": "09:00",
+        "close": "21:00",
+        "closed": false
+      },
+      "sunday": {
+        "open": "09:00",
+        "close": "21:00",
+        "closed": false
+      }
+    },
+    "bestTimeToVisit": "All day with peak hours in evening",
+    "duration": "1-3 hours",
+    "amenities": [],
+    "rating": {
+      "average": 3.858609880079116,
+      "count": 92
+    },
+    "tags": [],
+    "slug": "tollygunge-place-club-6257358519",
+    "status": "pending",
+    "featured": false,
+    "promoted": false,
+    "osmId": 6257358519,
+    "source": "OpenStreetMap"
+  },
+  {
+    "name": "The Bengal Rowing Club",
+    "description": "The Bengal Rowing Club is a sports club providing facilities and training for rowing enthusiasts.",
+    "shortDescription": "",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        88.354965,
+        22.5095612
+      ]
+    },
+    "address": {
+      "street": "",
+      "area": "",
+      "city": "Kolkata",
+      "state": "West Bengal",
+      "pincode": "",
+      "landmark": ""
+    },
+    "contact": {
+      "phone": [],
+      "email": "",
+      "website": "",
+      "socialMedia": {}
+    },
+    "category": "Sports Clubs",
+    "sport": "rowing",
+    "capacity": 500,
+    "facilities": [
+      "rowing"
+    ],
+    "entryFee": {
+      "adult": 200,
+      "child": 100,
+      "senior": 100,
+      "currency": "INR",
+      "isFree": false
+    },
+    "timings": {
+      "monday": {
+        "open": "09:00",
+        "close": "21:00",
+        "closed": false
+      },
+      "tuesday": {
+        "open": "09:00",
+        "close": "21:00",
+        "closed": false
+      },
+      "wednesday": {
+        "open": "09:00",
+        "close": "21:00",
+        "closed": false
+      },
+      "thursday": {
+        "open": "09:00",
+        "close": "21:00",
+        "closed": false
+      },
+      "friday": {
+        "open": "09:00",
+        "close": "21:00",
+        "closed": false
+      },
+      "saturday": {
+        "open": "09:00",
+        "close": "21:00",
+        "closed": false
+      },
+      "sunday": {
+        "open": "09:00",
+        "close": "21:00",
+        "closed": false
+      }
+    },
+    "bestTimeToVisit": "All day with peak hours in evening",
+    "duration": "1-3 hours",
+    "amenities": [],
+    "rating": {
+      "average": 4.877086154657288,
+      "count": 140
+    },
+    "tags": [
+      "social_center"
+    ],
+    "slug": "the-bengal-rowing-club-6439695295",
+    "status": "pending",
+    "featured": false,
+    "promoted": false,
+    "osmId": 6439695295,
+    "source": "OpenStreetMap"
+  },
+  {
+    "name": "Pandit Battala Park",
+    "description": "Pandit Battala Park is a well-maintained sports ground perfect for various sports and recreational activities.",
+    "shortDescription": "",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        88.4419933,
+        22.6107308
+      ]
+    },
+    "address": {
+      "street": "",
+      "area": "",
+      "city": "Kolkata",
+      "state": "West Bengal",
+      "pincode": "",
+      "landmark": ""
+    },
+    "contact": {
+      "phone": [],
+      "email": "",
+      "website": "",
+      "socialMedia": {}
+    },
+    "category": "Sports Grounds",
+    "sport": "football",
+    "capacity": 1000,
+    "facilities": [],
+    "entryFee": {
+      "adult": 20,
+      "child": 10,
+      "senior": 10,
+      "currency": "INR",
+      "isFree": false
+    },
+    "timings": {
+      "monday": {
+        "open": "09:00",
+        "close": "21:00",
+        "closed": false
+      },
+      "tuesday": {
+        "open": "09:00",
+        "close": "21:00",
+        "closed": false
+      },
+      "wednesday": {
+        "open": "09:00",
+        "close": "21:00",
+        "closed": false
+      },
+      "thursday": {
+        "open": "09:00",
+        "close": "21:00",
+        "closed": false
+      },
+      "friday": {
+        "open": "09:00",
+        "close": "21:00",
+        "closed": false
+      },
+      "saturday": {
+        "open": "09:00",
+        "close": "21:00",
+        "closed": false
+      },
+      "sunday": {
+        "open": "09:00",
+        "close": "21:00",
+        "closed": false
+      }
+    },
+    "bestTimeToVisit": "Morning and evening",
+    "duration": "1-2 hours",
+    "amenities": [],
+    "rating": {
+      "average": 3.0030287120533252,
+      "count": 191
+    },
+    "tags": [],
+    "slug": "pandit-battala-park-9052581317",
+    "status": "pending",
+    "featured": false,
+    "promoted": false,
+    "osmId": 9052581317,
+    "source": "OpenStreetMap"
+  },
+  {
+    "name": "Ariadaha Sporting Club",
+    "description": "Ariadaha Sporting Club is a sports club providing facilities and training for various sports enthusiasts.",
+    "shortDescription": "",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        88.3672186,
+        22.6674339
+      ]
+    },
+    "address": {
+      "street": "",
+      "area": "",
+      "city": "Kolkata",
+      "state": "West Bengal",
+      "pincode": "",
+      "landmark": ""
+    },
+    "contact": {
+      "phone": [],
+      "email": "",
+      "website": "",
+      "socialMedia": {}
+    },
+    "category": "Sports Clubs",
+    "sport": "multi-sport",
+    "capacity": 500,
+    "facilities": [],
+    "entryFee": {
+      "adult": 200,
+      "child": 100,
+      "senior": 100,
+      "currency": "INR",
+      "isFree": false
+    },
+    "timings": {
+      "monday": {
+        "open": "09:00",
+        "close": "21:00",
+        "closed": false
+      },
+      "tuesday": {
+        "open": "09:00",
+        "close": "21:00",
+        "closed": false
+      },
+      "wednesday": {
+        "open": "09:00",
+        "close": "21:00",
+        "closed": false
+      },
+      "thursday": {
+        "open": "09:00",
+        "close": "21:00",
+        "closed": false
+      },
+      "friday": {
+        "open": "09:00",
+        "close": "21:00",
+        "closed": false
+      },
+      "saturday": {
+        "open": "09:00",
+        "close": "21:00",
+        "closed": false
+      },
+      "sunday": {
+        "open": "09:00",
+        "close": "21:00",
+        "closed": false
+      }
+    },
+    "bestTimeToVisit": "All day with peak hours in evening",
+    "duration": "1-3 hours",
+    "amenities": [],
+    "rating": {
+      "average": 3.53678630897621,
+      "count": 68
+    },
+    "tags": [],
+    "slug": "ariadaha-sporting-club-11263321979",
+    "status": "pending",
+    "featured": false,
+    "promoted": false,
+    "osmId": 11263321979,
+    "source": "OpenStreetMap"
+  },
+  {
+    "name": "Ganguly Bagan Athletic Club Ground",
+    "description": "Ganguly Bagan Athletic Club Ground is a sports club providing facilities and training for various sports enthusiasts.",
+    "shortDescription": "",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        88.3760074,
+        22.4754003
+      ]
+    },
+    "address": {
+      "street": "",
+      "area": "",
+      "city": "Kolkata",
+      "state": "West Bengal",
+      "pincode": "",
+      "landmark": ""
+    },
+    "contact": {
+      "phone": [],
+      "email": "",
+      "website": "",
+      "socialMedia": {}
+    },
+    "category": "Sports Clubs",
+    "sport": "multi-sport",
+    "capacity": 500,
+    "facilities": [],
+    "entryFee": {
+      "adult": 200,
+      "child": 100,
+      "senior": 100,
+      "currency": "INR",
+      "isFree": false
+    },
+    "timings": {
+      "monday": {
+        "open": "09:00",
+        "close": "21:00",
+        "closed": false
+      },
+      "tuesday": {
+        "open": "09:00",
+        "close": "21:00",
+        "closed": false
+      },
+      "wednesday": {
+        "open": "09:00",
+        "close": "21:00",
+        "closed": false
+      },
+      "thursday": {
+        "open": "09:00",
+        "close": "21:00",
+        "closed": false
+      },
+      "friday": {
+        "open": "09:00",
+        "close": "21:00",
+        "closed": false
+      },
+      "saturday": {
+        "open": "09:00",
+        "close": "21:00",
+        "closed": false
+      },
+      "sunday": {
+        "open": "09:00",
+        "close": "21:00",
+        "closed": false
+      }
+    },
+    "bestTimeToVisit": "All day with peak hours in evening",
+    "duration": "1-3 hours",
+    "amenities": [],
+    "rating": {
+      "average": 3.210863371829635,
+      "count": 168
+    },
+    "tags": [],
+    "slug": "ganguly-bagan-athletic-club-ground-11300199636",
+    "status": "pending",
+    "featured": false,
+    "promoted": false,
+    "osmId": 11300199636,
+    "source": "OpenStreetMap"
+  },
+  {
+    "name": "United Club",
+    "description": "United Club is a sports club providing facilities and training for various sports enthusiasts.",
+    "shortDescription": "",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        88.3910653,
+        22.5912141
+      ]
+    },
+    "address": {
+      "street": "Ultadanga Main Rd",
+      "area": "Kolkata",
+      "city": "Kolkata",
+      "state": "West Bengal",
+      "pincode": "700067",
+      "landmark": ""
+    },
+    "contact": {
+      "phone": [],
+      "email": "",
+      "website": "",
+      "socialMedia": {}
+    },
+    "category": "Sports Clubs",
+    "sport": "multi-sport",
+    "capacity": 500,
+    "facilities": [],
+    "entryFee": {
+      "adult": 200,
+      "child": 100,
+      "senior": 100,
+      "currency": "INR",
+      "isFree": false
+    },
+    "timings": {
+      "monday": {
+        "open": "09:00",
+        "close": "21:00",
+        "closed": false
+      },
+      "tuesday": {
+        "open": "09:00",
+        "close": "21:00",
+        "closed": false
+      },
+      "wednesday": {
+        "open": "09:00",
+        "close": "21:00",
+        "closed": false
+      },
+      "thursday": {
+        "open": "09:00",
+        "close": "21:00",
+        "closed": false
+      },
+      "friday": {
+        "open": "09:00",
+        "close": "21:00",
+        "closed": false
+      },
+      "saturday": {
+        "open": "09:00",
+        "close": "21:00",
+        "closed": false
+      },
+      "sunday": {
+        "open": "09:00",
+        "close": "21:00",
+        "closed": false
+      }
+    },
+    "bestTimeToVisit": "All day with peak hours in evening",
+    "duration": "1-3 hours",
+    "amenities": [],
+    "rating": {
+      "average": 4.550965806942841,
+      "count": 19
+    },
+    "tags": [
+      "Kolkata"
+    ],
+    "slug": "united-club-11365834323",
+    "status": "pending",
+    "featured": false,
+    "promoted": false,
+    "osmId": 11365834323,
+    "source": "OpenStreetMap"
+  },
+  {
+    "name": "Badminton Court",
+    "description": "Badminton Court is a well-maintained sports ground perfect for badminton and recreational activities.",
+    "shortDescription": "",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        88.4060811,
+        22.6179524
+      ]
+    },
+    "address": {
+      "street": "",
+      "area": "",
+      "city": "Kolkata",
+      "state": "West Bengal",
+      "pincode": "",
+      "landmark": ""
+    },
+    "contact": {
+      "phone": [],
+      "email": "",
+      "website": "",
+      "socialMedia": {}
+    },
+    "category": "Sports Grounds",
+    "sport": "badminton",
+    "capacity": 1000,
+    "facilities": [
+      "badminton",
+      "concrete surface"
+    ],
+    "entryFee": {
+      "adult": 20,
+      "child": 10,
+      "senior": 10,
+      "currency": "INR",
+      "isFree": false
+    },
+    "timings": {
+      "monday": {
+        "open": "09:00",
+        "close": "21:00",
+        "closed": false
+      },
+      "tuesday": {
+        "open": "09:00",
+        "close": "21:00",
+        "closed": false
+      },
+      "wednesday": {
+        "open": "09:00",
+        "close": "21:00",
+        "closed": false
+      },
+      "thursday": {
+        "open": "09:00",
+        "close": "21:00",
+        "closed": false
+      },
+      "friday": {
+        "open": "09:00",
+        "close": "21:00",
+        "closed": false
+      },
+      "saturday": {
+        "open": "09:00",
+        "close": "21:00",
+        "closed": false
+      },
+      "sunday": {
+        "open": "09:00",
+        "close": "21:00",
+        "closed": false
+      }
+    },
+    "bestTimeToVisit": "Morning and evening",
+    "duration": "1-2 hours",
+    "amenities": [],
+    "rating": {
+      "average": 4.347024531535345,
+      "count": 123
+    },
+    "tags": [],
+    "slug": "badminton-court-11494579590",
+    "status": "pending",
+    "featured": false,
+    "promoted": false,
+    "osmId": 11494579590,
+    "source": "OpenStreetMap"
+  },
+  {
+    "name": "National Swimming Association",
+    "description": "National Swimming Association is a sports club providing facilities and training for swimming;water_polo enthusiasts.",
+    "shortDescription": "",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        88.3693453,
+        22.5884083
+      ]
+    },
+    "address": {
+      "street": "",
+      "area": "",
+      "city": "Kolkata",
+      "state": "West Bengal",
+      "pincode": "",
+      "landmark": ""
+    },
+    "contact": {
+      "phone": [],
+      "email": "",
+      "website": "",
+      "socialMedia": {}
+    },
+    "category": "Sports Clubs",
+    "sport": "swimming;water_polo",
+    "capacity": 500,
+    "facilities": [
+      "swimming;water_polo"
+    ],
+    "entryFee": {
+      "adult": 200,
+      "child": 100,
+      "senior": 100,
+      "currency": "INR",
+      "isFree": false
+    },
+    "timings": {
+      "monday": {
+        "open": "09:00",
+        "close": "21:00",
+        "closed": false
+      },
+      "tuesday": {
+        "open": "09:00",
+        "close": "21:00",
+        "closed": false
+      },
+      "wednesday": {
+        "open": "09:00",
+        "close": "21:00",
+        "closed": false
+      },
+      "thursday": {
+        "open": "09:00",
+        "close": "21:00",
+        "closed": false
+      },
+      "friday": {
+        "open": "09:00",
+        "close": "21:00",
+        "closed": false
+      },
+      "saturday": {
+        "open": "09:00",
+        "close": "21:00",
+        "closed": false
+      },
+      "sunday": {
+        "open": "09:00",
+        "close": "21:00",
+        "closed": false
+      }
+    },
+    "bestTimeToVisit": "All day with peak hours in evening",
+    "duration": "1-3 hours",
+    "amenities": [],
+    "rating": {
+      "average": 3.9756081718638328,
+      "count": 84
+    },
+    "tags": [],
+    "slug": "national-swimming-association-12254643617",
+    "status": "pending",
+    "featured": false,
+    "promoted": false,
+    "osmId": 12254643617,
+    "source": "OpenStreetMap"
+  },
+  {
+    "name": "Central Swimming Club",
+    "description": "Central Swimming Club is a sports club providing facilities and training for swimming;water_polo enthusiasts.",
+    "shortDescription": "",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        88.3689013,
+        22.5873786
+      ]
+    },
+    "address": {
+      "street": "",
+      "area": "",
+      "city": "Kolkata",
+      "state": "West Bengal",
+      "pincode": "",
+      "landmark": ""
+    },
+    "contact": {
+      "phone": [],
+      "email": "",
+      "website": "",
+      "socialMedia": {}
+    },
+    "category": "Sports Clubs",
+    "sport": "swimming;water_polo",
+    "capacity": 500,
+    "facilities": [
+      "swimming;water_polo"
+    ],
+    "entryFee": {
+      "adult": 200,
+      "child": 100,
+      "senior": 100,
+      "currency": "INR",
+      "isFree": false
+    },
+    "timings": {
+      "monday": {
+        "open": "09:00",
+        "close": "21:00",
+        "closed": false
+      },
+      "tuesday": {
+        "open": "09:00",
+        "close": "21:00",
+        "closed": false
+      },
+      "wednesday": {
+        "open": "09:00",
+        "close": "21:00",
+        "closed": false
+      },
+      "thursday": {
+        "open": "09:00",
+        "close": "21:00",
+        "closed": false
+      },
+      "friday": {
+        "open": "09:00",
+        "close": "21:00",
+        "closed": false
+      },
+      "saturday": {
+        "open": "09:00",
+        "close": "21:00",
+        "closed": false
+      },
+      "sunday": {
+        "open": "09:00",
+        "close": "21:00",
+        "closed": false
+      }
+    },
+    "bestTimeToVisit": "All day with peak hours in evening",
+    "duration": "1-3 hours",
+    "amenities": [],
+    "rating": {
+      "average": 3.0962188685077217,
+      "count": 37
+    },
+    "tags": [],
+    "slug": "central-swimming-club-12254643618",
+    "status": "pending",
+    "featured": false,
+    "promoted": false,
+    "osmId": 12254643618,
+    "source": "OpenStreetMap"
+  }
+]
