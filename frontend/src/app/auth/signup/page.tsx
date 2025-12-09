@@ -64,8 +64,8 @@ export default function SignupPage() {
       return false
     }
 
-    if (!formData.password || formData.password.length < 6) {
-      setError('Password must be at least 6 characters')
+    if (!formData.password || formData.password.length < 8) {
+      setError('Password must be at least 8 characters')
       return false
     }
 
@@ -97,8 +97,7 @@ export default function SignupPage() {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          firstName: formData.firstName,
-          lastName: formData.lastName,
+          name: `${formData.firstName} ${formData.lastName}`.trim(),
           email: formData.email,
           phone: formData.phone,
           password: formData.password,

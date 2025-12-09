@@ -53,23 +53,36 @@ export default function CustomerDashboard() {
   const [submissions, setSubmissions] = useState<Submission[]>([])
   const [loading, setLoading] = useState(true)
 
+  console.log('CustomerDashboard rendered with:', { 
+    user, 
+    session, 
+    hasApi: !!api,
+    loading
+  })
+
   // Get user info from either AuthContext (form login) or NextAuth session (OAuth)
   const displayName = user?.firstName || session?.user?.name?.split(' ')[0] || 'User'
 
   useEffect(() => {
+    console.log('Dashboard useEffect triggered')
     fetchDashboardData()
   }, [])
 
   const fetchDashboardData = async () => {
+    console.log('fetchDashboardData called')
     try {
+      console.log('Making API calls...')
       const [statsResult, submissionsResult] = await Promise.all([
         api.get<UserStats>('/api/customer/stats'),
         api.get<{ submissions: Submission[] }>('/api/customer/submissions')
       ])
 
+      console.log('API Results:', { statsResult, submissionsResult })
+
       if (statsResult.error) {
         console.error('Stats API Error:', statsResult.error)
       } else {
+        console.log('Setting stats:', statsResult.data)
         setStats(statsResult.data as UserStats)
       }
 
@@ -77,11 +90,13 @@ export default function CustomerDashboard() {
         console.error('Submissions API Error:', submissionsResult.error)
       } else {
         const submissionsData = submissionsResult.data as { submissions?: Submission[] } | undefined
+        console.log('Setting submissions:', submissionsData?.submissions)
         setSubmissions(submissionsData?.submissions || [])
       }
     } catch (error) {
       console.error('Error fetching dashboard data:', error)
     } finally {
+      console.log('Setting loading to false')
       setLoading(false)
     }
   }

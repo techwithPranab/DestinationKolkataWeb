@@ -52,7 +52,7 @@ router.post('/login', async (req: Request, res: Response) => {
       { 
         userId: user._id,
         email: user.email,
-        role: user.role || 'user',
+        role: user.role || 'customer',
         name: user.name
       },
       process.env.JWT_SECRET!,
@@ -153,7 +153,7 @@ router.post('/signup', async (req: Request, res: Response) => {
       email,
       password: hashedPassword,
       phone: phone || '',
-      role: 'user',
+      role: 'customer',
       status: 'active',
       emailVerified: false,
       createdAt: new Date(),
@@ -176,7 +176,7 @@ router.post('/signup', async (req: Request, res: Response) => {
       { 
         userId: result.insertedId,
         email,
-        role: 'user',
+        role: 'customer',
         name
       },
       process.env.JWT_SECRET!,

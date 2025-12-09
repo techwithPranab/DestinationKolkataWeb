@@ -82,16 +82,22 @@ function LoginForm() {
       })
 
       const result = await response.json()
+      console.log('Login response received:', result)
 
       if (!response.ok) {
         throw new Error(result.message || 'Login failed')
       }
 
+      console.log('Login successful, calling AuthContext login with:', {
+        user: result.data.user,
+        hasToken: !!result.data.token
+      })
+
       // Update auth context
-      login(result.user, result.token)
+      login(result.data.user, result.data.token)
 
       // Redirect based on user role
-      if (result.user.role === 'admin') {
+      if (result.data.user.role === 'admin') {
         router.push('/admin')
       } else {
         router.push('/customer/dashboard')

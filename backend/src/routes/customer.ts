@@ -251,20 +251,27 @@ router.get('/stats', authenticateToken, async (req: Request, res: Response) => {
     const userObjectId = new ObjectId(userId);
 
     // Get various stats
-    const [reviewCount, favoriteCount, bookingCount, listingCount] = await Promise.all([
-      db.collection('reviews').countDocuments({ 'customer.userId': userObjectId }),
-      db.collection('favorites').countDocuments({ userId: userObjectId }),
-      db.collection('bookings').countDocuments({ customerId: userObjectId }),
-      db.collection('listings').countDocuments({ userId: userObjectId })
+    const [totalSubmissions, approvedSubmissions, pendingSubmissions, rejectedSubmissions, totalViews] = await Promise.all([
+      db.collection('submissions').countDocuments({ userId: userObjectId }),
+      db.collection('submissions').countDocuments({ userId: userObjectId, status: 'approved' }),
+      db.collection('submissions').countDocuments({ userId: userObjectId, status: 'pending' }),
+      db.collection('submissions').countDocuments({ userId: userObjectId, status: 'rejected' }),
+      db.collection('submissions').aggregate([
+        { $match: { userId: userObjectId } },
+        { $group: { _id: null, totalViews: { $sum: { $ifNull: ["$views", 0] } } } }
+      ]).toArray().then(result => result[0]?.totalViews || 0)
     ]);
 
     res.status(200).json({
       success: true,
       data: {
-        reviewCount,
-        favoriteCount,
-        bookingCount,
-        listingCount
+        totalSubmissions,
+        approvedSubmissions,
+        pendingSubmissions,
+        rejectedSubmissions,
+        totalViews,
+        membershipType: 'free',
+        membershipExpiry: null
       }
     });
   } catch (error) {
@@ -375,6 +382,66 @@ router.delete('/account', authenticateToken, async (req: Request, res: Response)
     res.status(500).json({
       success: false,
       message: 'Failed to delete account'
+    });
+  }
+});
+
+// GET - Get customer submissions
+router.get('/submissions', authenticateToken, async (req: Request, res: Response) => {
+  try {
+    const { db } = await connectToDatabase();
+    const userId = (req as any).user?.userId;
+    const { limit = 10, skip = 0 } = req.query;
+
+    if (!userId) {
+      return res.status(401).json({
+        success: false,
+        message: 'Unauthorized'
+      });
+    }
+
+    const userObjectId = new ObjectId(userId);
+
+    // Fetch submissions
+    const submissions = await db
+      .collection('submissions')
+      .find({ userId: userObjectId })
+      .sort({ createdAt: -1 })
+      .limit(Number(limit))
+      .skip(Number(skip))
+      .toArray();
+
+    const totalCount = await db
+      .collection('submissions')
+      .countDocuments({ userId: userObjectId });
+
+    res.status(200).json({
+      success: true,
+      data: {
+        submissions: submissions.map(sub => ({
+          id: sub._id.toString(),
+          type: sub.type || 'hotel',
+          title: sub.title || sub.name || 'Untitled',
+          status: sub.status || 'pending',
+          createdAt: sub.createdAt || new Date(),
+          views: sub.views || 0,
+          adminNotes: sub.adminNotes || null
+        }))
+      },
+      pagination: {
+        total: totalCount,
+        limit: Number(limit),
+        skip: Number(skip)
+      }
+    });
+  } catch (error) {
+    console.error('Get customer submissions error:', error);
+    res.status(500).json({
+      success: true,
+      data: {
+        submissions: []
+      },
+      message: 'Failed to fetch submissions'
     });
   }
 });

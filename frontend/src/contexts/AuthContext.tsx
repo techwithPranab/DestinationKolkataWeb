@@ -10,7 +10,7 @@ interface User {
   name?: string
   firstName?: string
   lastName?: string
-  role: 'admin' | 'moderator' | 'customer'
+  role: 'admin' | 'moderator' | 'customer' | 'user'
   phone?: string
   businessName?: string
   businessType?: string
@@ -85,20 +85,26 @@ export function AuthProvider({ children }: AuthProviderProps) {
   }, [session, status])
 
   const login = (user: User, token: string) => {
+    console.log('AuthContext login called with:', { user, token: !!token })
+    
     // Store authentication data first
     if (user.role === 'admin' || user.role === 'moderator') {
       localStorage.setItem('adminToken', token)
       localStorage.setItem('adminUser', JSON.stringify(user))
+      console.log('Stored admin credentials')
     } else {
       localStorage.setItem('authToken', token)
       localStorage.setItem('authUser', JSON.stringify(user))
+      console.log('Stored customer credentials')
     }
 
     // Update state
     setUser(user)
+    console.log('User state updated in AuthContext')
     
     // Navigate after a brief delay to ensure state propagation
     const targetPath = (user.role === 'admin' || user.role === 'moderator') ? '/admin' : '/customer/dashboard'
+    console.log('Navigating to:', targetPath)
     
     setTimeout(() => {
       router.push(targetPath)

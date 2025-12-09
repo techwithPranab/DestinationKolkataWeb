@@ -24,11 +24,11 @@ class ApiClient {
 
   private getAuthToken(): string | null {
     // Try different token storage locations
-    return (
-      localStorage.getItem('authToken') ||
-      localStorage.getItem('adminToken') ||
-      null
-    )
+    const authToken = localStorage.getItem('authToken')
+    const adminToken = localStorage.getItem('adminToken')
+    const token = authToken || adminToken || null
+    console.log('getAuthToken:', { authToken: !!authToken, adminToken: !!adminToken, hasToken: !!token })
+    return token
   }
 
   private async refreshTokenIfNeeded(): Promise<boolean> {

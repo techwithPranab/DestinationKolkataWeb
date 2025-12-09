@@ -18,45 +18,71 @@ export default function CustomerLayout({ children }: CustomerLayoutProps) {
   const [authChecked, setAuthChecked] = useState(false)
 
   useEffect(() => {
+    console.log('Customer Layout - Auth Check:', {
+      status,
+      isLoading,
+      hasSession: !!session,
+      hasUser: !!user,
+      userRole: user?.role,
+      authChecked
+    })
+
     // Don't check authentication until both contexts are loaded
     if (status === 'loading' || isLoading) {
+      console.log('Still loading auth contexts...')
       return
     }
 
-    // Mark that we've checked authentication
-    setAuthChecked(true)
-    
-    // Check if user is authenticated via NextAuth session (OAuth)
-    if (session && status === 'authenticated') {
-      return
-    }
-    
-    // Check if user is authenticated via AuthContext (form login)
-    if (user?.role === 'customer') {
-      return
-    }
-    
-    // Check localStorage as backup
-    const token = localStorage.getItem('authToken')
-    const userData = localStorage.getItem('authUser')
-    
-    if (token && userData) {
-      try {
-        const parsedUser = JSON.parse(userData)
-        if (parsedUser.role === 'customer') {
-          return // Valid customer in localStorage
-        }
-      } catch (error) {
-        console.error('Error parsing user data:', error)
+    // Add a small delay to allow state to propagate after login
+    const checkAuthTimeout = setTimeout(() => {
+      console.log('Timeout expired, performing auth check...')
+      
+      // Check if user is authenticated via NextAuth session (OAuth)
+      if (session && status === 'authenticated') {
+        console.log('Authenticated via NextAuth session')
+        setAuthChecked(true)
+        return
       }
-    }
-    
-    // No valid authentication found
-    router.push('/auth/login')
+      
+      // Check if user is authenticated via AuthContext (form login)
+      if (user?.role === 'customer' || user?.role === 'user') {
+        console.log('Authenticated via AuthContext as customer/user')
+        setAuthChecked(true)
+        return
+      }
+      
+      // Check localStorage as backup
+      const token = localStorage.getItem('authToken')
+      const userData = localStorage.getItem('authUser')
+      
+      console.log('LocalStorage check:', { hasToken: !!token, hasUserData: !!userData })
+      
+      if (token && userData) {
+        try {
+          const parsedUser = JSON.parse(userData as string)
+          console.log('Parsed user from localStorage:', parsedUser)
+          if (parsedUser.role === 'customer' || parsedUser.role === 'user') {
+            console.log('Valid customer/user found in localStorage')
+            setAuthChecked(true)
+            return
+          }
+        } catch (error) {
+          console.error('Error parsing user data:', error)
+        }
+      }
+      
+      // No valid authentication found
+      console.log('No valid authentication found, redirecting to login')
+      setAuthChecked(true)
+      router.push('/auth/login')
+    }, 200)
+
+    return () => clearTimeout(checkAuthTimeout)
   }, [user, isLoading, session, status, router])
 
   // Show loading until authentication is checked
   if (status === 'loading' || isLoading || !authChecked) {
+    console.log('Showing loading spinner...')
     return (
       <div className="min-h-screen bg-gray-50 flex items-center justify-center">
         <div className="text-center">
@@ -89,7 +115,7 @@ export default function CustomerLayout({ children }: CustomerLayoutProps) {
   }
 
   // Allow access if authenticated via AuthContext (form login)
-  if (user && user.role === 'customer') {
+  if (user && (user.role === 'customer' || user.role === 'user')) {
     return (
       <NotificationProvider>
         <div className="min-h-screen bg-gray-50 flex">
@@ -110,5 +136,12 @@ export default function CustomerLayout({ children }: CustomerLayoutProps) {
   }
 
   // Not authenticated
-  return null
+  console.log('Not authenticated - should redirect')
+  return (
+    <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+      <div className="text-center">
+        <p className="text-gray-600">Redirecting to login...</p>
+      </div>
+    </div>
+  )
 }
