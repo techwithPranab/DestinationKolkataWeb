@@ -28,7 +28,8 @@ import {
   MessageCircle,
   Cog,
   Database,
-  Shield
+  Shield,
+  UserCheck
 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { useAuth } from '@/contexts/AuthContext'
@@ -110,16 +111,22 @@ const navigation = [
         description: 'User management'
       },
       {
-        name: 'Subscriptions',
-        href: '/admin/subscriptions',
-        icon: CreditCard,
-        description: 'Subscription management'
+        name: 'Assignments',
+        href: '/admin/assignments',
+        icon: UserCheck,
+        description: 'Assign submissions to customers'
       },
       {
         name: 'Approvals',
         href: '/admin/approvals',
         icon: CheckCircle,
         description: 'Review and approve submissions'
+      },
+      {
+        name: 'Subscriptions',
+        href: '/admin/subscriptions',
+        icon: CreditCard,
+        description: 'Subscription management'
       }
     ]
   },

@@ -210,7 +210,7 @@ class DataIngestionService {
           checkInTime: '14:00',
           checkOutTime: '12:00',
           tags: this.extractTags(tags),
-          status: 'active',
+          status: 'pending',
           featured: Math.random() > 0.8,
           promoted: Math.random() > 0.9,
           osmId: element.id,
@@ -264,7 +264,7 @@ class DataIngestionService {
           reservationRequired: Math.random() > 0.7,
           avgMealCost: this.estimatePrice(tags.amenity, 'avg'),
           tags: this.extractTags(tags),
-          status: 'active',
+          status: 'pending',
           featured: Math.random() > 0.8,
           promoted: Math.random() > 0.9,
           osmId: element.id,
@@ -329,7 +329,7 @@ class DataIngestionService {
             count: Math.floor(Math.random() * 500) + 20
           },
           tags: this.extractTags(tags),
-          status: 'active',
+          status: 'pending',
           featured: Math.random() > 0.8,
           promoted: Math.random() > 0.9,
           osmId: element.id,
@@ -386,7 +386,7 @@ class DataIngestionService {
             count: Math.floor(Math.random() * 200) + 10
           },
           tags: this.extractTags(tags),
-          status: 'active',
+          status: 'pending',
           featured: Math.random() > 0.7,
           promoted: Math.random() > 0.8,
           osmId: element.id,
@@ -819,7 +819,7 @@ class DataIngestionService {
         },
         isRecurring: true,
         recurrencePattern: 'Annual',
-        status: 'active',
+        status: 'pending',
         featured: true,
         promoted: true
       },
@@ -857,7 +857,7 @@ class DataIngestionService {
           capacity: 66000,
           type: 'Outdoor'
         },
-        status: 'active',
+        status: 'pending',
         featured: true
       }
     ]

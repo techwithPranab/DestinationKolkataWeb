@@ -53,15 +53,16 @@ export default function CustomerDashboard() {
   const [submissions, setSubmissions] = useState<Submission[]>([])
   const [loading, setLoading] = useState(true)
 
+  // Get user info from either AuthContext (form login) or NextAuth session (OAuth)
+  const displayName = user?.firstName || user?.name?.split(' ')[0] || session?.user?.name?.split(' ')[0] || user?.email?.split('@')[0] || 'User'
+
   console.log('CustomerDashboard rendered with:', { 
     user, 
     session, 
     hasApi: !!api,
-    loading
+    loading,
+    displayName
   })
-
-  // Get user info from either AuthContext (form login) or NextAuth session (OAuth)
-  const displayName = user?.firstName || session?.user?.name?.split(' ')[0] || 'User'
 
   useEffect(() => {
     console.log('Dashboard useEffect triggered')

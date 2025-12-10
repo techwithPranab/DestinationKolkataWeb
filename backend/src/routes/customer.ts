@@ -5,6 +5,18 @@ import { authenticateToken } from '../middleware/auth';
 
 const router = Router();
 
+// Helper function to check if user has customer access
+const requireCustomerAccess = (req: Request, res: Response, next: any) => {
+  const userRole = (req as any).user?.role;
+  if (!['customer', 'user'].includes(userRole)) {
+    return res.status(403).json({
+      success: false,
+      message: 'Access denied. Customer access required.'
+    });
+  }
+  next();
+};
+
 interface CustomerProfile {
   userId: ObjectId;
   phone: string;
@@ -33,7 +45,7 @@ interface CustomerProfile {
 }
 
 // GET - Get customer profile
-router.get('/profile', authenticateToken, async (req: Request, res: Response) => {
+router.get('/profile', authenticateToken, requireCustomerAccess, async (req: Request, res: Response) => {
   try {
     const { db } = await connectToDatabase();
     const userId = (req as any).user?.userId;
@@ -70,7 +82,7 @@ router.get('/profile', authenticateToken, async (req: Request, res: Response) =>
 });
 
 // GET - Get customer preferences
-router.get('/preferences', authenticateToken, async (req: Request, res: Response) => {
+router.get('/preferences', authenticateToken, requireCustomerAccess, async (req: Request, res: Response) => {
   try {
     const { db } = await connectToDatabase();
     const userId = (req as any).user?.userId;
@@ -110,7 +122,7 @@ router.get('/preferences', authenticateToken, async (req: Request, res: Response
 });
 
 // PUT - Update customer profile
-router.put('/profile', authenticateToken, async (req: Request, res: Response) => {
+router.put('/profile', authenticateToken, requireCustomerAccess, async (req: Request, res: Response) => {
   try {
     const { db } = await connectToDatabase();
     const userId = (req as any).user?.userId;
@@ -163,7 +175,7 @@ router.put('/profile', authenticateToken, async (req: Request, res: Response) =>
 });
 
 // PUT - Update customer preferences
-router.put('/preferences', authenticateToken, async (req: Request, res: Response) => {
+router.put('/preferences', authenticateToken, requireCustomerAccess, async (req: Request, res: Response) => {
   try {
     const { db } = await connectToDatabase();
     const userId = (req as any).user?.userId;
@@ -236,7 +248,7 @@ router.put('/preferences', authenticateToken, async (req: Request, res: Response
 });
 
 // GET - Get customer statistics
-router.get('/stats', authenticateToken, async (req: Request, res: Response) => {
+router.get('/stats', authenticateToken, requireCustomerAccess, async (req: Request, res: Response) => {
   try {
     const { db } = await connectToDatabase();
     const userId = (req as any).user?.userId;
@@ -284,7 +296,7 @@ router.get('/stats', authenticateToken, async (req: Request, res: Response) => {
 });
 
 // GET - Get customer activity log
-router.get('/activity-log', authenticateToken, async (req: Request, res: Response) => {
+router.get('/activity-log', authenticateToken, requireCustomerAccess, async (req: Request, res: Response) => {
   try {
     const { db } = await connectToDatabase();
     const userId = (req as any).user?.userId;
@@ -331,7 +343,7 @@ router.get('/activity-log', authenticateToken, async (req: Request, res: Respons
 });
 
 // DELETE - Delete customer account (soft delete)
-router.delete('/account', authenticateToken, async (req: Request, res: Response) => {
+router.delete('/account', authenticateToken, requireCustomerAccess, async (req: Request, res: Response) => {
   try {
     const { db } = await connectToDatabase();
     const userId = (req as any).user?.userId;
@@ -387,7 +399,7 @@ router.delete('/account', authenticateToken, async (req: Request, res: Response)
 });
 
 // GET - Get customer submissions
-router.get('/submissions', authenticateToken, async (req: Request, res: Response) => {
+router.get('/submissions', authenticateToken, requireCustomerAccess, async (req: Request, res: Response) => {
   try {
     const { db } = await connectToDatabase();
     const userId = (req as any).user?.userId;
@@ -446,4 +458,389 @@ router.get('/submissions', authenticateToken, async (req: Request, res: Response
   }
 });
 
+// GET - Get customer favorites
+router.get('/favorites', authenticateToken, requireCustomerAccess, async (req: Request, res: Response) => {
+  try {
+    const { db } = await connectToDatabase();
+    const userId = (req as any).user?.userId;
+
+    if (!userId) {
+      return res.status(401).json({
+        success: false,
+        message: 'Unauthorized'
+      });
+    }
+
+    const userObjectId = new ObjectId(userId);
+
+    // Fetch user favorites
+    const favorites = await db
+      .collection('favorites')
+      .find({ userId: userObjectId })
+      .sort({ createdAt: -1 })
+      .toArray();
+
+    res.status(200).json({
+      success: true,
+      data: {
+        favorites: favorites.map(fav => ({
+          id: fav._id.toString(),
+          type: fav.type,
+          itemId: fav.itemId,
+          createdAt: fav.createdAt || new Date()
+        }))
+      }
+    });
+  } catch (error) {
+    console.error('Get customer favorites error:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Failed to fetch favorites'
+    });
+  }
+});
+
+// POST - Add to favorites
+router.post('/favorites', authenticateToken, requireCustomerAccess, async (req: Request, res: Response) => {
+  try {
+    const { db } = await connectToDatabase();
+    const userId = (req as any).user?.userId;
+    const { type, itemId } = req.body;
+
+    if (!userId) {
+      return res.status(401).json({
+        success: false,
+        message: 'Unauthorized'
+      });
+    }
+
+    if (!type || !itemId) {
+      return res.status(400).json({
+        success: false,
+        message: 'Type and itemId are required'
+      });
+    }
+
+    const userObjectId = new ObjectId(userId);
+
+    // Check if already favorited
+    const existing = await db.collection('favorites').findOne({
+      userId: userObjectId,
+      type,
+      itemId
+    });
+
+    if (existing) {
+      return res.status(409).json({
+        success: false,
+        message: 'Already in favorites'
+      });
+    }
+
+    // Add to favorites
+    const result = await db.collection('favorites').insertOne({
+      userId: userObjectId,
+      type,
+      itemId,
+      createdAt: new Date()
+    });
+
+    res.status(201).json({
+      success: true,
+      message: 'Added to favorites',
+      data: {
+        id: result.insertedId.toString()
+      }
+    });
+  } catch (error) {
+    console.error('Add to favorites error:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Failed to add to favorites'
+    });
+  }
+});
+
+// DELETE - Remove from favorites
+router.delete('/favorites', authenticateToken, requireCustomerAccess, async (req: Request, res: Response) => {
+  try {
+    const { db } = await connectToDatabase();
+    const userId = (req as any).user?.userId;
+    const { type, itemId } = req.query;
+
+    if (!userId) {
+      return res.status(401).json({
+        success: false,
+        message: 'Unauthorized'
+      });
+    }
+
+    if (!type || !itemId) {
+      return res.status(400).json({
+        success: false,
+        message: 'Type and itemId are required'
+      });
+    }
+
+    const userObjectId = new ObjectId(userId);
+
+    // Remove from favorites
+    const result = await db.collection('favorites').deleteOne({
+      userId: userObjectId,
+      type: type as string,
+      itemId: itemId as string
+    });
+
+    if (result.deletedCount === 0) {
+      return res.status(404).json({
+        success: false,
+        message: 'Favorite not found'
+      });
+    }
+
+    res.status(200).json({
+      success: true,
+      message: 'Removed from favorites'
+    });
+  } catch (error) {
+    console.error('Remove from favorites error:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Failed to remove from favorites'
+    });
+  }
+});
+
+// GET - Get customer reviews
+router.get('/reviews', authenticateToken, requireCustomerAccess, async (req: Request, res: Response) => {
+  try {
+    const { db } = await connectToDatabase();
+    const userId = (req as any).user?.userId;
+
+    if (!userId) {
+      return res.status(401).json({
+        success: false,
+        message: 'Unauthorized'
+      });
+    }
+
+    const userObjectId = new ObjectId(userId);
+
+    // Fetch user reviews
+    const reviews = await db
+      .collection('reviews')
+      .find({ user: userObjectId })
+      .sort({ createdAt: -1 })
+      .toArray();
+
+    res.status(200).json({
+      success: true,
+      data: {
+        reviews: reviews.map(review => ({
+          id: review._id.toString(),
+          entityId: review.entityId,
+          entityType: review.entityType,
+          rating: review.rating,
+          comment: review.comment,
+          status: review.status,
+          createdAt: review.createdAt || new Date()
+        }))
+      }
+    });
+  } catch (error) {
+    console.error('Get customer reviews error:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Failed to fetch reviews'
+    });
+  }
+});
+
+// GET /api/customer/submissions/:id - Get a specific submission for editing
+router.get('/submissions/:id', authenticateToken, requireCustomerAccess, async (req: Request, res: Response) => {
+  try {
+    const { db } = await connectToDatabase();
+    const userId = (req as any).user?.userId;
+    const { id } = req.params;
+
+    if (!userId) {
+      return res.status(401).json({
+        success: false,
+        message: 'Unauthorized'
+      });
+    }
+
+    if (!ObjectId.isValid(id)) {
+      return res.status(400).json({
+        success: false,
+        message: 'Invalid submission ID'
+      });
+    }
+
+    const submission = await db.collection('submissions').findOne({
+      _id: new ObjectId(id),
+      userId: new ObjectId(userId)
+    });
+
+    if (!submission) {
+      return res.status(404).json({
+        success: false,
+        message: 'Submission not found or access denied'
+      });
+    }
+
+    res.status(200).json({
+      success: true,
+      data: submission
+    });
+
+  } catch (error) {
+    console.error('Get submission error:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Failed to fetch submission'
+    });
+  }
+});
+
+// PUT /api/customer/submissions/:id - Update a submission assigned to customer
+router.put('/submissions/:id', authenticateToken, requireCustomerAccess, async (req: Request, res: Response) => {
+  try {
+    const { db } = await connectToDatabase();
+    const userId = (req as any).user?.userId;
+    const { id } = req.params;
+    const updateData = req.body;
+
+    if (!userId) {
+      return res.status(401).json({
+        success: false,
+        message: 'Unauthorized'
+      });
+    }
+
+    if (!ObjectId.isValid(id)) {
+      return res.status(400).json({
+        success: false,
+        message: 'Invalid submission ID'
+      });
+    }
+
+    // Verify submission belongs to user
+    const existingSubmission = await db.collection('submissions').findOne({
+      _id: new ObjectId(id),
+      userId: new ObjectId(userId)
+    });
+
+    if (!existingSubmission) {
+      return res.status(404).json({
+        success: false,
+        message: 'Submission not found or access denied'
+      });
+    }
+
+    // Remove fields that shouldn't be updated by customer
+    delete updateData._id;
+    delete updateData.userId;
+    delete updateData.assignedBy;
+    delete updateData.assignedAt;
+    delete updateData.createdAt;
+
+    // Update submission
+    const result = await db.collection('submissions').findOneAndUpdate(
+      { _id: new ObjectId(id) },
+      {
+        $set: {
+          ...updateData,
+          updatedAt: new Date(),
+          status: 'pending' // Keep as pending after update
+        }
+      },
+      { returnDocument: 'after' }
+    );
+
+    if (!result) {
+      return res.status(404).json({
+        success: false,
+        message: 'Failed to update submission'
+      });
+    }
+
+    res.status(200).json({
+      success: true,
+      message: 'Submission updated successfully',
+      data: result
+    });
+
+  } catch (error) {
+    console.error('Update submission error:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Failed to update submission'
+    });
+  }
+});
+
+// POST /api/customer/submissions/:id/submit - Submit updated submission for approval
+router.post('/submissions/:id/submit', authenticateToken, requireCustomerAccess, async (req: Request, res: Response) => {
+  try {
+    const { db } = await connectToDatabase();
+    const userId = (req as any).user?.userId;
+    const { id } = req.params;
+
+    if (!userId) {
+      return res.status(401).json({
+        success: false,
+        message: 'Unauthorized'
+      });
+    }
+
+    if (!ObjectId.isValid(id)) {
+      return res.status(400).json({
+        success: false,
+        message: 'Invalid submission ID'
+      });
+    }
+
+    // Verify submission belongs to user and is pending
+    const submission = await db.collection('submissions').findOne({
+      _id: new ObjectId(id),
+      userId: new ObjectId(userId)
+    });
+
+    if (!submission) {
+      return res.status(404).json({
+        success: false,
+        message: 'Submission not found or access denied'
+      });
+    }
+
+    // Update status to submitted/pending review
+    const result = await db.collection('submissions').findOneAndUpdate(
+      { _id: new ObjectId(id) },
+      {
+        $set: {
+          status: 'pending',
+          submittedAt: new Date(),
+          updatedAt: new Date()
+        }
+      },
+      { returnDocument: 'after' }
+    );
+
+    res.status(200).json({
+      success: true,
+      message: 'Submission sent for approval successfully',
+      data: result
+    });
+
+  } catch (error) {
+    console.error('Submit submission error:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Failed to submit submission'
+    });
+  }
+});
+
 export default router;
+

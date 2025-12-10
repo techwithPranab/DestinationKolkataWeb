@@ -39,7 +39,7 @@ export default function CustomerSidebar({ className = '' }: CustomerSidebarProps
   // Get user info from either AuthContext (form login) or NextAuth session (OAuth)
   const displayName = user?.firstName 
     ? `${user.firstName} ${user.lastName || ''}`.trim()
-    : session?.user?.name || 'User'
+    : user?.name || session?.user?.name || user?.email?.split('@')[0] || 'User'
   const displayEmail = user?.email || session?.user?.email || 'user@example.com'
 
   const navigationItems = [

@@ -5,7 +5,8 @@ import { useRouter } from 'next/navigation'
 import { useSession, signOut } from 'next-auth/react'
 
 interface User {
-  id: string
+  _id?: string
+  id?: string
   email: string
   name?: string
   firstName?: string
