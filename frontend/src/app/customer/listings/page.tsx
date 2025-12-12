@@ -1,6 +1,6 @@
 "use client"
 
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useCallback } from 'react'
 import { motion } from 'framer-motion'
 import {
   FileText,
@@ -35,7 +35,7 @@ import {
 } from '@/components/ui/select'
 import { FavoriteButton } from '@/components/shared/FavoriteButton'
 import { useAuth } from '@/contexts/AuthContext'
-import { useApi } from '@/lib/api-client'
+import { useApi, apiClient } from '@/lib/api-client'
 
 interface Submission {
   id: string
@@ -66,22 +66,12 @@ export default function CustomerListings() {
   const [dateFrom, setDateFrom] = useState('')
   const [dateTo, setDateTo] = useState('')
 
-  useEffect(() => {
-    if (isAuthenticated && user) {
-      fetchSubmissions(currentPage)
-    } else {
+  const fetchSubmissions = useCallback(async (page = 1) => {
+    if (!isAuthenticated || !user) {
       setLoading(false)
+      return
     }
-  }, [currentPage, isAuthenticated, user])
 
-  useEffect(() => {
-    if (isAuthenticated && user) {
-      setCurrentPage(1) // Reset to first page when filters or sorting change
-      fetchSubmissions(1)
-    }
-  }, [statusFilter, typeFilter, sortBy, sortOrder, dateFrom, dateTo, isAuthenticated, user])
-
-  const fetchSubmissions = async (page = 1) => {
     try {
       setLoading(true)
       const params = new URLSearchParams()
@@ -97,29 +87,51 @@ export default function CustomerListings() {
       const queryString = params.toString()
       const url = queryString ? `/api/customer/submissions?${queryString}` : '/api/customer/submissions'
 
-      const result = await api.get<{ submissions: Submission[], totalCount: number, currentPage: number, totalPages: number }>(url)
+      const result = await apiClient.get<{ submissions: Submission[], totalCount: number, currentPage: number, totalPages: number }>(url)
 
       if (result.error) {
         console.error('API Error:', result.error)
         if (result.status === 401) {
-          // User will be automatically logged out by the API client
-          console.log('User logged out due to authentication error')
+          console.log('Authentication error - user will be logged out')
         }
         return
       }
 
-      console.log('Received submissions:', result.data)
-      const submissionsData = result.data as { submissions?: Submission[], totalCount?: number, currentPage?: number, totalPages?: number } | undefined
-      setSubmissions(submissionsData?.submissions || [])
-      setTotalCount(submissionsData?.totalCount || 0)
-      setCurrentPage(submissionsData?.currentPage || 1)
-      setTotalPages(submissionsData?.totalPages || 1)
+      console.log('Received submissions response:', result.data)
+      
+      // Handle the nested data structure from backend
+      const responseData = result.data as { 
+        data?: { submissions?: Submission[] }, 
+        pagination?: { total?: number, limit?: number, skip?: number }
+      }
+      
+      const submissions = responseData?.data?.submissions || []
+      const totalCount = responseData?.pagination?.total || 0
+      const limit = responseData?.pagination?.limit || pageSize
+      const skip = responseData?.pagination?.skip || 0
+      
+      console.log('Processed submissions:', submissions)
+      console.log('Total count:', totalCount)
+      
+      setSubmissions(submissions)
+      setTotalCount(totalCount)
+      setCurrentPage(Math.floor(skip / limit) + 1)
+      setTotalPages(Math.ceil(totalCount / limit))
     } catch (error) {
       console.error('Error fetching submissions:', error)
     } finally {
       setLoading(false)
     }
-  }
+  }, [statusFilter, typeFilter, dateFrom, dateTo, sortBy, sortOrder, pageSize, isAuthenticated, user])
+
+  useEffect(() => {
+    fetchSubmissions(currentPage)
+  }, [currentPage, fetchSubmissions])
+
+  useEffect(() => {
+    setCurrentPage(1) // Reset to first page when filters or sorting change
+    fetchSubmissions(1)
+  }, [statusFilter, typeFilter, sortBy, sortOrder, dateFrom, dateTo, fetchSubmissions])
 
   const getStatusIcon = (status: string) => {
     switch (status) {
@@ -542,7 +554,7 @@ Created: ${new Date(submission.createdAt).toLocaleDateString()}`)
                         onChange={() => handleSelectItem(submission.id)}
                         className="rounded"
                       />
-                      <div className="flex-shrink-0">
+                      <div className="shrink-0">
                         {getTypeIcon(submission.type)}
                       </div>
                       <div>

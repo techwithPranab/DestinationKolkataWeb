@@ -48,42 +48,45 @@ export function AuthProvider({ children }: AuthProviderProps) {
   const router = useRouter()
   const { data: session, status } = useSession()
 
+  // Primary effect: Check localStorage for user session (form-based login)
   useEffect(() => {
-    // If NextAuth session is still loading, keep loading state
-    if (status === 'loading') {
-      return
-    }
-
-    // For OAuth logins, let NextAuth handle the session
-    if (status === 'authenticated' && session?.user) {
-      // Don't set user in AuthContext for OAuth - let NextAuth handle it
-      setIsLoading(false)
-      return
-    }
-
-    // Check if user is already logged in via localStorage (for form login)
+    console.log('AuthProvider initializing auth check')
+    
+    // Always check localStorage first - this is our primary auth mechanism
     const token = localStorage.getItem('authToken') || localStorage.getItem('adminToken')
     const userData = localStorage.getItem('authUser') || localStorage.getItem('adminUser')
 
     if (token && userData) {
       try {
         const parsedUser = JSON.parse(userData)
+        console.log('User loaded from localStorage:', parsedUser.email)
         setUser(parsedUser)
-        setIsLoading(false)
       } catch (error) {
-        console.error('Error parsing user data:', error)
-        // Invalid user data, clear storage
+        console.error('Failed to parse stored user:', error)
         localStorage.removeItem('authToken')
         localStorage.removeItem('authUser')
         localStorage.removeItem('adminToken')
         localStorage.removeItem('adminUser')
-        setIsLoading(false)
       }
-    } else {
-      // No authentication found
+    }
+
+    // Only mark loading as complete after a brief delay to allow NextAuth to settle
+    const timeoutId = setTimeout(() => {
+      console.log('Auth initialization complete')
+      setIsLoading(false)
+    }, 500)
+
+    return () => clearTimeout(timeoutId)
+  }, [])
+
+  // Secondary effect: Handle NextAuth session if available
+  useEffect(() => {
+    if (status === 'authenticated' && session?.user && !user) {
+      console.log('NextAuth session detected')
+      // Only use NextAuth session if we don't already have localStorage user
       setIsLoading(false)
     }
-  }, [session, status])
+  }, [status, session, user])
 
   const login = (user: User, token: string) => {
     console.log('AuthContext login called with:', { user, token: !!token })
@@ -99,17 +102,16 @@ export function AuthProvider({ children }: AuthProviderProps) {
       console.log('Stored customer credentials')
     }
 
-    // Update state
+    // Update state immediately
     setUser(user)
     console.log('User state updated in AuthContext')
     
-    // Navigate after a brief delay to ensure state propagation
-    const targetPath = (user.role === 'admin' || user.role === 'moderator') ? '/admin' : '/customer/dashboard'
-    console.log('Navigating to:', targetPath)
+  // Navigate immediately since state is updated synchronously. Use replace to
+  // avoid leaving the login page in history and to reduce race conflicts
+  const targetPath = (user.role === 'admin' || user.role === 'moderator') ? '/admin' : '/customer/dashboard'
+  console.log('Navigating to:', targetPath)
     
-    setTimeout(() => {
-      router.push(targetPath)
-    }, 100)
+  router.replace(targetPath)
   }
 
   const logout = () => {
@@ -123,13 +125,16 @@ export function AuthProvider({ children }: AuthProviderProps) {
     signOut({ callbackUrl: window.location.pathname.startsWith('/admin') ? '/admin/login' : '/auth/login' })
   }
 
-  const value: AuthContextType = useMemo(() => ({
-    user,
-    login,
-    logout,
-    isLoading,
-    isAuthenticated: !!user || (status === 'authenticated' && !!session)
-  }), [user, isLoading, status, session])
+  const value: AuthContextType = useMemo(() => {
+    const isAuth = !!user || (status === 'authenticated' && !!session)
+    return {
+      user,
+      login,
+      logout,
+      isLoading,
+      isAuthenticated: isAuth
+    }
+  }, [user, isLoading, status, session])
 
   return (
     <AuthContext.Provider value={value}>

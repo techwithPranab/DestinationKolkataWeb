@@ -9,6 +9,7 @@ const router = Router();
 router.post('/login', async (req: Request, res: Response) => {
   try {
     const { email, password, rememberMe } = req.body;
+  console.log('Login attempt received for email:', email);
 
     // Validation
     if (!email || !password) {
@@ -22,7 +23,9 @@ router.post('/login', async (req: Request, res: Response) => {
 
     // Find user
     const user = await db.collection('users').findOne({ email });
+    console.log('User lookup:', !!user, user ? { email: user.email, status: user.status } : null);
     if (!user) {
+      console.log('Login failed - no user found with email:', email);
       return res.status(401).json({
         success: false,
         message: 'Invalid credentials'
@@ -31,6 +34,7 @@ router.post('/login', async (req: Request, res: Response) => {
 
     // Check if user is active
     if (user.status !== 'active') {
+  console.log('Login failed - user inactive for email:', email, 'status:', user.status);
       return res.status(401).json({
         success: false,
         message: 'Account is inactive. Please contact support.'
@@ -39,7 +43,9 @@ router.post('/login', async (req: Request, res: Response) => {
 
     // Verify password
     const isPasswordValid = await bcrypt.compare(password, user.password);
+    console.log('Password validation result for', email, ':', isPasswordValid);
     if (!isPasswordValid) {
+      console.log('Login failed - password invalid for email:', email);
       return res.status(401).json({
         success: false,
         message: 'Invalid credentials'

@@ -105,15 +105,8 @@ function LoginForm() {
         hasToken: !!result.data.token
       })
 
-      // Update auth context
-      login(result.data.user, result.data.token)
-
-      // Redirect based on user role
-      if (result.data.user.role === 'admin') {
-        router.push('/admin')
-      } else {
-        router.push('/customer/dashboard')
-      }
+  // Update auth context (AuthContext.login handles navigation)
+  login(result.data.user, result.data.token)
 
     } catch (err) {
       console.error('Login error:', err)

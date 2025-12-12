@@ -33,51 +33,78 @@ export default function CustomerLayout({ children }: CustomerLayoutProps) {
       return
     }
 
-    // Add a small delay to allow state to propagate after login
-    const checkAuthTimeout = setTimeout(() => {
-      console.log('Timeout expired, performing auth check...')
-      
-      // Check if user is authenticated via NextAuth session (OAuth)
+    // Check if user is authenticated via NextAuth session (OAuth)
+    if (session && status === 'authenticated') {
+      console.log('Authenticated via NextAuth session')
+      setAuthChecked(true)
+      return
+    }
+    
+    // Check if user is authenticated via AuthContext (form login)
+    if (user && (user.role === 'customer' || user.role === 'user')) {
+      console.log('Authenticated via AuthContext as customer/user')
+      setAuthChecked(true)
+      return
+    }
+    
+    // Check localStorage as backup (important for post-login state)
+    const token = localStorage.getItem('authToken')
+    const userData = localStorage.getItem('authUser')
+    
+    console.log('LocalStorage check:', { hasToken: !!token, hasUserData: !!userData })
+    
+    if (token && userData) {
+      try {
+        const parsedUser = JSON.parse(userData as string)
+        console.log('Parsed user from localStorage:', parsedUser)
+        if (parsedUser.role === 'customer' || parsedUser.role === 'user') {
+          console.log('Valid customer/user found in localStorage')
+          setAuthChecked(true)
+          return
+        }
+      } catch (error) {
+        console.error('Error parsing user data:', error)
+        // Clear invalid data
+        localStorage.removeItem('authToken')
+        localStorage.removeItem('authUser')
+      }
+    }
+    
+    // Only redirect if we're sure there's no authentication
+    // Add a delay to allow for state propagation after login
+    const redirectTimeout = setTimeout(() => {
+      // Re-check authentication state before performing the redirect to
+      // avoid a race where the user just logged in and the timeout fires
+      const latestToken = localStorage.getItem('authToken') || localStorage.getItem('adminToken')
+      const latestUserData = localStorage.getItem('authUser') || localStorage.getItem('adminUser')
       if (session && status === 'authenticated') {
-        console.log('Authenticated via NextAuth session')
+        console.log('Auth session appeared before redirect, cancelling redirect')
         setAuthChecked(true)
         return
       }
-      
-      // Check if user is authenticated via AuthContext (form login)
-      if (user?.role === 'customer' || user?.role === 'user') {
-        console.log('Authenticated via AuthContext as customer/user')
+      if (user) {
+        console.log('Local user appeared before redirect, cancelling redirect')
         setAuthChecked(true)
         return
       }
-      
-      // Check localStorage as backup
-      const token = localStorage.getItem('authToken')
-      const userData = localStorage.getItem('authUser')
-      
-      console.log('LocalStorage check:', { hasToken: !!token, hasUserData: !!userData })
-      
-      if (token && userData) {
+      if (latestToken && latestUserData) {
         try {
-          const parsedUser = JSON.parse(userData as string)
-          console.log('Parsed user from localStorage:', parsedUser)
+          const parsedUser = JSON.parse(latestUserData as string)
+          console.log('LocalStorage user found before redirect:', parsedUser)
           if (parsedUser.role === 'customer' || parsedUser.role === 'user') {
-            console.log('Valid customer/user found in localStorage')
             setAuthChecked(true)
             return
           }
         } catch (error) {
-          console.error('Error parsing user data:', error)
+          console.error('Error parsing user data on redirect check:', error)
         }
       }
-      
-      // No valid authentication found
-      console.log('No valid authentication found, redirecting to login')
+      console.log('No valid authentication found after delay, redirecting to login')
       setAuthChecked(true)
       router.push('/auth/login')
-    }, 200)
+    }, 500) // Increased delay for better reliability
 
-    return () => clearTimeout(checkAuthTimeout)
+    return () => clearTimeout(redirectTimeout)
   }, [user, isLoading, session, status, router])
 
   // Show loading until authentication is checked
@@ -99,7 +126,7 @@ export default function CustomerLayout({ children }: CustomerLayoutProps) {
       <NotificationProvider>
         <div className="min-h-screen bg-gray-50 flex">
           {/* Sidebar */}
-          <div className="w-64 flex-shrink-0">
+          <div className="w-64 shrink-0">
             <CustomerSidebar />
           </div>
 
@@ -120,7 +147,7 @@ export default function CustomerLayout({ children }: CustomerLayoutProps) {
       <NotificationProvider>
         <div className="min-h-screen bg-gray-50 flex">
           {/* Sidebar */}
-          <div className="w-64 flex-shrink-0">
+          <div className="w-64 shrink-0">
             <CustomerSidebar />
           </div>
 

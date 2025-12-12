@@ -46,8 +46,8 @@ interface Submission {
 }
 
 export default function CustomerDashboard() {
-  const { user } = useAuth()
-  const { data: session } = useSession()
+  const { user, isLoading } = useAuth()
+  const { data: session, status } = useSession()
   const api = useApi()
   const [stats, setStats] = useState<UserStats | null>(null)
   const [submissions, setSubmissions] = useState<Submission[]>([])
@@ -65,9 +65,25 @@ export default function CustomerDashboard() {
   })
 
   useEffect(() => {
-    console.log('Dashboard useEffect triggered')
+    console.log('Dashboard useEffect triggered', { isLoading, sessionStatus: status, hasUser: !!user })
+
+    // Wait for AuthContext and NextAuth to be ready
+    if (isLoading || status === 'loading') {
+      console.log('Auth still loading; skip fetch')
+      return
+    }
+
+    // If there's no auth (session or local token), skip fetching data
+    const token = localStorage.getItem('authToken') || localStorage.getItem('adminToken')
+    const hasAuth = !!session || !!user || !!token
+    if (!hasAuth) {
+      console.log('No auth available; skipping dashboard fetch')
+      setLoading(false)
+      return
+    }
+
     fetchDashboardData()
-  }, [])
+  }, [isLoading, status, user, session])
 
   const fetchDashboardData = async () => {
     console.log('fetchDashboardData called')

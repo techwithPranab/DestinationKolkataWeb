@@ -433,7 +433,7 @@ router.get('/submissions', authenticateToken, requireCustomerAccess, async (req:
         submissions: submissions.map(sub => ({
           id: sub._id.toString(),
           type: sub.type || 'hotel',
-          title: sub.title || sub.name || 'Untitled',
+          title: sub.title || sub.name || sub.data?.name || sub.data?.title || 'Untitled',
           status: sub.status || 'pending',
           createdAt: sub.createdAt || new Date(),
           views: sub.views || 0,

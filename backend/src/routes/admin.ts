@@ -2180,6 +2180,8 @@ router.put('/resources/:id/assign', authenticateToken, requireAdmin, async (req:
     const submission = {
       userId: new ObjectId(customerId),
       type,
+      title: resource.name || resource.title || 'Untitled Resource',
+      name: resource.name || resource.title || 'Untitled Resource',
       status: 'pending',
       data: resource,
       resourceId: new ObjectId(id), // Reference to the original resource

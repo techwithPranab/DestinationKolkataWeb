@@ -1,5 +1,6 @@
 "use client"
 
+import { useCallback, useMemo } from 'react'
 import { useAuth } from '@/contexts/AuthContext'
 import { useSession } from 'next-auth/react'
 
@@ -108,13 +109,18 @@ class ApiClient {
       console.log('NextAuth session present:', !!this.session)
 
       const fullUrl = url.startsWith('http') ? url : `${this.baseURL}${url}`
+      console.log('Full URL:', fullUrl)
+      console.log('Request headers:', Object.fromEntries(headers.entries()))
+      
       const response = await fetch(fullUrl, {
         ...options,
         headers,
-        credentials: 'include' // Include cookies for NextAuth session
+        credentials: 'include', // Include cookies for NextAuth session
+        mode: 'cors' // Explicitly set CORS mode
       })
 
       console.log(`Response status: ${response.status}`)
+      console.log('Response headers:', Object.fromEntries(response.headers.entries()))
 
       // Handle authentication errors
       if (response.status === 401) {
@@ -136,12 +142,24 @@ class ApiClient {
       // Handle other error responses
       if (!response.ok) {
         let errorMessage = `Request failed: ${response.status}`
+        
+        // Special handling for common errors
+        if (response.status === 429) {
+          errorMessage = 'Too many requests. Please wait a moment and try again.'
+        } else if (response.status === 403) {
+          errorMessage = 'Access forbidden. This might be a CORS issue.'
+        } else if (response.status === 0 || response.type === 'opaque') {
+          errorMessage = 'Network error or CORS issue. Check if the backend server is running.'
+        }
+        
         try {
           const errorData = await response.json()
-          errorMessage = errorData.message || errorMessage
+          errorMessage = errorData.message || errorData.error || errorMessage
         } catch {
           // If we can't parse the error response, use the default message
         }
+
+        console.error('API Error:', errorMessage, { status: response.status, url: fullUrl })
 
         return {
           error: errorMessage,
@@ -166,8 +184,23 @@ class ApiClient {
 
     } catch (error) {
       console.error('API request error:', error)
+      
+      let errorMessage = 'Network error occurred'
+      if (error instanceof Error) {
+        errorMessage = error.message
+        
+        // Handle specific CORS and network errors
+        if (error.message.includes('CORS') || error.message.includes('Access-Control')) {
+          errorMessage = 'CORS error: Unable to connect to backend. Check if the backend server is running on the correct port.'
+        } else if (error.message.includes('Load failed') || error.message.includes('fetch')) {
+          errorMessage = 'Failed to connect to backend server. Please check if the server is running at ' + this.baseURL
+        } else if (error.message.includes('429') || error.message.includes('rate limit')) {
+          errorMessage = 'Too many requests. Please wait a moment and try again.'
+        }
+      }
+      
       return {
-        error: error instanceof Error ? error.message : 'Network error occurred',
+        error: errorMessage,
         status: 0
       }
     }
@@ -187,7 +220,7 @@ export function useApi() {
     apiClient.setSession(session)
   }
 
-  const handleApiError = (error: ApiResponse) => {
+  const handleApiError = useCallback((error: ApiResponse) => {
     if (error.status === 401) {
       // Only automatically log out for localStorage-based auth
       // For OAuth users, let NextAuth handle the session
@@ -196,9 +229,9 @@ export function useApi() {
       }
     }
     return error
-  }
+  }, [logout, user, session, status])
 
-  return {
+  return useMemo(() => ({
     get: <T = unknown>(url: string, options?: RequestInit) =>
       apiClient.get<T>(url, options).then(result => {
         if (result.error) return handleApiError(result)
@@ -222,5 +255,5 @@ export function useApi() {
         if (result.error) return handleApiError(result)
         return result
       })
-  }
+  }), [handleApiError])
 }

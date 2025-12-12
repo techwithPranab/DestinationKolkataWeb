@@ -1,6 +1,6 @@
 "use client"
 
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useCallback } from 'react'
 import { motion } from 'framer-motion'
 import { 
   UserCheck,
@@ -71,11 +71,12 @@ export default function AdminAssignmentsPage() {
   const [assigning, setAssigning] = useState(false)
   const [activeTab, setActiveTab] = useState('submissions')
 
-  useEffect(() => {
-    fetchData()
-  }, [selectedType])
+  // Pagination state
+  const [submissionsCurrentPage, setSubmissionsCurrentPage] = useState(1)
+  const [resourcesCurrentPage, setResourcesCurrentPage] = useState(1)
+  const itemsPerPage = 10
 
-  const fetchData = async () => {
+  const fetchData = useCallback(async () => {
     setLoading(true)
     try {
       const [customersRes, submissionsRes, resourcesRes] = await Promise.all([
@@ -104,7 +105,20 @@ export default function AdminAssignmentsPage() {
     } finally {
       setLoading(false)
     }
-  }
+  }, [selectedType])
+
+  useEffect(() => {
+    fetchData()
+  }, [fetchData])
+
+  // Reset pagination when filters change
+  useEffect(() => {
+    setSubmissionsCurrentPage(1)
+  }, [searchTerm, selectedType])
+
+  useEffect(() => {
+    setResourcesCurrentPage(1)
+  }, [searchTerm, selectedType])
 
   const handleAssignSubmission = (submission: Submission) => {
     setSelectedSubmission(submission)
@@ -159,11 +173,14 @@ export default function AdminAssignmentsPage() {
       }
 
       if (response && response.ok) {
+        const result = await response.json()
+        console.log('Assignment successful:', result)
         toast.success(`${selectedSubmission ? 'Submission' : 'Resource'} assigned to customer successfully`)
         setShowAssignDialog(false)
         fetchData() // Refresh data
       } else {
         const error = response ? await response.json() : { message: 'Unknown error' }
+        console.error('Assignment failed:', error)
         toast.error(error.message || `Failed to assign ${selectedSubmission ? 'submission' : 'resource'}`)
       }
     } catch (error) {
@@ -210,6 +227,26 @@ export default function AdminAssignmentsPage() {
     (resource.title || '').toLowerCase().includes(searchTerm.toLowerCase())
   )
 
+  // Filtered arrays for display (including search filter)
+  const displayFilteredSubmissions = filteredSubmissions.filter(sub => sub.type !== 'event' && sub.type !== 'promotion')
+  const displayFilteredResources = filteredResources.filter(res => res.type !== 'event' && res.type !== 'promotion')
+
+  // Pagination calculations for submissions
+  const submissionsTotalPages = Math.ceil(displayFilteredSubmissions.length / itemsPerPage)
+  const submissionsStartIndex = (submissionsCurrentPage - 1) * itemsPerPage
+  const submissionsEndIndex = submissionsStartIndex + itemsPerPage
+  const paginatedSubmissions = displayFilteredSubmissions.slice(submissionsStartIndex, submissionsEndIndex)
+
+  // Pagination calculations for resources
+  const resourcesTotalPages = Math.ceil(displayFilteredResources.length / itemsPerPage)
+  const resourcesStartIndex = (resourcesCurrentPage - 1) * itemsPerPage
+  const resourcesEndIndex = resourcesStartIndex + itemsPerPage
+  const paginatedResources = displayFilteredResources.slice(resourcesStartIndex, resourcesEndIndex)
+
+  // Filtered counts excluding events and promotions
+  const filteredSubmissionsCount = submissions.filter(sub => sub.type !== 'event' && sub.type !== 'promotion').length
+  const filteredResourcesCount = pendingResources.filter(res => res.type !== 'event' && res.type !== 'promotion').length
+
   if (loading) {
     return (
       <div className="min-h-screen bg-gray-50 flex items-center justify-center">
@@ -222,8 +259,8 @@ export default function AdminAssignmentsPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 py-8">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen bg-gray-50 py-8 text-sm">
+      <div className="max-w-7xl mx-auto">
         {/* Header */}
         <div className="mb-8 flex justify-between items-center">
           <div>
@@ -239,16 +276,14 @@ export default function AdminAssignmentsPage() {
         {/* Filters */}
         <div className="mb-6 flex flex-col sm:flex-row gap-4">
           <Select value={selectedType} onValueChange={setSelectedType}>
-            <SelectTrigger className="w-[180px]">
+            <SelectTrigger className="w-[180px] bg-white">
               <SelectValue placeholder="Filter by type" />
             </SelectTrigger>
-            <SelectContent>
+            <SelectContent className='bg-white'>
               <SelectItem value="all">All Types</SelectItem>
               <SelectItem value="hotel">Hotels</SelectItem>
               <SelectItem value="restaurant">Restaurants</SelectItem>
-              <SelectItem value="event">Events</SelectItem>
               <SelectItem value="sports">Sports</SelectItem>
-              <SelectItem value="promotion">Promotions</SelectItem>
             </SelectContent>
           </Select>
           
@@ -272,7 +307,7 @@ export default function AdminAssignmentsPage() {
               <div className="flex items-center justify-between">
                 <div>
                   <p className="text-sm font-medium text-gray-600">Unassigned Submissions</p>
-                  <p className="text-2xl font-bold text-gray-900 mt-1">{submissions.length}</p>
+                  <p className="text-2xl font-bold text-gray-900 mt-1">{filteredSubmissionsCount}</p>
                 </div>
                 <div className="bg-orange-100 p-3 rounded-full">
                   <Send className="w-6 h-6 text-orange-600" />
@@ -286,7 +321,7 @@ export default function AdminAssignmentsPage() {
               <div className="flex items-center justify-between">
                 <div>
                   <p className="text-sm font-medium text-gray-600">Pending Resources</p>
-                  <p className="text-2xl font-bold text-gray-900 mt-1">{pendingResources.length}</p>
+                  <p className="text-2xl font-bold text-gray-900 mt-1">{filteredResourcesCount}</p>
                 </div>
                 <div className="bg-blue-100 p-3 rounded-full">
                   <Database className="w-6 h-6 text-blue-600" />
@@ -329,11 +364,11 @@ export default function AdminAssignmentsPage() {
           <TabsList className="grid w-full grid-cols-2">
             <TabsTrigger value="submissions" className="flex items-center gap-2">
               <Send className="w-4 h-4" />
-              User Submissions ({filteredSubmissions.length})
+              User Submissions ({filteredSubmissionsCount})
             </TabsTrigger>
             <TabsTrigger value="resources" className="flex items-center gap-2">
               <Database className="w-4 h-4" />
-              Ingested Resources ({filteredResources.length})
+              Ingested Resources ({filteredResourcesCount})
             </TabsTrigger>
           </TabsList>
 
@@ -343,14 +378,14 @@ export default function AdminAssignmentsPage() {
                 <CardTitle>Unassigned Submissions</CardTitle>
               </CardHeader>
               <CardContent>
-                {filteredSubmissions.length === 0 ? (
+                {displayFilteredSubmissions.length === 0 ? (
                   <div className="text-center py-12 text-gray-500">
                     <Send className="w-12 h-12 mx-auto mb-4 text-gray-400" />
                     <p>No unassigned submissions found</p>
                   </div>
                 ) : (
                   <div className="space-y-4">
-                    {filteredSubmissions.map((submission) => (
+                    {paginatedSubmissions.map((submission) => (
                       <motion.div
                         key={submission.id}
                         initial={{ opacity: 0, y: 10 }}
@@ -372,7 +407,7 @@ export default function AdminAssignmentsPage() {
                           </div>
                           <Button 
                             onClick={() => handleAssignSubmission(submission)}
-                            className="bg-orange-600 hover:bg-orange-700"
+                            className="bg-orange-600 hover:bg-orange-700 "
                           >
                             <UserCheck className="w-4 h-4 mr-2" />
                             Assign to Customer
@@ -384,6 +419,50 @@ export default function AdminAssignmentsPage() {
                 )}
               </CardContent>
             </Card>
+
+            {/* Pagination for Submissions */}
+            {displayFilteredSubmissions.length > itemsPerPage && submissionsTotalPages > 1 && (
+              <div className="flex items-center justify-between mt-6">
+                <div className="text-sm text-gray-600">
+                  Page {submissionsCurrentPage} of {submissionsTotalPages} ({displayFilteredSubmissions.length} total submissions)
+                </div>
+                <div className="flex items-center space-x-2">
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={() => setSubmissionsCurrentPage(prev => Math.max(1, prev - 1))}
+                    disabled={submissionsCurrentPage === 1}
+                  >
+                    Previous
+                  </Button>
+                  
+                  {/* Page Numbers */}
+                  {Array.from({ length: Math.min(5, submissionsTotalPages) }, (_, i) => {
+                    const pageNum = Math.max(1, Math.min(submissionsTotalPages - 4, submissionsCurrentPage - 2)) + i
+                    return (
+                      <Button
+                        key={pageNum}
+                        variant={submissionsCurrentPage === pageNum ? "default" : "outline"}
+                        size="sm"
+                        onClick={() => setSubmissionsCurrentPage(pageNum)}
+                        className={submissionsCurrentPage === pageNum ? 'text-white bg-orange-600 hover:bg-orange-700' : ''}
+                      >
+                        {pageNum}
+                      </Button>
+                    )
+                  })}
+                  
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={() => setSubmissionsCurrentPage(prev => Math.min(submissionsTotalPages, prev + 1))}
+                    disabled={submissionsCurrentPage === submissionsTotalPages}
+                  >
+                    Next
+                  </Button>
+                </div>
+              </div>
+            )}
           </TabsContent>
 
           <TabsContent value="resources" className="mt-6">
@@ -392,7 +471,7 @@ export default function AdminAssignmentsPage() {
                 <CardTitle>Pending Ingested Resources</CardTitle>
               </CardHeader>
               <CardContent>
-                {filteredResources.length === 0 ? (
+                {displayFilteredResources.length === 0 ? (
                   <div className="text-center py-12 text-gray-500">
                     <Database className="w-12 h-12 mx-auto mb-4 text-gray-400" />
                     <p>No pending resources found</p>
@@ -400,7 +479,7 @@ export default function AdminAssignmentsPage() {
                   </div>
                 ) : (
                   <div className="space-y-4">
-                    {filteredResources.map((resource) => (
+                    {paginatedResources.map((resource) => (
                       <motion.div
                         key={resource.id}
                         initial={{ opacity: 0, y: 10 }}
@@ -439,12 +518,56 @@ export default function AdminAssignmentsPage() {
                 )}
               </CardContent>
             </Card>
+
+            {/* Pagination for Resources */}
+            {displayFilteredResources.length > itemsPerPage && resourcesTotalPages > 1 && (
+              <div className="flex items-center justify-between mt-6">
+                <div className="text-sm text-gray-600">
+                  Page {resourcesCurrentPage} of {resourcesTotalPages} ({displayFilteredResources.length} total resources)
+                </div>
+                <div className="flex items-center space-x-2">
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={() => setResourcesCurrentPage(prev => Math.max(1, prev - 1))}
+                    disabled={resourcesCurrentPage === 1}
+                  >
+                    Previous
+                  </Button>
+                  
+                  {/* Page Numbers */}
+                  {Array.from({ length: Math.min(5, resourcesTotalPages) }, (_, i) => {
+                    const pageNum = Math.max(1, Math.min(resourcesTotalPages - 4, resourcesCurrentPage - 2)) + i
+                    return (
+                      <Button
+                        key={pageNum}
+                        variant={resourcesCurrentPage === pageNum ? "default" : "outline"}
+                        size="sm"
+                        onClick={() => setResourcesCurrentPage(pageNum)}
+                        className={resourcesCurrentPage === pageNum ? 'text-white bg-blue-600 hover:bg-blue-700' : ''}
+                      >
+                        {pageNum}
+                      </Button>
+                    )
+                  })}
+                  
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={() => setResourcesCurrentPage(prev => Math.min(resourcesTotalPages, prev + 1))}
+                    disabled={resourcesCurrentPage === resourcesTotalPages}
+                  >
+                    Next
+                  </Button>
+                </div>
+              </div>
+            )}
           </TabsContent>
         </Tabs>
 
         {/* Assignment Dialog */}
         <Dialog open={showAssignDialog} onOpenChange={setShowAssignDialog}>
-          <DialogContent className="sm:max-w-[500px]">
+          <DialogContent className="sm:max-w-[500px] bg-white">
             <DialogHeader>
               <DialogTitle>
                 Assign {selectedSubmission ? 'Submission' : 'Resource'} to Customer
@@ -480,7 +603,7 @@ export default function AdminAssignmentsPage() {
                   <SelectTrigger>
                     <SelectValue placeholder="Choose a customer" />
                   </SelectTrigger>
-                  <SelectContent>
+                  <SelectContent className='bg-white'>
                     {customers.map((customer) => (
                       <SelectItem key={customer.id} value={customer.id}>
                         <div className="flex items-center justify-between w-full">
