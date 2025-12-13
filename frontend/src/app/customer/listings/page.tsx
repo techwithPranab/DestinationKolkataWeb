@@ -48,7 +48,7 @@ interface Submission {
 }
 
 export default function CustomerListings() {
-  const { user, isAuthenticated } = useAuth()
+  const { user, isAuthenticated, isLoading: authLoading } = useAuth()
   const api = useApi()
   const [submissions, setSubmissions] = useState<Submission[]>([])
   const [loading, setLoading] = useState(true)
@@ -67,7 +67,10 @@ export default function CustomerListings() {
   const [dateTo, setDateTo] = useState('')
 
   const fetchSubmissions = useCallback(async (page = 1) => {
-    if (!isAuthenticated || !user) {
+    // Since this page is protected by customer layout, we can be more lenient with auth checks
+    // But still check for user to ensure we have the necessary data
+    if (!user) {
+      console.log('No user data available, skipping fetch')
       setLoading(false)
       return
     }
@@ -319,8 +322,8 @@ Created: ${new Date(submission.createdAt).toLocaleDateString()}`)
     )
   }
 
-  // Check if user is authenticated
-  if (!isAuthenticated) {
+  // Check if user is authenticated - be more lenient since customer layout should protect this
+  if (!user && !authLoading) {
     return (
       <div className="flex items-center justify-center h-64">
         <div className="text-center">

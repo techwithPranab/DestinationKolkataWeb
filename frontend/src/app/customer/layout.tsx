@@ -16,7 +16,9 @@ export default function CustomerLayout({ children }: CustomerLayoutProps) {
   const { data: session, status } = useSession()
   const router = useRouter()
   const [authChecked, setAuthChecked] = useState(false)
+  const [isCheckingAuth, setIsCheckingAuth] = useState(true)
 
+  // Real-time authentication check - runs whenever auth state changes
   useEffect(() => {
     console.log('Customer Layout - Auth Check:', {
       status,
@@ -24,92 +26,99 @@ export default function CustomerLayout({ children }: CustomerLayoutProps) {
       hasSession: !!session,
       hasUser: !!user,
       userRole: user?.role,
-      authChecked
+      authChecked,
+      isCheckingAuth
     })
 
-    // Don't check authentication until both contexts are loaded
+    setIsCheckingAuth(true)
+
+    // Immediate checks for authenticated state
+    const isNextAuthAuthenticated = session && status === 'authenticated'
+    const isUserAuthenticated = user && (user.role === 'customer' || user.role === 'user')
+    
+    // Check localStorage synchronously
+    let isLocalStorageAuthenticated = false
+    try {
+      const token = localStorage.getItem('authToken')
+      const userData = localStorage.getItem('authUser')
+      
+      if (token && userData) {
+        const parsedUser = JSON.parse(userData)
+        isLocalStorageAuthenticated = parsedUser.role === 'customer' || parsedUser.role === 'user'
+        console.log('LocalStorage auth check:', { hasToken: !!token, userRole: parsedUser.role, isValid: isLocalStorageAuthenticated })
+      }
+    } catch (error) {
+      console.error('Error checking localStorage:', error)
+      // Clear invalid data
+      localStorage.removeItem('authToken')
+      localStorage.removeItem('authUser')
+    }
+
+    // If any authentication method is valid, allow access immediately
+    if (isNextAuthAuthenticated || isUserAuthenticated || isLocalStorageAuthenticated) {
+      console.log('Authentication found:', {
+        nextAuth: isNextAuthAuthenticated,
+        userAuth: isUserAuthenticated, 
+        localStorage: isLocalStorageAuthenticated
+      })
+      setAuthChecked(true)
+      setIsCheckingAuth(false)
+      return
+    }
+
+    // Only wait and redirect if still loading
     if (status === 'loading' || isLoading) {
-      console.log('Still loading auth contexts...')
+      console.log('Still loading auth contexts, waiting...')
+      setIsCheckingAuth(false)
       return
     }
 
-    // Check if user is authenticated via NextAuth session (OAuth)
-    if (session && status === 'authenticated') {
-      console.log('Authenticated via NextAuth session')
-      setAuthChecked(true)
-      return
-    }
-    
-    // Check if user is authenticated via AuthContext (form login)
-    if (user && (user.role === 'customer' || user.role === 'user')) {
-      console.log('Authenticated via AuthContext as customer/user')
-      setAuthChecked(true)
-      return
-    }
-    
-    // Check localStorage as backup (important for post-login state)
-    const token = localStorage.getItem('authToken')
-    const userData = localStorage.getItem('authUser')
-    
-    console.log('LocalStorage check:', { hasToken: !!token, hasUserData: !!userData })
-    
-    if (token && userData) {
-      try {
-        const parsedUser = JSON.parse(userData as string)
-        console.log('Parsed user from localStorage:', parsedUser)
-        if (parsedUser.role === 'customer' || parsedUser.role === 'user') {
-          console.log('Valid customer/user found in localStorage')
-          setAuthChecked(true)
-          return
-        }
-      } catch (error) {
-        console.error('Error parsing user data:', error)
-        // Clear invalid data
-        localStorage.removeItem('authToken')
-        localStorage.removeItem('authUser')
-      }
-    }
-    
-    // Only redirect if we're sure there's no authentication
-    // Add a delay to allow for state propagation after login
+    // If we reach here, no authentication found - redirect after a delay
+    console.log('No authentication found, setting redirect timeout')
     const redirectTimeout = setTimeout(() => {
-      // Re-check authentication state before performing the redirect to
-      // avoid a race where the user just logged in and the timeout fires
-      const latestToken = localStorage.getItem('authToken') || localStorage.getItem('adminToken')
-      const latestUserData = localStorage.getItem('authUser') || localStorage.getItem('adminUser')
-      if (session && status === 'authenticated') {
-        console.log('Auth session appeared before redirect, cancelling redirect')
-        setAuthChecked(true)
-        return
-      }
-      if (user) {
-        console.log('Local user appeared before redirect, cancelling redirect')
-        setAuthChecked(true)
-        return
-      }
-      if (latestToken && latestUserData) {
-        try {
-          const parsedUser = JSON.parse(latestUserData as string)
-          console.log('LocalStorage user found before redirect:', parsedUser)
-          if (parsedUser.role === 'customer' || parsedUser.role === 'user') {
-            setAuthChecked(true)
-            return
-          }
-        } catch (error) {
-          console.error('Error parsing user data on redirect check:', error)
-        }
-      }
-      console.log('No valid authentication found after delay, redirecting to login')
+      console.log('Redirecting to login after timeout')
       setAuthChecked(true)
+      setIsCheckingAuth(false)
       router.push('/auth/login')
-    }, 500) // Increased delay for better reliability
+    }, 500)
 
-    return () => clearTimeout(redirectTimeout)
+    return () => {
+      clearTimeout(redirectTimeout)
+      setIsCheckingAuth(false)
+    }
   }, [user, isLoading, session, status, router])
 
+  // Separate effect to handle initial auth state
+  useEffect(() => {
+    // Quick initial check on mount
+    const quickAuthCheck = () => {
+      try {
+        const token = localStorage.getItem('authToken')
+        const userData = localStorage.getItem('authUser')
+        
+        if (token && userData) {
+          const parsedUser = JSON.parse(userData)
+          if (parsedUser.role === 'customer' || parsedUser.role === 'user') {
+            console.log('Quick auth check: Valid user found in localStorage')
+            setAuthChecked(true)
+            setIsCheckingAuth(false)
+            return true
+          }
+        }
+      } catch (error) {
+        console.error('Quick auth check failed:', error)
+      }
+      return false
+    }
+    
+    if (!authChecked && !quickAuthCheck()) {
+      setIsCheckingAuth(true)
+    }
+  }, [])
+
   // Show loading until authentication is checked
-  if (status === 'loading' || isLoading || !authChecked) {
-    console.log('Showing loading spinner...')
+  if ((status === 'loading' || isLoading || isCheckingAuth) && !authChecked) {
+    console.log('Showing loading spinner...', { status, isLoading, isCheckingAuth, authChecked })
     return (
       <div className="min-h-screen bg-gray-50 flex items-center justify-center">
         <div className="text-center">
@@ -162,8 +171,40 @@ export default function CustomerLayout({ children }: CustomerLayoutProps) {
     )
   }
 
+  // Final check - if we have valid localStorage data, allow access
+  try {
+    const token = localStorage.getItem('authToken')
+    const userData = localStorage.getItem('authUser')
+    
+    if (token && userData) {
+      const parsedUser = JSON.parse(userData)
+      if (parsedUser.role === 'customer' || parsedUser.role === 'user') {
+        console.log('Allowing access based on localStorage data')
+        return (
+          <NotificationProvider>
+            <div className="min-h-screen bg-gray-50 flex">
+              {/* Sidebar */}
+              <div className="w-64 shrink-0">
+                <CustomerSidebar />
+              </div>
+
+              {/* Main Content */}
+              <div className="flex-1 flex flex-col min-h-screen">
+                <main className="flex-1 p-8">
+                  {children}
+                </main>
+              </div>
+            </div>
+          </NotificationProvider>
+        )
+      }
+    }
+  } catch (error) {
+    console.error('Error in final localStorage check:', error)
+  }
+
   // Not authenticated
-  console.log('Not authenticated - should redirect')
+  console.log('Not authenticated - showing redirect message')
   return (
     <div className="min-h-screen bg-gray-50 flex items-center justify-center">
       <div className="text-center">

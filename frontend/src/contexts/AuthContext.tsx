@@ -104,14 +104,15 @@ export function AuthProvider({ children }: AuthProviderProps) {
 
     // Update state immediately
     setUser(user)
-    console.log('User state updated in AuthContext')
+    setIsLoading(false) // Ensure loading is complete
+    console.log('User state updated in AuthContext:', { user: user.email, role: user.role })
     
-  // Navigate immediately since state is updated synchronously. Use replace to
-  // avoid leaving the login page in history and to reduce race conflicts
-  const targetPath = (user.role === 'admin' || user.role === 'moderator') ? '/admin' : '/customer/dashboard'
-  console.log('Navigating to:', targetPath)
-    
-  router.replace(targetPath)
+    // Small delay to ensure state propagation before navigation
+    setTimeout(() => {
+      const targetPath = (user.role === 'admin' || user.role === 'moderator') ? '/admin' : '/customer/dashboard'
+      console.log('Navigating to:', targetPath)
+      router.replace(targetPath)
+    }, 100)
   }
 
   const logout = () => {
