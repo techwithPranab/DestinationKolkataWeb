@@ -1,7 +1,7 @@
 "use client"
 
 import React, { useState, useEffect } from 'react'
-import { motion } from 'framer-motion'
+import { useRouter } from 'next/navigation'
 import { 
   Check, 
   X, 
@@ -13,23 +13,47 @@ import {
   Megaphone,
   Trophy,
   Search,
-  Filter
+  Filter,
+  ChevronLeft,
+  ChevronRight,
+  MoreHorizontal,
+  MapPin
 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+import { Card, CardContent } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import { Input } from '@/components/ui/input'
-import { Textarea } from '@/components/ui/textarea'
+import { 
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select'
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from '@/components/ui/table'
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu'
 import { fetchAuthenticatedAPI } from '@/lib/backend-api'
 
 interface Submission {
   id: string
-  type: 'hotel' | 'restaurant' | 'event' | 'promotion' | 'sports'
+  type: 'hotel' | 'restaurant' | 'event' | 'promotion' | 'sports' | 'attraction'
   title: string
   description: string
   status: 'pending' | 'approved' | 'rejected'
   createdAt: string
-  submittedBy: {
+  submittedBy?: {
     name: string
     email: string
     phone: string
@@ -39,54 +63,66 @@ interface Submission {
 }
 
 export default function AdminApprovalsPage() {
-  const backendURL = process.env.NEXT_PUBLIC_BACKEND_URL || 'http://localhost:5000'
-  
+  const router = useRouter()
   const [submissions, setSubmissions] = useState<Submission[]>([])
   const [loading, setLoading] = useState(true)
-  const [filter, setFilter] = useState<string>('pending')
+  const [statusFilter, setStatusFilter] = useState<string>('all')
+  const [typeFilter, setTypeFilter] = useState<string>('all')
   const [searchTerm, setSearchTerm] = useState('')
-  const [selectedSubmission, setSelectedSubmission] = useState<Submission | null>(null)
+  const [currentPage, setCurrentPage] = useState(1)
+  const [totalPages, setTotalPages] = useState(1)
+  const [totalItems, setTotalItems] = useState(0)
   const [actionLoading, setActionLoading] = useState<string | null>(null)
-  const [adminNotes, setAdminNotes] = useState('')
+  const itemsPerPage = 10
 
   useEffect(() => {
     fetchSubmissions()
-  }, []) // eslint-disable-line react-hooks/exhaustive-deps
+  }, [statusFilter, typeFilter, searchTerm, currentPage])
 
   const fetchSubmissions = async () => {
     try {
       setLoading(true)
-      const response = await fetchAuthenticatedAPI(`/api/admin/submissions?status=${filter}`)
+      const params = new URLSearchParams({
+        page: currentPage.toString(),
+        limit: itemsPerPage.toString(),
+        ...(statusFilter !== 'all' && { status: statusFilter }),
+        ...(typeFilter !== 'all' && { type: typeFilter }),
+        ...(searchTerm && { search: searchTerm })
+      })
+      
+      const response = await fetchAuthenticatedAPI(`/api/admin/submissions?${params}`)
       
       if (response.ok) {
         const data = await response.json()
-        setSubmissions(data.submissions)
+        setSubmissions(data.submissions || [])
+        setTotalPages(Math.ceil((data.total || 0) / itemsPerPage))
+        setTotalItems(data.total || 0)
       }
     } catch (error) {
       console.error('Error fetching submissions:', error)
+      setSubmissions([])
     } finally {
       setLoading(false)
     }
   }
 
-  const handleAction = async (submissionId: string, action: 'approve' | 'reject') => {
+  const handleViewSubmission = (submissionId: string) => {
+    // Always go to the approvals edit page which now has proper edit forms
+    router.push(`/admin/approvals/edit/${submissionId}`)
+  }
+
+  const handleQuickAction = async (submissionId: string, action: 'approve' | 'reject') => {
     setActionLoading(submissionId)
-    
     try {
       const response = await fetchAuthenticatedAPI(`/api/admin/submissions/${submissionId}/${action}`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          adminNotes: adminNotes
-        })
+        }
       })
 
       if (response.ok) {
-        await fetchSubmissions()
-        setSelectedSubmission(null)
-        setAdminNotes('')
+        fetchSubmissions()
       }
     } catch (error) {
       console.error(`Error ${action}ing submission:`, error)
@@ -95,42 +131,79 @@ export default function AdminApprovalsPage() {
     }
   }
 
+
+
   const getTypeIcon = (type: string) => {
     switch (type) {
       case 'hotel':
-        return <Hotel className="w-5 h-5" />
+        return <Hotel className="w-4 h-4" />
       case 'restaurant':
-        return <UtensilsCrossed className="w-5 h-5" />
+        return <UtensilsCrossed className="w-4 h-4" />
       case 'event':
-        return <Calendar className="w-5 h-5" />
+        return <Calendar className="w-4 h-4" />
       case 'promotion':
-        return <Megaphone className="w-5 h-5" />
+        return <Megaphone className="w-4 h-4" />
       case 'sports':
-        return <Trophy className="w-5 h-5" />
+        return <Trophy className="w-4 h-4" />
+      case 'attraction':
+        return <MapPin className="w-4 h-4" />
       default:
-        return <Clock className="w-5 h-5" />
+        return <Clock className="w-4 h-4" />
     }
   }
 
   const getStatusBadge = (status: string) => {
     switch (status) {
       case 'approved':
-        return <Badge className="bg-green-100 text-green-800">Approved</Badge>
+        return <Badge className="bg-green-100 text-green-800 border-green-200">Approved</Badge>
       case 'rejected':
-        return <Badge className="bg-red-100 text-red-800">Rejected</Badge>
+        return <Badge className="bg-red-100 text-red-800 border-red-200">Rejected</Badge>
       case 'pending':
-        return <Badge className="bg-yellow-100 text-yellow-800">Pending</Badge>
+        return <Badge className="bg-yellow-100 text-yellow-800 border-yellow-200">Pending</Badge>
       default:
         return <Badge variant="outline">{status}</Badge>
     }
   }
 
-  const filteredSubmissions = submissions.filter(submission =>
-    submission.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    submission.submittedBy.name.toLowerCase().includes(searchTerm.toLowerCase())
-  )
+  const getTypeLabel = (type: string) => {
+    switch (type) {
+      case 'hotel':
+        return 'Hotel'
+      case 'restaurant':
+        return 'Restaurant'
+      case 'event':
+        return 'Event'
+      case 'promotion':
+        return 'Promotion'
+      case 'sports':
+        return 'Sports'
+      case 'attraction':
+        return 'Attraction'
+      default:
+        return type
+    }
+  }
 
-  if (loading) {
+  const handlePageChange = (page: number) => {
+    setCurrentPage(page)
+  }
+
+  const handleSearchChange = (value: string) => {
+    setSearchTerm(value)
+    setCurrentPage(1)
+  }
+
+  const handleStatusFilterChange = (value: string) => {
+    setStatusFilter(value)
+    setCurrentPage(1)
+  }
+
+  const handleTypeFilterChange = (value: string) => {
+    setTypeFilter(value)
+    setCurrentPage(1)
+  }
+
+  if (loading && currentPage === 1) {
     return (
       <div className="min-h-screen bg-gray-50 flex items-center justify-center">
         <div className="text-center">
@@ -146,222 +219,282 @@ export default function AdminApprovalsPage() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
         <div className="mb-8">
-          <h1 className="text-2xl font-bold text-gray-900">Content Approvals</h1>
-          <p className="text-gray-600 mt-1">Review and manage submitted content</p>
+          <h1 className="text-3xl font-bold text-gray-900">Content Approvals</h1>
+          <p className="text-gray-600 mt-2">Review and manage submitted content from users</p>
         </div>
 
         {/* Filters and Search */}
-        <div className="mb-6 flex flex-col sm:flex-row gap-4">
-          <div className="flex space-x-2">
-            <Button
-              variant={filter === 'pending' ? 'default' : 'outline'}
-              onClick={() => setFilter('pending')}
-              className={filter === 'pending' ? 'bg-orange-600 hover:bg-orange-700' : ''}
-            >
-              <Clock className="w-4 h-4 mr-2" />
-              Pending
-            </Button>
-            <Button
-              variant={filter === 'approved' ? 'default' : 'outline'}
-              onClick={() => setFilter('approved')}
-              className={filter === 'approved' ? 'bg-green-600 hover:bg-green-700' : ''}
-            >
-              <Check className="w-4 h-4 mr-2" />
-              Approved
-            </Button>
-            <Button
-              variant={filter === 'rejected' ? 'default' : 'outline'}
-              onClick={() => setFilter('rejected')}
-              className={filter === 'rejected' ? 'bg-red-600 hover:bg-red-700' : ''}
-            >
-              <X className="w-4 h-4 mr-2" />
-              Rejected
-            </Button>
-          </div>
-          
-          <div className="flex-1 max-w-md">
-            <div className="relative">
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4" />
-              <Input
-                placeholder="Search submissions..."
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-                className="pl-10"
-              />
+        <Card className="mb-6">
+          <CardContent className="p-6">
+            <div className="flex flex-col sm:flex-row gap-4 items-end">
+              {/* Search */}
+              <div className="flex-1 max-w-md">
+                <label htmlFor="search" className="block text-sm font-medium text-gray-700 mb-2">
+                  Search Submissions
+                </label>
+                <div className="relative">
+                  <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4" />
+                  <Input
+                    id="search"
+                    placeholder="Search by title or submitter name..."
+                    value={searchTerm}
+                    onChange={(e) => handleSearchChange(e.target.value)}
+                    className="pl-10 bg-white"
+                  />
+                </div>
+              </div>
+
+              {/* Status Filter */}
+              <div className="min-w-[160px]">
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  Status
+                </label>
+                <Select value={statusFilter} onValueChange={handleStatusFilterChange}>
+                  <SelectTrigger className="bg-white">
+                    <SelectValue placeholder="All Status" />
+                  </SelectTrigger>
+                  <SelectContent className="bg-white">
+                    <SelectItem value="all">All Status</SelectItem>
+                    <SelectItem value="pending">Pending</SelectItem>
+                    <SelectItem value="approved">Approved</SelectItem>
+                    <SelectItem value="rejected">Rejected</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+
+              {/* Type Filter */}
+              <div className="min-w-[160px]">
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  Resource Type
+                </label>
+                <Select value={typeFilter} onValueChange={handleTypeFilterChange}>
+                  <SelectTrigger className="bg-white">
+                    <SelectValue placeholder="All Types" />
+                  </SelectTrigger>
+                  <SelectContent className="bg-white">
+                    <SelectItem value="all">All Types</SelectItem>
+                    <SelectItem value="hotel">Hotel</SelectItem>
+                    <SelectItem value="restaurant">Restaurant</SelectItem>
+                    <SelectItem value="event">Event</SelectItem>
+                    <SelectItem value="promotion">Promotion</SelectItem>
+                    <SelectItem value="sports">Sports</SelectItem>
+                    <SelectItem value="attraction">Attraction</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+
+              {/* Clear Filters */}
+              <Button
+                variant="outline"
+                onClick={() => {
+                  setSearchTerm('')
+                  setStatusFilter('all')
+                  setTypeFilter('all')
+                  setCurrentPage(1)
+                }}
+                className="shrink-0"
+              >
+                <Filter className="w-4 h-4 mr-2" />
+                Clear Filters
+              </Button>
             </div>
+          </CardContent>
+        </Card>
+
+        {/* Results Summary */}
+        <div className="mb-4 flex justify-between items-center">
+          <p className="text-sm text-gray-600">
+            Showing {((currentPage - 1) * itemsPerPage) + 1} to {Math.min(currentPage * itemsPerPage, totalItems)} of {totalItems} submissions
+          </p>
+          <div className="text-sm text-gray-600">
+            Page {currentPage} of {totalPages}
           </div>
         </div>
 
-        {/* Submissions Grid */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-          {/* Submissions List */}
-          <div className="space-y-4">
-            {filteredSubmissions.length === 0 ? (
-              <Card>
-                <CardContent className="text-center py-12">
-                  <Filter className="w-12 h-12 text-gray-400 mx-auto mb-4" />
-                  <h3 className="text-lg font-medium text-gray-900 mb-2">No submissions found</h3>
-                  <p className="text-gray-600">No submissions match your current filter criteria.</p>
-                </CardContent>
-              </Card>
+        {/* Submissions Table */}
+        <Card>
+          <CardContent className="p-0">
+            {submissions.length === 0 ? (
+              <div className="text-center py-12">
+                <Filter className="w-12 h-12 text-gray-400 mx-auto mb-4" />
+                <h3 className="text-lg font-medium text-gray-900 mb-2">No submissions found</h3>
+                <p className="text-gray-600">No submissions match your current filter criteria.</p>
+              </div>
             ) : (
-              filteredSubmissions.map((submission) => (
-                <motion.div
-                  key={submission.id}
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                >
-                  <Card 
-                    className={`cursor-pointer transition-all hover:shadow-md ${
-                      selectedSubmission?.id === submission.id ? 'ring-2 ring-orange-500' : ''
-                    }`}
-                    onClick={() => setSelectedSubmission(submission)}
-                  >
-                    <CardContent className="p-6">
-                      <div className="flex items-start justify-between">
-                        <div className="flex items-start space-x-3">
-                          <div className="flex-shrink-0 mt-1">
+              <div className="overflow-x-auto">
+                <Table>
+                  <TableHeader>
+                    <TableRow className="bg-gray-50">
+                      <TableHead className="font-semibold">Type</TableHead>
+                      <TableHead className="font-semibold">Title</TableHead>
+                      <TableHead className="font-semibold">Submitter</TableHead>
+                      <TableHead className="font-semibold">Submitted</TableHead>
+                      <TableHead className="font-semibold">Status</TableHead>
+                      <TableHead className="font-semibold text-right">Actions</TableHead>
+                    </TableRow>
+                  </TableHeader>
+                  <TableBody>
+                    {submissions.map((submission) => (
+                      <TableRow key={submission.id} className="hover:bg-gray-50">
+                        <TableCell>
+                          <div className="flex items-center space-x-2">
                             {getTypeIcon(submission.type)}
+                            <span className="text-sm font-medium capitalize">
+                              {getTypeLabel(submission.type)}
+                            </span>
                           </div>
-                          <div className="flex-1">
-                            <h3 className="text-lg font-medium text-gray-900 mb-1">
+                        </TableCell>
+                        <TableCell>
+                          <div>
+                            <div className="font-medium text-gray-900 line-clamp-1">
                               {submission.title}
-                            </h3>
-                            <p className="text-sm text-gray-600 mb-2 line-clamp-2">
+                            </div>
+                            <div className="text-sm text-gray-600 line-clamp-1 mt-1">
                               {submission.description}
-                            </p>
-                            <div className="flex items-center space-x-4 text-xs text-gray-500">
-                              <span>By {submission.submittedBy.name}</span>
-                              <span>{new Date(submission.createdAt).toLocaleDateString()}</span>
-                              <span className="capitalize">{submission.type}</span>
                             </div>
                           </div>
-                        </div>
-                        <div className="flex flex-col items-end space-y-2">
+                        </TableCell>
+                        <TableCell>
+                          <div>
+                            <div className="text-sm font-medium text-gray-900">
+                              {submission.submittedBy?.name || 'Unknown User'}
+                            </div>
+                            <div className="text-sm text-gray-600">
+                              {submission.submittedBy?.email || 'No email provided'}
+                            </div>
+                          </div>
+                        </TableCell>
+                        <TableCell>
+                          <div className="text-sm text-gray-600">
+                            {new Date(submission.createdAt).toLocaleDateString('en-US', {
+                              year: 'numeric',
+                              month: 'short',
+                              day: 'numeric'
+                            })}
+                          </div>
+                          <div className="text-xs text-gray-500">
+                            {new Date(submission.createdAt).toLocaleTimeString('en-US', {
+                              hour: '2-digit',
+                              minute: '2-digit'
+                            })}
+                          </div>
+                        </TableCell>
+                        <TableCell>
                           {getStatusBadge(submission.status)}
-                          <Button
-                            size="sm"
-                            variant="outline"
-                            onClick={(e) => {
-                              e.stopPropagation()
-                              setSelectedSubmission(submission)
-                            }}
-                          >
-                            <Eye className="w-3 h-3 mr-1" />
-                            View
-                          </Button>
-                        </div>
-                      </div>
-                    </CardContent>
-                  </Card>
-                </motion.div>
-              ))
+                        </TableCell>
+                        <TableCell>
+                          <div className="flex items-center justify-end space-x-2">
+                            <Button
+                              size="sm"
+                              variant="outline"
+                              onClick={() => handleViewSubmission(submission.id)}
+                              className="h-8 px-3"
+                            >
+                              <Eye className="w-3 h-3 mr-1" />
+                              View
+                            </Button>
+                            
+                            {submission.status === 'pending' && (
+                              <DropdownMenu>
+                                <DropdownMenuTrigger asChild>
+                                  <Button
+                                    size="sm"
+                                    variant="outline"
+                                    className="h-8 w-8 p-0"
+                                    disabled={actionLoading === submission.id}
+                                  >
+                                    {actionLoading === submission.id ? (
+                                      <div className="animate-spin rounded-full h-3 w-3 border-b-2 border-gray-600"></div>
+                                    ) : (
+                                      <MoreHorizontal className="w-3 h-3" />
+                                    )}
+                                  </Button>
+                                </DropdownMenuTrigger>
+                                <DropdownMenuContent align="end" className="bg-white">
+                                  <DropdownMenuItem 
+                                    onClick={() => handleQuickAction(submission.id, 'approve')}
+                                    className="text-green-600"
+                                  >
+                                    <Check className="w-4 h-4 mr-2" />
+                                    Quick Approve
+                                  </DropdownMenuItem>
+                                  <DropdownMenuItem 
+                                    onClick={() => handleQuickAction(submission.id, 'reject')}
+                                    className="text-red-600"
+                                  >
+                                    <X className="w-4 h-4 mr-2" />
+                                    Quick Reject
+                                  </DropdownMenuItem>
+                                </DropdownMenuContent>
+                              </DropdownMenu>
+                            )}
+                          </div>
+                        </TableCell>
+                      </TableRow>
+                    ))}
+                  </TableBody>
+                </Table>
+              </div>
             )}
+          </CardContent>
+        </Card>
+
+        {/* Pagination */}
+        {totalPages > 1 && (
+          <div className="mt-6 flex items-center justify-between">
+            <Button
+              variant="outline"
+              onClick={() => handlePageChange(currentPage - 1)}
+              disabled={currentPage === 1 || loading}
+              className="flex items-center"
+            >
+              <ChevronLeft className="w-4 h-4 mr-2" />
+              Previous
+            </Button>
+            
+            <div className="flex items-center space-x-2">
+              {Array.from({ length: Math.min(5, totalPages) }, (_, i) => {
+                let pageNumber;
+                if (totalPages <= 5) {
+                  pageNumber = i + 1;
+                } else if (currentPage <= 3) {
+                  pageNumber = i + 1;
+                } else if (currentPage >= totalPages - 2) {
+                  pageNumber = totalPages - 4 + i;
+                } else {
+                  pageNumber = currentPage - 2 + i;
+                }
+                
+                return (
+                  <Button
+                    key={pageNumber}
+                    variant={currentPage === pageNumber ? "default" : "outline"}
+                    size="sm"
+                    onClick={() => handlePageChange(pageNumber)}
+                    disabled={loading}
+                    className={`w-8 h-8 p-0 ${
+                      currentPage === pageNumber 
+                        ? 'bg-orange-600 hover:bg-orange-700 text-white' 
+                        : ''
+                    }`}
+                  >
+                    {pageNumber}
+                  </Button>
+                );
+              })}
+            </div>
+            
+            <Button
+              variant="outline"
+              onClick={() => handlePageChange(currentPage + 1)}
+              disabled={currentPage === totalPages || loading}
+              className="flex items-center"
+            >
+              Next
+              <ChevronRight className="w-4 h-4 ml-2" />
+            </Button>
           </div>
-
-          {/* Submission Details */}
-          <div className="sticky top-8">
-            {selectedSubmission ? (
-              <Card>
-                <CardHeader>
-                  <div className="flex items-center justify-between">
-                    <CardTitle className="flex items-center space-x-2">
-                      {getTypeIcon(selectedSubmission.type)}
-                      <span>{selectedSubmission.title}</span>
-                    </CardTitle>
-                    {getStatusBadge(selectedSubmission.status)}
-                  </div>
-                </CardHeader>
-                <CardContent className="space-y-6">
-                  {/* Basic Info */}
-                  <div>
-                    <h4 className="font-medium text-gray-900 mb-2">Description</h4>
-                    <p className="text-gray-600">{selectedSubmission.description}</p>
-                  </div>
-
-                  {/* Submitter Info */}
-                  <div>
-                    <h4 className="font-medium text-gray-900 mb-2">Submitted By</h4>
-                    <div className="space-y-1 text-sm">
-                      <p><span className="font-medium">Name:</span> {selectedSubmission.submittedBy.name}</p>
-                      <p><span className="font-medium">Email:</span> {selectedSubmission.submittedBy.email}</p>
-                      <p><span className="font-medium">Phone:</span> {selectedSubmission.submittedBy.phone}</p>
-                    </div>
-                  </div>
-
-                  {/* Submission Date */}
-                  <div>
-                    <h4 className="font-medium text-gray-900 mb-2">Submitted On</h4>
-                    <p className="text-gray-600">{new Date(selectedSubmission.createdAt).toLocaleString()}</p>
-                  </div>
-
-                  {/* Admin Notes */}
-                  {selectedSubmission.status === 'pending' && (
-                    <div>
-                      <h4 className="font-medium text-gray-900 mb-2">Admin Notes</h4>
-                      <Textarea
-                        placeholder="Add notes for approval/rejection..."
-                        value={adminNotes}
-                        onChange={(e) => setAdminNotes(e.target.value)}
-                        rows={3}
-                      />
-                    </div>
-                  )}
-
-                  {/* Existing Admin Notes */}
-                  {selectedSubmission.adminNotes && (
-                    <div>
-                      <h4 className="font-medium text-gray-900 mb-2">Previous Admin Notes</h4>
-                      <p className="text-gray-600 bg-gray-50 p-3 rounded">
-                        {selectedSubmission.adminNotes}
-                      </p>
-                    </div>
-                  )}
-
-                  {/* Action Buttons */}
-                  {selectedSubmission.status === 'pending' && (
-                    <div className="flex space-x-3">
-                      <Button
-                        className="flex-1 bg-green-600 hover:bg-green-700"
-                        onClick={() => handleAction(selectedSubmission.id, 'approve')}
-                        disabled={actionLoading === selectedSubmission.id}
-                      >
-                        {actionLoading === selectedSubmission.id ? (
-                          <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"></div>
-                        ) : (
-                          <Check className="w-4 h-4 mr-2" />
-                        )}
-                        Approve
-                      </Button>
-                      
-                      <Button
-                        variant="outline"
-                        className="flex-1 border-red-500 text-red-600 hover:bg-red-50"
-                        onClick={() => handleAction(selectedSubmission.id, 'reject')}
-                        disabled={actionLoading === selectedSubmission.id}
-                      >
-                        {actionLoading === selectedSubmission.id ? (
-                          <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-red-600 mr-2"></div>
-                        ) : (
-                          <X className="w-4 h-4 mr-2" />
-                        )}
-                        Reject
-                      </Button>
-                    </div>
-                  )}
-                </CardContent>
-              </Card>
-            ) : (
-              <Card>
-                <CardContent className="text-center py-12">
-                  <Eye className="w-12 h-12 text-gray-400 mx-auto mb-4" />
-                  <h3 className="text-lg font-medium text-gray-900 mb-2">Select a submission</h3>
-                  <p className="text-gray-600">Choose a submission from the list to view details and take action.</p>
-                </CardContent>
-              </Card>
-            )}
-          </div>
-        </div>
+        )}
       </div>
     </div>
   )

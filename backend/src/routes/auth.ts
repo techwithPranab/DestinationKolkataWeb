@@ -268,4 +268,84 @@ router.get('/me', async (req: Request, res: Response) => {
   }
 });
 
+// POST /api/auth/next-auth - Exchange NextAuth session for backend JWT and set cookie
+router.post('/next-auth', async (req: Request, res: Response) => {
+  try {
+    const { email, name, provider, oauthId } = req.body
+
+    if (!email) {
+      return res.status(400).json({
+        success: false,
+        message: 'Email is required for NextAuth sync'
+      })
+    }
+
+    const { db } = await connectToDatabase()
+
+    // Try to find existing user by email
+    let user = await db.collection('users').findOne({ email })
+
+    if (!user) {
+      // Create a minimal customer record when not found
+      const newUser = {
+        name: name || '',
+        email,
+        role: 'customer',
+        status: 'active',
+        provider: provider || 'nextauth',
+        oauthId: oauthId || null,
+        createdAt: new Date(),
+        updatedAt: new Date()
+      }
+
+      const result = await db.collection('users').insertOne(newUser)
+      user = { ...newUser, _id: result.insertedId }
+    } else {
+      // Optionally update name or oauthId
+      const update: any = {}
+      if (!user.name && name) update.name = name
+      if (!user.oauthId && oauthId) update.oauthId = oauthId
+      if (Object.keys(update).length > 0) {
+        update.updatedAt = new Date()
+        await db.collection('users').updateOne({ _id: user._id }, { $set: update })
+        user = await db.collection('users').findOne({ _id: user._id })
+      }
+    }
+
+    // Ensure user exists and generate JWT token for the user
+    if (!user) {
+      return res.status(500).json({ success: false, message: 'Failed to create user' })
+    }
+
+    const payload = {
+      userId: user._id,
+      email: user.email,
+      role: user.role || 'customer',
+      name: user.name
+    }
+
+    const jwtSecret = process.env.JWT_SECRET as string
+    const expiresIn = (process.env.JWT_EXPIRES_IN || '7d') as string
+
+    const token = jwt.sign(payload as any, jwtSecret as any, { expiresIn } as any)
+
+    // Set HTTP-only cookie for auth-token (same options as login)
+    const cookieOptions = {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production',
+      maxAge: 7 * 24 * 60 * 60 * 1000,
+      sameSite: 'strict' as const
+    }
+    res.cookie('auth-token', token, cookieOptions)
+
+    // Don't include password in returned object
+    const { password: _pwd, ...userWithoutPassword } = user as any
+
+    res.status(200).json({ success: true, data: { user: userWithoutPassword, token } })
+  } catch (error) {
+    console.error('NextAuth sync error:', error)
+    res.status(500).json({ success: false, message: 'Failed to sync NextAuth session' })
+  }
+})
+
 export default router;

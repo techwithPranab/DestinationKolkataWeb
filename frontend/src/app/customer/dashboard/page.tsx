@@ -45,6 +45,23 @@ interface Submission {
   adminNotes?: string
 }
 
+interface ApiResponse<T> {
+  success: boolean
+  data: T
+}
+
+interface StatsResponse {
+  totalSubmissions: number
+  approvedSubmissions: number
+  pendingSubmissions: number
+  rejectedSubmissions: number
+  totalViews: number
+}
+
+interface SubmissionsResponse {
+  submissions: Submission[]
+}
+
 export default function CustomerDashboard() {
   const { user, isLoading } = useAuth()
   const { data: session, status } = useSession()
@@ -99,16 +116,22 @@ export default function CustomerDashboard() {
       if (statsResult.error) {
         console.error('Stats API Error:', statsResult.error)
       } else {
-        console.log('Setting stats:', statsResult.data)
-        setStats(statsResult.data as UserStats)
+        // Backend responses are wrapped as { success: true, data: { ... } }
+        // but some code paths return the inner data directly. Handle both.
+        const payload = statsResult.data as ApiResponse<StatsResponse> | StatsResponse
+        const statsData = (payload as ApiResponse<StatsResponse>)?.data ?? payload as StatsResponse
+        console.log('Setting stats (unwrapped):', statsData)
+        setStats(statsData as UserStats)
       }
 
       if (submissionsResult.error) {
         console.error('Submissions API Error:', submissionsResult.error)
       } else {
-        const submissionsData = submissionsResult.data as { submissions?: Submission[] } | undefined
-        console.log('Setting submissions:', submissionsData?.submissions)
-        setSubmissions(submissionsData?.submissions || [])
+        // Submissions response is often wrapped in { success, data: { submissions } }
+        const subsPayload = submissionsResult.data as ApiResponse<SubmissionsResponse> | SubmissionsResponse
+        const submissionsList = (subsPayload as ApiResponse<SubmissionsResponse>)?.data?.submissions ?? (subsPayload as SubmissionsResponse)?.submissions ?? []
+        console.log('Setting submissions (unwrapped):', submissionsList)
+        setSubmissions(submissionsList as Submission[])
       }
     } catch (error) {
       console.error('Error fetching dashboard data:', error)
@@ -368,7 +391,7 @@ export default function CustomerDashboard() {
                 {submissions.slice(0, 5).map((submission) => (
                   <div key={submission.id} className="p-6 flex items-center justify-between">
                     <div className="flex items-center space-x-4">
-                      <div className="flex-shrink-0">
+                      <div className="shrink-0">
                         {getTypeIcon(submission.type)}
                       </div>
                       <div>

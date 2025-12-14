@@ -1,7 +1,8 @@
 "use client"
 
-import React, { useState } from 'react'
-import { Trophy, Users, Clock, MapPin, Save } from 'lucide-react'
+import React, { useState, useEffect } from 'react'
+import { useRouter, useSearchParams } from 'next/navigation'
+import { Trophy, Users, Clock, MapPin, Save, Medal } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
@@ -10,8 +11,16 @@ import { Textarea } from '@/components/ui/textarea'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import ImageUpload from '@/components/shared/ImageUpload'
 import { getCloudinaryFolder, generateSlug } from '@/lib/cloudinary-utils'
+import { useApi } from '@/lib/api-client'
 
 export default function CreateSports() {
+  const router = useRouter()
+  const searchParams = useSearchParams()
+  const api = useApi()
+  const [loading, setLoading] = useState(false)
+  const [error, setError] = useState('')
+  const [isEdit, setIsEdit] = useState(false)
+  const [editId, setEditId] = useState<string | null>(null)
   const [formData, setFormData] = useState({
     title: '',
     description: '',
@@ -33,7 +42,87 @@ export default function CreateSports() {
     images: [] as { url: string; alt?: string; isPrimary?: boolean }[]
   })
 
-  const [loading, setLoading] = useState(false)
+  useEffect(() => {
+    const id = searchParams.get('edit')
+    if (id) {
+      setIsEdit(true)
+      setEditId(id)
+      loadSubmissionForEdit(id)
+    }
+  }, [searchParams])
+
+  const loadSubmissionForEdit = async (id: string) => {
+    try {
+      setLoading(true)
+      const result = await api.get(`/api/customer/submissions/${id}`)
+      
+      if (result.error) {
+        throw new Error(result.error)
+      }
+
+      interface SubmissionData {
+        data?: Record<string, unknown>
+        category?: string
+      }
+      
+      const submission = result.data as SubmissionData
+      if (submission) {
+        // The form data is stored in the submission object
+        // Check if data is nested or directly in the submission
+        const data = submission.data?.data || submission
+        
+        // Verify this is a sports submission
+        if (submission.category && submission.category !== 'sports') {
+          setError(`This is a ${submission.category} submission, not sports. Please edit it from the correct form.`)
+          return
+        }
+        
+        // Pre-populate form with existing data
+        const formData = data as Record<string, unknown>
+        setFormData({
+          title: (formData.title as string) || '',
+          description: (formData.description as string) || '',
+          sportType: (formData.sportType as string) || '',
+          category: (formData.category as string) || '',
+          academyName: (formData.academyName as string) || '',
+          coachName: (formData.coachName as string) || '',
+          experience: (formData.experience as string) || '',
+          address: (formData.address as string) || '',
+          city: (formData.city as string) || 'Kolkata',
+          facilities: (formData.facilities as string) || '',
+          ageGroup: (formData.ageGroup as string) || '',
+          classSize: (formData.classSize as string) || '',
+          duration: (formData.duration as string) || '',
+          frequency: (formData.frequency as string) || '',
+          price: (formData.price as string) || '',
+          contactEmail: (formData.contactEmail as string) || '',
+          contactPhone: (formData.contactPhone as string) || '',
+          images: (formData.images as { url: string; alt?: string; isPrimary?: boolean }[]) || []
+        })
+      }
+    } catch (err) {
+      console.error('Failed to load submission data:', err)
+      setError('Failed to load submission data')
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  const validateForm = () => {
+    if (!formData.title.trim()) {
+      setError('Sports title is required')
+      return false
+    }
+    if (!formData.description.trim()) {
+      setError('Description is required')
+      return false
+    }
+    if (!formData.sportType.trim()) {
+      setError('Sport type is required')
+      return false
+    }
+    return true
+  }
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target
@@ -50,42 +139,89 @@ export default function CreateSports() {
     }))
   }
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent, submitForApproval = false) => {
     e.preventDefault()
+    setError('')
+
+    if (!validateForm()) return
+
     setLoading(true)
 
     try {
-      const submitData = new FormData()
-      
-      Object.entries(formData).forEach(([key, value]) => {
-        if (key === 'images') {
-          // Send images as JSON string since they're already uploaded to Cloudinary
-          submitData.append(key, JSON.stringify(value))
-        } else if (Array.isArray(value)) {
-          submitData.append(key, JSON.stringify(value))
+      let result
+      if (isEdit && editId) {
+        if (submitForApproval) {
+          // Submit for admin approval
+          result = await api.post(`/api/customer/submissions/${editId}/submit-for-approval`, {
+            data: formData
+          })
+          
+          if (result.error) {
+            throw new Error(result.error || 'Failed to submit for approval')
+          }
         } else {
-          submitData.append(key, value.toString())
+          // Update existing submission
+          result = await api.put(`/api/customer/submissions/${editId}`, {
+            data: formData // Store form data in the data field
+          })
+          
+          if (result.error) {
+            throw new Error(result.error || 'Failed to update sports')
+          }
         }
-      })
+      } else {
+        // Create new submission
+        result = await api.post('/api/customer/submissions/sports', formData)
+        
+        if (result.error) {
+          throw new Error(result.error || 'Failed to submit sports')
+        }
+      }
 
-      // Implement sports academy creation API
-      console.log('Creating sports academy:', formData)
-      await new Promise(resolve => setTimeout(resolve, 1000))
-      // Redirect to dashboard or show success message
-    } catch (error) {
-      console.error('Error creating sports academy:', error)
+      if (result.error) {
+        throw new Error(result.error)
+      }
+
+      // Redirect to dashboard with success message
+      let message = ''
+      if (submitForApproval) {
+        message = 'Sports academy submitted for admin approval successfully!'
+      } else if (isEdit) {
+        message = 'Sports academy updated successfully. If this was an approved listing, it is now pending admin re-review.'
+      } else {
+        message = 'Sports academy submitted successfully and is pending approval'
+      }
+      
+      router.push(`/customer/listings?message=${encodeURIComponent(message)}`)
+
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Failed to submit sports academy')
     } finally {
       setLoading(false)
     }
+  }
+
+  const handleSubmitForApproval = (e: React.FormEvent) => {
+    handleSubmit(e, true)
   }
 
   return (
     <div className="space-y-6">
       {/* Header */}
       <div>
-        <h1 className="text-3xl font-bold text-gray-900">Create Sports Academy</h1>
-        <p className="text-gray-600 mt-1">Add your sports academy or coaching center to the platform</p>
+        <h1 className="text-3xl font-bold text-gray-900">
+          {isEdit ? 'Edit Sports Academy' : 'Create Sports Academy'}
+        </h1>
+        <p className="text-gray-600 mt-1">
+          {isEdit ? 'Update your sports academy details' : 'Add your sports academy or coaching center to the platform'}
+        </p>
       </div>
+
+      {error && (
+        <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-md">
+          {error}
+        </div>
+      )}
 
       <form onSubmit={handleSubmit} className="space-y-6">
         {/* Basic Information */}
@@ -365,8 +501,28 @@ export default function CreateSports() {
           </CardContent>
         </Card>
 
-        {/* Submit Button */}
-        <div className="flex justify-end">
+        {/* Submit Buttons */}
+        <div className="flex justify-end space-x-4">
+          {isEdit && (
+            <Button
+              type="button"
+              onClick={handleSubmitForApproval}
+              className="bg-green-600 hover:bg-green-700 text-white"
+              disabled={loading}
+            >
+              {loading ? (
+                <>
+                  <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"></div>
+                  Submitting for Approval...
+                </>
+              ) : (
+                <>
+                  <Medal className="w-4 h-4 mr-2" />
+                  Submit for Admin Approval
+                </>
+              )}
+            </Button>
+          )}
           <Button
             type="submit"
             className="bg-orange-600 hover:bg-orange-700 text-white"
@@ -375,12 +531,12 @@ export default function CreateSports() {
             {loading ? (
               <>
                 <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"></div>
-                Creating Academy...
+                {isEdit ? 'Updating Academy...' : 'Creating Academy...'}
               </>
             ) : (
               <>
                 <Save className="w-4 h-4 mr-2" />
-                Create Sports Academy
+                {isEdit ? 'Save Changes' : 'Create Sports Academy'}
               </>
             )}
           </Button>

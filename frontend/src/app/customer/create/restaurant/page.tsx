@@ -9,7 +9,8 @@ import {
   Mail, 
   Globe, 
   Save,
-  Clock
+  Clock,
+  ChefHat
 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
@@ -104,26 +105,41 @@ export default function CreateRestaurantPage() {
         return
       }
 
-      const submission = (result.data as { submission: { data: Record<string, unknown> } })?.submission
-      if (submission?.data) {
-        const data = submission.data
+      interface SubmissionData {
+        data?: Record<string, unknown>
+        category?: string
+      }
+      
+      const submission = result.data as SubmissionData
+      if (submission) {
+        // The form data is stored in the submission object
+        // Check if data is nested or directly in the submission
+        const data = submission.data?.data || submission
+        
+        // Verify this is a restaurant submission
+        if (submission.category && submission.category !== 'restaurant') {
+          setError(`This is a ${submission.category} submission, not a restaurant. Please edit it from the correct form.`)
+          return
+        }
+        
         // Pre-populate form with existing data
+        const formData = data as Record<string, unknown>
         setFormData({
-          name: data.name as string || '',
-          description: data.description as string || '',
-          address: data.address as string || '',
-          city: data.city as string || 'Kolkata',
-          state: data.state as string || 'West Bengal',
-          pincode: data.pincode as string || '',
-          phone: data.phone as string || '',
-          email: data.email as string || '',
-          website: data.website as string || '',
-          cuisineTypes: data.cuisineTypes as string[] || [],
-          priceRange: data.priceRange as string || '',
-          amenities: data.amenities as string[] || [],
-          openingHours: data.openingHours as RestaurantFormData['openingHours'] || formData.openingHours,
-          specialFeatures: data.specialFeatures as string || '',
-          images: data.images as { url: string; alt?: string; isPrimary?: boolean }[] || []
+          name: (formData.name as string) || '',
+          description: (formData.description as string) || '',
+          address: (formData.address as string) || '',
+          city: (formData.city as string) || 'Kolkata',
+          state: (formData.state as string) || 'West Bengal',
+          pincode: (formData.pincode as string) || '',
+          phone: (formData.phone as string) || '',
+          email: (formData.email as string) || '',
+          website: (formData.website as string) || '',
+          cuisineTypes: (formData.cuisineTypes as string[]) || [],
+          priceRange: (formData.priceRange as string) || '',
+          amenities: (formData.amenities as string[]) || [],
+          openingHours: (formData.openingHours as RestaurantFormData['openingHours']) || formData.openingHours,
+          specialFeatures: (formData.specialFeatures as string) || '',
+          images: (formData.images as { url: string; alt?: string; isPrimary?: boolean }[]) || []
         })
       }
     } catch (err) {
@@ -265,7 +281,7 @@ export default function CreateRestaurantPage() {
     return true
   }
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent, submitForApproval = false) => {
     e.preventDefault()
     setError('')
 
@@ -274,58 +290,46 @@ export default function CreateRestaurantPage() {
     setLoading(true)
 
     try {
-      const submitData = new FormData()
-      
-      Object.entries(formData).forEach(([key, value]) => {
-        if (key === 'images') {
-          // Send images as JSON string since they're already uploaded to Cloudinary
-          submitData.append(key, JSON.stringify(value))
-        } else if (typeof value === 'object') {
-          submitData.append(key, JSON.stringify(value))
-        } else if (Array.isArray(value)) {
-          submitData.append(key, JSON.stringify(value))
-        } else {
-          submitData.append(key, value.toString())
-        }
-      })
-
       let result
       if (isEdit && editId) {
-        // Update existing submission using native fetch for FormData
-        const token = localStorage.getItem('authToken')
-        const response = await fetch(`${backendURL}/api/customer/submissions/${editId}`, {
-          method: 'PUT',
-          headers: {
-            'Authorization': `Bearer ${token}`
-          },
-          body: submitData
-        })
-        result = await response.json()
-        
-        if (!response.ok) {
-          throw new Error(result.message || 'Failed to update restaurant')
+        if (submitForApproval) {
+          // Submit for admin approval
+          result = await api.post(`/api/customer/submissions/${editId}/submit-for-approval`, {
+            data: formData
+          })
+          
+          if (result.error) {
+            throw new Error(result.error || 'Failed to submit for approval')
+          }
+        } else {
+          // Update existing submission
+          result = await api.put(`/api/customer/submissions/${editId}`, {
+            data: formData // Store form data in the data field
+          })
+          
+          if (result.error) {
+            throw new Error(result.error || 'Failed to update restaurant')
+          }
         }
       } else {
         // Create new submission
-        const token = localStorage.getItem('authToken')
-        const response = await fetchAPI('/api/customer/submissions/restaurant', {
-          method: 'POST',
-          headers: {
-            'Authorization': `Bearer ${token}`
-          },
-          body: submitData
-        })
-        result = await response.json()
+        result = await api.post('/api/customer/submissions/restaurant', formData)
         
-        if (!response.ok) {
-          throw new Error(result.message || 'Failed to submit restaurant')
+        if (result.error) {
+          throw new Error(result.error || 'Failed to submit restaurant')
         }
       }
 
       // Redirect to listings with success message
-      const message = isEdit 
-        ? 'Restaurant updated successfully. If this was an approved listing, it is now pending admin re-review.' 
-        : 'Restaurant submitted successfully and is pending approval'
+      let message = ''
+      if (submitForApproval) {
+        message = 'Restaurant submitted for admin approval successfully!'
+      } else if (isEdit) {
+        message = 'Restaurant updated successfully. If this was an approved listing, it is now pending admin re-review.'
+      } else {
+        message = 'Restaurant submitted successfully and is pending approval'
+      }
+      
       router.push(`/customer/listings?message=${encodeURIComponent(message)}`)
 
     } catch (err) {
@@ -333,6 +337,10 @@ export default function CreateRestaurantPage() {
     } finally {
       setLoading(false)
     }
+  }
+
+  const handleSubmitForApproval = (e: React.FormEvent) => {
+    handleSubmit(e, true)
   }
 
   return (
@@ -640,8 +648,28 @@ export default function CreateRestaurantPage() {
             </CardContent>
           </Card>
 
-        {/* Submit Button */}
-        <div className="flex justify-end">
+        {/* Submit Buttons */}
+        <div className="flex justify-end space-x-4">
+          {isEdit && (
+            <Button
+              type="button"
+              onClick={handleSubmitForApproval}
+              className="bg-green-600 hover:bg-green-700 text-white"
+              disabled={loading}
+            >
+              {loading ? (
+                <>
+                  <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"></div>
+                  Submitting for Approval...
+                </>
+              ) : (
+                <>
+                  <ChefHat className="w-4 h-4 mr-2" />
+                  Submit for Admin Approval
+                </>
+              )}
+            </Button>
+          )}
           <Button
             type="submit"
             className="bg-orange-600 hover:bg-orange-700 text-white"
@@ -655,7 +683,7 @@ export default function CreateRestaurantPage() {
             ) : (
               <>
                 <Save className="w-4 h-4 mr-2" />
-                {isEdit ? 'Update Restaurant' : 'Submit Restaurant'}
+                {isEdit ? 'Save Changes' : 'Submit Restaurant'}
               </>
             )}
           </Button>

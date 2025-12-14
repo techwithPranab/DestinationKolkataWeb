@@ -287,6 +287,21 @@ describe('Submissions API', () => {
           type: 'invalid',
           title: 'Test'
         })
+
+        // Auth endpoint tests
+        describe('Auth API', () => {
+          it('POST /api/auth/next-auth should upsert user and return token', async () => {
+            const response = await request(app)
+              .post('/api/auth/next-auth')
+              .send({ email: 'nextauthuser@example.com', name: 'NextAuth User', provider: 'nextauth' })
+              .expect(200)
+
+            expect(response.body.success).toBe(true)
+            expect(response.body.data).toBeDefined()
+            expect(response.body.data.token).toBeDefined()
+            expect(response.body.data.user.email).toBe('nextauthuser@example.com')
+          })
+        })
         .expect(400);
 
       expect(response.body.success).toBe(false);

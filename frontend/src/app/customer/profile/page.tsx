@@ -1,7 +1,7 @@
 "use client"
 
 import React, { useState, useEffect } from 'react'
-import { User, Mail, Phone, MapPin, Building, Save, Upload, Link2, Bell, Settings, Shield } from 'lucide-react'
+import { User, Mail, Phone, MapPin, Building, Save } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
@@ -10,7 +10,6 @@ import { Textarea } from '@/components/ui/textarea'
 import { Switch } from '@/components/ui/switch'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
-import { Badge } from '@/components/ui/badge'
 import { useAuth } from '@/contexts/AuthContext'
 import { useApi } from '@/lib/api-client'
 
@@ -54,7 +53,6 @@ export default function CustomerProfile() {
   const api = useApi()
   const [loading, setLoading] = useState(false)
   const [fetching, setFetching] = useState(true)
-  const [activeTab, setActiveTab] = useState('personal')
   const [formData, setFormData] = useState({
     firstName: '',
     lastName: '',
@@ -84,7 +82,7 @@ export default function CustomerProfile() {
   // Fetch profile data on component mount
   useEffect(() => {
     fetchProfile()
-  }, [])
+  }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
   const fetchProfile = async () => {
     try {

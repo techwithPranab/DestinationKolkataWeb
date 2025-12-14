@@ -23,11 +23,16 @@ export function useFavorites() {
 
     try {
       setIsLoading(true)
-      const result = await api.get<{ favorites: FavoriteItem[] }>('/api/customer/favorites')
+      const result = await api.get('/api/customer/favorites')
 
-      if (result.data) {
-        const data = result.data as { favorites?: FavoriteItem[] }
-        setFavorites(data.favorites || [])
+      interface FavoritesResponse {
+        data: {
+          favorites: FavoriteItem[]
+        }
+      }
+      
+      if (result.data && (result.data as FavoritesResponse).data && (result.data as FavoritesResponse).data.favorites) {
+        setFavorites((result.data as FavoritesResponse).data.favorites)
       }
     } catch (error) {
       console.error('Failed to fetch favorites:', error)

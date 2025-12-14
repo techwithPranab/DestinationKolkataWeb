@@ -85,33 +85,51 @@ export default function CreateHotelPage() {
       const result = await api.get(`/api/customer/submissions/${id}`)
       
       if (result.error) {
-        setError('Failed to load submission for editing')
+        setError(`Failed to load submission for editing: ${result.error}`)
         return
       }
 
-      const submission = (result.data as { submission: { data: Record<string, unknown> } })?.submission
-      if (submission?.data) {
-        const data = submission.data
+      // The API returns the submission directly in result.data
+      console.log('Edit submission data:', result.data)
+      
+      interface SubmissionData {
+        data?: Record<string, unknown>
+        category?: string
+      }
+      
+      const submission = result.data as SubmissionData
+      if (submission) {
+        // The form data is stored in the submission object
+        // Check if data is nested or directly in the submission
+        const data = submission.data?.data || submission
+        
+        // Verify this is a hotel submission
+        if (submission.category && submission.category !== 'hotel') {
+          setError(`This is a ${submission.category} submission, not a hotel. Please edit it from the correct form.`);
+          return;
+        }
+        
         // Pre-populate form with existing data
+        const formData = data as Record<string, unknown>
         setFormData({
-          name: data.name as string || '',
-          description: data.description as string || '',
-          address: data.address as string || '',
-          city: data.city as string || 'Kolkata',
-          state: data.state as string || 'West Bengal',
-          pincode: data.pincode as string || '',
-          phone: data.phone as string || '',
-          email: data.email as string || '',
-          website: data.website as string || '',
-          starRating: data.starRating as number || 3,
-          priceRange: data.priceRange as string || '',
-          amenities: data.amenities as string[] || [],
-          roomTypes: data.roomTypes as string[] || [],
-          images: data.images as { url: string; alt?: string; isPrimary?: boolean }[] || [],
-          checkInTime: data.checkInTime as string || '14:00',
-          checkOutTime: data.checkOutTime as string || '12:00',
-          policies: data.policies as string || '',
-          nearbyAttractions: data.nearbyAttractions as string || ''
+          name: (formData.name as string) || '',
+          description: (formData.description as string) || '',
+          address: (formData.address as Record<string, unknown>)?.street as string || '',
+          city: (formData.address as Record<string, unknown>)?.city as string || 'Kolkata',
+          state: (formData.address as Record<string, unknown>)?.state as string || 'West Bengal',
+          pincode: (formData.address as Record<string, unknown>)?.pincode as string || '',
+          phone: (formData.phone as string) || '',
+          email: (formData.email as string) || '',
+          website: (formData.website as string) || '',
+          starRating: (formData.starRating as number) || 3,
+          priceRange: (formData.priceRange as string) || '',
+          amenities: (formData.amenities as string[]) || [],
+          roomTypes: (formData.roomTypes as string[]) || [],
+          images: (formData.images as { url: string; alt?: string; isPrimary?: boolean }[]) || [],
+          checkInTime: (formData.checkInTime as string) || '14:00',
+          checkOutTime: (formData.checkOutTime as string) || '12:00',
+          policies: (formData.policies as string) || '',
+          nearbyAttractions: (formData.nearbyAttractions as string) || ''
         })
       }
     } catch (err) {
@@ -218,7 +236,7 @@ export default function CreateHotelPage() {
     return true
   }
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent, submitForApproval = false) => {
     e.preventDefault()
     setError('')
 
@@ -227,51 +245,33 @@ export default function CreateHotelPage() {
     setLoading(true)
 
     try {
-      // Create form data for submission
-      const submitData = new FormData()
-      
-      // Add all form fields
-      Object.entries(formData).forEach(([key, value]) => {
-        if (key === 'images') {
-          // Send images as JSON string since they're already uploaded to Cloudinary
-          submitData.append(key, JSON.stringify(value))
-        } else if (Array.isArray(value)) {
-          submitData.append(key, JSON.stringify(value))
-        } else {
-          submitData.append(key, value.toString())
-        }
-      })
-
       let result
       if (isEdit && editId) {
-        // Update existing submission using native fetch for FormData
-        const token = localStorage.getItem('authToken')
-        const response = await fetch(`${backendURL}/api/customer/submissions/${editId}`, {
-          method: 'PUT',
-          headers: {
-            'Authorization': `Bearer ${token}`
-          },
-          body: submitData
-        })
-        result = await response.json()
-        
-        if (!response.ok) {
-          throw new Error(result.message || 'Failed to update hotel')
+        if (submitForApproval) {
+          // Submit for admin approval
+          result = await api.post(`/api/customer/submissions/${editId}/submit-for-approval`, {
+            data: formData
+          })
+          
+          if (result.error) {
+            throw new Error(result.error || 'Failed to submit for approval')
+          }
+        } else {
+          // Update existing submission
+          result = await api.put(`/api/customer/submissions/${editId}`, {
+            data: formData // Store form data in the data field
+          })
+          
+          if (result.error) {
+            throw new Error(result.error || 'Failed to update hotel')
+          }
         }
       } else {
         // Create new submission
-        const token = localStorage.getItem('authToken')
-        const response = await fetchAPI('/api/customer/submissions/hotel', {
-          method: 'POST',
-          headers: {
-            'Authorization': `Bearer ${token}`
-          },
-          body: submitData
-        })
-        result = await response.json()
+        result = await api.post('/api/customer/submissions/hotel', formData)
         
-        if (!response.ok) {
-          throw new Error(result.message || 'Failed to submit hotel')
+        if (result.error) {
+          throw new Error(result.error || 'Failed to submit hotel')
         }
       }
 
@@ -280,9 +280,15 @@ export default function CreateHotelPage() {
       }
 
       // Redirect to dashboard with success message
-      const message = isEdit 
-        ? 'Hotel updated successfully. If this was an approved listing, it is now pending admin re-review.' 
-        : 'Hotel submitted successfully and is pending approval'
+      let message = ''
+      if (submitForApproval) {
+        message = 'Hotel submitted for admin approval successfully!'
+      } else if (isEdit) {
+        message = 'Hotel updated successfully. If this was an approved listing, it is now pending admin re-review.'
+      } else {
+        message = 'Hotel submitted successfully and is pending approval'
+      }
+      
       router.push(`/customer/listings?message=${encodeURIComponent(message)}`)
 
     } catch (err) {
@@ -290,6 +296,10 @@ export default function CreateHotelPage() {
     } finally {
       setLoading(false)
     }
+  }
+
+  const handleSubmitForApproval = (e: React.FormEvent) => {
+    handleSubmit(e, true)
   }
 
   return (
@@ -609,8 +619,28 @@ export default function CreateHotelPage() {
           </CardContent>
         </Card>
 
-        {/* Submit Button */}
-        <div className="flex justify-end">
+        {/* Submit Buttons */}
+        <div className="flex justify-end space-x-4">
+          {isEdit && (
+            <Button
+              type="button"
+              onClick={handleSubmitForApproval}
+              className="bg-green-600 hover:bg-green-700 text-white"
+              disabled={loading}
+            >
+              {loading ? (
+                <>
+                  <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"></div>
+                  Submitting for Approval...
+                </>
+              ) : (
+                <>
+                  <Hotel className="w-4 h-4 mr-2" />
+                  Submit for Admin Approval
+                </>
+              )}
+            </Button>
+          )}
           <Button
             type="submit"
             className="bg-orange-600 hover:bg-orange-700 text-white"
@@ -624,7 +654,7 @@ export default function CreateHotelPage() {
             ) : (
               <>
                 <Save className="w-4 h-4 mr-2" />
-                {isEdit ? 'Update Hotel' : 'Create Hotel'}
+                {isEdit ? 'Save Changes' : 'Create Hotel'}
               </>
             )}
           </Button>

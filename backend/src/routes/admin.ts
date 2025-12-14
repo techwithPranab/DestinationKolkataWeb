@@ -1797,6 +1797,75 @@ router.get('/customers', authenticateToken, requireAdmin, async (req: Request, r
   }
 });
 
+// GET /api/admin/submissions/:id - Get a specific submission by ID
+router.get('/submissions/:id', authenticateToken, requireAdmin, async (req: Request, res: Response) => {
+  try {
+    const { db } = await connectToDatabase();
+    const { id } = req.params;
+
+    if (!ObjectId.isValid(id)) {
+      return res.status(400).json({
+        success: false,
+        message: 'Invalid submission ID'
+      });
+    }
+
+    const submission = await db
+      .collection('submissions')
+      .findOne({ _id: new ObjectId(id) });
+
+    if (!submission) {
+      return res.status(404).json({
+        success: false,
+        message: 'Submission not found'
+      });
+    }
+
+    // Get customer info
+    let customerInfo = null;
+    if (submission.userId) {
+      const customer = await db.collection('users').findOne(
+        { _id: new ObjectId(submission.userId) },
+        { projection: { name: 1, email: 1, phone: 1 } }
+      );
+      customerInfo = customer ? { 
+        name: customer.name, 
+        email: customer.email,
+        phone: customer.phone 
+      } : null;
+    }
+
+    const submissionWithCustomerInfo = {
+      id: submission._id.toString(),
+      type: submission.type,
+      category: submission.category,
+      title: submission.title || submission.data?.name || 'Untitled',
+      description: submission.description || submission.data?.description || '',
+      status: submission.status,
+      createdAt: submission.createdAt,
+      updatedAt: submission.updatedAt,
+      submittedForApprovalAt: submission.submittedForApprovalAt,
+      resourceId: submission.resourceId,
+      submittedBy: customerInfo,
+      submissionData: submission.data || {},
+      adminNotes: submission.adminNotes,
+      reviewedAt: submission.reviewedAt,
+      adminId: submission.adminId
+    };
+
+    res.status(200).json({
+      success: true,
+      submission: submissionWithCustomerInfo
+    });
+  } catch (error) {
+    console.error('Error fetching submission:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Failed to fetch submission'
+    });
+  }
+});
+
 // PUT /api/admin/submissions/:id/assign - Assign/tag a pending submission to a customer
 router.put('/submissions/:id/assign', authenticateToken, requireAdmin, async (req: Request, res: Response) => {
   try {
@@ -1921,23 +1990,48 @@ router.put('/submissions/:id/approve', authenticateToken, requireAdmin, async (r
     const targetCollection = collectionMap[submission.type];
 
     if (targetCollection) {
-      // Prepare data for main collection
-      const publishData: any = {
-        ...submission,
-        _id: new ObjectId(), // Create new ID for main collection
-        submissionId: submission._id, // Keep reference to original submission
-        publishedAt: new Date(),
-        publishedBy: (req as any).user?.userId,
-        status: 'active',
-        updatedAt: new Date()
-      };
+      let publishData: any;
+      let existingResource = null;
 
-      // Remove submission-specific fields
-      delete publishData.assignedBy;
-      delete publishData.assignedAt;
+      // Check if this is an update to existing resource (has resourceId)
+      if (submission.resourceId) {
+        // Update existing resource
+        existingResource = await db.collection(targetCollection).findOne({
+          _id: new ObjectId(submission.resourceId)
+        });
 
-      // Insert into main collection
-      await db.collection(targetCollection).insertOne(publishData);
+        if (existingResource) {
+          // Update the existing resource with new data
+          publishData = {
+            ...submission.data,
+            _id: new ObjectId(submission.resourceId),
+            updatedAt: new Date(),
+            status: 'active',
+            lastApprovedAt: new Date(),
+            lastApprovedBy: (req as any).user?.userId
+          };
+
+          await db.collection(targetCollection).replaceOne(
+            { _id: new ObjectId(submission.resourceId) },
+            publishData
+          );
+        }
+      } else {
+        // Create new resource
+        publishData = {
+          ...submission.data,
+          _id: new ObjectId(), // Create new ID for main collection
+          submissionId: submission._id, // Keep reference to original submission
+          publishedAt: new Date(),
+          publishedBy: (req as any).user?.userId,
+          status: 'active',
+          createdAt: new Date(),
+          updatedAt: new Date()
+        };
+
+        // Insert into main collection
+        await db.collection(targetCollection).insertOne(publishData);
+      }
 
       res.status(200).json({
         success: true,
@@ -1977,13 +2071,6 @@ router.put('/submissions/:id/reject', authenticateToken, requireAdmin, async (re
       });
     }
 
-    if (!adminNotes || adminNotes.trim() === '') {
-      return res.status(400).json({
-        success: false,
-        message: 'Admin notes are required for rejection'
-      });
-    }
-
     const result = await db.collection('submissions').findOneAndUpdate(
       { _id: new ObjectId(id) },
       {
@@ -1991,7 +2078,7 @@ router.put('/submissions/:id/reject', authenticateToken, requireAdmin, async (re
           status: 'rejected',
           rejectedAt: new Date(),
           rejectedBy: (req as any).user?.userId,
-          adminNotes,
+          adminNotes: adminNotes || '',
           updatedAt: new Date()
         }
       },
@@ -2016,6 +2103,153 @@ router.put('/submissions/:id/reject', authenticateToken, requireAdmin, async (re
     res.status(500).json({
       success: false,
       message: 'Failed to reject submission'
+    });
+  }
+});
+
+// GET /api/admin/submissions - Get submissions with query parameters
+router.get('/submissions', authenticateToken, requireAdmin, async (req: Request, res: Response) => {
+  try {
+    const { db } = await connectToDatabase();
+    
+    const page = parseInt(req.query.page as string) || 1;
+    const limit = parseInt(req.query.limit as string) || 20;
+    const skip = (page - 1) * limit;
+    const status = req.query.status as string;
+    const type = req.query.type as string;
+
+    // Build query based on parameters
+    const query: Record<string, any> = {};
+    
+    if (status) {
+      if (status === 'pending-approval') {
+        query.status = 'pending_approval';
+      } else {
+        query.status = status;
+      }
+    }
+    
+    if (type && ['hotel', 'restaurant', 'event', 'sports', 'promotion'].includes(type)) {
+      query.type = type;
+    }
+
+    const submissions = await db.collection('submissions')
+      .find(query)
+      .sort({ 
+        submittedForApprovalAt: -1, 
+        createdAt: -1, 
+        updatedAt: -1 
+      })
+      .skip(skip)
+      .limit(limit)
+      .toArray();
+
+    const total = await db.collection('submissions').countDocuments(query);
+
+    // Get customer info for each submission
+    const submissionsWithCustomerInfo = await Promise.all(
+      submissions.map(async (submission) => {
+        let customerInfo = null;
+        if (submission.userId) {
+          const customer = await db.collection('users').findOne(
+            { _id: new ObjectId(submission.userId) },
+            { projection: { name: 1, email: 1, phone: 1 } }
+          );
+          customerInfo = customer ? { 
+            name: customer.name, 
+            email: customer.email,
+            phone: customer.phone 
+          } : null;
+        }
+
+        return {
+          id: submission._id.toString(),
+          type: submission.type,
+          category: submission.category,
+          title: submission.title || submission.data?.name || 'Untitled',
+          description: submission.description || submission.data?.description || '',
+          status: submission.status,
+          createdAt: submission.createdAt,
+          updatedAt: submission.updatedAt,
+          submittedForApprovalAt: submission.submittedForApprovalAt,
+          resourceId: submission.resourceId,
+          submittedBy: customerInfo,
+          submissionData: submission.data || {}
+        };
+      })
+    );
+
+    res.status(200).json({
+      success: true,
+      submissions: submissionsWithCustomerInfo,
+      total,
+      page,
+      pages: Math.ceil(total / limit)
+    });
+
+  } catch (error) {
+    console.error('Error fetching submissions:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Failed to fetch submissions'
+    });
+  }
+});
+
+// GET /api/admin/submissions/:id - Get single submission by ID
+router.get('/submissions/:id', authenticateToken, requireAdmin, async (req: Request, res: Response) => {
+  try {
+    const { db } = await connectToDatabase();
+    const { id } = req.params;
+
+    if (!ObjectId.isValid(id)) {
+      return res.status(400).json({
+        success: false,
+        message: 'Invalid submission ID'
+      });
+    }
+
+    const submission = await db
+      .collection('submissions')
+      .findOne({ _id: new ObjectId(id) });
+
+    if (!submission) {
+      return res.status(404).json({
+        success: false,
+        message: 'Submission not found'
+      });
+    }
+
+    // Get customer info if submission has a userId
+    let customerInfo = null;
+    if (submission.userId) {
+      const customer = await db.collection('users').findOne(
+        { _id: new ObjectId(submission.userId) },
+        { projection: { name: 1, email: 1, phone: 1 } }
+      );
+      if (customer) {
+        customerInfo = {
+          name: customer.name,
+          email: customer.email,
+          phone: customer.phone
+        };
+      }
+    }
+
+    const submissionWithCustomerInfo = {
+      ...submission,
+      submittedBy: customerInfo
+    };
+
+    res.status(200).json({
+      success: true,
+      submission: submissionWithCustomerInfo
+    });
+  } catch (error) {
+    console.error('Error fetching submission:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Failed to fetch submission'
     });
   }
 });
@@ -2070,6 +2304,79 @@ router.get('/submissions/unassigned', authenticateToken, requireAdmin, async (re
     res.status(500).json({
       success: false,
       message: 'Failed to fetch unassigned submissions'
+    });
+  }
+});
+
+// GET /api/admin/submissions/pending-approval - Get submissions pending admin approval
+router.get('/submissions/pending-approval', authenticateToken, requireAdmin, async (req: Request, res: Response) => {
+  try {
+    const { db } = await connectToDatabase();
+
+    const page = parseInt(req.query.page as string) || 1;
+    const limit = parseInt(req.query.limit as string) || 20;
+    const skip = (page - 1) * limit;
+    const type = req.query.type as string; // filter by type: hotel, restaurant, event, sports
+
+    const query: Record<string, any> = {
+      status: 'pending_approval' // Filter for submissions pending approval
+    };
+
+    if (type && ['hotel', 'restaurant', 'event', 'sports', 'promotion'].includes(type)) {
+      query.type = type;
+    }
+
+    const submissions = await db.collection('submissions')
+      .find(query)
+      .sort({ submittedForApprovalAt: -1, updatedAt: -1 })
+      .skip(skip)
+      .limit(limit)
+      .toArray();
+
+    const total = await db.collection('submissions').countDocuments(query);
+
+    // Get customer info for each submission
+    const submissionsWithCustomerInfo = await Promise.all(
+      submissions.map(async (submission) => {
+        let customerInfo = null;
+        if (submission.userId) {
+          const customer = await db.collection('users').findOne(
+            { _id: new ObjectId(submission.userId) },
+            { projection: { name: 1, email: 1 } }
+          );
+          customerInfo = customer ? { name: customer.name, email: customer.email } : null;
+        }
+
+        return {
+          id: submission._id.toString(),
+          type: submission.type,
+          category: submission.category,
+          title: submission.title || submission.data?.name || 'Untitled',
+          description: submission.description || submission.data?.description || '',
+          status: submission.status,
+          createdAt: submission.createdAt,
+          updatedAt: submission.updatedAt,
+          submittedForApprovalAt: submission.submittedForApprovalAt,
+          resourceId: submission.resourceId, // Include resourceId to identify updates vs new submissions
+          customer: customerInfo,
+          data: submission.data
+        };
+      })
+    );
+
+    res.status(200).json({
+      success: true,
+      submissions: submissionsWithCustomerInfo,
+      total,
+      page,
+      pages: Math.ceil(total / limit)
+    });
+
+  } catch (error) {
+    console.error('Error fetching pending approval submissions:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Failed to fetch pending approval submissions'
     });
   }
 });

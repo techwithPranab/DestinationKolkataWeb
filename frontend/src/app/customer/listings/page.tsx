@@ -24,7 +24,6 @@ import {
 import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
-import { Label } from '@/components/ui/label'
 import { Badge } from '@/components/ui/badge'
 import {
   Select,
@@ -48,7 +47,7 @@ interface Submission {
 }
 
 export default function CustomerListings() {
-  const { user, isAuthenticated, isLoading: authLoading } = useAuth()
+  const { user, isLoading: authLoading } = useAuth()
   const api = useApi()
   const [submissions, setSubmissions] = useState<Submission[]>([])
   const [loading, setLoading] = useState(true)
@@ -63,25 +62,44 @@ export default function CustomerListings() {
   const [pageSize] = useState(10)
   const [selectedItems, setSelectedItems] = useState<Set<string>>(new Set())
   const [selectAll, setSelectAll] = useState(false)
-  const [dateFrom, setDateFrom] = useState('')
-  const [dateTo, setDateTo] = useState('')
 
   const fetchSubmissions = useCallback(async (page = 1) => {
     // Since this page is protected by customer layout, we can be more lenient with auth checks
     // But still check for user to ensure we have the necessary data
-    if (!user) {
-      console.log('No user data available, skipping fetch')
-      setLoading(false)
+    if (!user && authLoading) {
+      console.log('User data not yet available but still loading, skipping fetch for now')
       return
+    }
+    
+    if (!user && !authLoading) {
+      // Check localStorage as fallback
+      let hasLocalAuth = false
+      try {
+        const token = typeof window !== 'undefined' ? localStorage.getItem('authToken') : null
+        if (!token) {
+          console.log('No user data available and no token, skipping fetch')
+          setLoading(false)
+          return
+        }
+        hasLocalAuth = true
+      } catch (error) {
+        console.error('Error checking localStorage:', error)
+        setLoading(false)
+        return
+      }
+      
+      if (!hasLocalAuth) {
+        console.log('No authentication found, skipping fetch')
+        setLoading(false)
+        return
+      }
     }
 
     try {
       setLoading(true)
       const params = new URLSearchParams()
-      if (statusFilter) params.append('status', statusFilter)
+      if (statusFilter && statusFilter !== 'all') params.append('status', statusFilter)
       if (typeFilter && typeFilter !== 'all') params.append('type', typeFilter)
-      if (dateFrom) params.append('dateFrom', dateFrom)
-      if (dateTo) params.append('dateTo', dateTo)
       params.append('sortBy', sortBy)
       params.append('sortOrder', sortOrder)
       params.append('page', page.toString())
@@ -125,7 +143,7 @@ export default function CustomerListings() {
     } finally {
       setLoading(false)
     }
-  }, [statusFilter, typeFilter, dateFrom, dateTo, sortBy, sortOrder, pageSize, isAuthenticated, user])
+  }, [statusFilter, typeFilter, sortBy, sortOrder, pageSize, user])
 
   useEffect(() => {
     fetchSubmissions(currentPage)
@@ -134,7 +152,7 @@ export default function CustomerListings() {
   useEffect(() => {
     setCurrentPage(1) // Reset to first page when filters or sorting change
     fetchSubmissions(1)
-  }, [statusFilter, typeFilter, sortBy, sortOrder, dateFrom, dateTo, fetchSubmissions])
+  }, [statusFilter, typeFilter, sortBy, sortOrder, fetchSubmissions])
 
   const getStatusIcon = (status: string) => {
     switch (status) {
@@ -311,33 +329,52 @@ Created: ${new Date(submission.createdAt).toLocaleDateString()}`)
     window.URL.revokeObjectURL(url)
   }
 
-  if (loading) {
+  // Show loading state while auth is still loading or while fetching data
+  if (loading || authLoading) {
     return (
       <div className="flex items-center justify-center h-64">
         <div className="text-center">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-orange-600 mx-auto"></div>
-          <p className="mt-4 text-gray-600">Loading your listings...</p>
+          <p className="mt-4 text-gray-600">
+            {authLoading ? 'Authenticating...' : 'Loading your listings...'}
+          </p>
         </div>
       </div>
     )
   }
 
-  // Check if user is authenticated - be more lenient since customer layout should protect this
+  // Only show authentication required after auth loading is complete and no user is found
+  // Also check localStorage as a fallback
   if (!user && !authLoading) {
-    return (
-      <div className="flex items-center justify-center h-64">
-        <div className="text-center">
-          <h2 className="text-2xl font-bold text-gray-900 mb-4">Authentication Required</h2>
-          <p className="text-gray-600 mb-6">Please log in to view your listings.</p>
-          <Button
-            className="bg-orange-600 hover:bg-orange-700 text-white"
-            onClick={() => window.location.href = '/auth/login'}
-          >
-            Go to Login
-          </Button>
+    // Check localStorage for authentication data as a fallback
+    let hasLocalAuth = false
+    try {
+      const token = typeof window !== 'undefined' ? localStorage.getItem('authToken') : null
+      const userData = typeof window !== 'undefined' ? localStorage.getItem('authUser') : null
+      if (token && userData) {
+        const parsedUser = JSON.parse(userData)
+        hasLocalAuth = parsedUser.role === 'customer' || parsedUser.role === 'user'
+      }
+    } catch (error) {
+      console.error('Error checking localStorage:', error)
+    }
+    
+    if (!hasLocalAuth) {
+      return (
+        <div className="flex items-center justify-center h-64">
+          <div className="text-center">
+            <h2 className="text-2xl font-bold text-gray-900 mb-4">Authentication Required</h2>
+            <p className="text-gray-600 mb-6">Please log in to view your listings.</p>
+            <Button
+              className="bg-orange-600 hover:bg-orange-700 text-white"
+              onClick={() => window.location.href = '/auth/login'}
+            >
+              Go to Login
+            </Button>
+          </div>
         </div>
-      </div>
-    )
+      )
+    }
   }
 
   // Check if user has customer role
@@ -427,42 +464,6 @@ Created: ${new Date(submission.createdAt).toLocaleDateString()}`)
                   <SelectItem value="type-desc">Type Z-A</SelectItem>
                 </SelectContent>
               </Select>
-            </div>
-
-            {/* Date Range Filters */}
-            <div className="flex flex-col md:flex-row gap-4">
-              <div className="flex-1">
-                <Label htmlFor="dateFrom" className="text-sm font-medium">From Date</Label>
-                <Input
-                  id="dateFrom"
-                  type="date"
-                  value={dateFrom}
-                  onChange={(e) => setDateFrom(e.target.value)}
-                  className="mt-1"
-                />
-              </div>
-              <div className="flex-1">
-                <Label htmlFor="dateTo" className="text-sm font-medium">To Date</Label>
-                <Input
-                  id="dateTo"
-                  type="date"
-                  value={dateTo}
-                  onChange={(e) => setDateTo(e.target.value)}
-                  className="mt-1"
-                />
-              </div>
-              <div className="flex items-end">
-                <Button
-                  variant="outline"
-                  onClick={() => {
-                    setDateFrom('')
-                    setDateTo('')
-                  }}
-                  className="px-4 py-2"
-                >
-                  Clear Dates
-                </Button>
-              </div>
             </div>
           </div>
         </CardContent>

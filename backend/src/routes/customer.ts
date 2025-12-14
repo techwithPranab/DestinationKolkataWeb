@@ -403,7 +403,14 @@ router.get('/submissions', authenticateToken, requireCustomerAccess, async (req:
   try {
     const { db } = await connectToDatabase();
     const userId = (req as any).user?.userId;
-    const { limit = 10, skip = 0 } = req.query;
+    const { 
+      limit = 10, 
+      skip = 0, 
+      status, 
+      type, 
+      sortBy = 'createdAt', 
+      sortOrder = 'desc' 
+    } = req.query;
 
     if (!userId) {
       return res.status(401).json({
@@ -414,25 +421,40 @@ router.get('/submissions', authenticateToken, requireCustomerAccess, async (req:
 
     const userObjectId = new ObjectId(userId);
 
-    // Fetch submissions
+    // Build filter query
+    const filterQuery: any = { userId: userObjectId };
+    
+    if (status && status !== 'all') {
+      filterQuery.status = status;
+    }
+    
+    if (type && type !== 'all') {
+      filterQuery.type = type;
+    }
+
+    // Build sort query
+    const sortQuery: any = {};
+    sortQuery[String(sortBy)] = String(sortOrder) === 'asc' ? 1 : -1;
+
+    // Fetch submissions with filters
     const submissions = await db
       .collection('submissions')
-      .find({ userId: userObjectId })
-      .sort({ createdAt: -1 })
+      .find(filterQuery)
+      .sort(sortQuery)
       .limit(Number(limit))
       .skip(Number(skip))
       .toArray();
 
     const totalCount = await db
       .collection('submissions')
-      .countDocuments({ userId: userObjectId });
+      .countDocuments(filterQuery);
 
     res.status(200).json({
       success: true,
       data: {
         submissions: submissions.map(sub => ({
           id: sub._id.toString(),
-          type: sub.type || 'hotel',
+          type: sub.category || sub.type || 'hotel', // Use category first, then fall back to type
           title: sub.title || sub.name || sub.data?.name || sub.data?.title || 'Untitled',
           status: sub.status || 'pending',
           createdAt: sub.createdAt || new Date(),
@@ -484,10 +506,11 @@ router.get('/favorites', authenticateToken, requireCustomerAccess, async (req: R
       success: true,
       data: {
         favorites: favorites.map(fav => ({
-          id: fav._id.toString(),
           type: fav.type,
           itemId: fav.itemId,
-          createdAt: fav.createdAt || new Date()
+          itemName: fav.itemName || 'Unknown Item',
+          addedDate: fav.createdAt || new Date(),
+          notes: fav.notes || ''
         }))
       }
     });
@@ -505,7 +528,7 @@ router.post('/favorites', authenticateToken, requireCustomerAccess, async (req: 
   try {
     const { db } = await connectToDatabase();
     const userId = (req as any).user?.userId;
-    const { type, itemId } = req.body;
+    const { type, itemId, itemName, notes } = req.body;
 
     if (!userId) {
       return res.status(401).json({
@@ -514,10 +537,10 @@ router.post('/favorites', authenticateToken, requireCustomerAccess, async (req: 
       });
     }
 
-    if (!type || !itemId) {
+    if (!type || !itemId || !itemName) {
       return res.status(400).json({
         success: false,
-        message: 'Type and itemId are required'
+        message: 'Type, itemId, and itemName are required'
       });
     }
 
@@ -542,6 +565,8 @@ router.post('/favorites', authenticateToken, requireCustomerAccess, async (req: 
       userId: userObjectId,
       type,
       itemId,
+      itemName,
+      notes: notes || '',
       createdAt: new Date()
     });
 
@@ -689,6 +714,64 @@ router.get('/submissions/:id', authenticateToken, requireCustomerAccess, async (
       });
     }
 
+    // If submission has a resourceId, fetch the original resource data
+    if (submission.resourceId) {
+      const resourceId = submission.resourceId;
+      const category = submission.category || submission.type;
+      
+      console.log('🔄 Fetching resource data:', { resourceId, category, submissionId: id });
+      
+      // Determine the collection based on the category
+      let collectionName = '';
+      switch (category) {
+        case 'hotel':
+          collectionName = 'hotels';
+          break;
+        case 'restaurant':
+          collectionName = 'restaurants';
+          break;
+        case 'event':
+          collectionName = 'events';
+          break;
+        case 'promotion':
+          collectionName = 'promotions';
+          break;
+        case 'sports':
+          collectionName = 'sports';
+          break;
+        default:
+          collectionName = 'hotels'; // fallback
+      }
+
+      console.log('📂 Using collection:', collectionName);
+
+      try {
+        const resource = await db.collection(collectionName).findOne({ _id: new ObjectId(resourceId) });
+        
+        console.log('🎯 Resource found:', !!resource);
+        
+        if (resource) {
+          // Return the submission with the original resource data
+          const responseData = {
+            ...submission,
+            data: resource // Use the original resource data for editing
+          };
+          
+          console.log('✅ Returning resource data for editing');
+          
+          return res.status(200).json({
+            success: true,
+            data: responseData
+          });
+        }
+      } catch (error) {
+        console.error('Error fetching resource data:', error);
+      }
+    }
+    
+    console.log('⚠️ Falling back to submission data (no resourceId or resource not found)');
+
+    // Fallback to original submission data if no resourceId or resource not found
     res.status(200).json({
       success: true,
       data: submission
@@ -745,16 +828,73 @@ router.put('/submissions/:id', authenticateToken, requireCustomerAccess, async (
     delete updateData.assignedAt;
     delete updateData.createdAt;
 
+    // Update the submission with new data
+    const updateFields: any = {
+      updatedAt: new Date(),
+      status: 'pending' // Keep as pending after update
+    };
+
+    // If data is provided, update the data field, otherwise update top-level fields
+    if (updateData.data) {
+      updateFields.data = updateData.data;
+      updateFields.title = updateData.data.name || updateData.data.title || existingSubmission.title;
+      updateFields.description = updateData.data.description || existingSubmission.description;
+      
+      // If submission has a resourceId, also update the original resource
+      if (existingSubmission.resourceId) {
+        const resourceId = existingSubmission.resourceId;
+        const category = existingSubmission.category || existingSubmission.type;
+        
+        // Determine the collection based on the category
+        let collectionName = '';
+        switch (category) {
+          case 'hotel':
+            collectionName = 'hotels';
+            break;
+          case 'restaurant':
+            collectionName = 'restaurants';
+            break;
+          case 'event':
+            collectionName = 'events';
+            break;
+          case 'promotion':
+            collectionName = 'promotions';
+            break;
+          case 'sports':
+            collectionName = 'sports';
+            break;
+          default:
+            collectionName = 'hotels'; // fallback
+        }
+
+        try {
+          // Update the original resource
+          await db.collection(collectionName).updateOne(
+            { _id: new ObjectId(resourceId) },
+            { 
+              $set: {
+                ...updateData.data,
+                updatedAt: new Date(),
+                status: 'pending' // Mark resource as pending after update
+              }
+            }
+          );
+        } catch (error) {
+          console.error('Error updating original resource:', error);
+          // Continue with submission update even if resource update fails
+        }
+      }
+    } else {
+      // Legacy support for direct field updates
+      Object.keys(updateData).forEach(key => {
+        updateFields[key] = updateData[key];
+      });
+    }
+
     // Update submission
     const result = await db.collection('submissions').findOneAndUpdate(
       { _id: new ObjectId(id) },
-      {
-        $set: {
-          ...updateData,
-          updatedAt: new Date(),
-          status: 'pending' // Keep as pending after update
-        }
-      },
+      { $set: updateFields },
       { returnDocument: 'after' }
     );
 
@@ -776,6 +916,137 @@ router.put('/submissions/:id', authenticateToken, requireCustomerAccess, async (
     res.status(500).json({
       success: false,
       message: 'Failed to update submission'
+    });
+  }
+});
+
+// POST /api/customer/submissions/:id/submit-for-approval - Update and submit for admin approval
+router.post('/submissions/:id/submit-for-approval', authenticateToken, requireCustomerAccess, async (req: Request, res: Response) => {
+  try {
+    console.log('🚀 Submit for approval route hit!');
+    console.log('📝 Request params:', req.params);
+    console.log('📊 Request body:', req.body);
+    console.log('👤 User from token:', (req as any).user);
+    
+    const { db } = await connectToDatabase();
+    const userId = (req as any).user?.userId;
+    const { id } = req.params;
+    const { data: updateData } = req.body;
+
+    console.log('🔍 Extracted data:', { userId, id, updateData });
+
+    if (!userId) {
+      console.log('❌ No userId found in request');
+      return res.status(401).json({
+        success: false,
+        message: 'Unauthorized'
+      });
+    }
+
+    if (!ObjectId.isValid(id)) {
+      return res.status(400).json({
+        success: false,
+        message: 'Invalid submission ID'
+      });
+    }
+
+    // Verify submission belongs to user
+    const existingSubmission = await db.collection('submissions').findOne({
+      _id: new ObjectId(id),
+      userId: new ObjectId(userId)
+    });
+
+    if (!existingSubmission) {
+      return res.status(404).json({
+        success: false,
+        message: 'Submission not found or access denied'
+      });
+    }
+
+    // Prepare update fields for submission
+    const updateFields: any = {
+      updatedAt: new Date(),
+      status: 'pending_approval', // Set status to pending admin approval
+      submittedForApprovalAt: new Date()
+    };
+
+    // Update the data field with new form data
+    if (updateData) {
+      updateFields.data = updateData;
+      updateFields.title = updateData.name || updateData.title || existingSubmission.title;
+      updateFields.description = updateData.description || existingSubmission.description;
+      
+      // If submission has a resourceId, also update the original resource
+      if (existingSubmission.resourceId) {
+        const resourceId = existingSubmission.resourceId;
+        const category = existingSubmission.category || existingSubmission.type;
+        
+        // Determine the collection based on the category
+        let collectionName = '';
+        switch (category) {
+          case 'hotel':
+            collectionName = 'hotels';
+            break;
+          case 'restaurant':
+            collectionName = 'restaurants';
+            break;
+          case 'event':
+            collectionName = 'events';
+            break;
+          case 'promotion':
+            collectionName = 'promotions';
+            break;
+          case 'sports':
+            collectionName = 'sports';
+            break;
+          default:
+            collectionName = 'hotels'; // fallback
+        }
+
+        try {
+          // Update the original resource with pending approval status
+          await db.collection(collectionName).updateOne(
+            { _id: new ObjectId(resourceId) },
+            { 
+              $set: {
+                ...updateData,
+                updatedAt: new Date(),
+                status: 'pending_approval' // Mark resource as pending approval
+              }
+            }
+          );
+        } catch (error) {
+          console.error('Error updating original resource:', error);
+          // Continue with submission update even if resource update fails
+        }
+      }
+    }
+
+    // Update submission with new data and pending approval status
+    const result = await db.collection('submissions').findOneAndUpdate(
+      { _id: new ObjectId(id) },
+      { $set: updateFields },
+      { returnDocument: 'after' }
+    );
+
+    if (!result) {
+      return res.status(500).json({
+        success: false,
+        message: 'Failed to update submission'
+      });
+    }
+
+    res.status(200).json({
+      success: true,
+      message: 'Submission updated and sent for admin approval successfully',
+      data: result
+    });
+
+  } catch (error) {
+    console.error('Submit for approval error:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Failed to submit for approval'
     });
   }
 });
@@ -838,6 +1109,133 @@ router.post('/submissions/:id/submit', authenticateToken, requireCustomerAccess,
     res.status(500).json({
       success: false,
       message: 'Failed to submit submission'
+    });
+  }
+});
+
+// DELETE /api/customer/submissions/:id - Delete a customer submission
+router.delete('/submissions/:id', authenticateToken, requireCustomerAccess, async (req: Request, res: Response) => {
+  try {
+    const { db } = await connectToDatabase();
+    const userId = (req as any).user?.userId;
+    const { id } = req.params;
+
+    if (!userId) {
+      return res.status(401).json({
+        success: false,
+        message: 'Unauthorized'
+      });
+    }
+
+    if (!ObjectId.isValid(id)) {
+      return res.status(400).json({
+        success: false,
+        message: 'Invalid submission ID'
+      });
+    }
+
+    // Find the submission first to check ownership and status
+    const submission = await db.collection('submissions').findOne({
+      _id: new ObjectId(id),
+      userId: new ObjectId(userId)
+    });
+
+    if (!submission) {
+      return res.status(404).json({
+        success: false,
+        message: 'Submission not found or access denied'
+      });
+    }
+
+    // Only allow deletion of pending submissions
+    if (submission.status !== 'pending') {
+      return res.status(400).json({
+        success: false,
+        message: 'Can only delete pending submissions'
+      });
+    }
+
+    // Delete the submission
+    const result = await db.collection('submissions').deleteOne({
+      _id: new ObjectId(id),
+      userId: new ObjectId(userId)
+    });
+
+    if (result.deletedCount === 0) {
+      return res.status(404).json({
+        success: false,
+        message: 'Submission not found or could not be deleted'
+      });
+    }
+
+    res.status(200).json({
+      success: true,
+      message: 'Submission deleted successfully'
+    });
+
+  } catch (error) {
+    console.error('Delete submission error:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Failed to delete submission'
+    });
+  }
+});
+
+// POST /api/customer/submissions/:type - Create new submission
+router.post('/submissions/:type', authenticateToken, requireCustomerAccess, async (req: Request, res: Response) => {
+  try {
+    const { db } = await connectToDatabase();
+    const userId = (req as any).user?.userId;
+    const { type } = req.params;
+
+    if (!userId) {
+      return res.status(401).json({
+        success: false,
+        message: 'Unauthorized'
+      });
+    }
+
+    // Validate submission type
+    const validTypes = ['hotel', 'restaurant', 'event', 'promotion', 'sports'];
+    if (!validTypes.includes(type)) {
+      return res.status(400).json({
+        success: false,
+        message: 'Invalid submission type'
+      });
+    }
+
+    // Create submission with form data
+    const submissionData = {
+      userId: new ObjectId(userId),
+      type: 'place', // All customer submissions are 'place' type in the main submissions table
+      title: req.body.name || req.body.title || 'Untitled',
+      description: req.body.description || '',
+      category: type,
+      status: 'pending',
+      priority: 'medium',
+      data: req.body, // Store all form data in the data field
+      createdAt: new Date(),
+      updatedAt: new Date()
+    };
+
+    const result = await db
+      .collection('submissions')
+      .insertOne(submissionData);
+
+    res.status(201).json({
+      success: true,
+      data: {
+        _id: result.insertedId,
+        ...submissionData
+      },
+      message: 'Submission created successfully'
+    });
+  } catch (error) {
+    console.error('Create customer submission error:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Failed to create submission'
     });
   }
 });

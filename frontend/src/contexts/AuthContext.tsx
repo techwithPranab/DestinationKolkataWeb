@@ -84,7 +84,44 @@ export function AuthProvider({ children }: AuthProviderProps) {
     if (status === 'authenticated' && session?.user && !user) {
       console.log('NextAuth session detected')
       // Only use NextAuth session if we don't already have localStorage user
-      setIsLoading(false)
+      const hasLocalToken = !!(localStorage.getItem('authToken') || localStorage.getItem('adminToken'))
+
+      if (!hasLocalToken) {
+        // Exchange the NextAuth session for a backend JWT and upsert user
+        ;(async () => {
+          try {
+            const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL || 'http://localhost:5000'
+            const resp = await fetch(`${backendUrl}/api/auth/next-auth`, {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              credentials: 'include',
+              body: JSON.stringify({
+                email: session.user?.email,
+                name: session.user?.name || session.user?.email?.split('@')[0],
+                provider: 'nextauth'
+              })
+            })
+
+            const json = await resp.json()
+            if (json && json.success && json.data?.token) {
+              const { token, user: backendUser } = json.data
+              // Persist token locally so ApiClient can use Authorization header
+              localStorage.setItem('authToken', token)
+              // Update AuthContext user state
+              setUser(backendUser)
+              console.log('Synced NextAuth session with backend; token stored')
+            } else {
+              console.warn('NextAuth sync failed:', json?.message || json)
+            }
+          } catch (err) {
+            console.error('Failed to sync NextAuth session with backend', err)
+          } finally {
+            setIsLoading(false)
+          }
+        })()
+      } else {
+        setIsLoading(false)
+      }
     }
   }, [status, session, user])
 

@@ -231,10 +231,10 @@ export default function AnalyticsPage() {
               <Users className="h-4 w-4 text-muted-foreground" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold">{formatNumber(analyticsData.overview.totalUsers)}</div>
-              <p className={`text-xs flex items-center ${getGrowthColor(analyticsData.overview.userGrowth)}`}>
-                {getGrowthIcon(analyticsData.overview.userGrowth)}
-                {Math.abs(analyticsData.overview.userGrowth)}% from last period
+              <div className="text-2xl font-bold">{formatNumber(analyticsData?.overview?.totalUsers || 0)}</div>
+              <p className={`text-xs flex items-center ${getGrowthColor(analyticsData?.overview?.userGrowth || 0)}`}>
+                {getGrowthIcon(analyticsData?.overview?.userGrowth || 0)}
+                {Math.abs(analyticsData?.overview?.userGrowth || 0)}% from last period
               </p>
             </CardContent>
           </Card>
@@ -251,10 +251,10 @@ export default function AnalyticsPage() {
               <Eye className="h-4 w-4 text-muted-foreground" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold">{formatNumber(analyticsData.overview.totalViews)}</div>
-              <p className={`text-xs flex items-center ${getGrowthColor(analyticsData.overview.viewGrowth)}`}>
-                {getGrowthIcon(analyticsData.overview.viewGrowth)}
-                {Math.abs(analyticsData.overview.viewGrowth)}% from last period
+              <div className="text-2xl font-bold">{formatNumber(analyticsData?.overview?.totalViews || 0)}</div>
+              <p className={`text-xs flex items-center ${getGrowthColor(analyticsData?.overview?.viewGrowth || 0)}`}>
+                {getGrowthIcon(analyticsData?.overview?.viewGrowth || 0)}
+                {Math.abs(analyticsData?.overview?.viewGrowth || 0)}% from last period
               </p>
             </CardContent>
           </Card>
@@ -271,10 +271,10 @@ export default function AnalyticsPage() {
               <DollarSign className="h-4 w-4 text-muted-foreground" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold">{formatCurrency(analyticsData.overview.totalRevenue)}</div>
-              <p className={`text-xs flex items-center ${getGrowthColor(analyticsData.overview.revenueGrowth)}`}>
-                {getGrowthIcon(analyticsData.overview.revenueGrowth)}
-                {Math.abs(analyticsData.overview.revenueGrowth)}% from last period
+              <div className="text-2xl font-bold">{formatCurrency(analyticsData?.overview?.totalRevenue || 0)}</div>
+              <p className={`text-xs flex items-center ${getGrowthColor(analyticsData?.overview?.revenueGrowth || 0)}`}>
+                {getGrowthIcon(analyticsData?.overview?.revenueGrowth || 0)}
+                {Math.abs(analyticsData?.overview?.revenueGrowth || 0)}% from last period
               </p>
             </CardContent>
           </Card>
@@ -291,10 +291,10 @@ export default function AnalyticsPage() {
               <Calendar className="h-4 w-4 text-muted-foreground" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold">{formatNumber(analyticsData.overview.totalBookings)}</div>
-              <p className={`text-xs flex items-center ${getGrowthColor(analyticsData.overview.bookingGrowth)}`}>
-                {getGrowthIcon(analyticsData.overview.bookingGrowth)}
-                {Math.abs(analyticsData.overview.bookingGrowth)}% from last period
+              <div className="text-2xl font-bold">{formatNumber(analyticsData?.overview?.totalBookings || 0)}</div>
+              <p className={`text-xs flex items-center ${getGrowthColor(analyticsData?.overview?.bookingGrowth || 0)}`}>
+                {getGrowthIcon(analyticsData?.overview?.bookingGrowth || 0)}
+                {Math.abs(analyticsData?.overview?.bookingGrowth || 0)}% from last period
               </p>
             </CardContent>
           </Card>
@@ -355,23 +355,23 @@ export default function AnalyticsPage() {
               <CardContent className="space-y-2">
                 <div className="flex justify-between">
                   <span className="text-sm text-gray-600">Count:</span>
-                  <span className="font-medium">{analyticsData.entityStats.hotels.count}</span>
+                  <span className="font-medium">{analyticsData?.entityStats?.hotels?.count || 0}</span>
                 </div>
                 <div className="flex justify-between">
                   <span className="text-sm text-gray-600">Views:</span>
-                  <span className="font-medium">{formatNumber(analyticsData.entityStats.hotels.views)}</span>
+                  <span className="font-medium">{formatNumber(analyticsData?.entityStats?.hotels?.views || 0)}</span>
                 </div>
                 <div className="flex justify-between">
                   <span className="text-sm text-gray-600">Bookings:</span>
-                  <span className="font-medium">{analyticsData.entityStats.hotels.bookings}</span>
+                  <span className="font-medium">{analyticsData?.entityStats?.hotels?.bookings || 0}</span>
                 </div>
                 <div className="flex justify-between">
                   <span className="text-sm text-gray-600">Revenue:</span>
-                  <span className="font-medium">{formatCurrency(analyticsData.entityStats.hotels.revenue)}</span>
+                  <span className="font-medium">{formatCurrency(analyticsData?.entityStats?.hotels?.revenue || 0)}</span>
                 </div>
                 <div className="flex justify-between">
                   <span className="text-sm text-gray-600">Avg Rating:</span>
-                  <Badge variant="outline">{analyticsData.entityStats.hotels.averageRating.toFixed(1)} ⭐</Badge>
+                  <Badge variant="outline">{(analyticsData?.entityStats?.hotels?.averageRating || 0).toFixed(1)} ⭐</Badge>
                 </div>
               </CardContent>
             </Card>
@@ -387,23 +387,23 @@ export default function AnalyticsPage() {
               <CardContent className="space-y-2">
                 <div className="flex justify-between">
                   <span className="text-sm text-gray-600">Count:</span>
-                  <span className="font-medium">{analyticsData.entityStats.restaurants.count}</span>
+                  <span className="font-medium">{analyticsData?.entityStats?.restaurants?.count || 0}</span>
                 </div>
                 <div className="flex justify-between">
                   <span className="text-sm text-gray-600">Views:</span>
-                  <span className="font-medium">{formatNumber(analyticsData.entityStats.restaurants.views)}</span>
+                  <span className="font-medium">{formatNumber(analyticsData?.entityStats?.restaurants?.views || 0)}</span>
                 </div>
                 <div className="flex justify-between">
                   <span className="text-sm text-gray-600">Bookings:</span>
-                  <span className="font-medium">{analyticsData.entityStats.restaurants.bookings}</span>
+                  <span className="font-medium">{analyticsData?.entityStats?.restaurants?.bookings || 0}</span>
                 </div>
                 <div className="flex justify-between">
                   <span className="text-sm text-gray-600">Revenue:</span>
-                  <span className="font-medium">{formatCurrency(analyticsData.entityStats.restaurants.revenue)}</span>
+                  <span className="font-medium">{formatCurrency(analyticsData?.entityStats?.restaurants?.revenue || 0)}</span>
                 </div>
                 <div className="flex justify-between">
                   <span className="text-sm text-gray-600">Avg Rating:</span>
-                  <Badge variant="outline">{analyticsData.entityStats.restaurants.averageRating.toFixed(1)} ⭐</Badge>
+                  <Badge variant="outline">{(analyticsData?.entityStats?.restaurants?.averageRating || 0).toFixed(1)} ⭐</Badge>
                 </div>
               </CardContent>
             </Card>
@@ -419,23 +419,23 @@ export default function AnalyticsPage() {
               <CardContent className="space-y-2">
                 <div className="flex justify-between">
                   <span className="text-sm text-gray-600">Count:</span>
-                  <span className="font-medium">{analyticsData.entityStats.attractions.count}</span>
+                  <span className="font-medium">{analyticsData?.entityStats?.attractions?.count || 0}</span>
                 </div>
                 <div className="flex justify-between">
                   <span className="text-sm text-gray-600">Views:</span>
-                  <span className="font-medium">{formatNumber(analyticsData.entityStats.attractions.views)}</span>
+                  <span className="font-medium">{formatNumber(analyticsData?.entityStats?.attractions?.views || 0)}</span>
                 </div>
                 <div className="flex justify-between">
                   <span className="text-sm text-gray-600">Bookings:</span>
-                  <span className="font-medium">{analyticsData.entityStats.attractions.bookings}</span>
+                  <span className="font-medium">{analyticsData?.entityStats?.attractions?.bookings || 0}</span>
                 </div>
                 <div className="flex justify-between">
                   <span className="text-sm text-gray-600">Revenue:</span>
-                  <span className="font-medium">{formatCurrency(analyticsData.entityStats.attractions.revenue)}</span>
+                  <span className="font-medium">{formatCurrency(analyticsData?.entityStats?.attractions?.revenue || 0)}</span>
                 </div>
                 <div className="flex justify-between">
                   <span className="text-sm text-gray-600">Avg Rating:</span>
-                  <Badge variant="outline">{analyticsData.entityStats.attractions.averageRating.toFixed(1)} ⭐</Badge>
+                  <Badge variant="outline">{(analyticsData?.entityStats?.attractions?.averageRating || 0).toFixed(1)} ⭐</Badge>
                 </div>
               </CardContent>
             </Card>
@@ -451,23 +451,23 @@ export default function AnalyticsPage() {
               <CardContent className="space-y-2">
                 <div className="flex justify-between">
                   <span className="text-sm text-gray-600">Count:</span>
-                  <span className="font-medium">{analyticsData.entityStats.events.count}</span>
+                  <span className="font-medium">{analyticsData?.entityStats?.events?.count || 0}</span>
                 </div>
                 <div className="flex justify-between">
                   <span className="text-sm text-gray-600">Views:</span>
-                  <span className="font-medium">{formatNumber(analyticsData.entityStats.events.views)}</span>
+                  <span className="font-medium">{formatNumber(analyticsData?.entityStats?.events?.views || 0)}</span>
                 </div>
                 <div className="flex justify-between">
                   <span className="text-sm text-gray-600">Bookings:</span>
-                  <span className="font-medium">{analyticsData.entityStats.events.bookings}</span>
+                  <span className="font-medium">{analyticsData?.entityStats?.events?.bookings || 0}</span>
                 </div>
                 <div className="flex justify-between">
                   <span className="text-sm text-gray-600">Revenue:</span>
-                  <span className="font-medium">{formatCurrency(analyticsData.entityStats.events.revenue)}</span>
+                  <span className="font-medium">{formatCurrency(analyticsData?.entityStats?.events?.revenue || 0)}</span>
                 </div>
                 <div className="flex justify-between">
                   <span className="text-sm text-gray-600">Avg Rating:</span>
-                  <Badge variant="outline">{analyticsData.entityStats.events.averageRating.toFixed(1)} ⭐</Badge>
+                  <Badge variant="outline">{(analyticsData?.entityStats?.events?.averageRating || 0).toFixed(1)} ⭐</Badge>
                 </div>
               </CardContent>
             </Card>
@@ -483,23 +483,23 @@ export default function AnalyticsPage() {
               <CardContent className="space-y-2">
                 <div className="flex justify-between">
                   <span className="text-sm text-gray-600">Count:</span>
-                  <span className="font-medium">{analyticsData.entityStats.sports.count}</span>
+                  <span className="font-medium">{analyticsData?.entityStats?.sports?.count || 0}</span>
                 </div>
                 <div className="flex justify-between">
                   <span className="text-sm text-gray-600">Views:</span>
-                  <span className="font-medium">{formatNumber(analyticsData.entityStats.sports.views)}</span>
+                  <span className="font-medium">{formatNumber(analyticsData?.entityStats?.sports?.views || 0)}</span>
                 </div>
                 <div className="flex justify-between">
                   <span className="text-sm text-gray-600">Bookings:</span>
-                  <span className="font-medium">{analyticsData.entityStats.sports.bookings}</span>
+                  <span className="font-medium">{analyticsData?.entityStats?.sports?.bookings || 0}</span>
                 </div>
                 <div className="flex justify-between">
                   <span className="text-sm text-gray-600">Revenue:</span>
-                  <span className="font-medium">{formatCurrency(analyticsData.entityStats.sports.revenue)}</span>
+                  <span className="font-medium">{formatCurrency(analyticsData?.entityStats?.sports?.revenue || 0)}</span>
                 </div>
                 <div className="flex justify-between">
                   <span className="text-sm text-gray-600">Avg Rating:</span>
-                  <Badge variant="outline">{analyticsData.entityStats.sports.averageRating.toFixed(1)} ⭐</Badge>
+                  <Badge variant="outline">{(analyticsData?.entityStats?.sports?.averageRating || 0).toFixed(1)} ⭐</Badge>
                 </div>
               </CardContent>
             </Card>
@@ -565,7 +565,7 @@ export default function AnalyticsPage() {
                 <CardTitle>Top Revenue Sources</CardTitle>
               </CardHeader>
               <CardContent className="space-y-3">
-                {analyticsData.revenueAnalytics.topRevenueSources.map((source, index) => (
+                {(analyticsData?.revenueAnalytics?.topRevenueSources || []).map((source, index) => (
                   <div key={`revenue-${source.name}-${index}`} className="flex justify-between items-center">
                     <span className="text-sm">{source.name}</span>
                     <div className="text-right">
@@ -590,15 +590,15 @@ export default function AnalyticsPage() {
               <CardContent className="space-y-4">
                 <div className="flex justify-between">
                   <span className="text-sm text-gray-600">Bounce Rate:</span>
-                  <span className="font-medium">{analyticsData.trafficAnalytics.bounceRate}%</span>
+                  <span className="font-medium">{analyticsData?.trafficAnalytics?.bounceRate || 0}%</span>
                 </div>
                 <div className="flex justify-between">
                   <span className="text-sm text-gray-600">Avg Session Duration:</span>
-                  <span className="font-medium">{Math.round(analyticsData.trafficAnalytics.sessionDuration)}s</span>
+                  <span className="font-medium">{Math.round(analyticsData?.trafficAnalytics?.sessionDuration || 0)}s</span>
                 </div>
                 <div className="flex justify-between">
                   <span className="text-sm text-gray-600">Unique Visitors:</span>
-                  <span className="font-medium">{formatNumber(analyticsData.trafficAnalytics.uniqueVisitors.reduce((a, b) => a + b, 0))}</span>
+                  <span className="font-medium">{formatNumber((analyticsData?.trafficAnalytics?.uniqueVisitors || []).reduce((a, b) => a + b, 0))}</span>
                 </div>
               </CardContent>
             </Card>
@@ -608,7 +608,7 @@ export default function AnalyticsPage() {
                 <CardTitle>Top Pages</CardTitle>
               </CardHeader>
               <CardContent className="space-y-3">
-                {analyticsData.trafficAnalytics.topPages.map((page, index) => (
+                {(analyticsData?.trafficAnalytics?.topPages || []).map((page, index) => (
                   <div key={`page-${page.page}-${index}`} className="flex justify-between items-center">
                     <span className="text-sm truncate flex-1 mr-2">{page.page}</span>
                     <div className="text-right">
@@ -633,11 +633,11 @@ export default function AnalyticsPage() {
               <CardContent className="space-y-4">
                 <div className="flex justify-between">
                   <span className="text-sm text-gray-600">Total Reviews:</span>
-                  <span className="font-medium">{formatNumber(analyticsData.reviewAnalytics.totalReviews)}</span>
+                  <span className="font-medium">{formatNumber(analyticsData?.reviewAnalytics?.totalReviews || 0)}</span>
                 </div>
                 <div className="flex justify-between">
                   <span className="text-sm text-gray-600">Average Rating:</span>
-                  <Badge variant="outline">{analyticsData.reviewAnalytics.averageRating.toFixed(1)} ⭐</Badge>
+                  <Badge variant="outline">{(analyticsData?.reviewAnalytics?.averageRating || 0).toFixed(1)} ⭐</Badge>
                 </div>
                 <div className="space-y-2">
                   <span className="text-sm text-gray-600">Rating Distribution:</span>
@@ -648,11 +648,11 @@ export default function AnalyticsPage() {
                         <div
                           className="bg-yellow-400 h-2 rounded-full"
                           style={{
-                            width: `${(analyticsData.reviewAnalytics.reviewDistribution[rating] || 0) / analyticsData.reviewAnalytics.totalReviews * 100}%`
+                            width: `${((analyticsData?.reviewAnalytics?.reviewDistribution?.[rating] || 0) / (analyticsData?.reviewAnalytics?.totalReviews || 1)) * 100}%`
                           }}
                         ></div>
                       </div>
-                      <span>{analyticsData.reviewAnalytics.reviewDistribution[rating] || 0}</span>
+                      <span>{analyticsData?.reviewAnalytics?.reviewDistribution?.[rating] || 0}</span>
                     </div>
                   ))}
                 </div>
@@ -664,7 +664,7 @@ export default function AnalyticsPage() {
                 <CardTitle>Top Rated Entities</CardTitle>
               </CardHeader>
               <CardContent className="space-y-3">
-                {analyticsData.reviewAnalytics.topRatedEntities.map((entity, index) => (
+                {(analyticsData?.reviewAnalytics?.topRatedEntities || []).map((entity, index) => (
                   <div key={`entity-${entity.name}-${index}`} className="flex justify-between items-center">
                     <div className="flex-1">
                       <div className="font-medium text-sm">{entity.name}</div>
