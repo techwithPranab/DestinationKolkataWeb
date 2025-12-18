@@ -1,6 +1,7 @@
 [
   {
     "title": "30% Off on Heritage Hotels",
+    "slug": "30-off-on-heritage-hotels",
     "description": "Experience the royal heritage of Kolkata with 30% discount on all heritage hotels.",
     "businessType": "Hotel",
     "discountPercent": 30,
@@ -10,29 +11,12 @@
     "minAmount": 2000,
     "maxDiscount": 1500,
     "usageLimit": 1000,
-    "usedCount": 45,
+    "usedCount": 0,
     "isActive": true,
     "terms": [
       "Valid on heritage category hotels only",
       "Minimum stay of 2 nights required",
       "Cannot be combined with other offers"
-    ]
-  },
-  {
-    "title": "Bengali Food Festival - Buy 1 Get 1",
-    "description": "Enjoy authentic Bengali cuisine with buy 1 get 1 offer on selected restaurants.",
-    "businessType": "Restaurant",
-    "discountPercent": 50,
-    "validFrom": "2024-02-01T00:00:00.000Z",
-    "validUntil": "2024-02-29T00:00:00.000Z",
-    "code": "BENGALI50",
-    "usageLimit": 500,
-    "usedCount": 123,
-    "isActive": true,
-    "terms": [
-      "Valid on Bengali cuisine restaurants only",
-      "Applicable on main course items",
-      "Valid for dine-in only"
     ]
   }
 ]

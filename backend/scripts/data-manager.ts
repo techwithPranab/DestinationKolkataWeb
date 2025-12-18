@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 
+import 'dotenv/config'
 import fs from 'fs'
 import path from 'path'
 import mongoose from 'mongoose'
@@ -91,7 +92,8 @@ class DataIngestionManager {
   async connectToDatabase(): Promise<void> {
     try {
       const mongoUri = process.env.MONGODB_URI || 'mongodb://localhost:27017/destination-kolkata'
-      console.log('🔌 Connecting to MongoDB...')
+      console.log(mongoUri);
+      console.log('🔌 Connecting to MongoDB...' + mongoUri);
       await mongoose.connect(mongoUri)
       console.log('✅ Connected to MongoDB successfully')
     } catch (error) {

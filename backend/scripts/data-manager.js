@@ -40,7 +40,8 @@ class DataIngestionManager {
     async connectToDatabase() {
         try {
             const mongoUri = process.env.MONGODB_URI || 'mongodb://localhost:27017/destination-kolkata';
-            console.log('🔌 Connecting to MongoDB...');
+            console.log(mongoUri);
+            console.log('🔌 Connecting to MongoDB...' + mongoUri);
             await mongoose_1.default.connect(mongoUri);
             console.log('✅ Connected to MongoDB successfully');
         }

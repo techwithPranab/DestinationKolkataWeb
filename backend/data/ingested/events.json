@@ -1,6 +1,7 @@
 [
   {
     "name": "Durga Puja Festival 2024",
+    "slug": "durga-puja-festival-2024",
     "description": "The biggest festival of Bengal celebrating Goddess Durga with elaborate pandals and cultural programs.",
     "category": "Festivals",
     "startDate": "2024-10-10T00:00:00.000Z",
@@ -41,45 +42,5 @@
     "status": "pending",
     "featured": true,
     "promoted": true
-  },
-  {
-    "name": "Eden Gardens Cricket Match",
-    "description": "Exciting cricket match at the historic Eden Gardens stadium.",
-    "category": "Sports",
-    "startDate": "2024-12-15T00:00:00.000Z",
-    "endDate": "2024-12-15T00:00:00.000Z",
-    "startTime": "14:30",
-    "endTime": "22:30",
-    "location": {
-      "type": "Point",
-      "coordinates": [
-        88.3426,
-        22.5648
-      ]
-    },
-    "address": {
-      "street": "Eden Gardens",
-      "area": "Maidan",
-      "city": "Kolkata",
-      "state": "West Bengal"
-    },
-    "ticketPrice": {
-      "min": 500,
-      "max": 5000,
-      "currency": "INR",
-      "isFree": false
-    },
-    "organizer": {
-      "name": "Cricket Association of Bengal",
-      "contact": "+91 33 2248 1911",
-      "email": "info@cab.org.in"
-    },
-    "venue": {
-      "name": "Eden Gardens",
-      "capacity": 66000,
-      "type": "Outdoor"
-    },
-    "status": "pending",
-    "featured": true
   }
 ]

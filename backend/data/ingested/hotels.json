@@ -32,8 +32,8 @@
     "category": "Business",
     "amenities": [],
     "rating": {
-      "average": 4.371829202926063,
-      "count": 92
+      "average": 4.362077855003298,
+      "count": 11
     },
     "roomTypes": [
       {
@@ -53,6 +53,7 @@
     "tags": [
       "hotel"
     ],
+    "slug": "ashok-664464565",
     "status": "pending",
     "featured": false,
     "promoted": false,
@@ -92,8 +93,8 @@
     "category": "Business",
     "amenities": [],
     "rating": {
-      "average": 4.885414352723212,
-      "count": 84
+      "average": 4.7220297959148265,
+      "count": 24
     },
     "roomTypes": [
       {
@@ -113,6 +114,7 @@
     "tags": [
       "hotel"
     ],
+    "slug": "centrepoint-guesthouse-1171065437",
     "status": "pending",
     "featured": false,
     "promoted": false,
@@ -152,8 +154,8 @@
     "category": "Business",
     "amenities": [],
     "rating": {
-      "average": 4.042089444049315,
-      "count": 106
+      "average": 4.488962477810727,
+      "count": 52
     },
     "roomTypes": [
       {
@@ -173,8 +175,9 @@
     "tags": [
       "hotel"
     ],
+    "slug": "boudir-bhater-2041813454",
     "status": "pending",
-    "featured": true,
+    "featured": false,
     "promoted": false,
     "osmId": 2041813454,
     "source": "OpenStreetMap"
@@ -212,8 +215,8 @@
     "category": "Budget",
     "amenities": [],
     "rating": {
-      "average": 3.0860898313524587,
-      "count": 91
+      "average": 3.0307540458734015,
+      "count": 10
     },
     "roomTypes": [
       {
@@ -233,8 +236,9 @@
     "tags": [
       "guest_house"
     ],
+    "slug": "nips-serviced-apartment-guest-house-ec-98-salt-lake-2061919387",
     "status": "pending",
-    "featured": true,
+    "featured": false,
     "promoted": false,
     "osmId": 2061919387,
     "source": "OpenStreetMap"
@@ -272,8 +276,8 @@
     "category": "Business",
     "amenities": [],
     "rating": {
-      "average": 4.1261661755440455,
-      "count": 83
+      "average": 3.148081317880639,
+      "count": 53
     },
     "roomTypes": [
       {
@@ -293,8 +297,9 @@
     "tags": [
       "hotel"
     ],
+    "slug": "hotel-kempton-2209959275",
     "status": "pending",
-    "featured": true,
+    "featured": false,
     "promoted": false,
     "osmId": 2209959275,
     "source": "OpenStreetMap"
@@ -332,8 +337,8 @@
     "category": "Business",
     "amenities": [],
     "rating": {
-      "average": 4.991593459796423,
-      "count": 76
+      "average": 3.6133001332502803,
+      "count": 24
     },
     "roomTypes": [
       {
@@ -353,6 +358,7 @@
     "tags": [
       "hotel"
     ],
+    "slug": "arya-international-2234881727",
     "status": "pending",
     "featured": false,
     "promoted": false,
@@ -394,8 +400,8 @@
     "category": "Business",
     "amenities": [],
     "rating": {
-      "average": 3.4895913041959927,
-      "count": 18
+      "average": 3.445369558926572,
+      "count": 73
     },
     "roomTypes": [
       {
@@ -415,10 +421,72 @@
     "tags": [
       "hotel"
     ],
+    "slug": "trimoorti-2234881752",
     "status": "pending",
     "featured": false,
     "promoted": false,
     "osmId": 2234881752,
+    "source": "OpenStreetMap"
+  },
+  {
+    "name": "Swissotel Kolkata",
+    "description": "A hotel in Kolkata",
+    "shortDescription": "",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        88.4500672,
+        22.6221946
+      ]
+    },
+    "address": {
+      "street": "",
+      "area": "",
+      "city": "Kolkata",
+      "state": "West Bengal",
+      "pincode": "",
+      "landmark": ""
+    },
+    "contact": {
+      "phone": [],
+      "email": "",
+      "website": "",
+      "socialMedia": {}
+    },
+    "priceRange": {
+      "min": 1500,
+      "max": 8000,
+      "currency": "INR"
+    },
+    "category": "Business",
+    "amenities": [],
+    "rating": {
+      "average": 4.510653103504872,
+      "count": 19
+    },
+    "roomTypes": [
+      {
+        "name": "Standard Room",
+        "price": 1500,
+        "capacity": 2,
+        "amenities": [
+          "WiFi",
+          "AC"
+        ],
+        "images": [],
+        "available": true
+      }
+    ],
+    "checkInTime": "14:00",
+    "checkOutTime": "12:00",
+    "tags": [
+      "hotel"
+    ],
+    "slug": "swissotel-kolkata-2453083686",
+    "status": "pending",
+    "featured": false,
+    "promoted": false,
+    "osmId": 2453083686,
     "source": "OpenStreetMap"
   },
   {
@@ -454,8 +522,8 @@
     "category": "Business",
     "amenities": [],
     "rating": {
-      "average": 4.600411374236326,
-      "count": 66
+      "average": 3.086376634902402,
+      "count": 42
     },
     "roomTypes": [
       {
@@ -475,6 +543,7 @@
     "tags": [
       "hotel"
     ],
+    "slug": "hotel-shivangan-2453260661",
     "status": "pending",
     "featured": false,
     "promoted": false,
@@ -514,8 +583,8 @@
     "category": "Budget",
     "amenities": [],
     "rating": {
-      "average": 3.6383513314174785,
-      "count": 11
+      "average": 4.637169732590131,
+      "count": 42
     },
     "roomTypes": [
       {
@@ -535,6 +604,7 @@
     "tags": [
       "guest_house"
     ],
+    "slug": "icar-cau-guest-house-2461173843",
     "status": "pending",
     "featured": false,
     "promoted": false,
@@ -574,8 +644,8 @@
     "category": "Budget",
     "amenities": [],
     "rating": {
-      "average": 4.966922703521892,
-      "count": 31
+      "average": 4.994671937096228,
+      "count": 101
     },
     "roomTypes": [
       {
@@ -595,6 +665,7 @@
     "tags": [
       "hostel"
     ],
+    "slug": "jadavpur-university-hostel-2461201411",
     "status": "pending",
     "featured": false,
     "promoted": false,
@@ -634,8 +705,8 @@
     "category": "Budget",
     "amenities": [],
     "rating": {
-      "average": 4.0572018666722105,
-      "count": 30
+      "average": 4.0500065271764,
+      "count": 24
     },
     "roomTypes": [
       {
@@ -655,6 +726,7 @@
     "tags": [
       "hostel"
     ],
+    "slug": "ju-north-block-2461201425",
     "status": "pending",
     "featured": false,
     "promoted": false,
@@ -694,8 +766,8 @@
     "category": "Budget",
     "amenities": [],
     "rating": {
-      "average": 4.95460019805776,
-      "count": 104
+      "average": 4.765292943990019,
+      "count": 47
     },
     "roomTypes": [
       {
@@ -715,8 +787,9 @@
     "tags": [
       "hostel"
     ],
+    "slug": "ju-south-block-2461201429",
     "status": "pending",
-    "featured": true,
+    "featured": false,
     "promoted": false,
     "osmId": 2461201429,
     "source": "OpenStreetMap"
@@ -754,8 +827,8 @@
     "category": "Budget",
     "amenities": [],
     "rating": {
-      "average": 4.046597446072281,
-      "count": 50
+      "average": 4.833098511921629,
+      "count": 91
     },
     "roomTypes": [
       {
@@ -775,6 +848,7 @@
     "tags": [
       "hostel"
     ],
+    "slug": "hostel-of-govt-college-of-engg-leather-technology-2461204975",
     "status": "pending",
     "featured": false,
     "promoted": false,
@@ -814,8 +888,8 @@
     "category": "Business",
     "amenities": [],
     "rating": {
-      "average": 3.615104443930202,
-      "count": 78
+      "average": 3.1763012836877023,
+      "count": 84
     },
     "roomTypes": [
       {
@@ -835,6 +909,7 @@
     "tags": [
       "hotel"
     ],
+    "slug": "jw-marriott-2461251739",
     "status": "pending",
     "featured": false,
     "promoted": false,
@@ -874,8 +949,8 @@
     "category": "Business",
     "amenities": [],
     "rating": {
-      "average": 3.2645652083314896,
-      "count": 72
+      "average": 3.4041530152677457,
+      "count": 33
     },
     "roomTypes": [
       {
@@ -895,10 +970,72 @@
     "tags": [
       "hotel"
     ],
+    "slug": "balurghat-bhawan-2461308597",
     "status": "pending",
     "featured": false,
     "promoted": false,
     "osmId": 2461308597,
+    "source": "OpenStreetMap"
+  },
+  {
+    "name": "Novotel",
+    "description": "A hotel in Kolkata",
+    "shortDescription": "",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        88.4614947,
+        22.5794452
+      ]
+    },
+    "address": {
+      "street": "",
+      "area": "",
+      "city": "Kolkata",
+      "state": "West Bengal",
+      "pincode": "",
+      "landmark": ""
+    },
+    "contact": {
+      "phone": [],
+      "email": "",
+      "website": "",
+      "socialMedia": {}
+    },
+    "priceRange": {
+      "min": 1500,
+      "max": 8000,
+      "currency": "INR"
+    },
+    "category": "Business",
+    "amenities": [],
+    "rating": {
+      "average": 4.698438130307846,
+      "count": 33
+    },
+    "roomTypes": [
+      {
+        "name": "Standard Room",
+        "price": 1500,
+        "capacity": 2,
+        "amenities": [
+          "WiFi",
+          "AC"
+        ],
+        "images": [],
+        "available": true
+      }
+    ],
+    "checkInTime": "14:00",
+    "checkOutTime": "12:00",
+    "tags": [
+      "hotel"
+    ],
+    "slug": "novotel-2464548358",
+    "status": "pending",
+    "featured": false,
+    "promoted": false,
+    "osmId": 2464548358,
     "source": "OpenStreetMap"
   },
   {
@@ -934,8 +1071,8 @@
     "category": "Business",
     "amenities": [],
     "rating": {
-      "average": 4.057427102156186,
-      "count": 28
+      "average": 4.632587479924968,
+      "count": 101
     },
     "roomTypes": [
       {
@@ -955,6 +1092,7 @@
     "tags": [
       "hotel"
     ],
+    "slug": "fairlawn-hotel-2934412980",
     "status": "pending",
     "featured": false,
     "promoted": false,
@@ -994,8 +1132,8 @@
     "category": "Business",
     "amenities": [],
     "rating": {
-      "average": 4.69360871831331,
-      "count": 53
+      "average": 3.293185975870058,
+      "count": 44
     },
     "roomTypes": [
       {
@@ -1015,6 +1153,7 @@
     "tags": [
       "hotel"
     ],
+    "slug": "lytton-hotel-2934412983",
     "status": "pending",
     "featured": false,
     "promoted": false,
@@ -1054,8 +1193,8 @@
     "category": "Business",
     "amenities": [],
     "rating": {
-      "average": 3.6988523001753255,
-      "count": 45
+      "average": 4.101175544950813,
+      "count": 65
     },
     "roomTypes": [
       {
@@ -1075,6 +1214,7 @@
     "tags": [
       "hotel"
     ],
+    "slug": "sapphire-suites-2934412984",
     "status": "pending",
     "featured": false,
     "promoted": false,
@@ -1114,8 +1254,8 @@
     "category": "Budget",
     "amenities": [],
     "rating": {
-      "average": 3.5526003602884098,
-      "count": 41
+      "average": 3.089440354878579,
+      "count": 30
     },
     "roomTypes": [
       {
@@ -1135,6 +1275,7 @@
     "tags": [
       "hostel"
     ],
+    "slug": "tourist-inn-2934412986",
     "status": "pending",
     "featured": false,
     "promoted": false,
@@ -1176,8 +1317,8 @@
     "category": "Business",
     "amenities": [],
     "rating": {
-      "average": 4.052281171930014,
-      "count": 104
+      "average": 4.700504040481966,
+      "count": 57
     },
     "roomTypes": [
       {
@@ -1197,9 +1338,10 @@
     "tags": [
       "hotel"
     ],
+    "slug": "hotel-swagath-3250354078",
     "status": "pending",
-    "featured": true,
-    "promoted": true,
+    "featured": false,
+    "promoted": false,
     "osmId": 3250354078,
     "source": "OpenStreetMap"
   },
@@ -1236,8 +1378,8 @@
     "category": "Business",
     "amenities": [],
     "rating": {
-      "average": 3.0982928671282917,
-      "count": 35
+      "average": 4.5352438436402736,
+      "count": 80
     },
     "roomTypes": [
       {
@@ -1258,6 +1400,7 @@
       "hotel",
       "library"
     ],
+    "slug": "gita-bhavan-3251622461",
     "status": "pending",
     "featured": false,
     "promoted": false,
@@ -1297,8 +1440,8 @@
     "category": "Business",
     "amenities": [],
     "rating": {
-      "average": 4.399470361801518,
-      "count": 104
+      "average": 4.168815586938818,
+      "count": 14
     },
     "roomTypes": [
       {
@@ -1318,6 +1461,7 @@
     "tags": [
       "hotel"
     ],
+    "slug": "hotel-narayani-enclave-3277932861",
     "status": "pending",
     "featured": false,
     "promoted": false,
@@ -1357,8 +1501,8 @@
     "category": "Business",
     "amenities": [],
     "rating": {
-      "average": 3.1108294213101453,
-      "count": 102
+      "average": 3.3588427786903567,
+      "count": 79
     },
     "roomTypes": [
       {
@@ -1378,6 +1522,7 @@
     "tags": [
       "hotel"
     ],
+    "slug": "modern-lodge-3628918620",
     "status": "pending",
     "featured": false,
     "promoted": false,
@@ -1417,8 +1562,8 @@
     "category": "Business",
     "amenities": [],
     "rating": {
-      "average": 3.2745742996346174,
-      "count": 43
+      "average": 4.88993082718725,
+      "count": 59
     },
     "roomTypes": [
       {
@@ -1438,6 +1583,7 @@
     "tags": [
       "hotel"
     ],
+    "slug": "hotel-galaxy-4175378890",
     "status": "pending",
     "featured": false,
     "promoted": false,
@@ -1477,8 +1623,8 @@
     "category": "Business",
     "amenities": [],
     "rating": {
-      "average": 4.7489567880034205,
-      "count": 88
+      "average": 3.37442746863733,
+      "count": 85
     },
     "roomTypes": [
       {
@@ -1498,6 +1644,7 @@
     "tags": [
       "hotel"
     ],
+    "slug": "-4177657190",
     "status": "pending",
     "featured": false,
     "promoted": false,
@@ -1537,8 +1684,8 @@
     "category": "Business",
     "amenities": [],
     "rating": {
-      "average": 4.142147811831395,
-      "count": 28
+      "average": 4.300281593415535,
+      "count": 16
     },
     "roomTypes": [
       {
@@ -1558,6 +1705,7 @@
     "tags": [
       "hotel"
     ],
+    "slug": "park-plaza-kolkata-ballygunge-4209577086",
     "status": "pending",
     "featured": false,
     "promoted": false,
@@ -1597,8 +1745,8 @@
     "category": "Business",
     "amenities": [],
     "rating": {
-      "average": 4.431426697102877,
-      "count": 69
+      "average": 3.1878873543196615,
+      "count": 45
     },
     "roomTypes": [
       {
@@ -1618,8 +1766,9 @@
     "tags": [
       "hotel"
     ],
+    "slug": "the-lalit-great-eastern-kolkata-4209577088",
     "status": "pending",
-    "featured": true,
+    "featured": false,
     "promoted": false,
     "osmId": 4209577088,
     "source": "OpenStreetMap"
@@ -1657,8 +1806,8 @@
     "category": "Business",
     "amenities": [],
     "rating": {
-      "average": 3.356766810644033,
-      "count": 67
+      "average": 4.849320098443105,
+      "count": 98
     },
     "roomTypes": [
       {
@@ -1678,6 +1827,7 @@
     "tags": [
       "hotel"
     ],
+    "slug": "hotel-best-inn-4209893880",
     "status": "pending",
     "featured": false,
     "promoted": false,
@@ -1717,8 +1867,8 @@
     "category": "Budget",
     "amenities": [],
     "rating": {
-      "average": 3.6149619311253067,
-      "count": 61
+      "average": 3.581473653656485,
+      "count": 104
     },
     "roomTypes": [
       {
@@ -1738,8 +1888,9 @@
     "tags": [
       "guest_house"
     ],
+    "slug": "the-kei-suites-4243787191",
     "status": "pending",
-    "featured": true,
+    "featured": false,
     "promoted": false,
     "osmId": 4243787191,
     "source": "OpenStreetMap"
@@ -1767,7 +1918,7 @@
       "phone": [
         "+91 33 25569394"
       ],
-      "email": "",
+      "email": "vulcantrading@vsnl.net",
       "website": "http://www.youthhostelkolkata.com",
       "socialMedia": {}
     },
@@ -1779,8 +1930,8 @@
     "category": "Budget",
     "amenities": [],
     "rating": {
-      "average": 4.411655714421422,
-      "count": 52
+      "average": 3.0619155759085177,
+      "count": 44
     },
     "roomTypes": [
       {
@@ -1800,9 +1951,10 @@
     "tags": [
       "hostel"
     ],
+    "slug": "youth-hostel-kolkata-4345252190",
     "status": "pending",
     "featured": false,
-    "promoted": true,
+    "promoted": false,
     "osmId": 4345252190,
     "source": "OpenStreetMap"
   },
@@ -1839,8 +1991,8 @@
     "category": "Business",
     "amenities": [],
     "rating": {
-      "average": 4.800291201144371,
-      "count": 50
+      "average": 4.726674990832741,
+      "count": 98
     },
     "roomTypes": [
       {
@@ -1860,6 +2012,7 @@
     "tags": [
       "hotel"
     ],
+    "slug": "gateway-continental-restaurant-4364249791",
     "status": "pending",
     "featured": false,
     "promoted": false,
@@ -1899,8 +2052,8 @@
     "category": "Business",
     "amenities": [],
     "rating": {
-      "average": 4.51143481652042,
-      "count": 25
+      "average": 3.1269660433199573,
+      "count": 19
     },
     "roomTypes": [
       {
@@ -1920,6 +2073,7 @@
     "tags": [
       "hotel"
     ],
+    "slug": "timestar-4368161896",
     "status": "pending",
     "featured": false,
     "promoted": false,
@@ -1949,7 +2103,7 @@
       "phone": [
         "089-6185-6857"
       ],
-      "email": "",
+      "email": "kolkata@indiasantana.net",
       "website": "http://www.indiasantana.net/sharehouse.html",
       "socialMedia": {}
     },
@@ -1961,8 +2115,8 @@
     "category": "Budget",
     "amenities": [],
     "rating": {
-      "average": 3.889820772041217,
-      "count": 60
+      "average": 3.3028562499478036,
+      "count": 87
     },
     "roomTypes": [
       {
@@ -1982,6 +2136,7 @@
     "tags": [
       "hostel"
     ],
+    "slug": "santana-guesthouse-4368170790",
     "status": "pending",
     "featured": false,
     "promoted": false,
@@ -2023,8 +2178,8 @@
     "category": "Business",
     "amenities": [],
     "rating": {
-      "average": 3.919017782175278,
-      "count": 105
+      "average": 3.9094830966943315,
+      "count": 58
     },
     "roomTypes": [
       {
@@ -2044,6 +2199,7 @@
     "tags": [
       "hotel"
     ],
+    "slug": "hotel-housez-43-4393789097",
     "status": "pending",
     "featured": false,
     "promoted": false,
@@ -2085,8 +2241,8 @@
     "category": "Business",
     "amenities": [],
     "rating": {
-      "average": 4.157071925301194,
-      "count": 56
+      "average": 3.992154192959131,
+      "count": 42
     },
     "roomTypes": [
       {
@@ -2106,6 +2262,7 @@
     "tags": [
       "hotel"
     ],
+    "slug": "gooptu-court-4406715689",
     "status": "pending",
     "featured": false,
     "promoted": false,
@@ -2147,8 +2304,8 @@
     "category": "Business",
     "amenities": [],
     "rating": {
-      "average": 4.877465592929973,
-      "count": 84
+      "average": 4.380825191449088,
+      "count": 74
     },
     "roomTypes": [
       {
@@ -2168,6 +2325,7 @@
     "tags": [
       "hotel"
     ],
+    "slug": "bhammars-inn-4441996089",
     "status": "pending",
     "featured": false,
     "promoted": false,
@@ -2207,8 +2365,8 @@
     "category": "Business",
     "amenities": [],
     "rating": {
-      "average": 3.0792837432767475,
-      "count": 26
+      "average": 4.744823405676168,
+      "count": 13
     },
     "roomTypes": [
       {
@@ -2228,6 +2386,7 @@
     "tags": [
       "hotel"
     ],
+    "slug": "floatel-4523292425",
     "status": "pending",
     "featured": false,
     "promoted": false,
@@ -2267,8 +2426,8 @@
     "category": "Budget",
     "amenities": [],
     "rating": {
-      "average": 4.674192593677801,
-      "count": 85
+      "average": 3.7746800690857287,
+      "count": 21
     },
     "roomTypes": [
       {
@@ -2288,6 +2447,7 @@
     "tags": [
       "guest_house"
     ],
+    "slug": "baptist-missionary-society-4564538894",
     "status": "pending",
     "featured": false,
     "promoted": false,
@@ -2327,8 +2487,8 @@
     "category": "Business",
     "amenities": [],
     "rating": {
-      "average": 3.730970115058039,
-      "count": 31
+      "average": 3.190724946005656,
+      "count": 14
     },
     "roomTypes": [
       {
@@ -2348,6 +2508,7 @@
     "tags": [
       "hotel"
     ],
+    "slug": "maria-4607222892",
     "status": "pending",
     "featured": false,
     "promoted": false,
@@ -2387,8 +2548,8 @@
     "category": "Budget",
     "amenities": [],
     "rating": {
-      "average": 4.654427837455631,
-      "count": 39
+      "average": 4.720135643022647,
+      "count": 52
     },
     "roomTypes": [
       {
@@ -2408,6 +2569,7 @@
     "tags": [
       "guest_house"
     ],
+    "slug": "georgian-inn-4718248697",
     "status": "pending",
     "featured": false,
     "promoted": false,
@@ -2447,8 +2609,8 @@
     "category": "Business",
     "amenities": [],
     "rating": {
-      "average": 3.5849269872341814,
-      "count": 33
+      "average": 4.807761273119617,
+      "count": 39
     },
     "roomTypes": [
       {
@@ -2468,8 +2630,9 @@
     "tags": [
       "hotel"
     ],
+    "slug": "capital-hotel-4725550224",
     "status": "pending",
-    "featured": true,
+    "featured": false,
     "promoted": false,
     "osmId": 4725550224,
     "source": "OpenStreetMap"
@@ -2507,8 +2670,8 @@
     "category": "Business",
     "amenities": [],
     "rating": {
-      "average": 4.403367776459129,
-      "count": 50
+      "average": 4.334350830513147,
+      "count": 48
     },
     "roomTypes": [
       {
@@ -2528,6 +2691,7 @@
     "tags": [
       "hotel"
     ],
+    "slug": "hotel-pushpak-international-4739253321",
     "status": "pending",
     "featured": false,
     "promoted": false,
@@ -2567,8 +2731,8 @@
     "category": "Business",
     "amenities": [],
     "rating": {
-      "average": 4.99860237778605,
-      "count": 97
+      "average": 3.6371902458711323,
+      "count": 57
     },
     "roomTypes": [
       {
@@ -2588,6 +2752,7 @@
     "tags": [
       "hotel"
     ],
+    "slug": "astoria-hotel-4818053922",
     "status": "pending",
     "featured": false,
     "promoted": false,
@@ -2627,8 +2792,8 @@
     "category": "Business",
     "amenities": [],
     "rating": {
-      "average": 4.901921391595806,
-      "count": 94
+      "average": 4.035910766772058,
+      "count": 16
     },
     "roomTypes": [
       {
@@ -2648,6 +2813,7 @@
     "tags": [
       "hotel"
     ],
+    "slug": "astoria-hotel-4819569521",
     "status": "pending",
     "featured": false,
     "promoted": false,
@@ -2687,8 +2853,8 @@
     "category": "Business",
     "amenities": [],
     "rating": {
-      "average": 4.051042888562746,
-      "count": 35
+      "average": 3.046728506822053,
+      "count": 53
     },
     "roomTypes": [
       {
@@ -2708,8 +2874,9 @@
     "tags": [
       "hotel"
     ],
+    "slug": "heaven-hotel-4859921921",
     "status": "pending",
-    "featured": true,
+    "featured": false,
     "promoted": false,
     "osmId": 4859921921,
     "source": "OpenStreetMap"
@@ -2747,8 +2914,8 @@
     "category": "Business",
     "amenities": [],
     "rating": {
-      "average": 4.139520995727496,
-      "count": 58
+      "average": 4.749509979956359,
+      "count": 77
     },
     "roomTypes": [
       {
@@ -2768,9 +2935,10 @@
     "tags": [
       "hotel"
     ],
+    "slug": "astoria-hotel-4865710921",
     "status": "pending",
     "featured": false,
-    "promoted": true,
+    "promoted": false,
     "osmId": 4865710921,
     "source": "OpenStreetMap"
   },
@@ -2807,8 +2975,8 @@
     "category": "Business",
     "amenities": [],
     "rating": {
-      "average": 4.568604882130533,
-      "count": 17
+      "average": 4.232122644601242,
+      "count": 73
     },
     "roomTypes": [
       {
@@ -2828,6 +2996,7 @@
     "tags": [
       "hotel"
     ],
+    "slug": "aura-hotel-4885176223",
     "status": "pending",
     "featured": false,
     "promoted": false,
@@ -2867,8 +3036,8 @@
     "category": "Business",
     "amenities": [],
     "rating": {
-      "average": 3.0679759676038416,
-      "count": 94
+      "average": 4.3880120655023,
+      "count": 43
     },
     "roomTypes": [
       {
@@ -2888,6 +3057,7 @@
     "tags": [
       "hotel"
     ],
+    "slug": "sunrise-inn-4891258742",
     "status": "pending",
     "featured": false,
     "promoted": false,
@@ -2927,8 +3097,8 @@
     "category": "Business",
     "amenities": [],
     "rating": {
-      "average": 4.318553828436034,
-      "count": 25
+      "average": 3.0171758877472117,
+      "count": 77
     },
     "roomTypes": [
       {
@@ -2948,6 +3118,7 @@
     "tags": [
       "hotel"
     ],
+    "slug": "hotel-executive-tower-4891258744",
     "status": "pending",
     "featured": false,
     "promoted": false,
@@ -2989,8 +3160,8 @@
     "category": "Budget",
     "amenities": [],
     "rating": {
-      "average": 4.392178729307707,
-      "count": 40
+      "average": 4.845473827906652,
+      "count": 69
     },
     "roomTypes": [
       {
@@ -3010,9 +3181,10 @@
     "tags": [
       "guest_house"
     ],
+    "slug": "sunflower-guest-house-4971752621",
     "status": "pending",
     "featured": false,
-    "promoted": true,
+    "promoted": false,
     "osmId": 4971752621,
     "source": "OpenStreetMap"
   },
@@ -3051,8 +3223,8 @@
     "category": "Business",
     "amenities": [],
     "rating": {
-      "average": 4.378252092056778,
-      "count": 38
+      "average": 3.9709010199247405,
+      "count": 65
     },
     "roomTypes": [
       {
@@ -3072,9 +3244,10 @@
     "tags": [
       "hotel"
     ],
+    "slug": "mannat-international-hotel-5101582322",
     "status": "pending",
-    "featured": true,
-    "promoted": true,
+    "featured": false,
+    "promoted": false,
     "osmId": 5101582322,
     "source": "OpenStreetMap"
   },
@@ -3111,8 +3284,8 @@
     "category": "Business",
     "amenities": [],
     "rating": {
-      "average": 3.4639852555363304,
-      "count": 99
+      "average": 3.051729191275063,
+      "count": 67
     },
     "roomTypes": [
       {
@@ -3132,8 +3305,9 @@
     "tags": [
       "hotel"
     ],
+    "slug": "airbnb-ground-floor-810c-cornfield-road-5136807023",
     "status": "pending",
-    "featured": true,
+    "featured": false,
     "promoted": false,
     "osmId": 5136807023,
     "source": "OpenStreetMap"
@@ -3171,8 +3345,8 @@
     "category": "Budget",
     "amenities": [],
     "rating": {
-      "average": 4.243276322108327,
-      "count": 63
+      "average": 4.766857019840836,
+      "count": 80
     },
     "roomTypes": [
       {
@@ -3192,6 +3366,7 @@
     "tags": [
       "hostel"
     ],
+    "slug": "gala-time-hostel-5242759814",
     "status": "pending",
     "featured": false,
     "promoted": false,
@@ -3231,8 +3406,8 @@
     "category": "Budget",
     "amenities": [],
     "rating": {
-      "average": 3.5413547713406492,
-      "count": 36
+      "average": 3.1529927898204813,
+      "count": 16
     },
     "roomTypes": [
       {
@@ -3252,8 +3427,9 @@
     "tags": [
       "guest_house"
     ],
+    "slug": "kolkata-homestay-and-bb-5242857321",
     "status": "pending",
-    "featured": true,
+    "featured": false,
     "promoted": false,
     "osmId": 5242857321,
     "source": "OpenStreetMap"
@@ -3291,8 +3467,8 @@
     "category": "Budget",
     "amenities": [],
     "rating": {
-      "average": 3.104523707976137,
-      "count": 92
+      "average": 4.270892053978001,
+      "count": 81
     },
     "roomTypes": [
       {
@@ -3312,6 +3488,7 @@
     "tags": [
       "guest_house"
     ],
+    "slug": "little-green-apartment-ballygunge-5303976321",
     "status": "pending",
     "featured": false,
     "promoted": false,
@@ -3351,8 +3528,8 @@
     "category": "Budget",
     "amenities": [],
     "rating": {
-      "average": 4.050686672159982,
-      "count": 84
+      "average": 4.593808853299922,
+      "count": 46
     },
     "roomTypes": [
       {
@@ -3372,6 +3549,7 @@
     "tags": [
       "guest_house"
     ],
+    "slug": "bengal-guest-house-5309805521",
     "status": "pending",
     "featured": false,
     "promoted": false,
@@ -3411,8 +3589,8 @@
     "category": "Business",
     "amenities": [],
     "rating": {
-      "average": 4.992209892513118,
-      "count": 34
+      "average": 4.9675534759119815,
+      "count": 43
     },
     "roomTypes": [
       {
@@ -3432,6 +3610,7 @@
     "tags": [
       "hotel"
     ],
+    "slug": "paramount-hotel-5323269622",
     "status": "pending",
     "featured": false,
     "promoted": false,
@@ -3471,8 +3650,8 @@
     "category": "Business",
     "amenities": [],
     "rating": {
-      "average": 4.707391033690895,
-      "count": 25
+      "average": 4.852423967929472,
+      "count": 58
     },
     "roomTypes": [
       {
@@ -3492,9 +3671,10 @@
     "tags": [
       "hotel"
     ],
+    "slug": "bodhi-tree-5595874221",
     "status": "pending",
-    "featured": true,
-    "promoted": true,
+    "featured": false,
+    "promoted": false,
     "osmId": 5595874221,
     "source": "OpenStreetMap"
   },
@@ -3531,8 +3711,8 @@
     "category": "Business",
     "amenities": [],
     "rating": {
-      "average": 4.753042206385623,
-      "count": 27
+      "average": 3.607290473522712,
+      "count": 48
     },
     "roomTypes": [
       {
@@ -3552,6 +3732,7 @@
     "tags": [
       "hotel"
     ],
+    "slug": "monovilla-hotrl-5776269053",
     "status": "pending",
     "featured": false,
     "promoted": false,
@@ -3591,8 +3772,8 @@
     "category": "Business",
     "amenities": [],
     "rating": {
-      "average": 4.445923176335567,
-      "count": 70
+      "average": 3.5613814377918835,
+      "count": 22
     },
     "roomTypes": [
       {
@@ -3612,10 +3793,72 @@
     "tags": [
       "hotel"
     ],
+    "slug": "hotel-neelam-5837398485",
     "status": "pending",
-    "featured": true,
+    "featured": false,
     "promoted": false,
     "osmId": 5837398485,
+    "source": "OpenStreetMap"
+  },
+  {
+    "name": "Holiday Inn Kolkata Airport",
+    "description": "A hotel in Kolkata",
+    "shortDescription": "",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        88.4437332,
+        22.6231943
+      ]
+    },
+    "address": {
+      "street": "",
+      "area": "",
+      "city": "Kolkata",
+      "state": "West Bengal",
+      "pincode": "",
+      "landmark": ""
+    },
+    "contact": {
+      "phone": [],
+      "email": "",
+      "website": "",
+      "socialMedia": {}
+    },
+    "priceRange": {
+      "min": 1500,
+      "max": 8000,
+      "currency": "INR"
+    },
+    "category": "Business",
+    "amenities": [],
+    "rating": {
+      "average": 3.7088654602705136,
+      "count": 87
+    },
+    "roomTypes": [
+      {
+        "name": "Standard Room",
+        "price": 1500,
+        "capacity": 2,
+        "amenities": [
+          "WiFi",
+          "AC"
+        ],
+        "images": [],
+        "available": true
+      }
+    ],
+    "checkInTime": "14:00",
+    "checkOutTime": "12:00",
+    "tags": [
+      "hotel"
+    ],
+    "slug": "holiday-inn-kolkata-airport-5840580708",
+    "status": "pending",
+    "featured": false,
+    "promoted": false,
+    "osmId": 5840580708,
     "source": "OpenStreetMap"
   },
   {
@@ -3653,8 +3896,8 @@
     "category": "Budget",
     "amenities": [],
     "rating": {
-      "average": 4.8438476692681,
-      "count": 33
+      "average": 3.8461259183860212,
+      "count": 24
     },
     "roomTypes": [
       {
@@ -3674,6 +3917,7 @@
     "tags": [
       "guest_house"
     ],
+    "slug": "aloha-guesthouse-6125952789",
     "status": "pending",
     "featured": false,
     "promoted": false,
@@ -3715,8 +3959,8 @@
     "category": "Business",
     "amenities": [],
     "rating": {
-      "average": 4.1574142163075924,
-      "count": 23
+      "average": 3.132293308057733,
+      "count": 103
     },
     "roomTypes": [
       {
@@ -3736,6 +3980,7 @@
     "tags": [
       "hotel"
     ],
+    "slug": "taj-ladge-6126300685",
     "status": "pending",
     "featured": false,
     "promoted": false,
@@ -3777,8 +4022,8 @@
     "category": "Business",
     "amenities": [],
     "rating": {
-      "average": 3.4424554159521343,
-      "count": 40
+      "average": 4.257559597663656,
+      "count": 50
     },
     "roomTypes": [
       {
@@ -3798,9 +4043,10 @@
     "tags": [
       "hotel"
     ],
+    "slug": "the-corporate-6135363743",
     "status": "pending",
     "featured": false,
-    "promoted": true,
+    "promoted": false,
     "osmId": 6135363743,
     "source": "OpenStreetMap"
   },
@@ -3837,8 +4083,8 @@
     "category": "Business",
     "amenities": [],
     "rating": {
-      "average": 3.2394839610950537,
-      "count": 20
+      "average": 4.065933301397506,
+      "count": 86
     },
     "roomTypes": [
       {
@@ -3858,9 +4104,10 @@
     "tags": [
       "hotel"
     ],
+    "slug": "lytton-hotel-6135364890",
     "status": "pending",
     "featured": false,
-    "promoted": true,
+    "promoted": false,
     "osmId": 6135364890,
     "source": "OpenStreetMap"
   },
@@ -3897,8 +4144,8 @@
     "category": "Business",
     "amenities": [],
     "rating": {
-      "average": 4.612717282197198,
-      "count": 21
+      "average": 3.329124307340097,
+      "count": 28
     },
     "roomTypes": [
       {
@@ -3918,6 +4165,7 @@
     "tags": [
       "hotel"
     ],
+    "slug": "the-senator-6141500110",
     "status": "pending",
     "featured": false,
     "promoted": false,
@@ -3959,8 +4207,8 @@
     "category": "Business",
     "amenities": [],
     "rating": {
-      "average": 3.441050592069177,
-      "count": 88
+      "average": 3.6104675030251747,
+      "count": 33
     },
     "roomTypes": [
       {
@@ -3980,6 +4228,7 @@
     "tags": [
       "hotel"
     ],
+    "slug": "hotel-angina-6143228770",
     "status": "pending",
     "featured": false,
     "promoted": false,
@@ -4019,8 +4268,8 @@
     "category": "Business",
     "amenities": [],
     "rating": {
-      "average": 3.0255869496412267,
-      "count": 57
+      "average": 4.751082556644892,
+      "count": 55
     },
     "roomTypes": [
       {
@@ -4040,9 +4289,10 @@
     "tags": [
       "hotel"
     ],
+    "slug": "hotel-vip-international-6143232536",
     "status": "pending",
     "featured": false,
-    "promoted": true,
+    "promoted": false,
     "osmId": 6143232536,
     "source": "OpenStreetMap"
   },
@@ -4079,8 +4329,8 @@
     "category": "Budget",
     "amenities": [],
     "rating": {
-      "average": 4.057711441844229,
-      "count": 44
+      "average": 3.4638806960884216,
+      "count": 69
     },
     "roomTypes": [
       {
@@ -4100,6 +4350,7 @@
     "tags": [
       "guest_house"
     ],
+    "slug": "royal-house-6174337693",
     "status": "pending",
     "featured": false,
     "promoted": false,
@@ -4139,8 +4390,8 @@
     "category": "Budget",
     "amenities": [],
     "rating": {
-      "average": 4.908235666218675,
-      "count": 89
+      "average": 4.292774922348683,
+      "count": 36
     },
     "roomTypes": [
       {
@@ -4160,8 +4411,9 @@
     "tags": [
       "hostel"
     ],
+    "slug": "galatime-hostel-6269609392",
     "status": "pending",
-    "featured": true,
+    "featured": false,
     "promoted": false,
     "osmId": 6269609392,
     "source": "OpenStreetMap"
@@ -4199,8 +4451,8 @@
     "category": "Business",
     "amenities": [],
     "rating": {
-      "average": 4.302813432940296,
-      "count": 44
+      "average": 4.394370633241081,
+      "count": 60
     },
     "roomTypes": [
       {
@@ -4220,10 +4472,72 @@
     "tags": [
       "hotel"
     ],
+    "slug": "little-green-stay-hotel-6371565896",
     "status": "pending",
     "featured": false,
     "promoted": false,
     "osmId": 6371565896,
+    "source": "OpenStreetMap"
+  },
+  {
+    "name": "Tojo's home",
+    "description": "A hotel in Kolkata",
+    "shortDescription": "",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        88.4237751,
+        22.6514793
+      ]
+    },
+    "address": {
+      "street": "",
+      "area": "",
+      "city": "Kolkata",
+      "state": "West Bengal",
+      "pincode": "",
+      "landmark": ""
+    },
+    "contact": {
+      "phone": [],
+      "email": "",
+      "website": "",
+      "socialMedia": {}
+    },
+    "priceRange": {
+      "min": 1500,
+      "max": 8000,
+      "currency": "INR"
+    },
+    "category": "Business",
+    "amenities": [],
+    "rating": {
+      "average": 3.956352516195945,
+      "count": 89
+    },
+    "roomTypes": [
+      {
+        "name": "Standard Room",
+        "price": 1500,
+        "capacity": 2,
+        "amenities": [
+          "WiFi",
+          "AC"
+        ],
+        "images": [],
+        "available": true
+      }
+    ],
+    "checkInTime": "14:00",
+    "checkOutTime": "12:00",
+    "tags": [
+      "hotel"
+    ],
+    "slug": "tojos-home-6602249486",
+    "status": "pending",
+    "featured": false,
+    "promoted": false,
+    "osmId": 6602249486,
     "source": "OpenStreetMap"
   },
   {
@@ -4261,8 +4575,8 @@
     "category": "Business",
     "amenities": [],
     "rating": {
-      "average": 4.1268513618333635,
-      "count": 83
+      "average": 3.180670892959155,
+      "count": 66
     },
     "roomTypes": [
       {
@@ -4282,6 +4596,7 @@
     "tags": [
       "hotel"
     ],
+    "slug": "backpackers-park-7048837891",
     "status": "pending",
     "featured": false,
     "promoted": false,
@@ -4321,8 +4636,8 @@
     "category": "Business",
     "amenities": [],
     "rating": {
-      "average": 4.259816315426777,
-      "count": 92
+      "average": 3.3047170040970117,
+      "count": 61
     },
     "roomTypes": [
       {
@@ -4342,6 +4657,7 @@
     "tags": [
       "hotel"
     ],
+    "slug": "hotel-emirates-7049106897",
     "status": "pending",
     "featured": false,
     "promoted": false,
@@ -4381,8 +4697,8 @@
     "category": "Business",
     "amenities": [],
     "rating": {
-      "average": 3.731324486811966,
-      "count": 29
+      "average": 4.9936211962085775,
+      "count": 11
     },
     "roomTypes": [
       {
@@ -4402,6 +4718,7 @@
     "tags": [
       "hotel"
     ],
+    "slug": "oyo-novus-guest-house-7053793925",
     "status": "pending",
     "featured": false,
     "promoted": false,
@@ -4441,8 +4758,8 @@
     "category": "Business",
     "amenities": [],
     "rating": {
-      "average": 4.6865628720912,
-      "count": 62
+      "average": 4.727642095404345,
+      "count": 45
     },
     "roomTypes": [
       {
@@ -4462,6 +4779,7 @@
     "tags": [
       "hotel"
     ],
+    "slug": "park-victoria-guest-house-7053793931",
     "status": "pending",
     "featured": false,
     "promoted": false,
@@ -4501,8 +4819,8 @@
     "category": "Business",
     "amenities": [],
     "rating": {
-      "average": 4.378436207194223,
-      "count": 97
+      "average": 4.91339980616188,
+      "count": 88
     },
     "roomTypes": [
       {
@@ -4522,6 +4840,7 @@
     "tags": [
       "hotel"
     ],
+    "slug": "hotel-great-western-7055897010",
     "status": "pending",
     "featured": false,
     "promoted": false,
@@ -4561,8 +4880,8 @@
     "category": "Business",
     "amenities": [],
     "rating": {
-      "average": 4.103922041244538,
-      "count": 22
+      "average": 4.374884027137217,
+      "count": 19
     },
     "roomTypes": [
       {
@@ -4582,8 +4901,9 @@
     "tags": [
       "hotel"
     ],
+    "slug": "park-street-hotel-7055897023",
     "status": "pending",
-    "featured": true,
+    "featured": false,
     "promoted": false,
     "osmId": 7055897023,
     "source": "OpenStreetMap"
@@ -4621,8 +4941,8 @@
     "category": "Business",
     "amenities": [],
     "rating": {
-      "average": 4.030977091540724,
-      "count": 12
+      "average": 3.3458098433495023,
+      "count": 25
     },
     "roomTypes": [
       {
@@ -4642,6 +4962,7 @@
     "tags": [
       "hotel"
     ],
+    "slug": "empire-guest-house-7059347927",
     "status": "pending",
     "featured": false,
     "promoted": false,
@@ -4681,8 +5002,8 @@
     "category": "Business",
     "amenities": [],
     "rating": {
-      "average": 3.695157975965293,
-      "count": 16
+      "average": 3.972607246399955,
+      "count": 28
     },
     "roomTypes": [
       {
@@ -4702,6 +5023,7 @@
     "tags": [
       "hotel"
     ],
+    "slug": "continental-guest-house-7059347939",
     "status": "pending",
     "featured": false,
     "promoted": false,
@@ -4741,8 +5063,8 @@
     "category": "Business",
     "amenities": [],
     "rating": {
-      "average": 3.290346131414893,
-      "count": 109
+      "average": 3.8544390794128707,
+      "count": 64
     },
     "roomTypes": [
       {
@@ -4762,6 +5084,7 @@
     "tags": [
       "hotel"
     ],
+    "slug": "new-super-guest-house-7059347940",
     "status": "pending",
     "featured": false,
     "promoted": false,
@@ -4801,8 +5124,8 @@
     "category": "Business",
     "amenities": [],
     "rating": {
-      "average": 4.513257929088866,
-      "count": 73
+      "average": 3.9570359256855103,
+      "count": 81
     },
     "roomTypes": [
       {
@@ -4822,8 +5145,9 @@
     "tags": [
       "hotel"
     ],
+    "slug": "bhagirathi-guest-house-7059347942",
     "status": "pending",
-    "featured": true,
+    "featured": false,
     "promoted": false,
     "osmId": 7059347942,
     "source": "OpenStreetMap"
@@ -4861,8 +5185,8 @@
     "category": "Business",
     "amenities": [],
     "rating": {
-      "average": 3.833391479947357,
-      "count": 56
+      "average": 3.7001286936770184,
+      "count": 107
     },
     "roomTypes": [
       {
@@ -4882,9 +5206,10 @@
     "tags": [
       "hotel"
     ],
+    "slug": "hotel-green-star-7059347944",
     "status": "pending",
     "featured": false,
-    "promoted": true,
+    "promoted": false,
     "osmId": 7059347944,
     "source": "OpenStreetMap"
   },
@@ -4921,8 +5246,8 @@
     "category": "Business",
     "amenities": [],
     "rating": {
-      "average": 4.056882841633557,
-      "count": 89
+      "average": 4.852151704798214,
+      "count": 40
     },
     "roomTypes": [
       {
@@ -4942,6 +5267,7 @@
     "tags": [
       "hotel"
     ],
+    "slug": "hotel-capella-7059692992",
     "status": "pending",
     "featured": false,
     "promoted": false,
@@ -4981,8 +5307,8 @@
     "category": "Business",
     "amenities": [],
     "rating": {
-      "average": 4.971716856678073,
-      "count": 90
+      "average": 4.452252174175012,
+      "count": 73
     },
     "roomTypes": [
       {
@@ -5002,6 +5328,7 @@
     "tags": [
       "hotel"
     ],
+    "slug": "hotel-gulshan-international-7059693008",
     "status": "pending",
     "featured": false,
     "promoted": false,
@@ -5041,8 +5368,8 @@
     "category": "Budget",
     "amenities": [],
     "rating": {
-      "average": 4.508501082226589,
-      "count": 103
+      "average": 4.234529443938598,
+      "count": 78
     },
     "roomTypes": [
       {
@@ -5062,8 +5389,9 @@
     "tags": [
       "hostel"
     ],
+    "slug": "vidya-bhavan-7896979515",
     "status": "pending",
-    "featured": true,
+    "featured": false,
     "promoted": false,
     "osmId": 7896979515,
     "source": "OpenStreetMap"
@@ -5101,8 +5429,8 @@
     "category": "Budget",
     "amenities": [],
     "rating": {
-      "average": 3.3571187123863244,
-      "count": 10
+      "average": 4.561945179132629,
+      "count": 67
     },
     "roomTypes": [
       {
@@ -5122,10 +5450,72 @@
     "tags": [
       "hostel"
     ],
+    "slug": "shree-bhavan-7896979516",
     "status": "pending",
     "featured": false,
     "promoted": false,
     "osmId": 7896979516,
+    "source": "OpenStreetMap"
+  },
+  {
+    "name": "Viceroy Hotel",
+    "description": "A hotel in Kolkata",
+    "shortDescription": "",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        88.4399875,
+        22.6244924
+      ]
+    },
+    "address": {
+      "street": "",
+      "area": "",
+      "city": "Kolkata",
+      "state": "West Bengal",
+      "pincode": "",
+      "landmark": ""
+    },
+    "contact": {
+      "phone": [],
+      "email": "",
+      "website": "https://viceroyhoteldrj.com/",
+      "socialMedia": {}
+    },
+    "priceRange": {
+      "min": 1500,
+      "max": 8000,
+      "currency": "INR"
+    },
+    "category": "Business",
+    "amenities": [],
+    "rating": {
+      "average": 3.7045848504732595,
+      "count": 11
+    },
+    "roomTypes": [
+      {
+        "name": "Standard Room",
+        "price": 1500,
+        "capacity": 2,
+        "amenities": [
+          "WiFi",
+          "AC"
+        ],
+        "images": [],
+        "available": true
+      }
+    ],
+    "checkInTime": "14:00",
+    "checkOutTime": "12:00",
+    "tags": [
+      "hotel"
+    ],
+    "slug": "viceroy-hotel-9184248700",
+    "status": "pending",
+    "featured": false,
+    "promoted": false,
+    "osmId": 9184248700,
     "source": "OpenStreetMap"
   },
   {
@@ -5161,8 +5551,8 @@
     "category": "Budget",
     "amenities": [],
     "rating": {
-      "average": 3.671221986139799,
-      "count": 67
+      "average": 4.099687536953619,
+      "count": 109
     },
     "roomTypes": [
       {
@@ -5183,6 +5573,7 @@
       "Kolkata",
       "hotel"
     ],
+    "slug": "gallery-inn-9528094217",
     "status": "pending",
     "featured": false,
     "promoted": false,
@@ -5224,8 +5615,8 @@
     "category": "Business",
     "amenities": [],
     "rating": {
-      "average": 3.968570189025306,
-      "count": 20
+      "average": 3.6914968897546987,
+      "count": 75
     },
     "roomTypes": [
       {
@@ -5245,6 +5636,7 @@
     "tags": [
       "hotel"
     ],
+    "slug": "radhe-krishna-banquets-9561668717",
     "status": "pending",
     "featured": false,
     "promoted": false,
@@ -5286,8 +5678,8 @@
     "category": "Budget",
     "amenities": [],
     "rating": {
-      "average": 3.1796782288539167,
-      "count": 89
+      "average": 3.8518353010432436,
+      "count": 70
     },
     "roomTypes": [
       {
@@ -5307,6 +5699,7 @@
     "tags": [
       "hostel"
     ],
+    "slug": "oyo-3380-gallery-inn-9561674217",
     "status": "pending",
     "featured": false,
     "promoted": false,
@@ -5346,8 +5739,8 @@
     "category": "Budget",
     "amenities": [],
     "rating": {
-      "average": 3.5242692677502094,
-      "count": 79
+      "average": 4.384343928804062,
+      "count": 46
     },
     "roomTypes": [
       {
@@ -5367,6 +5760,7 @@
     "tags": [
       "guest_house"
     ],
+    "slug": "radhe-krishna-banquet-9566132417",
     "status": "pending",
     "featured": false,
     "promoted": false,
@@ -5406,8 +5800,8 @@
     "category": "Budget",
     "amenities": [],
     "rating": {
-      "average": 4.065305432330922,
-      "count": 45
+      "average": 4.1279970388081075,
+      "count": 73
     },
     "roomTypes": [
       {
@@ -5427,6 +5821,7 @@
     "tags": [
       "hostel"
     ],
+    "slug": "boys-hostel-9570236417",
     "status": "pending",
     "featured": false,
     "promoted": false,
@@ -5468,8 +5863,8 @@
     "category": "Budget",
     "amenities": [],
     "rating": {
-      "average": 3.028832716479246,
-      "count": 77
+      "average": 4.1987480329287665,
+      "count": 72
     },
     "roomTypes": [
       {
@@ -5489,9 +5884,10 @@
     "tags": [
       "guest_house"
     ],
+    "slug": "oyo-550-salt-lake-ab-block-9602582017",
     "status": "pending",
     "featured": false,
-    "promoted": true,
+    "promoted": false,
     "osmId": 9602582017,
     "source": "OpenStreetMap"
   },
@@ -5528,8 +5924,8 @@
     "category": "Business",
     "amenities": [],
     "rating": {
-      "average": 3.284851505339603,
-      "count": 102
+      "average": 4.64920638034072,
+      "count": 84
     },
     "roomTypes": [
       {
@@ -5549,6 +5945,7 @@
     "tags": [
       "hotel"
     ],
+    "slug": "aa-27-marriage-guest-house-9602582917",
     "status": "pending",
     "featured": false,
     "promoted": false,
@@ -5588,8 +5985,8 @@
     "category": "Budget",
     "amenities": [],
     "rating": {
-      "average": 4.118440202474192,
-      "count": 32
+      "average": 3.6746268827882447,
+      "count": 17
     },
     "roomTypes": [
       {
@@ -5609,8 +6006,9 @@
     "tags": [
       "guest_house"
     ],
+    "slug": "bengal-loudge-9640619618",
     "status": "pending",
-    "featured": true,
+    "featured": false,
     "promoted": false,
     "osmId": 9640619618,
     "source": "OpenStreetMap"
@@ -5648,8 +6046,8 @@
     "category": "Budget",
     "amenities": [],
     "rating": {
-      "average": 3.999768014800795,
-      "count": 69
+      "average": 4.344974739484048,
+      "count": 42
     },
     "roomTypes": [
       {
@@ -5669,10 +6067,74 @@
     "tags": [
       "guest_house"
     ],
+    "slug": "central-government-touring-officers-guest-house-9743229636",
     "status": "pending",
-    "featured": true,
+    "featured": false,
     "promoted": false,
     "osmId": 9743229636,
+    "source": "OpenStreetMap"
+  },
+  {
+    "name": "Hotel Airways",
+    "description": "A hotel in Kolkata",
+    "shortDescription": "",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        88.4339665,
+        22.6466409
+      ]
+    },
+    "address": {
+      "street": "Airport Gate No. 2, Nirmal Sen Gupta Sarani Rd,",
+      "area": "",
+      "city": "Kolkata",
+      "state": "West Bengal",
+      "pincode": "700081",
+      "landmark": ""
+    },
+    "contact": {
+      "phone": [
+        "09804827770"
+      ],
+      "email": "info@hotelairways.com",
+      "website": "https://www.hotelairways.com/",
+      "socialMedia": {}
+    },
+    "priceRange": {
+      "min": 1500,
+      "max": 8000,
+      "currency": "INR"
+    },
+    "category": "Business",
+    "amenities": [],
+    "rating": {
+      "average": 4.666195193311749,
+      "count": 60
+    },
+    "roomTypes": [
+      {
+        "name": "Standard Room",
+        "price": 1500,
+        "capacity": 2,
+        "amenities": [
+          "WiFi",
+          "AC"
+        ],
+        "images": [],
+        "available": true
+      }
+    ],
+    "checkInTime": "14:00",
+    "checkOutTime": "12:00",
+    "tags": [
+      "hotel"
+    ],
+    "slug": "hotel-airways-9804056071",
+    "status": "pending",
+    "featured": false,
+    "promoted": false,
+    "osmId": 9804056071,
     "source": "OpenStreetMap"
   },
   {
@@ -5708,8 +6170,8 @@
     "category": "Budget",
     "amenities": [],
     "rating": {
-      "average": 4.41846786649094,
-      "count": 109
+      "average": 4.885133658347995,
+      "count": 53
     },
     "roomTypes": [
       {
@@ -5729,6 +6191,7 @@
     "tags": [
       "guest_house"
     ],
+    "slug": "am-as-vp-abason-9911032317",
     "status": "pending",
     "featured": false,
     "promoted": false,
@@ -5768,8 +6231,8 @@
     "category": "Budget",
     "amenities": [],
     "rating": {
-      "average": 3.2225953591347496,
-      "count": 87
+      "average": 3.91540811516412,
+      "count": 54
     },
     "roomTypes": [
       {
@@ -5789,6 +6252,7 @@
     "tags": [
       "hostel"
     ],
+    "slug": "sskm-doctors-hostel-9911046617",
     "status": "pending",
     "featured": false,
     "promoted": false,
@@ -5828,8 +6292,8 @@
     "category": "Business",
     "amenities": [],
     "rating": {
-      "average": 3.520326748791084,
-      "count": 72
+      "average": 4.612322279637496,
+      "count": 86
     },
     "roomTypes": [
       {
@@ -5849,6 +6313,7 @@
     "tags": [
       "hotel"
     ],
+    "slug": "sun-india-guest-house-10294718911",
     "status": "pending",
     "featured": false,
     "promoted": false,
@@ -5888,8 +6353,8 @@
     "category": "Budget",
     "amenities": [],
     "rating": {
-      "average": 3.7454303389922994,
-      "count": 34
+      "average": 3.6078217627327143,
+      "count": 80
     },
     "roomTypes": [
       {
@@ -5909,10 +6374,76 @@
     "tags": [
       "hostel"
     ],
+    "slug": "bubble-beds-10300022193",
     "status": "pending",
     "featured": false,
     "promoted": false,
     "osmId": 10300022193,
+    "source": "OpenStreetMap"
+  },
+  {
+    "name": "Taj City Centre New Town",
+    "description": "A hotel in Kolkata",
+    "shortDescription": "",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        88.45048,
+        22.6236298
+      ]
+    },
+    "address": {
+      "street": "City Centre Newtown, Rajarhat",
+      "area": "",
+      "city": "Kolkata",
+      "state": "West Bengal",
+      "pincode": "700157",
+      "landmark": ""
+    },
+    "contact": {
+      "phone": [
+        "+91 33-68200303"
+      ],
+      "email": "reservations.newtown@tajhotels.com",
+      "website": "https://www.tajhotels.com/en-in/taj/taj-city-centre-kolkata/?utm_medium=Local&utm_source=Google&utm_campaign=Taj-City-Centre-New-Town",
+      "socialMedia": {}
+    },
+    "priceRange": {
+      "min": 1500,
+      "max": 8000,
+      "currency": "INR"
+    },
+    "category": "Business",
+    "amenities": [
+      "WiFi"
+    ],
+    "rating": {
+      "average": 4.178066833221923,
+      "count": 62
+    },
+    "roomTypes": [
+      {
+        "name": "Standard Room",
+        "price": 1500,
+        "capacity": 2,
+        "amenities": [
+          "WiFi",
+          "AC"
+        ],
+        "images": [],
+        "available": true
+      }
+    ],
+    "checkInTime": "14:00",
+    "checkOutTime": "12:00",
+    "tags": [
+      "hotel"
+    ],
+    "slug": "taj-city-centre-new-town-10593459747",
+    "status": "pending",
+    "featured": false,
+    "promoted": false,
+    "osmId": 10593459747,
     "source": "OpenStreetMap"
   },
   {
@@ -5948,8 +6479,8 @@
     "category": "Budget",
     "amenities": [],
     "rating": {
-      "average": 4.203994206564283,
-      "count": 20
+      "average": 4.51576896167526,
+      "count": 82
     },
     "roomTypes": [
       {
@@ -5969,6 +6500,7 @@
     "tags": [
       "guest_house"
     ],
+    "slug": "beeu-guest-house-10864035907",
     "status": "pending",
     "featured": false,
     "promoted": false,
@@ -6010,8 +6542,8 @@
     "category": "Budget",
     "amenities": [],
     "rating": {
-      "average": 4.757402948436678,
-      "count": 67
+      "average": 4.22024915360979,
+      "count": 92
     },
     "roomTypes": [
       {
@@ -6031,10 +6563,134 @@
     "tags": [
       "guest_house"
     ],
+    "slug": "riyadh-guest-house-10931965205",
     "status": "pending",
     "featured": false,
     "promoted": false,
     "osmId": 10931965205,
+    "source": "OpenStreetMap"
+  },
+  {
+    "name": "the westin",
+    "description": "A hotel in Kolkata",
+    "shortDescription": "",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        88.471732,
+        22.5997252
+      ]
+    },
+    "address": {
+      "street": "",
+      "area": "",
+      "city": "Kolkata",
+      "state": "West Bengal",
+      "pincode": "",
+      "landmark": ""
+    },
+    "contact": {
+      "phone": [],
+      "email": "",
+      "website": "",
+      "socialMedia": {}
+    },
+    "priceRange": {
+      "min": 1500,
+      "max": 8000,
+      "currency": "INR"
+    },
+    "category": "Business",
+    "amenities": [],
+    "rating": {
+      "average": 4.429050915221647,
+      "count": 23
+    },
+    "roomTypes": [
+      {
+        "name": "Standard Room",
+        "price": 1500,
+        "capacity": 2,
+        "amenities": [
+          "WiFi",
+          "AC"
+        ],
+        "images": [],
+        "available": true
+      }
+    ],
+    "checkInTime": "14:00",
+    "checkOutTime": "12:00",
+    "tags": [
+      "hotel"
+    ],
+    "slug": "the-westin-10960407362",
+    "status": "pending",
+    "featured": false,
+    "promoted": false,
+    "osmId": 10960407362,
+    "source": "OpenStreetMap"
+  },
+  {
+    "name": "Fairfield by Marriott Kolkata",
+    "description": "A hotel in Kolkata",
+    "shortDescription": "",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        88.4684426,
+        22.5786581
+      ]
+    },
+    "address": {
+      "street": "Biswa Bangla Sarani",
+      "area": "Action Area 1C",
+      "city": "Kolkata",
+      "state": "West Bengal",
+      "pincode": "700156",
+      "landmark": ""
+    },
+    "contact": {
+      "phone": [],
+      "email": "",
+      "website": "https://www.marriott.com/en-us/hotels/ccufi-fairfield-kolkata/overview/",
+      "socialMedia": {}
+    },
+    "priceRange": {
+      "min": 1500,
+      "max": 8000,
+      "currency": "INR"
+    },
+    "category": "Business",
+    "amenities": [],
+    "rating": {
+      "average": 4.110891366452241,
+      "count": 69
+    },
+    "roomTypes": [
+      {
+        "name": "Standard Room",
+        "price": 1500,
+        "capacity": 2,
+        "amenities": [
+          "WiFi",
+          "AC"
+        ],
+        "images": [],
+        "available": true
+      }
+    ],
+    "checkInTime": "14:00",
+    "checkOutTime": "12:00",
+    "tags": [
+      "Action Area 1C",
+      "hotel"
+    ],
+    "slug": "fairfield-by-marriott-kolkata-11077521618",
+    "status": "pending",
+    "featured": false,
+    "promoted": false,
+    "osmId": 11077521618,
     "source": "OpenStreetMap"
   },
   {
@@ -6070,8 +6726,8 @@
     "category": "Budget",
     "amenities": [],
     "rating": {
-      "average": 4.3637495533931325,
-      "count": 63
+      "average": 3.70666891687134,
+      "count": 35
     },
     "roomTypes": [
       {
@@ -6091,6 +6747,7 @@
     "tags": [
       "guest_house"
     ],
+    "slug": "shaw-guest-house-11390837970",
     "status": "pending",
     "featured": false,
     "promoted": false,
@@ -6130,8 +6787,8 @@
     "category": "Budget",
     "amenities": [],
     "rating": {
-      "average": 4.797264348954085,
-      "count": 100
+      "average": 4.6888508236484645,
+      "count": 20
     },
     "roomTypes": [
       {
@@ -6151,9 +6808,10 @@
     "tags": [
       "hostel"
     ],
+    "slug": "aden-boys-pg-11435392254",
     "status": "pending",
     "featured": false,
-    "promoted": true,
+    "promoted": false,
     "osmId": 11435392254,
     "source": "OpenStreetMap"
   },
@@ -6190,8 +6848,8 @@
     "category": "Budget",
     "amenities": [],
     "rating": {
-      "average": 4.7662814874284605,
-      "count": 88
+      "average": 4.873107235983343,
+      "count": 27
     },
     "roomTypes": [
       {
@@ -6211,8 +6869,9 @@
     "tags": [
       "hostel"
     ],
+    "slug": "owls-nest-homestay-11633678069",
     "status": "pending",
-    "featured": true,
+    "featured": false,
     "promoted": false,
     "osmId": 11633678069,
     "source": "OpenStreetMap"
@@ -6250,8 +6909,8 @@
     "category": "Budget",
     "amenities": [],
     "rating": {
-      "average": 3.1458004380335387,
-      "count": 86
+      "average": 4.591852197166798,
+      "count": 52
     },
     "roomTypes": [
       {
@@ -6271,10 +6930,72 @@
     "tags": [
       "guest_house"
     ],
+    "slug": "subaica-guest-house-11704701169",
     "status": "pending",
     "featured": false,
     "promoted": false,
     "osmId": 11704701169,
+    "source": "OpenStreetMap"
+  },
+  {
+    "name": "Hotel O2 VIP",
+    "description": "A hotel in Kolkata",
+    "shortDescription": "",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        88.4349719,
+        22.6328895
+      ]
+    },
+    "address": {
+      "street": "",
+      "area": "",
+      "city": "Kolkata",
+      "state": "West Bengal",
+      "pincode": "",
+      "landmark": ""
+    },
+    "contact": {
+      "phone": [],
+      "email": "",
+      "website": "",
+      "socialMedia": {}
+    },
+    "priceRange": {
+      "min": 1500,
+      "max": 8000,
+      "currency": "INR"
+    },
+    "category": "Business",
+    "amenities": [],
+    "rating": {
+      "average": 4.480235842217056,
+      "count": 43
+    },
+    "roomTypes": [
+      {
+        "name": "Standard Room",
+        "price": 1500,
+        "capacity": 2,
+        "amenities": [
+          "WiFi",
+          "AC"
+        ],
+        "images": [],
+        "available": true
+      }
+    ],
+    "checkInTime": "14:00",
+    "checkOutTime": "12:00",
+    "tags": [
+      "hotel"
+    ],
+    "slug": "hotel-o2-vip-11938324645",
+    "status": "pending",
+    "featured": false,
+    "promoted": false,
+    "osmId": 11938324645,
     "source": "OpenStreetMap"
   },
   {
@@ -6312,8 +7033,8 @@
     "category": "Budget",
     "amenities": [],
     "rating": {
-      "average": 4.835935524901322,
-      "count": 93
+      "average": 3.5565172847905417,
+      "count": 79
     },
     "roomTypes": [
       {
@@ -6333,8 +7054,9 @@
     "tags": [
       "guest_house"
     ],
+    "slug": "csircgcri-guest-house-11949729569",
     "status": "pending",
-    "featured": true,
+    "featured": false,
     "promoted": false,
     "osmId": 11949729569,
     "source": "OpenStreetMap"
@@ -6372,8 +7094,8 @@
     "category": "Budget",
     "amenities": [],
     "rating": {
-      "average": 4.052735611982627,
-      "count": 89
+      "average": 4.401976888542148,
+      "count": 61
     },
     "roomTypes": [
       {
@@ -6393,6 +7115,7 @@
     "tags": [
       "guest_house"
     ],
+    "slug": "sona-11949734169",
     "status": "pending",
     "featured": false,
     "promoted": false,
@@ -6434,8 +7157,8 @@
     "category": "Business",
     "amenities": [],
     "rating": {
-      "average": 3.7117141950213934,
-      "count": 14
+      "average": 3.9402552394615635,
+      "count": 24
     },
     "roomTypes": [
       {
@@ -6455,8 +7178,9 @@
     "tags": [
       "hotel"
     ],
+    "slug": "hotel-gallery-67-11949776270",
     "status": "pending",
-    "featured": true,
+    "featured": false,
     "promoted": false,
     "osmId": 11949776270,
     "source": "OpenStreetMap"
@@ -6496,8 +7220,8 @@
     "category": "Business",
     "amenities": [],
     "rating": {
-      "average": 3.664503945004637,
-      "count": 38
+      "average": 4.980717332940974,
+      "count": 98
     },
     "roomTypes": [
       {
@@ -6517,10 +7241,72 @@
     "tags": [
       "hotel"
     ],
+    "slug": "red-arrow-residency-12791792190",
     "status": "pending",
     "featured": false,
     "promoted": false,
     "osmId": 12791792190,
+    "source": "OpenStreetMap"
+  },
+  {
+    "name": "Bishwanath Dhaam",
+    "description": "A guest_house in Kolkata",
+    "shortDescription": "",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        88.454554,
+        22.6427043
+      ]
+    },
+    "address": {
+      "street": "Lane Number 14",
+      "area": "",
+      "city": "Kolkata",
+      "state": "West Bengal",
+      "pincode": "700136",
+      "landmark": ""
+    },
+    "contact": {
+      "phone": [],
+      "email": "",
+      "website": "",
+      "socialMedia": {}
+    },
+    "priceRange": {
+      "min": 800,
+      "max": 3000,
+      "currency": "INR"
+    },
+    "category": "Budget",
+    "amenities": [],
+    "rating": {
+      "average": 3.783316725963499,
+      "count": 104
+    },
+    "roomTypes": [
+      {
+        "name": "Standard Room",
+        "price": 800,
+        "capacity": 2,
+        "amenities": [
+          "WiFi",
+          "AC"
+        ],
+        "images": [],
+        "available": true
+      }
+    ],
+    "checkInTime": "14:00",
+    "checkOutTime": "12:00",
+    "tags": [
+      "guest_house"
+    ],
+    "slug": "bishwanath-dhaam-12914015301",
+    "status": "pending",
+    "featured": false,
+    "promoted": false,
+    "osmId": 12914015301,
     "source": "OpenStreetMap"
   },
   {
@@ -6556,8 +7342,8 @@
     "category": "Budget",
     "amenities": [],
     "rating": {
-      "average": 3.084811183576304,
-      "count": 87
+      "average": 3.3969737647994283,
+      "count": 20
     },
     "roomTypes": [
       {
@@ -6577,8 +7363,9 @@
     "tags": [
       "hostel"
     ],
+    "slug": "sl-dhanuka-girls-hostel-dhanuka-dhunseri-foundation-12925608687",
     "status": "pending",
-    "featured": true,
+    "featured": false,
     "promoted": false,
     "osmId": 12925608687,
     "source": "OpenStreetMap"
@@ -6616,8 +7403,8 @@
     "category": "Budget",
     "amenities": [],
     "rating": {
-      "average": 4.577017704330384,
-      "count": 62
+      "average": 4.185270963336497,
+      "count": 52
     },
     "roomTypes": [
       {
@@ -6637,6 +7424,7 @@
     "tags": [
       "hostel"
     ],
+    "slug": "the-nerds-nest-13020954401",
     "status": "pending",
     "featured": false,
     "promoted": false,
@@ -6680,8 +7468,8 @@
       "WiFi"
     ],
     "rating": {
-      "average": 4.333878390623274,
-      "count": 29
+      "average": 4.24557957496614,
+      "count": 16
     },
     "roomTypes": [
       {
@@ -6702,6 +7490,7 @@
       "Kolkata",
       "hotel"
     ],
+    "slug": "the-samilton-hotel-13045823415",
     "status": "pending",
     "featured": false,
     "promoted": false,
@@ -6743,8 +7532,8 @@
       "WiFi"
     ],
     "rating": {
-      "average": 4.287704513062878,
-      "count": 82
+      "average": 4.946375630192923,
+      "count": 16
     },
     "roomTypes": [
       {
@@ -6765,6 +7554,7 @@
       "Kolkata",
       "hotel"
     ],
+    "slug": "the-laha-roys-villa-13128032402",
     "status": "pending",
     "featured": false,
     "promoted": false,
@@ -6804,8 +7594,8 @@
     "category": "Budget",
     "amenities": [],
     "rating": {
-      "average": 3.3914513590457953,
-      "count": 109
+      "average": 3.268903068971538,
+      "count": 15
     },
     "roomTypes": [
       {
@@ -6825,8 +7615,9 @@
     "tags": [
       "hostel"
     ],
+    "slug": "suitcase-stories-13206705690",
     "status": "pending",
-    "featured": true,
+    "featured": false,
     "promoted": false,
     "osmId": 13206705690,
     "source": "OpenStreetMap"
@@ -6864,8 +7655,8 @@
     "category": "Business",
     "amenities": [],
     "rating": {
-      "average": 4.00333497614735,
-      "count": 66
+      "average": 3.0867812977651234,
+      "count": 19
     },
     "roomTypes": [
       {
@@ -6885,6 +7676,7 @@
     "tags": [
       "hotel"
     ],
+    "slug": "park-royale-13264338554",
     "status": "pending",
     "featured": false,
     "promoted": false,
@@ -6924,8 +7716,8 @@
     "category": "Business",
     "amenities": [],
     "rating": {
-      "average": 3.060677718403424,
-      "count": 47
+      "average": 3.2751095750958816,
+      "count": 53
     },
     "roomTypes": [
       {
@@ -6945,8 +7737,9 @@
     "tags": [
       "hotel"
     ],
+    "slug": "pawan-putra-13290265844",
     "status": "pending",
-    "featured": true,
+    "featured": false,
     "promoted": false,
     "osmId": 13290265844,
     "source": "OpenStreetMap"
@@ -6984,8 +7777,8 @@
     "category": "Business",
     "amenities": [],
     "rating": {
-      "average": 4.617074092767665,
-      "count": 10
+      "average": 4.196569392460345,
+      "count": 104
     },
     "roomTypes": [
       {
@@ -7005,9 +7798,10 @@
     "tags": [
       "hotel"
     ],
+    "slug": "dream-world-13290265854",
     "status": "pending",
     "featured": false,
-    "promoted": true,
+    "promoted": false,
     "osmId": 13290265854,
     "source": "OpenStreetMap"
   },
@@ -7046,8 +7840,8 @@
     "category": "Boutique",
     "amenities": [],
     "rating": {
-      "average": 3.7567943456008313,
-      "count": 94
+      "average": 4.062767715692283,
+      "count": 26
     },
     "roomTypes": [
       {
@@ -7067,9 +7861,10 @@
     "tags": [
       "hotel"
     ],
+    "slug": "barsana-boutique-hotel-13339826501",
     "status": "pending",
     "featured": false,
-    "promoted": true,
+    "promoted": false,
     "osmId": 13339826501,
     "source": "OpenStreetMap"
   }

@@ -1,5 +1,93 @@
 [
   {
+    "name": "Balia Balak sangha",
+    "description": "Balia Balak sangha is a sports club providing facilities and training for various sports enthusiasts.",
+    "shortDescription": "",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        88.3976907,
+        22.4629935
+      ]
+    },
+    "address": {
+      "street": "",
+      "area": "",
+      "city": "Kolkata",
+      "state": "West Bengal",
+      "pincode": "",
+      "landmark": ""
+    },
+    "contact": {
+      "phone": [],
+      "email": "",
+      "website": "",
+      "socialMedia": {}
+    },
+    "category": "Sports Clubs",
+    "sport": "multi-sport",
+    "capacity": 500,
+    "facilities": [],
+    "entryFee": {
+      "adult": 200,
+      "child": 100,
+      "senior": 100,
+      "currency": "INR",
+      "isFree": false
+    },
+    "timings": {
+      "monday": {
+        "open": "09:00",
+        "close": "21:00",
+        "closed": false
+      },
+      "tuesday": {
+        "open": "09:00",
+        "close": "21:00",
+        "closed": false
+      },
+      "wednesday": {
+        "open": "09:00",
+        "close": "21:00",
+        "closed": false
+      },
+      "thursday": {
+        "open": "09:00",
+        "close": "21:00",
+        "closed": false
+      },
+      "friday": {
+        "open": "09:00",
+        "close": "21:00",
+        "closed": false
+      },
+      "saturday": {
+        "open": "09:00",
+        "close": "21:00",
+        "closed": false
+      },
+      "sunday": {
+        "open": "09:00",
+        "close": "21:00",
+        "closed": false
+      }
+    },
+    "bestTimeToVisit": "All day with peak hours in evening",
+    "duration": "1-3 hours",
+    "amenities": [],
+    "rating": {
+      "average": 4.380995767611148,
+      "count": 82
+    },
+    "tags": [],
+    "slug": "balia-balak-sangha-3118239906",
+    "status": "pending",
+    "featured": false,
+    "promoted": false,
+    "osmId": 3118239906,
+    "source": "OpenStreetMap"
+  },
+  {
     "name": "Baghajatin Abhijan Sangha",
     "description": "Baghajatin Abhijan Sangha is a sports club providing facilities and training for various sports enthusiasts.",
     "shortDescription": "",
@@ -76,10 +164,11 @@
     "duration": "1-3 hours",
     "amenities": [],
     "rating": {
-      "average": 4.447041166822316,
-      "count": 195
+      "average": 3.0579452321761416,
+      "count": 154
     },
     "tags": [],
+    "slug": "baghajatin-abhijan-sangha-5586180251",
     "status": "pending",
     "featured": false,
     "promoted": false,
@@ -163,10 +252,11 @@
     "duration": "2-4 hours",
     "amenities": [],
     "rating": {
-      "average": 3.7767677626933134,
-      "count": 49
+      "average": 4.616793022349807,
+      "count": 40
     },
     "tags": [],
+    "slug": "sailen-manna-stadium-6192290971",
     "status": "pending",
     "featured": false,
     "promoted": false,
@@ -250,10 +340,11 @@
     "duration": "1-3 hours",
     "amenities": [],
     "rating": {
-      "average": 4.548488404801456,
-      "count": 85
+      "average": 3.366523213031045,
+      "count": 134
     },
     "tags": [],
+    "slug": "tollygunge-place-club-6257358519",
     "status": "pending",
     "featured": false,
     "promoted": false,
@@ -339,16 +430,193 @@
     "duration": "1-3 hours",
     "amenities": [],
     "rating": {
-      "average": 3.0140849453399636,
-      "count": 97
+      "average": 3.2766474659761298,
+      "count": 197
     },
     "tags": [
       "social_center"
     ],
+    "slug": "the-bengal-rowing-club-6439695295",
     "status": "pending",
-    "featured": true,
+    "featured": false,
     "promoted": false,
     "osmId": 6439695295,
+    "source": "OpenStreetMap"
+  },
+  {
+    "name": "Pandit Battala Park",
+    "description": "Pandit Battala Park is a well-maintained sports ground perfect for various sports and recreational activities.",
+    "shortDescription": "",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        88.4419933,
+        22.6107308
+      ]
+    },
+    "address": {
+      "street": "",
+      "area": "",
+      "city": "Kolkata",
+      "state": "West Bengal",
+      "pincode": "",
+      "landmark": ""
+    },
+    "contact": {
+      "phone": [],
+      "email": "",
+      "website": "",
+      "socialMedia": {}
+    },
+    "category": "Sports Grounds",
+    "sport": "football",
+    "capacity": 1000,
+    "facilities": [],
+    "entryFee": {
+      "adult": 20,
+      "child": 10,
+      "senior": 10,
+      "currency": "INR",
+      "isFree": false
+    },
+    "timings": {
+      "monday": {
+        "open": "09:00",
+        "close": "21:00",
+        "closed": false
+      },
+      "tuesday": {
+        "open": "09:00",
+        "close": "21:00",
+        "closed": false
+      },
+      "wednesday": {
+        "open": "09:00",
+        "close": "21:00",
+        "closed": false
+      },
+      "thursday": {
+        "open": "09:00",
+        "close": "21:00",
+        "closed": false
+      },
+      "friday": {
+        "open": "09:00",
+        "close": "21:00",
+        "closed": false
+      },
+      "saturday": {
+        "open": "09:00",
+        "close": "21:00",
+        "closed": false
+      },
+      "sunday": {
+        "open": "09:00",
+        "close": "21:00",
+        "closed": false
+      }
+    },
+    "bestTimeToVisit": "Morning and evening",
+    "duration": "1-2 hours",
+    "amenities": [],
+    "rating": {
+      "average": 3.3461192847148484,
+      "count": 180
+    },
+    "tags": [],
+    "slug": "pandit-battala-park-9052581317",
+    "status": "pending",
+    "featured": false,
+    "promoted": false,
+    "osmId": 9052581317,
+    "source": "OpenStreetMap"
+  },
+  {
+    "name": "Ariadaha Sporting Club",
+    "description": "Ariadaha Sporting Club is a sports club providing facilities and training for various sports enthusiasts.",
+    "shortDescription": "",
+    "location": {
+      "type": "Point",
+      "coordinates": [
+        88.3672186,
+        22.6674339
+      ]
+    },
+    "address": {
+      "street": "",
+      "area": "",
+      "city": "Kolkata",
+      "state": "West Bengal",
+      "pincode": "",
+      "landmark": ""
+    },
+    "contact": {
+      "phone": [],
+      "email": "",
+      "website": "",
+      "socialMedia": {}
+    },
+    "category": "Sports Clubs",
+    "sport": "multi-sport",
+    "capacity": 500,
+    "facilities": [],
+    "entryFee": {
+      "adult": 200,
+      "child": 100,
+      "senior": 100,
+      "currency": "INR",
+      "isFree": false
+    },
+    "timings": {
+      "monday": {
+        "open": "09:00",
+        "close": "21:00",
+        "closed": false
+      },
+      "tuesday": {
+        "open": "09:00",
+        "close": "21:00",
+        "closed": false
+      },
+      "wednesday": {
+        "open": "09:00",
+        "close": "21:00",
+        "closed": false
+      },
+      "thursday": {
+        "open": "09:00",
+        "close": "21:00",
+        "closed": false
+      },
+      "friday": {
+        "open": "09:00",
+        "close": "21:00",
+        "closed": false
+      },
+      "saturday": {
+        "open": "09:00",
+        "close": "21:00",
+        "closed": false
+      },
+      "sunday": {
+        "open": "09:00",
+        "close": "21:00",
+        "closed": false
+      }
+    },
+    "bestTimeToVisit": "All day with peak hours in evening",
+    "duration": "1-3 hours",
+    "amenities": [],
+    "rating": {
+      "average": 4.843000696115876,
+      "count": 37
+    },
+    "tags": [],
+    "slug": "ariadaha-sporting-club-11263321979",
+    "status": "pending",
+    "featured": false,
+    "promoted": false,
+    "osmId": 11263321979,
     "source": "OpenStreetMap"
   },
   {
@@ -428,10 +696,11 @@
     "duration": "1-3 hours",
     "amenities": [],
     "rating": {
-      "average": 4.714255894504682,
-      "count": 25
+      "average": 4.999011091136003,
+      "count": 177
     },
     "tags": [],
+    "slug": "ganguly-bagan-athletic-club-ground-11300199636",
     "status": "pending",
     "featured": false,
     "promoted": false,
@@ -515,12 +784,13 @@
     "duration": "1-3 hours",
     "amenities": [],
     "rating": {
-      "average": 4.529177621681608,
-      "count": 142
+      "average": 4.352733019837755,
+      "count": 188
     },
     "tags": [
       "Kolkata"
     ],
+    "slug": "united-club-11365834323",
     "status": "pending",
     "featured": false,
     "promoted": false,
@@ -607,12 +877,13 @@
     "duration": "1-2 hours",
     "amenities": [],
     "rating": {
-      "average": 3.1830940969719257,
-      "count": 80
+      "average": 3.4463938328970913,
+      "count": 153
     },
     "tags": [],
+    "slug": "badminton-court-11494579590",
     "status": "pending",
-    "featured": true,
+    "featured": false,
     "promoted": false,
     "osmId": 11494579590,
     "source": "OpenStreetMap"
@@ -696,12 +967,13 @@
     "duration": "1-3 hours",
     "amenities": [],
     "rating": {
-      "average": 4.1856441094748105,
-      "count": 90
+      "average": 3.272751015086442,
+      "count": 157
     },
     "tags": [],
+    "slug": "national-swimming-association-12254643617",
     "status": "pending",
-    "featured": true,
+    "featured": false,
     "promoted": false,
     "osmId": 12254643617,
     "source": "OpenStreetMap"
@@ -785,10 +1057,11 @@
     "duration": "1-3 hours",
     "amenities": [],
     "rating": {
-      "average": 3.053176208275699,
-      "count": 180
+      "average": 3.6336800601253567,
+      "count": 18
     },
     "tags": [],
+    "slug": "central-swimming-club-12254643618",
     "status": "pending",
     "featured": false,
     "promoted": false,
