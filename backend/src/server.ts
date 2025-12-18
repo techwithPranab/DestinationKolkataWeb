@@ -74,16 +74,12 @@ app.use(helmet());
 app.use(morgan('combined'));
 app.use(cors({
   origin: (origin, callback) => {
-    const allowedOrigins = [
-      'http://localhost:3000',
-      'http://localhost:3001',
-      'http://localhost:3002',
-      'http://127.0.0.1:3000',
-      'http://127.0.0.1:3001',
-      'http://127.0.0.1:3002'
-    ];
+    // Get allowed origins from environment variable
+    const frontendUrls = process.env.FRONTEND_URL || 'http://localhost:3001';
+    const allowedOrigins = frontendUrls.split(',').map(url => url.trim());
     
     console.log('CORS request from origin:', origin);
+    console.log('Allowed origins:', allowedOrigins);
     
     // Allow requests with no origin (mobile apps, Postman, etc.)
     if (!origin) {
