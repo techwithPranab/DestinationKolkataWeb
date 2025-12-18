@@ -153,6 +153,18 @@ const navigation = [
         description: 'Manage contact form submissions'
       },
       {
+        name: 'Email Templates',
+        href: '/admin/email-templates',
+        icon: Mail,
+        description: 'Manage email templates'
+      },
+      {
+        name: 'Email History',
+        href: '/admin/email-history',
+        icon: Mail,
+        description: 'View email sending history'
+      },
+      {
         name: 'Report Issues',
         href: '/admin/report-issues',
         icon: AlertTriangle,

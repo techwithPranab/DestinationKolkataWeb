@@ -199,6 +199,63 @@ router.post('/signup', async (req: Request, res: Response) => {
 
     res.cookie('auth-token', token, cookieOptions);
 
+    // Send welcome email to new user and admin notification
+    try {
+      const { sendEmailWithLogging, getEmailTemplate } = await import('../lib/email-service');
+
+      // Send welcome email to new user
+      const welcomeTemplate = await getEmailTemplate('registration_welcome', {
+        userName: name,
+        userEmail: email,
+        loginLink: `${process.env.FRONTEND_URL}/auth/login`
+      });
+
+      await sendEmailWithLogging(
+        {
+          to: email,
+          subject: welcomeTemplate.subject,
+          html: welcomeTemplate.html,
+          replyTo: process.env.ADMIN_EMAIL
+        },
+        'registration_welcome',
+        db,
+        {
+          userId: result.insertedId.toString(),
+          userName: name,
+          registrationType: 'new_user'
+        }
+      );
+
+      // Send admin notification email
+      const adminEmail = process.env.ADMIN_EMAIL || 'admin@example.com';
+      const adminTemplate = await getEmailTemplate('registration_admin_notification', {
+        userName: name,
+        userEmail: email,
+        registrationDate: new Date().toISOString(),
+        adminDashboardLink: `${process.env.BACKEND_URL || 'http://localhost:5000'}/api/admin/users/${result.insertedId.toString()}`
+      });
+
+      await sendEmailWithLogging(
+        {
+          to: adminEmail,
+          subject: adminTemplate.subject,
+          html: adminTemplate.html,
+          replyTo: email
+        },
+        'registration_admin_notification',
+        db,
+        {
+          userId: result.insertedId.toString(),
+          userName: name,
+          userEmail: email,
+          notificationType: 'new_user_registration'
+        }
+      );
+    } catch (emailError) {
+      console.error('Error sending registration emails:', emailError);
+      // Don't fail the registration if email sending fails
+    }
+
     // Return user data without password
     const { password: _, ...userWithoutPassword } = newUser;
 

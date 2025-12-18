@@ -4,6 +4,8 @@ import jwt from 'jsonwebtoken';
 import { ObjectId } from 'mongodb';
 import { connectToDatabase } from '../lib/mongodb';
 import { authenticateToken, requireAdmin } from '../middleware/auth';
+import { EmailTemplate, IEmailTemplate } from '../models/EmailTemplate';
+import { EmailHistory, IEmailHistory } from '../models/EmailHistory';
 
 const router = Router();
 
@@ -2033,6 +2035,48 @@ router.put('/submissions/:id/approve', authenticateToken, requireAdmin, async (r
         await db.collection(targetCollection).insertOne(publishData);
       }
 
+      // Send approval email to customer
+      try {
+        const { sendEmailWithLogging, getEmailTemplate } = await import('../lib/email-service');
+
+        // Get user details
+        const user = await db.collection('users').findOne({
+          _id: submission.userId
+        });
+
+        if (user && user.email) {
+          const viewListingLink = `${process.env.FRONTEND_URL}/listings/${publishData._id || 'dashboard'}`;
+
+          const approvalTemplate = await getEmailTemplate('submission_approval', {
+            userName: user.name || 'User',
+            userEmail: user.email,
+            submissionTitle: submission.title,
+            approvalMessage: adminNotes || 'Congratulations! Your submission has been approved and is now live on our platform.',
+            viewListingLink
+          });
+
+          await sendEmailWithLogging(
+            {
+              to: user.email,
+              subject: approvalTemplate.subject,
+              html: approvalTemplate.html,
+              replyTo: process.env.ADMIN_EMAIL
+            },
+            'submission_approval',
+            db,
+            {
+              submissionId: submission._id.toString(),
+              userId: submission.userId.toString(),
+              decision: 'approved',
+              submissionTitle: submission.title
+            }
+          );
+        }
+      } catch (emailError) {
+        console.error('Error sending approval email:', emailError);
+        // Don't fail the approval if email sending fails
+      }
+
       res.status(200).json({
         success: true,
         message: `Submission approved and published to ${targetCollection} successfully`,
@@ -2090,6 +2134,48 @@ router.put('/submissions/:id/reject', authenticateToken, requireAdmin, async (re
         success: false,
         message: 'Submission not found'
       });
+    }
+
+    // Send rejection email to customer
+    try {
+      const { sendEmailWithLogging, getEmailTemplate } = await import('../lib/email-service');
+
+      // Get user details
+      const user = await db.collection('users').findOne({
+        _id: result.userId
+      });
+
+      if (user && user.email) {
+        const resubmitLink = `${process.env.FRONTEND_URL}/customer/submissions/${id}/edit`;
+
+        const rejectionTemplate = await getEmailTemplate('submission_rejection', {
+          userName: user.name || 'User',
+          userEmail: user.email,
+          submissionTitle: result.title,
+          rejectionReason: adminNotes || 'Your submission did not meet our guidelines. Please review and resubmit.',
+          resubmitLink
+        });
+
+        await sendEmailWithLogging(
+          {
+            to: user.email,
+            subject: rejectionTemplate.subject,
+            html: rejectionTemplate.html,
+            replyTo: process.env.ADMIN_EMAIL
+          },
+          'submission_rejection',
+          db,
+          {
+            submissionId: result._id.toString(),
+            userId: result.userId.toString(),
+            decision: 'rejected',
+            submissionTitle: result.title
+          }
+        );
+      }
+    } catch (emailError) {
+      console.error('Error sending rejection email:', emailError);
+      // Don't fail the rejection if email sending fails
     }
 
     res.status(200).json({
@@ -2531,5 +2617,1115 @@ router.put('/resources/:id/assign', authenticateToken, requireAdmin, async (req:
   }
 });
 
+// ============================================================================
+// EMAIL MANAGEMENT ENDPOINTS
+// ============================================================================
+
+/**
+ * GET /api/admin/verify-email - Verify email configuration and SMTP connectivity
+ */
+router.get('/verify-email', authenticateToken, requireAdmin, async (req: Request, res: Response) => {
+  try {
+    const { verifyEmailConfiguration, getEmailTemplate, sendEmail } = await import('../lib/email-service');
+    
+    // Verify email configuration
+    const verificationResult = await verifyEmailConfiguration();
+
+    // Also send a test email to admin
+    if (verificationResult.success) {
+      const testTemplate = await getEmailTemplate('verification_test', {
+        testTime: new Date().toISOString(),
+        configName: process.env.EMAIL_HOST || 'Default SMTP'
+      });
+
+      const adminEmail = process.env.ADMIN_EMAIL || process.env.EMAIL_USER || 'admin@example.com';
+      const emailResult = await sendEmail({
+        to: adminEmail,
+        subject: testTemplate.subject,
+        html: testTemplate.html
+      }, 'verification_test');
+
+      if (!emailResult.success) {
+        return res.status(500).json({
+          success: false,
+          message: 'Email configuration verified but failed to send test email',
+          details: emailResult.error,
+          config: verificationResult.config
+        });
+      }
+    }
+
+    res.status(200).json({
+      success: verificationResult.success,
+      message: verificationResult.message,
+      config: verificationResult.config,
+      testEmailSent: true
+    });
+
+  } catch (error) {
+    console.error('Email verification error:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Error verifying email configuration',
+      error: error instanceof Error ? error.message : 'Unknown error'
+    });
+  }
+});
+
+/**
+ * POST /api/admin/send-listing-invitations - Send emails to all pending ingested listings
+ */
+router.post('/send-listing-invitations', authenticateToken, requireAdmin, async (req: Request, res: Response) => {
+  try {
+    const { db } = await connectToDatabase();
+    const { sendEmailWithLogging, getEmailTemplate } = await import('../lib/email-service');
+    
+    const { listingType = 'all', emailSubject, message } = req.body;
+
+    // Determine which collections to query
+    const collections = listingType === 'all' 
+      ? ['hotels', 'restaurants', 'attractions', 'events', 'sports']
+      : [listingType + 's'];
+
+    let totalSent = 0;
+    const results: any[] = [];
+    const failedEmails: any[] = [];
+
+    for (const collectionName of collections) {
+      try {
+        // Get all pending listings with contact email
+        const pendingListings = await db.collection(collectionName)
+          .find({
+            status: 'pending',
+            'contact.email': { $exists: true, $ne: null }
+          })
+          .toArray();
+
+        for (const listing of pendingListings) {
+          if (!listing.contact?.email) continue;
+
+          const registrationLink = `${process.env.FRONTEND_URL}/auth/signup?type=${collectionName.slice(0, -1)}&ref=${listing._id}`;
+
+          const emailTemplate = await getEmailTemplate('listing_invitation', {
+            businessName: listing.name || 'Valued Business Owner',
+            businessEmail: listing.contact.email,
+            listingType: collectionName.slice(0, -1),
+            listingName: listing.name,
+            registrationLink,
+            message
+          });
+
+          const emailResult = await sendEmailWithLogging(
+            {
+              to: listing.contact.email,
+              subject: emailTemplate.subject,
+              html: emailTemplate.html,
+              replyTo: process.env.ADMIN_EMAIL
+            },
+            'listing_invitation',
+            db,
+            {
+              listingId: listing._id.toString(),
+              listingType: collectionName,
+              listingName: listing.name
+            }
+          );
+
+          if (emailResult.success) {
+            totalSent++;
+            results.push({
+              listing: {
+                id: listing._id.toString(),
+                name: listing.name,
+                email: listing.contact.email,
+                type: collectionName
+              },
+              emailSent: true,
+              logId: emailResult.logId
+            });
+          } else {
+            failedEmails.push({
+              listing: {
+                id: listing._id.toString(),
+                name: listing.name,
+                email: listing.contact.email
+              },
+              error: emailResult.error
+            });
+          }
+        }
+      } catch (error) {
+        console.error(`Error processing ${collectionName}:`, error);
+      }
+    }
+
+    res.status(200).json({
+      success: true,
+      message: `Invitation emails sent successfully to ${totalSent} pending listings`,
+      totalSent,
+      totalFailed: failedEmails.length,
+      results: results.slice(0, 10),
+      failedEmails: failedEmails.slice(0, 5)
+    });
+
+  } catch (error) {
+    console.error('Error sending listing invitations:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Failed to send listing invitations',
+      error: error instanceof Error ? error.message : 'Unknown error'
+    });
+  }
+});
+
+/**
+ * POST /api/admin/send-submission-decision-email - Send approval/rejection email
+ */
+router.post('/send-submission-decision-email', authenticateToken, requireAdmin, async (req: Request, res: Response) => {
+  try {
+    const { db } = await connectToDatabase();
+    const { sendEmailWithLogging, getEmailTemplate } = await import('../lib/email-service');
+    
+    const { submissionId, decision, adminNotes, customerId } = req.body;
+
+    if (!submissionId || !decision || !['approved', 'rejected'].includes(decision)) {
+      return res.status(400).json({
+        success: false,
+        message: 'submissionId, customerId, and valid decision (approved/rejected) are required'
+      });
+    }
+
+    const submission = await db.collection('submissions').findOne({
+      _id: new ObjectId(submissionId)
+    });
+
+    if (!submission) {
+      return res.status(404).json({
+        success: false,
+        message: 'Submission not found'
+      });
+    }
+
+    const customer = await db.collection('users').findOne({
+      _id: new ObjectId(submission.userId || customerId)
+    });
+
+    if (!customer) {
+      return res.status(404).json({
+        success: false,
+        message: 'Customer not found'
+      });
+    }
+
+    const submissionTitle = submission.title || submission.data?.name || 'Your Submission';
+    const customerEmail = customer.email;
+    const customerName = customer.name || `${customer.firstName} ${customer.lastName}`;
+    let emailTemplate;
+    let templateType: 'submission_approval' | 'submission_rejection';
+
+    if (decision === 'approved') {
+      const viewListingLink = `${process.env.FRONTEND_URL}/admin/submissions/${submissionId}`;
+      
+      emailTemplate = await getEmailTemplate('submission_approval', {
+        userName: customerName,
+        userEmail: customerEmail,
+        submissionTitle,
+        approvalMessage: adminNotes,
+        viewListingLink
+      });
+
+      templateType = 'submission_approval';
+    } else {
+      const resubmitLink = `${process.env.FRONTEND_URL}/customer/submissions/${submissionId}/edit`;
+      
+      emailTemplate = await getEmailTemplate('submission_rejection', {
+        userName: customerName,
+        userEmail: customerEmail,
+        submissionTitle,
+        rejectionReason: adminNotes || 'Your submission did not meet our guidelines. Please review and resubmit.',
+        resubmitLink
+      });
+
+      templateType = 'submission_rejection';
+    }
+
+    const emailResult = await sendEmailWithLogging(
+      {
+        to: customerEmail,
+        subject: emailTemplate.subject,
+        html: emailTemplate.html,
+        replyTo: process.env.ADMIN_EMAIL
+      },
+      templateType,
+      db,
+      {
+        submissionId,
+        decision,
+        customerId: submission.userId?.toString(),
+        listingTitle: submissionTitle
+      }
+    );
+
+    if (!emailResult.success) {
+      return res.status(500).json({
+        success: false,
+        message: 'Failed to send decision email',
+        error: emailResult.error
+      });
+    }
+
+    res.status(200).json({
+      success: true,
+      message: `${decision === 'approved' ? 'Approval' : 'Rejection'} email sent successfully to ${customerEmail}`,
+      emailLogId: emailResult.logId
+    });
+
+  } catch (error) {
+    console.error('Error sending submission decision email:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Failed to send submission decision email',
+      error: error instanceof Error ? error.message : 'Unknown error'
+    });
+  }
+});
+
+/**
+ * GET /api/admin/email-logs - Get email logs for audit trail
+ */
+router.get('/email-logs', authenticateToken, requireAdmin, async (req: Request, res: Response) => {
+  try {
+    const { db } = await connectToDatabase();
+
+    const page = parseInt(req.query.page as string) || 1;
+    const limit = parseInt(req.query.limit as string) || 50;
+    const skip = (page - 1) * limit;
+
+    const query: Record<string, any> = {};
+
+    if (req.query.status && req.query.status !== 'all') {
+      query.status = req.query.status;
+    }
+
+    if (req.query.templateType && req.query.templateType !== 'all') {
+      query.templateType = req.query.templateType;
+    }
+
+    if (req.query.search) {
+      query.$or = [
+        { recipient: { $regex: req.query.search, $options: 'i' } },
+        { subject: { $regex: req.query.search, $options: 'i' } }
+      ];
+    }
+
+    if (req.query.startDate || req.query.endDate) {
+      query.createdAt = {};
+      if (req.query.startDate) {
+        query.createdAt.$gte = new Date(req.query.startDate as string);
+      }
+      if (req.query.endDate) {
+        query.createdAt.$lte = new Date(req.query.endDate as string);
+      }
+    }
+
+    const emailLogs = await db.collection('email_logs')
+      .find(query)
+      .sort({ createdAt: -1 })
+      .skip(skip)
+      .limit(limit)
+      .toArray();
+
+    const total = await db.collection('email_logs').countDocuments(query);
+
+    res.status(200).json({
+      success: true,
+      emailLogs,
+      pagination: {
+        total,
+        page,
+        limit,
+        pages: Math.ceil(total / limit)
+      }
+    });
+
+  } catch (error) {
+    console.error('Error fetching email logs:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Failed to fetch email logs'
+    });
+  }
+});
+
+/**
+ * PATCH /api/admin/email-logs/:id/retry - Retry sending a failed email
+ */
+router.patch('/email-logs/:id/retry', authenticateToken, requireAdmin, async (req: Request, res: Response) => {
+  try {
+    const { db } = await connectToDatabase();
+    const { id } = req.params;
+
+    if (!ObjectId.isValid(id)) {
+      return res.status(400).json({
+        success: false,
+        message: 'Invalid email log ID'
+      });
+    }
+
+    const emailLog = await db.collection('email_logs').findOne({
+      _id: new ObjectId(id)
+    });
+
+    if (!emailLog) {
+      return res.status(404).json({
+        success: false,
+        message: 'Email log not found'
+      });
+    }
+
+    if (emailLog.status === 'sent') {
+      return res.status(400).json({
+        success: false,
+        message: 'Cannot retry a successfully sent email'
+      });
+    }
+
+    const updateResult = await db.collection('email_logs').updateOne(
+      { _id: new ObjectId(id) },
+      {
+        $set: {
+          retryCount: (emailLog.retryCount || 0) + 1,
+          nextRetry: null,
+          updatedAt: new Date()
+        }
+      }
+    );
+
+    res.status(200).json({
+      success: true,
+      message: 'Email retry scheduled successfully',
+      retryCount: (emailLog.retryCount || 0) + 1
+    });
+
+  } catch (error) {
+    console.error('Error retrying email:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Failed to retry email'
+    });
+  }
+});
+
 export default router;
+
+// ===== EMAIL TEMPLATE MANAGEMENT ENDPOINTS =====
+
+// GET /api/admin/email-templates - List all email templates
+router.get('/email-templates', authenticateToken, requireAdmin, async (req: Request, res: Response) => {
+  try {
+    const { page = 1, limit = 10, workflowType, status, search } = req.query;
+
+    const query: any = {};
+
+    if (workflowType) {
+      query.workflowType = workflowType;
+    }
+
+    if (status) {
+      query.status = status;
+    }
+
+    if (search) {
+      query.$or = [
+        { subject: { $regex: search, $options: 'i' } },
+        { workflowType: { $regex: search, $options: 'i' } }
+      ];
+    }
+
+    const skip = (Number(page) - 1) * Number(limit);
+
+    const templates = await EmailTemplate
+      .find(query)
+      .populate('createdBy', 'firstName lastName email')
+      .populate('updatedBy', 'firstName lastName email')
+      .sort({ updatedAt: -1 })
+      .skip(skip)
+      .limit(Number(limit))
+      .lean();
+
+    const total = await EmailTemplate.countDocuments(query);
+
+    res.status(200).json({
+      success: true,
+      data: templates,
+      pagination: {
+        page: Number(page),
+        limit: Number(limit),
+        total,
+        pages: Math.ceil(total / Number(limit))
+      }
+    });
+
+  } catch (error) {
+    console.error('Error fetching email templates:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Failed to fetch email templates'
+    });
+  }
+});
+
+// GET /api/admin/email-templates/:id - Get single email template
+router.get('/email-templates/:id', authenticateToken, requireAdmin, async (req: Request, res: Response) => {
+  try {
+    const { id } = req.params;
+
+    if (!ObjectId.isValid(id)) {
+      return res.status(400).json({
+        success: false,
+        message: 'Invalid template ID'
+      });
+    }
+
+    const template = await EmailTemplate
+      .findById(id)
+      .populate('createdBy', 'firstName lastName email')
+      .populate('updatedBy', 'firstName lastName email')
+      .lean();
+
+    if (!template) {
+      return res.status(404).json({
+        success: false,
+        message: 'Email template not found'
+      });
+    }
+
+    res.status(200).json({
+      success: true,
+      data: template
+    });
+
+  } catch (error) {
+    console.error('Error fetching email template:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Failed to fetch email template'
+    });
+  }
+});
+
+// POST /api/admin/email-templates - Create new email template
+router.post('/email-templates', authenticateToken, requireAdmin, async (req: Request, res: Response) => {
+  try {
+    const { workflowType, subject, htmlContent, plainTextContent, variables, isActive = true } = req.body;
+
+    // Validation
+    if (!workflowType || !subject || !htmlContent) {
+      return res.status(400).json({
+        success: false,
+        message: 'Workflow type, subject, and HTML content are required'
+      });
+    }
+
+    // Get admin user ID from token
+    const authHeader = req.headers.authorization;
+    const token = authHeader?.replace('Bearer ', '') || req.cookies['auth-token'];
+    const decoded = jwt.verify(token, process.env.JWT_SECRET!) as any;
+    const adminId = decoded.userId;
+
+    // Check if active template already exists for this workflow type
+    if (isActive) {
+      const existingActive = await EmailTemplate.findOne({
+        workflowType,
+        isActive: true
+      });
+
+      if (existingActive) {
+        return res.status(400).json({
+          success: false,
+          message: `An active template already exists for workflow type: ${workflowType}`
+        });
+      }
+    }
+
+    // Create new template
+    const template = new EmailTemplate({
+      workflowType,
+      subject,
+      htmlContent,
+      plainTextContent,
+      variables: variables || [],
+      isActive,
+      version: 1,
+      createdBy: new ObjectId(adminId),
+      updatedBy: new ObjectId(adminId)
+    });
+
+    await template.save();
+
+    // Populate admin info
+    await template.populate('createdBy', 'firstName lastName email');
+    await template.populate('updatedBy', 'firstName lastName email');
+
+    res.status(201).json({
+      success: true,
+      message: 'Email template created successfully',
+      data: template
+    });
+
+  } catch (error) {
+    console.error('Error creating email template:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Failed to create email template'
+    });
+  }
+});
+
+// PUT /api/admin/email-templates/:id - Update email template
+router.put('/email-templates/:id', authenticateToken, requireAdmin, async (req: Request, res: Response) => {
+  try {
+    const { id } = req.params;
+    const { workflowType, subject, htmlContent, plainTextContent, variables, isActive } = req.body;
+
+    if (!ObjectId.isValid(id)) {
+      return res.status(400).json({
+        success: false,
+        message: 'Invalid template ID'
+      });
+    }
+
+    // Get admin user ID from token
+    const authHeader = req.headers.authorization;
+    const token = authHeader?.replace('Bearer ', '') || req.cookies['auth-token'];
+    const decoded = jwt.verify(token, process.env.JWT_SECRET!) as any;
+    const adminId = decoded.userId;
+
+    // Find existing template
+    const existingTemplate = await EmailTemplate.findById(id);
+    if (!existingTemplate) {
+      return res.status(404).json({
+        success: false,
+        message: 'Email template not found'
+      });
+    }
+
+    // Check if trying to activate template when another active one exists for same workflow
+    if (isActive && !existingTemplate.isActive) {
+      const existingActive = await EmailTemplate.findOne({
+        workflowType: workflowType || existingTemplate.workflowType,
+        isActive: true,
+        _id: { $ne: id }
+      });
+
+      if (existingActive) {
+        return res.status(400).json({
+          success: false,
+          message: `An active template already exists for workflow type: ${workflowType || existingTemplate.workflowType}`
+        });
+      }
+    }
+
+    // Update template with version increment
+    const updateData: any = {
+      updatedBy: new ObjectId(adminId),
+      updatedAt: new Date()
+    };
+
+    if (workflowType !== undefined) updateData.workflowType = workflowType;
+    if (subject !== undefined) updateData.subject = subject;
+    if (htmlContent !== undefined) updateData.htmlContent = htmlContent;
+    if (plainTextContent !== undefined) updateData.plainTextContent = plainTextContent;
+    if (variables !== undefined) updateData.variables = variables;
+    if (isActive !== undefined) updateData.isActive = isActive;
+
+    // Increment version if content changed
+    if (subject !== existingTemplate.subject ||
+        htmlContent !== existingTemplate.htmlContent ||
+        plainTextContent !== existingTemplate.plainTextContent) {
+      updateData.version = existingTemplate.version + 1;
+    }
+
+    const updatedTemplate = await EmailTemplate
+      .findByIdAndUpdate(id, updateData, { new: true })
+      .populate('createdBy', 'firstName lastName email')
+      .populate('updatedBy', 'firstName lastName email');
+
+    res.status(200).json({
+      success: true,
+      message: 'Email template updated successfully',
+      data: updatedTemplate
+    });
+
+  } catch (error) {
+    console.error('Error updating email template:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Failed to update email template'
+    });
+  }
+});
+
+// DELETE /api/admin/email-templates/:id - Archive email template
+router.delete('/email-templates/:id', authenticateToken, requireAdmin, async (req: Request, res: Response) => {
+  try {
+    const { id } = req.params;
+
+    if (!ObjectId.isValid(id)) {
+      return res.status(400).json({
+        success: false,
+        message: 'Invalid template ID'
+      });
+    }
+
+    // Check if template has been used recently (within last 30 days)
+    const thirtyDaysAgo = new Date();
+    thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
+
+    const recentUsage = await EmailHistory.findOne({
+      templateId: new ObjectId(id),
+      sentAt: { $gte: thirtyDaysAgo }
+    });
+
+    if (recentUsage) {
+      return res.status(400).json({
+        success: false,
+        message: 'Cannot archive template that has been used in the last 30 days'
+      });
+    }
+
+    // Archive template (soft delete)
+    const archivedTemplate = await EmailTemplate.findByIdAndUpdate(
+      id,
+      { status: 'archived' },
+      { new: true }
+    );
+
+    if (!archivedTemplate) {
+      return res.status(404).json({
+        success: false,
+        message: 'Email template not found'
+      });
+    }
+
+    res.status(200).json({
+      success: true,
+      message: 'Email template archived successfully'
+    });
+
+  } catch (error) {
+    console.error('Error archiving email template:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Failed to archive email template'
+    });
+  }
+});
+
+// GET /api/admin/email-templates/workflow/:workflowType - Get current active template by workflow type
+router.get('/email-templates/workflow/:workflowType', authenticateToken, requireAdmin, async (req: Request, res: Response) => {
+  try {
+    const { workflowType } = req.params;
+
+    const template = await EmailTemplate
+      .findOne({ workflowType, isActive: true })
+      .populate('createdBy', 'firstName lastName email')
+      .populate('updatedBy', 'firstName lastName email')
+      .lean();
+
+    if (!template) {
+      return res.status(404).json({
+        success: false,
+        message: `No active template found for workflow type: ${workflowType}`
+      });
+    }
+
+    res.status(200).json({
+      success: true,
+      data: template
+    });
+
+  } catch (error) {
+    console.error('Error fetching workflow template:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Failed to fetch workflow template'
+    });
+  }
+});
+
+// ===== EMAIL HISTORY MANAGEMENT ENDPOINTS =====
+
+// GET /api/admin/email-history - List email history with filters and pagination
+router.get('/email-history', authenticateToken, requireAdmin, async (req: Request, res: Response) => {
+  try {
+    const {
+      page = 1,
+      limit = 20,
+      status,
+      workflowType,
+      templateId,
+      recipient,
+      startDate,
+      endDate,
+      sortBy = 'sentAt',
+      sortOrder = 'desc'
+    } = req.query;
+
+    const query: any = {};
+
+    // Build filters
+    if (status) {
+      query.status = status;
+    }
+
+    if (workflowType) {
+      query.workflowType = workflowType;
+    }
+
+    if (templateId) {
+      query.templateId = new ObjectId(templateId as string);
+    }
+
+    if (recipient) {
+      query.recipient = { $regex: recipient, $options: 'i' };
+    }
+
+    // Date range filter
+    if (startDate || endDate) {
+      query.sentAt = {};
+      if (startDate) {
+        query.sentAt.$gte = new Date(startDate as string);
+      }
+      if (endDate) {
+        query.sentAt.$lte = new Date(endDate as string);
+      }
+    }
+
+    const skip = (Number(page) - 1) * Number(limit);
+    const sortOptions: any = {};
+    sortOptions[sortBy as string] = sortOrder === 'desc' ? -1 : 1;
+
+    const history = await EmailHistory
+      .find(query)
+      .populate('templateId', 'subject workflowType version')
+      .populate('sentBy', 'firstName lastName email')
+      .sort(sortOptions)
+      .skip(skip)
+      .limit(Number(limit))
+      .lean();
+
+    const total = await EmailHistory.countDocuments(query);
+
+    res.status(200).json({
+      success: true,
+      data: history,
+      pagination: {
+        page: Number(page),
+        limit: Number(limit),
+        total,
+        pages: Math.ceil(total / Number(limit))
+      },
+      filters: {
+        status,
+        workflowType,
+        templateId,
+        recipient,
+        startDate,
+        endDate
+      }
+    });
+
+  } catch (error) {
+    console.error('Error fetching email history:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Failed to fetch email history'
+    });
+  }
+});
+
+// GET /api/admin/email-history/:id - Get single email history detail
+router.get('/email-history/:id', authenticateToken, requireAdmin, async (req: Request, res: Response) => {
+  try {
+    const { id } = req.params;
+
+    if (!ObjectId.isValid(id)) {
+      return res.status(400).json({
+        success: false,
+        message: 'Invalid email history ID'
+      });
+    }
+
+    const history = await EmailHistory
+      .findById(id)
+      .populate('templateId', 'subject workflowType version htmlContent plainTextContent variables')
+      .populate('sentBy', 'firstName lastName email')
+      .lean();
+
+    if (!history) {
+      return res.status(404).json({
+        success: false,
+        message: 'Email history not found'
+      });
+    }
+
+    res.status(200).json({
+      success: true,
+      data: history
+    });
+
+  } catch (error) {
+    console.error('Error fetching email history detail:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Failed to fetch email history detail'
+    });
+  }
+});
+
+// POST /api/admin/email-history/:id/resend - Resend failed email
+router.post('/email-history/:id/resend', authenticateToken, requireAdmin, async (req: Request, res: Response) => {
+  try {
+    const { id } = req.params;
+
+    if (!ObjectId.isValid(id)) {
+      return res.status(400).json({
+        success: false,
+        message: 'Invalid email history ID'
+      });
+    }
+
+    // Get the original email history
+    const originalHistory = await EmailHistory.findById(id);
+    if (!originalHistory) {
+      return res.status(404).json({
+        success: false,
+        message: 'Email history not found'
+      });
+    }
+
+    // Check if email was already sent successfully
+    if (originalHistory.status === 'sent') {
+      return res.status(400).json({
+        success: false,
+        message: 'Cannot resend an email that was already sent successfully'
+      });
+    }
+
+    // Get admin user ID from token
+    const authHeader = req.headers.authorization;
+    const token = authHeader?.replace('Bearer ', '') || req.cookies['auth-token'];
+    const decoded = jwt.verify(token, process.env.JWT_SECRET!) as any;
+    const adminId = decoded.userId;
+
+    // Get the email service
+    const { sendEmailWithLogging } = await import('../lib/email-service');
+
+    // Get current template or use the original template snapshot
+    let template;
+    let templateData;
+
+    if (originalHistory.templateSnapshot) {
+      // Use the snapshot from when the email was originally sent
+      templateData = originalHistory.templateSnapshot;
+      template = templateData.htmlContent;
+    } else {
+      // Try to get current active template
+      const currentTemplate = await EmailTemplate.findOne({
+        workflowType: originalHistory.workflowType,
+        isActive: true
+      });
+
+      if (!currentTemplate) {
+        return res.status(400).json({
+          success: false,
+          message: 'No active template found for this workflow type'
+        });
+      }
+
+      templateData = currentTemplate;
+      template = currentTemplate.htmlContent;
+    }
+
+    // Prepare email data with original variables
+    const emailData = {
+      to: originalHistory.recipient,
+      subject: originalHistory.subject,
+      html: template,
+      replyTo: process.env.ADMIN_EMAIL
+    };
+
+    // Send the email
+    const { db } = await connectToDatabase();
+    const emailResult = await sendEmailWithLogging(
+      emailData,
+      originalHistory.workflowType,
+      db,
+      {
+        originalHistoryId: originalHistory._id.toString(),
+        resend: true,
+        resendBy: adminId,
+        retryCount: (originalHistory.retryCount || 0) + 1
+      }
+    );
+
+    if (!emailResult.success) {
+      return res.status(500).json({
+        success: false,
+        message: 'Failed to resend email',
+        error: emailResult.error
+      });
+    }
+
+    // Update the original history record with retry information
+    await EmailHistory.findByIdAndUpdate(id, {
+      retryCount: (originalHistory.retryCount || 0) + 1,
+      lastRetryAt: new Date(),
+      updatedAt: new Date()
+    });
+
+    res.status(200).json({
+      success: true,
+      message: 'Email resent successfully',
+      data: {
+        originalHistoryId: id,
+        newHistoryId: emailResult.logId,
+        retryCount: (originalHistory.retryCount || 0) + 1
+      }
+    });
+
+  } catch (error) {
+    console.error('Error resending email:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Failed to resend email'
+    });
+  }
+});
+
+// GET /api/admin/email-history/stats - Get email sending statistics
+router.get('/email-history/stats', authenticateToken, requireAdmin, async (req: Request, res: Response) => {
+  try {
+    const { period = '30d' } = req.query;
+
+    // Calculate date range
+    const now = new Date();
+    let startDate: Date;
+
+    switch (period) {
+      case '7d':
+        startDate = new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000);
+        break;
+      case '30d':
+        startDate = new Date(now.getTime() - 30 * 24 * 60 * 60 * 1000);
+        break;
+      case '90d':
+        startDate = new Date(now.getTime() - 90 * 24 * 60 * 60 * 1000);
+        break;
+      default:
+        startDate = new Date(now.getTime() - 30 * 24 * 60 * 60 * 1000);
+    }
+
+    // Get overall stats
+    const totalStats = await EmailHistory.aggregate([
+      { $match: { sentAt: { $gte: startDate } } },
+      {
+        $group: {
+          _id: null,
+          total: { $sum: 1 },
+          sent: { $sum: { $cond: [{ $eq: ['$status', 'sent'] }, 1, 0] } },
+          failed: { $sum: { $cond: [{ $eq: ['$status', 'failed'] }, 1, 0] } },
+          pending: { $sum: { $cond: [{ $eq: ['$status', 'pending'] }, 1, 0] } },
+          bounced: { $sum: { $cond: [{ $eq: ['$status', 'bounced'] }, 1, 0] } },
+          complained: { $sum: { $cond: [{ $eq: ['$status', 'complained'] }, 1, 0] } }
+        }
+      }
+    ]);
+
+    // Get workflow type breakdown
+    const workflowStats = await EmailHistory.aggregate([
+      { $match: { sentAt: { $gte: startDate } } },
+      {
+        $group: {
+          _id: '$workflowType',
+          total: { $sum: 1 },
+          sent: { $sum: { $cond: [{ $eq: ['$status', 'sent'] }, 1, 0] } },
+          failed: { $sum: { $cond: [{ $eq: ['$status', 'failed'] }, 1, 0] } }
+        }
+      },
+      {
+        $project: {
+          workflowType: '$_id',
+          total: 1,
+          sent: 1,
+          failed: 1,
+          successRate: {
+            $cond: {
+              if: { $eq: ['$total', 0] },
+              then: 0,
+              else: { $multiply: [{ $divide: ['$sent', '$total'] }, 100] }
+            }
+          }
+        }
+      },
+      { $sort: { total: -1 } }
+    ]);
+
+    // Get daily stats for the period
+    const dailyStats = await EmailHistory.aggregate([
+      { $match: { sentAt: { $gte: startDate } } },
+      {
+        $group: {
+          _id: {
+            $dateToString: { format: '%Y-%m-%d', date: '$sentAt' }
+          },
+          total: { $sum: 1 },
+          sent: { $sum: { $cond: [{ $eq: ['$status', 'sent'] }, 1, 0] } },
+          failed: { $sum: { $cond: [{ $eq: ['$status', 'failed'] }, 1, 0] } }
+        }
+      },
+      { $sort: { '_id': 1 } }
+    ]);
+
+    const stats = totalStats[0] || {
+      total: 0,
+      sent: 0,
+      failed: 0,
+      pending: 0,
+      bounced: 0,
+      complained: 0
+    };
+
+    // Calculate success rate
+    const successRate = stats.total > 0 ? (stats.sent / stats.total) * 100 : 0;
+
+    res.status(200).json({
+      success: true,
+      data: {
+        period,
+        startDate,
+        endDate: now,
+        overview: {
+          ...stats,
+          successRate: Math.round(successRate * 100) / 100
+        },
+        workflowBreakdown: workflowStats,
+        dailyStats: dailyStats.map(day => ({
+          date: day._id,
+          total: day.total,
+          sent: day.sent,
+          failed: day.failed
+        }))
+      }
+    });
+
+  } catch (error) {
+    console.error('Error fetching email statistics:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Failed to fetch email statistics'
+    });
+  }
+});
 

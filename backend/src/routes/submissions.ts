@@ -199,6 +199,50 @@ router.post('/', authenticateToken, async (req: Request, res: Response) => {
       .collection('submissions')
       .insertOne(newSubmission);
 
+    // Send admin notification email
+    try {
+      const { sendEmailWithLogging, getEmailTemplate } = await import('../lib/email-service');
+
+      // Get user details
+      const user = await db.collection('users').findOne({
+        _id: new ObjectId(userId)
+      });
+
+      const adminEmail = process.env.ADMIN_EMAIL || 'admin@example.com';
+      const adminDashboardLink = `${process.env.BACKEND_URL || 'http://localhost:5000'}/api/admin/submissions/${result.insertedId.toString()}`;
+
+      const adminTemplate = await getEmailTemplate('submission_admin_notification', {
+        submissionTitle: title,
+        submissionType: type,
+        submissionDetails: description,
+        submitterName: user?.name || 'Unknown User',
+        submitterEmail: user?.email || 'unknown@example.com',
+        submissionDate: new Date().toISOString(),
+        adminReviewLink: adminDashboardLink
+      });
+
+      await sendEmailWithLogging(
+        {
+          to: adminEmail,
+          subject: adminTemplate.subject,
+          html: adminTemplate.html,
+          replyTo: user?.email || process.env.EMAIL_USER
+        },
+        'submission_admin_notification',
+        db,
+        {
+          submissionId: result.insertedId.toString(),
+          userId: userId,
+          submissionType: type,
+          submissionTitle: title,
+          notificationType: 'new_submission'
+        }
+      );
+    } catch (emailError) {
+      console.error('Error sending submission admin notification:', emailError);
+      // Don't fail the submission if email sending fails
+    }
+
     res.status(201).json({
       success: true,
       data: {

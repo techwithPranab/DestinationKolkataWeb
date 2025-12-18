@@ -1148,3 +1148,7 @@ export const Setting = mongoose.models.Setting || mongoose.model<ISetting>('Sett
 
 // Import and export Review model
 export { Review } from './Review'
+
+// Import and export Email Template and History models
+export { EmailTemplate, type IEmailTemplate } from './EmailTemplate'
+export { EmailHistory, type IEmailHistory } from './EmailHistory'

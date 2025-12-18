@@ -1,0 +1,415 @@
+/**
+ * EMAIL ENDPOINTS FOR ADMIN ROUTES
+ * These endpoints should be added before the export default router; line in admin.ts
+ * Add this code at line 2533, before the export default router statement
+ */
+
+// ============================================================================
+// EMAIL MANAGEMENT ENDPOINTS
+// ============================================================================
+
+/**
+ * GET /api/admin/verify-email - Verify email configuration and SMTP connectivity
+ * Tests the email service to ensure it's properly configured
+ */
+router.get('/verify-email', authenticateToken, requireAdmin, async (req: Request, res: Response) => {
+  try {
+    const { verifyEmailConfiguration, getEmailTemplate, sendEmail } = await import('../lib/email-service');
+    
+    // Verify email configuration
+    const verificationResult = await verifyEmailConfiguration();
+
+    // Also send a test email to admin
+    if (verificationResult.success) {
+      const testTemplate = getEmailTemplate('verification_test', {
+        testTime: new Date().toISOString(),
+        configName: process.env.EMAIL_HOST || 'Default SMTP'
+      });
+
+      const emailResult = await sendEmail({
+        to: process.env.ADMIN_EMAIL || process.env.EMAIL_USER,
+        subject: '✅ Destination Kolkata - Email Configuration Test',
+        html: testTemplate
+      }, 'verification_test');
+
+      if (!emailResult.success) {
+        return res.status(500).json({
+          success: false,
+          message: 'Email configuration verified but failed to send test email',
+          details: emailResult.error,
+          config: verificationResult.config
+        });
+      }
+    }
+
+    res.status(200).json({
+      success: verificationResult.success,
+      message: verificationResult.message,
+      config: verificationResult.config,
+      testEmailSent: true
+    });
+
+  } catch (error) {
+    console.error('Email verification error:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Error verifying email configuration',
+      error: error instanceof Error ? error.message : 'Unknown error'
+    });
+  }
+});
+
+/**
+ * POST /api/admin/send-listing-invitations - Send emails to all pending ingested listings
+ * Sends invitation emails to all pending listings with contact emails requesting registration
+ */
+router.post('/send-listing-invitations', authenticateToken, requireAdmin, async (req: Request, res: Response) => {
+  try {
+    const { db } = await connectToDatabase();
+    const { sendEmailWithLogging, getEmailTemplate } = await import('../lib/email-service');
+    
+    const { listingType = 'all', emailSubject, message } = req.body;
+
+    // Determine which collections to query
+    const collections = listingType === 'all' 
+      ? ['hotels', 'restaurants', 'attractions', 'events', 'sports']
+      : [listingType + 's'];
+
+    let totalSent = 0;
+    const results: any[] = [];
+    const failedEmails: any[] = [];
+
+    for (const collectionName of collections) {
+      try {
+        // Get all pending listings with contact email
+        const pendingListings = await db.collection(collectionName)
+          .find({
+            status: 'pending',
+            'contact.email': { $exists: true, $ne: null }
+          })
+          .toArray();
+
+        for (const listing of pendingListings) {
+          if (!listing.contact?.email) continue;
+
+          const registrationLink = `${process.env.FRONTEND_URL}/auth/signup?type=${collectionName.slice(0, -1)}&ref=${listing._id}`;
+
+          const emailTemplate = getEmailTemplate('listing_invitation', {
+            businessName: listing.name || 'Valued Business Owner',
+            businessEmail: listing.contact.email,
+            listingType: collectionName.slice(0, -1),
+            listingName: listing.name,
+            registrationLink,
+            message
+          });
+
+          const emailResult = await sendEmailWithLogging(
+            {
+              to: listing.contact.email,
+              subject: emailSubject || `📋 Complete Your ${collectionName.slice(0, -1)} Listing on Destination Kolkata`,
+              html: emailTemplate,
+              replyTo: process.env.ADMIN_EMAIL
+            },
+            'listing_invitation',
+            db,
+            {
+              listingId: listing._id.toString(),
+              listingType: collectionName,
+              listingName: listing.name
+            }
+          );
+
+          if (emailResult.success) {
+            totalSent++;
+            results.push({
+              listing: {
+                id: listing._id.toString(),
+                name: listing.name,
+                email: listing.contact.email,
+                type: collectionName
+              },
+              emailSent: true,
+              logId: emailResult.logId
+            });
+          } else {
+            failedEmails.push({
+              listing: {
+                id: listing._id.toString(),
+                name: listing.name,
+                email: listing.contact.email
+              },
+              error: emailResult.error
+            });
+          }
+        }
+      } catch (error) {
+        console.error(`Error processing ${collectionName}:`, error);
+      }
+    }
+
+    res.status(200).json({
+      success: true,
+      message: `Invitation emails sent successfully to ${totalSent} pending listings`,
+      totalSent,
+      totalFailed: failedEmails.length,
+      results: results.slice(0, 10), // Return first 10 results
+      failedEmails: failedEmails.slice(0, 5) // Return first 5 failures
+    });
+
+  } catch (error) {
+    console.error('Error sending listing invitations:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Failed to send listing invitations',
+      error: error instanceof Error ? error.message : 'Unknown error'
+    });
+  }
+});
+
+/**
+ * POST /api/admin/send-submission-approval-email - Send approval/rejection email to customer
+ * Used when admin approves or rejects a user submission
+ */
+router.post('/send-submission-decision-email', authenticateToken, requireAdmin, async (req: Request, res: Response) => {
+  try {
+    const { db } = await connectToDatabase();
+    const { sendEmailWithLogging, getEmailTemplate } = await import('../lib/email-service');
+    
+    const { submissionId, decision, adminNotes, customerId } = req.body;
+
+    // Validate inputs
+    if (!submissionId || !decision || !['approved', 'rejected'].includes(decision)) {
+      return res.status(400).json({
+        success: false,
+        message: 'submissionId, customerId, and valid decision (approved/rejected) are required'
+      });
+    }
+
+    // Get submission and customer details
+    const submission = await db.collection('submissions').findOne({
+      _id: new ObjectId(submissionId)
+    });
+
+    if (!submission) {
+      return res.status(404).json({
+        success: false,
+        message: 'Submission not found'
+      });
+    }
+
+    const customer = await db.collection('users').findOne({
+      _id: new ObjectId(submission.userId || customerId)
+    });
+
+    if (!customer) {
+      return res.status(404).json({
+        success: false,
+        message: 'Customer not found'
+      });
+    }
+
+    const submissionTitle = submission.title || submission.data?.name || 'Your Submission';
+    const customerEmail = customer.email;
+    const customerName = customer.name || `${customer.firstName} ${customer.lastName}`;
+    let emailTemplate;
+    let templateType;
+
+    if (decision === 'approved') {
+      const viewListingLink = `${process.env.FRONTEND_URL}/admin/submissions/${submissionId}`;
+      
+      emailTemplate = getEmailTemplate('submission_approval', {
+        userName: customerName,
+        userEmail: customerEmail,
+        submissionTitle,
+        approvalMessage: adminNotes,
+        viewListingLink
+      });
+
+      templateType = 'submission_approval';
+    } else {
+      const resubmitLink = `${process.env.FRONTEND_URL}/customer/submissions/${submissionId}/edit`;
+      
+      emailTemplate = getEmailTemplate('submission_rejection', {
+        userName: customerName,
+        userEmail: customerEmail,
+        submissionTitle,
+        rejectionReason: adminNotes || 'Your submission did not meet our guidelines. Please review and resubmit.',
+        resubmitLink
+      });
+
+      templateType = 'submission_rejection';
+    }
+
+    // Send decision email
+    const emailResult = await sendEmailWithLogging(
+      {
+        to: customerEmail,
+        subject: decision === 'approved' 
+          ? `✅ Your Submission Has Been Approved!`
+          : `📋 Submission Review - Changes Requested`,
+        html: emailTemplate,
+        replyTo: process.env.ADMIN_EMAIL
+      },
+      templateType,
+      db,
+      {
+        submissionId,
+        decision,
+        customerId: submission.userId?.toString(),
+        listingTitle: submissionTitle
+      }
+    );
+
+    if (!emailResult.success) {
+      return res.status(500).json({
+        success: false,
+        message: 'Failed to send decision email',
+        error: emailResult.error
+      });
+    }
+
+    res.status(200).json({
+      success: true,
+      message: `${decision === 'approved' ? 'Approval' : 'Rejection'} email sent successfully to ${customerEmail}`,
+      emailLogId: emailResult.logId
+    });
+
+  } catch (error) {
+    console.error('Error sending submission decision email:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Failed to send submission decision email',
+      error: error instanceof Error ? error.message : 'Unknown error'
+    });
+  }
+});
+
+/**
+ * GET /api/admin/email-logs - Get email logs for audit trail
+ * Retrieve all email sending logs with filtering and pagination
+ */
+router.get('/email-logs', authenticateToken, requireAdmin, async (req: Request, res: Response) => {
+  try {
+    const { db } = await connectToDatabase();
+
+    const page = parseInt(req.query.page as string) || 1;
+    const limit = parseInt(req.query.limit as string) || 50;
+    const skip = (page - 1) * limit;
+
+    const query: Record<string, any> = {};
+
+    // Add filters
+    if (req.query.status && req.query.status !== 'all') {
+      query.status = req.query.status;
+    }
+
+    if (req.query.templateType && req.query.templateType !== 'all') {
+      query.templateType = req.query.templateType;
+    }
+
+    if (req.query.search) {
+      query.$or = [
+        { recipient: { $regex: req.query.search, $options: 'i' } },
+        { subject: { $regex: req.query.search, $options: 'i' } }
+      ];
+    }
+
+    if (req.query.startDate || req.query.endDate) {
+      query.createdAt = {};
+      if (req.query.startDate) {
+        query.createdAt.$gte = new Date(req.query.startDate as string);
+      }
+      if (req.query.endDate) {
+        query.createdAt.$lte = new Date(req.query.endDate as string);
+      }
+    }
+
+    const emailLogs = await db.collection('email_logs')
+      .find(query)
+      .sort({ createdAt: -1 })
+      .skip(skip)
+      .limit(limit)
+      .toArray();
+
+    const total = await db.collection('email_logs').countDocuments(query);
+
+    res.status(200).json({
+      success: true,
+      emailLogs,
+      pagination: {
+        total,
+        page,
+        limit,
+        pages: Math.ceil(total / limit)
+      }
+    });
+
+  } catch (error) {
+    console.error('Error fetching email logs:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Failed to fetch email logs'
+    });
+  }
+});
+
+/**
+ * PATCH /api/admin/email-logs/:id/retry - Retry sending a failed email
+ * Attempts to resend a failed email
+ */
+router.patch('/email-logs/:id/retry', authenticateToken, requireAdmin, async (req: Request, res: Response) => {
+  try {
+    const { db } = await connectToDatabase();
+    const { id } = req.params;
+
+    if (!ObjectId.isValid(id)) {
+      return res.status(400).json({
+        success: false,
+        message: 'Invalid email log ID'
+      });
+    }
+
+    const emailLog = await db.collection('email_logs').findOne({
+      _id: new ObjectId(id)
+    });
+
+    if (!emailLog) {
+      return res.status(404).json({
+        success: false,
+        message: 'Email log not found'
+      });
+    }
+
+    if (emailLog.status === 'sent') {
+      return res.status(400).json({
+        success: false,
+        message: 'Cannot retry a successfully sent email'
+      });
+    }
+
+    // Update retry count
+    const updateResult = await db.collection('email_logs').updateOne(
+      { _id: new ObjectId(id) },
+      {
+        $set: {
+          retryCount: (emailLog.retryCount || 0) + 1,
+          nextRetry: null,
+          updatedAt: new Date()
+        }
+      }
+    );
+
+    res.status(200).json({
+      success: true,
+      message: 'Email retry scheduled successfully',
+      retryCount: (emailLog.retryCount || 0) + 1
+    });
+
+  } catch (error) {
+    console.error('Error retrying email:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Failed to retry email'
+    });
+  }
+});
