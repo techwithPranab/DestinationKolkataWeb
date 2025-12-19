@@ -6,6 +6,7 @@ import path from 'path'
 import mongoose from 'mongoose'
 import { fileURLToPath } from 'url'
 import axios from 'axios'
+import * as cheerio from 'cheerio'
 import { Hotel, Restaurant, Attraction, Event, Promotion, Sports } from '../src/models/index.js'
 import { generateSlug } from '../src/lib/cloudinary-utils.js'
 
@@ -210,6 +211,42 @@ class DataIngestionManager {
   /**
    * Process and normalize data with pending status
    */
+  private async processDataWithPendingStatusAsync(
+    data: OSMResponse, 
+    processor: (element: OSMElement) => Promise<any>
+  ): Promise<any[]> {
+    const results: any[] = []
+    
+    for (const element of data.elements) {
+      if (element.lat && element.lon && element.tags) {
+        try {
+          const processedData = await processor(element)
+          results.push({
+            ...processedData,
+            slug: generateSlug(processedData.name) + '-' + element.id,
+            status: 'pending',
+            featured: false,
+            promoted: false,
+            osmId: element.id,
+            source: 'OpenStreetMap'
+          })
+        } catch (error: any) {
+          console.error(`Error processing element ${element.id}:`, error.message)
+        }
+      }
+    }
+    
+    return results.filter(item => 
+      item.name !== 'Unnamed Hotel' && 
+      item.name !== 'Unnamed Restaurant' &&
+      item.name !== 'Unnamed Attraction' && 
+      item.name !== 'Unnamed Sports Facility'
+    )
+  }
+
+  /**
+   * Process and normalize data with pending status (synchronous version for events/promotions)
+   */
   private processDataWithPendingStatus(data: OSMResponse, processor: (element: OSMElement) => any): any[] {
     return data.elements
       .filter(element => element.lat && element.lon && element.tags)
@@ -230,11 +267,15 @@ class DataIngestionManager {
   }
 
   /**
-   * Process hotel data
+   * Process hotel data with web scraping for missing contact info
    */
-  processHotels(data: OSMResponse) {
-    return this.processDataWithPendingStatus(data, (element) => {
+  async processHotels(data: OSMResponse) {
+    return await this.processDataWithPendingStatusAsync(data, async (element) => {
       const tags = element.tags!
+      
+      // Get contact info with web scraping fallback
+      const contactInfo = await this.extractContactWithScraping(tags)
+      
       return {
         name: tags.name || 'Unnamed Hotel',
         description: tags.description || `A ${tags.tourism} in Kolkata`,
@@ -251,12 +292,7 @@ class DataIngestionManager {
           pincode: tags['addr:postcode'] || '',
           landmark: tags.landmark || ''
         },
-        contact: {
-          phone: this.extractPhone(tags),
-          email: this.extractEmail(tags),
-          website: this.extractWebsite(tags),
-          socialMedia: {}
-        },
+        contact: contactInfo,
         priceRange: {
           min: this.estimatePrice(tags.tourism, 'min'),
           max: this.estimatePrice(tags.tourism, 'max'),
@@ -284,11 +320,15 @@ class DataIngestionManager {
   }
 
   /**
-   * Process restaurant data
+   * Process restaurant data with web scraping for missing contact info
    */
-  processRestaurants(data: OSMResponse) {
-    return this.processDataWithPendingStatus(data, (element) => {
+  async processRestaurants(data: OSMResponse) {
+    return await this.processDataWithPendingStatusAsync(data, async (element) => {
       const tags = element.tags!
+      
+      // Get contact info with web scraping fallback
+      const contactInfo = await this.extractContactWithScraping(tags)
+      
       return {
         name: tags.name || 'Unnamed Restaurant',
         description: tags.description || `A ${tags.amenity} serving delicious food`,
@@ -305,12 +345,7 @@ class DataIngestionManager {
           pincode: tags['addr:postcode'] || '',
           landmark: tags.landmark || ''
         },
-        contact: {
-          phone: this.extractPhone(tags),
-          email: this.extractEmail(tags),
-          website: this.extractWebsite(tags),
-          socialMedia: {}
-        },
+        contact: contactInfo,
         cuisine: this.extractCuisine(tags),
         priceRange: this.categorizePriceRange(tags),
         openingHours: this.parseOpeningHours(tags.opening_hours),
@@ -329,12 +364,15 @@ class DataIngestionManager {
   }
 
   /**
-   * Process attraction data
+   * Process attraction data with web scraping for missing contact info
    */
-  processAttractions(data: OSMResponse) {
-    return this.processDataWithPendingStatus(data, (element) => {
+  async processAttractions(data: OSMResponse) {
+    return await this.processDataWithPendingStatusAsync(data, async (element) => {
       const tags = element.tags!
       const category = this.categorizeAttraction(tags)
+
+      // Get contact info with web scraping fallback
+      const contactInfo = await this.extractContactWithScraping(tags)
 
       return {
         name: tags.name || 'Unnamed Attraction',
@@ -352,12 +390,7 @@ class DataIngestionManager {
           pincode: tags['addr:postcode'] || '',
           landmark: tags.landmark || ''
         },
-        contact: {
-          phone: this.extractPhone(tags),
-          email: this.extractEmail(tags),
-          website: this.extractWebsite(tags),
-          socialMedia: {}
-        },
+        contact: contactInfo,
         category,
         entryFee: this.generateEntryFee(category),
         timings: this.parseOpeningHours(tags.opening_hours),
@@ -385,12 +418,15 @@ class DataIngestionManager {
   }
 
   /**
-   * Process sports data
+   * Process sports data with web scraping for missing contact info
    */
-  processSports(data: OSMResponse) {
-    return this.processDataWithPendingStatus(data, (element) => {
+  async processSports(data: OSMResponse) {
+    return await this.processDataWithPendingStatusAsync(data, async (element) => {
       const tags = element.tags!
       const category = this.categorizeSports(tags)
+
+      // Get contact info with web scraping fallback
+      const contactInfo = await this.extractContactWithScraping(tags)
 
       return {
         name: tags.name || 'Unnamed Sports Facility',
@@ -408,12 +444,7 @@ class DataIngestionManager {
           pincode: tags['addr:postcode'] || '',
           landmark: tags.landmark || ''
         },
-        contact: {
-          phone: this.extractPhone(tags),
-          email: this.extractEmail(tags),
-          website: this.extractWebsite(tags),
-          socialMedia: {}
-        },
+        contact: contactInfo,
         category,
         sport: tags.sport || this.extractSportType(tags),
         capacity: this.estimateCapacity(tags),
@@ -641,42 +672,405 @@ class DataIngestionManager {
   }
 
   private extractEmail(tags: Record<string, string>): string {
-    // Try multiple possible email tag formats used in OSM
-    return tags.email || 
-           tags['contact:email'] || 
-           tags['email:main'] || 
-           tags['contact:email:main'] ||
-           tags['operator:email'] ||
-           tags['brand:email'] ||
-           ''
+    // Comprehensive list of OSM email tag patterns
+    const emailPatterns = [
+      'email',
+      'contact:email',
+      'email:main',
+      'contact:email:main',
+      'operator:email',
+      'brand:email',
+      'reservation:email',
+      'booking:email',
+      'info:email',
+      'support:email',
+      'sales:email',
+      'enquiry:email',
+      'inquiry:email'
+    ]
+
+    // Try each pattern
+    for (const pattern of emailPatterns) {
+      if (tags[pattern]) {
+        const email = tags[pattern].trim()
+        // Validate email format
+        if (this.isValidEmail(email)) {
+          return email
+        }
+      }
+    }
+
+    // Check description and notes for email patterns
+    const textFields = [tags.description, tags.note, tags.fixme, tags.url]
+    for (const text of textFields) {
+      if (text) {
+        const extractedEmail = this.extractEmailFromText(text)
+        if (extractedEmail) return extractedEmail
+      }
+    }
+
+    return ''
+  }
+
+  /**
+   * Validate email format
+   */
+  private isValidEmail(email: string): boolean {
+    const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/
+    return emailRegex.test(email)
+  }
+
+  /**
+   * Extract email from free text using regex
+   */
+  private extractEmailFromText(text: string): string {
+    const emailRegex = /[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}/g
+    const matches = text.match(emailRegex)
+    if (matches && matches.length > 0) {
+      return matches[0] // Return first valid email found
+    }
+    return ''
   }
 
   private extractWebsite(tags: Record<string, string>): string {
-    // Try multiple possible website tag formats used in OSM
-    return tags.website || 
-           tags['contact:website'] || 
-           tags.url ||
-           tags['contact:url'] ||
-           tags['operator:website'] ||
-           tags['brand:website'] ||
-           ''
+    // Comprehensive list of OSM website tag patterns
+    const websitePatterns = [
+      'website',
+      'contact:website',
+      'url',
+      'contact:url',
+      'operator:website',
+      'brand:website',
+      'official_website',
+      'website:official',
+      'homepage',
+      'web',
+      'link'
+    ]
+
+    // Try each pattern
+    for (const pattern of websitePatterns) {
+      if (tags[pattern]) {
+        let url = tags[pattern].trim()
+        // Ensure URL has protocol
+        if (url && !url.startsWith('http://') && !url.startsWith('https://')) {
+          url = 'https://' + url
+        }
+        if (this.isValidUrl(url)) {
+          return url
+        }
+      }
+    }
+
+    return ''
+  }
+
+  /**
+   * Validate URL format
+   */
+  private isValidUrl(url: string): boolean {
+    try {
+      new URL(url)
+      return true
+    } catch {
+      return false
+    }
   }
 
   private extractPhone(tags: Record<string, string>): string[] {
     const phones: string[] = []
     
-    // Try multiple possible phone tag formats
-    if (tags.phone) phones.push(tags.phone)
-    if (tags['contact:phone']) phones.push(tags['contact:phone'])
-    if (tags['phone:main']) phones.push(tags['phone:main'])
-    if (tags['contact:phone:main']) phones.push(tags['contact:phone:main'])
-    if (tags['operator:phone']) phones.push(tags['operator:phone'])
-    if (tags['brand:phone']) phones.push(tags['brand:phone'])
+    // Comprehensive list of OSM phone tag patterns
+    const phonePatterns = [
+      'phone',
+      'contact:phone',
+      'phone:main',
+      'contact:phone:main',
+      'operator:phone',
+      'brand:phone',
+      'phone:mobile',
+      'contact:mobile',
+      'mobile',
+      'telephone',
+      'tel',
+      'reservation:phone',
+      'booking:phone',
+      'fax' // Sometimes fax numbers are listed
+    ]
     
-    // Remove duplicates and empty values
-    return [...new Set(phones.filter(phone => phone && phone.length > 0))]
+    // Try each pattern
+    for (const pattern of phonePatterns) {
+      if (tags[pattern]) {
+        // Split by semicolon or comma for multiple numbers
+        const numbers = tags[pattern].split(/[;,]/).map(n => n.trim())
+        numbers.forEach(number => {
+          if (number && this.isValidPhoneNumber(number)) {
+            phones.push(this.formatPhoneNumber(number))
+          }
+        })
+      }
+    }
+    
+    // Remove duplicates
+    return [...new Set(phones)]
   }
 
+  /**
+   * Validate phone number format (basic validation)
+   */
+  private isValidPhoneNumber(phone: string): boolean {
+    // Remove common separators for validation
+    const cleaned = phone.replace(/[\s\-\(\)\.]/g, '')
+    // Check if it contains mostly digits and + sign
+    return /^[\+\d]{8,}$/.test(cleaned)
+  }
+
+  /**
+   * Format phone number for consistency
+   */
+  private formatPhoneNumber(phone: string): string {
+    let formatted = phone.trim()
+    
+    // If it's an Indian number without country code, add +91
+    if (formatted.match(/^[6-9]\d{9}$/)) {
+      formatted = '+91 ' + formatted
+    }
+    
+    return formatted
+  }
+
+  /**
+   * Extract social media links from OSM tags
+   */
+  private extractSocialMedia(tags: Record<string, string>): Record<string, string> {
+    const socialMedia: Record<string, string> = {}
+
+    // Facebook
+    if (tags['contact:facebook'] || tags.facebook) {
+      socialMedia.facebook = tags['contact:facebook'] || tags.facebook
+    }
+
+    // Instagram
+    if (tags['contact:instagram'] || tags.instagram) {
+      socialMedia.instagram = tags['contact:instagram'] || tags.instagram
+    }
+
+    // Twitter/X
+    if (tags['contact:twitter'] || tags.twitter) {
+      socialMedia.twitter = tags['contact:twitter'] || tags.twitter
+    }
+
+    // LinkedIn
+    if (tags['contact:linkedin'] || tags.linkedin) {
+      socialMedia.linkedin = tags['contact:linkedin'] || tags.linkedin
+    }
+
+    // YouTube
+    if (tags['contact:youtube'] || tags.youtube) {
+      socialMedia.youtube = tags['contact:youtube'] || tags.youtube
+    }
+
+    // TripAdvisor
+    if (tags['contact:tripadvisor'] || tags.tripadvisor) {
+      socialMedia.tripadvisor = tags['contact:tripadvisor'] || tags.tripadvisor
+    }
+
+    return socialMedia
+  }
+
+  /**
+   * Scrape website to extract contact information (email and phone)
+   */
+  private async scrapeWebsiteForContacts(websiteUrl: string): Promise<{
+    emails: string[]
+    phones: string[]
+  }> {
+    const result = { emails: [] as string[], phones: [] as string[] }
+
+    if (!websiteUrl || !this.isValidUrl(websiteUrl)) {
+      return result
+    }
+
+    try {
+      console.log(`🌐 Scraping website: ${websiteUrl}`)
+
+      // Fetch the webpage with timeout
+      const response = await axios.get(websiteUrl, {
+        timeout: 10000,
+        headers: {
+          'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36',
+          'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+          'Accept-Language': 'en-US,en;q=0.5',
+          'Accept-Encoding': 'gzip, deflate, br',
+          'Connection': 'keep-alive'
+        },
+        maxRedirects: 5,
+        validateStatus: (status) => status < 500 // Accept redirects and client errors
+      })
+
+      const html = response.data
+      const $ = cheerio.load(html)
+
+      // Remove script and style tags to avoid false positives
+      $('script, style, noscript').remove()
+
+      // Get all text content
+      const bodyText = $('body').text()
+      const htmlContent = $.html()
+
+      // Extract emails using multiple strategies
+      const emailSet = new Set<string>()
+
+      // Strategy 1: Find emails in text content
+      const emailRegex = /[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}/g
+      const textEmails = bodyText.match(emailRegex) || []
+      textEmails.forEach(email => {
+        if (this.isValidEmail(email)) {
+          emailSet.add(email.toLowerCase())
+        }
+      })
+
+      // Strategy 2: Find emails in mailto links
+      $('a[href^="mailto:"]').each((_, elem) => {
+        const href = $(elem).attr('href')
+        if (href) {
+          const email = href.replace('mailto:', '').split('?')[0].trim()
+          if (this.isValidEmail(email)) {
+            emailSet.add(email.toLowerCase())
+          }
+        }
+      })
+
+      // Strategy 3: Check meta tags and common contact elements
+      $('meta[name*="email"], meta[property*="email"]').each((_, elem) => {
+        const content = $(elem).attr('content')
+        if (content && this.isValidEmail(content)) {
+          emailSet.add(content.toLowerCase())
+        }
+      })
+
+      // Strategy 4: Look for emails in specific contact sections
+      $('.contact, .footer, #contact, #footer, .contact-info').each((_, elem) => {
+        const text = $(elem).text()
+        const emails = text.match(emailRegex) || []
+        emails.forEach(email => {
+          if (this.isValidEmail(email)) {
+            emailSet.add(email.toLowerCase())
+          }
+        })
+      })
+
+      // Extract phone numbers using multiple strategies
+      const phoneSet = new Set<string>()
+
+      // Indian phone number patterns
+      const phonePatterns = [
+        // +91 XXXXX XXXXX or +91-XXXXX-XXXXX
+        /\+91[\s-]?[6-9]\d{4}[\s-]?\d{5}/g,
+        // 91 XXXXX XXXXX
+        /91[\s-]?[6-9]\d{4}[\s-]?\d{5}/g,
+        // 0XXXX-XXXXXX or 0XXXX XXXXXX (landline)
+        /0\d{2,4}[\s-]?\d{6,8}/g,
+        // XXXXX XXXXX or XXXXX-XXXXX (mobile without country code)
+        /[6-9]\d{4}[\s-]?\d{5}/g,
+        // (XXX) XXX-XXXX format
+        /\(\d{3}\)[\s-]?\d{3}[\s-]?\d{4}/g
+      ]
+
+      // Strategy 1: Find phone numbers in text
+      phonePatterns.forEach(pattern => {
+        const matches = bodyText.match(pattern) || []
+        matches.forEach(phone => {
+          const cleaned = phone.replace(/[\s\-\(\)\.]/g, '')
+          if (this.isValidPhoneNumber(cleaned)) {
+            phoneSet.add(phone.trim())
+          }
+        })
+      })
+
+      // Strategy 2: Find phone numbers in tel: links
+      $('a[href^="tel:"]').each((_, elem) => {
+        const href = $(elem).attr('href')
+        if (href) {
+          const phone = href.replace('tel:', '').trim()
+          if (this.isValidPhoneNumber(phone)) {
+            phoneSet.add(phone)
+          }
+        }
+      })
+
+      // Strategy 3: Look in contact sections
+      $('.contact, .footer, #contact, #footer, .contact-info, .phone, .telephone').each((_, elem) => {
+        const text = $(elem).text()
+        phonePatterns.forEach(pattern => {
+          const matches = text.match(pattern) || []
+          matches.forEach(phone => {
+            const cleaned = phone.replace(/[\s\-\(\)\.]/g, '')
+            if (this.isValidPhoneNumber(cleaned)) {
+              phoneSet.add(phone.trim())
+            }
+          })
+        })
+      })
+
+      result.emails = Array.from(emailSet).slice(0, 3) // Limit to 3 emails
+      result.phones = Array.from(phoneSet).slice(0, 3) // Limit to 3 phones
+
+      if (result.emails.length > 0 || result.phones.length > 0) {
+        console.log(`✅ Found ${result.emails.length} email(s) and ${result.phones.length} phone(s)`)
+      }
+
+    } catch (error: any) {
+      console.log(`⚠️  Could not scrape website ${websiteUrl}: ${error.message}`)
+    }
+
+    return result
+  }
+
+  /**
+   * Enhanced contact extraction with web scraping fallback
+   */
+  private async extractContactWithScraping(tags: Record<string, string>): Promise<{
+    phone: string[]
+    email: string
+    website: string
+    socialMedia: Record<string, string>
+  }> {
+    // First, try to get contact info from OSM tags
+    let email = this.extractEmail(tags)
+    let phones = this.extractPhone(tags)
+    const website = this.extractWebsite(tags)
+    const socialMedia = this.extractSocialMedia(tags)
+
+    // If email or phone is missing and we have a website, try scraping
+    if ((!email || phones.length === 0) && website) {
+      console.log(`📧 Missing contact info, attempting to scrape website...`)
+      
+      try {
+        const scrapedData = await this.scrapeWebsiteForContacts(website)
+        
+        // Use scraped email if we don't have one from OSM
+        if (!email && scrapedData.emails.length > 0) {
+          email = scrapedData.emails[0]
+          console.log(`✅ Found email from website: ${email}`)
+        }
+        
+        // Use scraped phones if we don't have any from OSM
+        if (phones.length === 0 && scrapedData.phones.length > 0) {
+          phones = scrapedData.phones
+          console.log(`✅ Found ${phones.length} phone(s) from website`)
+        }
+      } catch (error: any) {
+        console.log(`⚠️  Website scraping failed: ${error.message}`)
+      }
+    }
+
+    return { phone: phones, email, website, socialMedia }
+  }
+
+  /**
+   * Extract tags from OSM data
+   */
   private extractTags(osmTags: Record<string, string>): string[] {
     const tags: string[] = []
 
@@ -1051,7 +1445,7 @@ class DataIngestionManager {
       // Fetch and process hotels
       console.log('\n🏨 Processing Hotels...')
       const hotelsData = await this.fetchFromOverpass(this.getHotelsQuery())
-      const processedHotels = this.processHotels(hotelsData)
+      const processedHotels = await this.processHotels(hotelsData)
       this.saveToFile(processedHotels, 'hotels.json')
       this.stats.hotels = await this.loadDataToDatabase(Hotel, processedHotels, 'hotels')
 
@@ -1060,7 +1454,7 @@ class DataIngestionManager {
       // Fetch and process restaurants
       console.log('\n🍽️ Processing Restaurants...')
       const restaurantsData = await this.fetchFromOverpass(this.getRestaurantsQuery())
-      const processedRestaurants = this.processRestaurants(restaurantsData)
+      const processedRestaurants = await this.processRestaurants(restaurantsData)
       this.saveToFile(processedRestaurants, 'restaurants.json')
       this.stats.restaurants = await this.loadDataToDatabase(Restaurant, processedRestaurants, 'restaurants')
 
@@ -1069,7 +1463,7 @@ class DataIngestionManager {
       // Fetch and process attractions
       console.log('\n🏛️ Processing Attractions...')
       const attractionsData = await this.fetchFromOverpass(this.getAttractionsQuery())
-      const processedAttractions = this.processAttractions(attractionsData)
+      const processedAttractions = await this.processAttractions(attractionsData)
       this.saveToFile(processedAttractions, 'attractions.json')
       this.stats.attractions = await this.loadDataToDatabase(Attraction, processedAttractions, 'attractions')
 
@@ -1078,7 +1472,7 @@ class DataIngestionManager {
       // Fetch and process sports facilities
       console.log('\n⚽ Processing Sports Facilities...')
       const sportsData = await this.fetchFromOverpass(this.getSportsQuery())
-      const processedSports = this.processSports(sportsData)
+      const processedSports = await this.processSports(sportsData)
       this.saveToFile(processedSports, 'sports.json')
       this.stats.sports = await this.loadDataToDatabase(Sports, processedSports, 'sports')
 
@@ -1218,7 +1612,7 @@ class DataIngestionManager {
       // Fetch and process hotels
       console.log('\n🏨 Processing Hotels...')
       const hotelsData = await this.fetchFromOverpass(this.getHotelsQuery())
-      const processedHotels = this.processHotels(hotelsData)
+      const processedHotels = await this.processHotels(hotelsData)
       this.saveToFile(processedHotels, 'hotels.json')
       this.stats.hotels = await this.loadDataToDatabase(Hotel, processedHotels, 'hotels')
 
@@ -1227,7 +1621,7 @@ class DataIngestionManager {
       // Fetch and process restaurants
       console.log('\n🍽️ Processing Restaurants...')
       const restaurantsData = await this.fetchFromOverpass(this.getRestaurantsQuery())
-      const processedRestaurants = this.processRestaurants(restaurantsData)
+      const processedRestaurants = await this.processRestaurants(restaurantsData)
       this.saveToFile(processedRestaurants, 'restaurants.json')
       this.stats.restaurants = await this.loadDataToDatabase(Restaurant, processedRestaurants, 'restaurants')
 
@@ -1236,7 +1630,7 @@ class DataIngestionManager {
       // Fetch and process attractions
       console.log('\n🏛️ Processing Attractions...')
       const attractionsData = await this.fetchFromOverpass(this.getAttractionsQuery())
-      const processedAttractions = this.processAttractions(attractionsData)
+      const processedAttractions = await this.processAttractions(attractionsData)
       this.saveToFile(processedAttractions, 'attractions.json')
       this.stats.attractions = await this.loadDataToDatabase(Attraction, processedAttractions, 'attractions')
 
@@ -1245,7 +1639,7 @@ class DataIngestionManager {
       // Fetch and process sports facilities
       console.log('\n⚽ Processing Sports Facilities...')
       const sportsData = await this.fetchFromOverpass(this.getSportsQuery())
-      const processedSports = this.processSports(sportsData)
+      const processedSports = await this.processSports(sportsData)
       this.saveToFile(processedSports, 'sports.json')
       this.stats.sports = await this.loadDataToDatabase(Sports, processedSports, 'sports')
 
