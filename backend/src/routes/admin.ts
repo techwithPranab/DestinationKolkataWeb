@@ -2673,6 +2673,156 @@ router.get('/verify-email', authenticateToken, requireAdmin, async (req: Request
 });
 
 /**
+ * GET /api/admin/listing-email-stats - Get statistics about listings with/without emails
+ */
+router.get('/listing-email-stats', authenticateToken, requireAdmin, async (req: Request, res: Response) => {
+  try {
+    const { db } = await connectToDatabase();
+
+    const collections = ['hotels', 'restaurants', 'attractions', 'events', 'sports'];
+    
+    let totalListings = 0;
+    let withEmail = 0;
+    let withoutEmail = 0;
+    const breakdown: Record<string, { total: number; withEmail: number }> = {};
+
+    for (const collectionName of collections) {
+      const total = await db.collection(collectionName).countDocuments({
+        status: 'pending'
+      });
+
+      const hasEmail = await db.collection(collectionName).countDocuments({
+        status: 'pending',
+        'contact.email': { $exists: true, $nin: ['', null] }
+      });
+
+      totalListings += total;
+      withEmail += hasEmail;
+      withoutEmail += (total - hasEmail);
+
+      breakdown[collectionName] = {
+        total,
+        withEmail: hasEmail
+      };
+    }
+
+    res.status(200).json({
+      success: true,
+      data: {
+        totalListings,
+        withEmail,
+        withoutEmail,
+        breakdown
+      }
+    });
+
+  } catch (error) {
+    console.error('Error fetching listing email stats:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Failed to fetch listing statistics',
+      error: error instanceof Error ? error.message : 'Unknown error'
+    });
+  }
+});
+
+/**
+ * POST /api/admin/preview-listing-invitation - Generate preview of listing invitation email
+ */
+router.post('/preview-listing-invitation', authenticateToken, requireAdmin, async (req: Request, res: Response) => {
+  try {
+    const { getEmailTemplate } = await import('../lib/email-service');
+    const { listingType = 'hotel', message } = req.body;
+
+    const sampleData = {
+      businessName: 'Sample Business Name',
+      businessEmail: 'business@example.com',
+      listingType: listingType,
+      listingName: `Sample ${listingType.charAt(0).toUpperCase() + listingType.slice(1)}`,
+      registrationLink: `${process.env.FRONTEND_URL}/auth/signup`,
+      message: message || ''
+    };
+
+    const emailTemplate = await getEmailTemplate('listing_invitation', sampleData);
+
+    res.status(200).json({
+      success: true,
+      html: emailTemplate.html,
+      subject: emailTemplate.subject
+    });
+
+  } catch (error) {
+    console.error('Error generating preview:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Failed to generate preview',
+      error: error instanceof Error ? error.message : 'Unknown error'
+    });
+  }
+});
+
+/**
+ * POST /api/admin/send-test-listing-invitation - Send test email to support@destinationkolkata.com
+ */
+router.post('/send-test-listing-invitation', authenticateToken, requireAdmin, async (req: Request, res: Response) => {
+  try {
+    const { db } = await connectToDatabase();
+    const { sendEmailWithLogging, getEmailTemplate } = await import('../lib/email-service');
+
+    const { listingType = 'hotel', emailSubject, message } = req.body;
+
+    const testData = {
+      businessName: 'Test Business - Destination Kolkata',
+      businessEmail: 'support@destinationkolkata.com',
+      listingType: listingType,
+      listingName: `Test ${listingType.charAt(0).toUpperCase() + listingType.slice(1)} Listing`,
+      registrationLink: `${process.env.FRONTEND_URL}/auth/signup`,
+      message: message || ''
+    };
+
+    const emailTemplate = await getEmailTemplate('listing_invitation', testData);
+
+    const emailResult = await sendEmailWithLogging(
+      {
+        to: 'support@destinationkolkata.com',
+        subject: emailSubject || emailTemplate.subject,
+        html: emailTemplate.html,
+        replyTo: process.env.ADMIN_EMAIL
+      },
+      'listing_invitation',
+      db,
+      {
+        listingId: 'test-email',
+        listingType: 'test',
+        listingName: 'Test Email'
+      }
+    );
+
+    if (emailResult.success) {
+      res.status(200).json({
+        success: true,
+        message: 'Test email sent successfully to support@destinationkolkata.com',
+        logId: emailResult.logId
+      });
+    } else {
+      res.status(500).json({
+        success: false,
+        message: 'Failed to send test email',
+        error: emailResult.error
+      });
+    }
+
+  } catch (error) {
+    console.error('Error sending test email:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Failed to send test email',
+      error: error instanceof Error ? error.message : 'Unknown error'
+    });
+  }
+});
+
+/**
  * POST /api/admin/send-listing-invitations - Send emails to all pending ingested listings
  */
 router.post('/send-listing-invitations', authenticateToken, requireAdmin, async (req: Request, res: Response) => {
@@ -2704,7 +2854,7 @@ router.post('/send-listing-invitations', authenticateToken, requireAdmin, async 
         for (const listing of pendingListings) {
           if (!listing.contact?.email) continue;
 
-          const registrationLink = `${process.env.FRONTEND_URL}/auth/signup?type=${collectionName.slice(0, -1)}&ref=${listing._id}`;
+          const registrationLink = `${process.env.FRONTEND_URL}/auth/signup`;
 
           const emailTemplate = await getEmailTemplate('listing_invitation', {
             businessName: listing.name || 'Valued Business Owner',
@@ -2763,9 +2913,9 @@ router.post('/send-listing-invitations', authenticateToken, requireAdmin, async 
       success: true,
       message: `Invitation emails sent successfully to ${totalSent} pending listings`,
       totalSent,
-      totalFailed: failedEmails.length,
-      results: results.slice(0, 10),
-      failedEmails: failedEmails.slice(0, 5)
+      failedCount: failedEmails.length,
+      results,
+      failedEmails
     });
 
   } catch (error) {
@@ -3015,8 +3165,6 @@ router.patch('/email-logs/:id/retry', authenticateToken, requireAdmin, async (re
     });
   }
 });
-
-export default router;
 
 // ===== EMAIL TEMPLATE MANAGEMENT ENDPOINTS =====
 
@@ -3729,3 +3877,4 @@ router.get('/email-history/stats', authenticateToken, requireAdmin, async (req: 
   }
 });
 
+export default router;

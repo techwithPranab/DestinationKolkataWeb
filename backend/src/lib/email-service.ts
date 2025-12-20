@@ -5,7 +5,19 @@ import { EmailHistory, IEmailHistory } from '../models/EmailHistory';
 
 /**
  * Email Service Module
- * Comprehensive email management system for all application workflows
+ * Comprehensive email management system for all applica        </style>
+      </head>
+      <body style="margin: 0; padding: 0; width: 100%;">
+        <table role="presentation" style="width: 100%; border-collapse: collapse; margin: 0; padding: 0;">
+          <tr>
+            <td style="padding: 0; margin: 0;">
+              <div class="container">
+                <div class="header">
+                  <h1>� Join Destination Kolkata</h1>
+                  <p>Grow Your Business with Kolkata's Premier Tourism Platform</p>
+                </div>
+                
+                <div class="content">lows
  */
 
 // ============================================================================
@@ -154,7 +166,7 @@ export async function sendEmail(
       subject: options.subject,
       html: options.html
     };
-
+    console.log('Sending email with options:', mailOptions);
     const info = await trans.sendMail(mailOptions);
     console.log(`✅ Email sent successfully to ${options.to}:`, info.messageId);
 
@@ -240,91 +252,172 @@ export function getListingInvitationTemplate(
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <style>
-          body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; color: #333; line-height: 1.6; }
-          .container { max-width: 600px; margin: 0 auto; padding: 20px; }
-          .header { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 40px 20px; border-radius: 8px 8px 0 0; text-align: center; }
-          .header h1 { margin: 0; font-size: 28px; }
-          .content { background-color: #f9fafb; padding: 40px 20px; border-radius: 0 0 8px 8px; }
+          * { margin: 0; padding: 0; box-sizing: border-box; }
+          body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; color: #333; line-height: 1.6; margin: 0 !important; padding: 0 !important; width: 100% !important; -webkit-text-size-adjust: 100%; -ms-text-size-adjust: 100%; }
+          table { border-collapse: collapse; mso-table-lspace: 0pt; mso-table-rspace: 0pt; }
+          .container { width: 100% !important; max-width: 100% !important; margin: 0 auto; padding: 0; background: #f7f9fc; }
+          .header { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 40px 20px; text-align: center; width: 100%; }
+          .header h1 { margin: 0; font-size: 28px; font-weight: 700; }
+          .header p { margin: 10px 0 0; font-size: 16px; opacity: 0.95; }
+          .content { background-color: white; padding: 30px 20px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); width: 100%; }
           .section { margin: 25px 0; }
-          .business-info { background: white; padding: 20px; border-left: 4px solid #667eea; border-radius: 4px; margin: 20px 0; }
-          .business-info p { margin: 8px 0; }
-          .label { font-weight: 600; color: #667eea; }
+          .intro { background: #f0f4ff; padding: 20px; border-radius: 8px; border-left: 4px solid #667eea; margin: 20px 0; }
+          .intro p { margin: 8px 0; color: #1e293b; }
           .cta-button { 
             display: inline-block; 
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); 
-            color: white; 
-            padding: 14px 32px; 
-            border-radius: 6px; 
+            color: white !important; 
+            padding: 16px 36px; 
+            border-radius: 8px; 
             text-decoration: none; 
-            margin: 20px 0; 
-            font-weight: 600;
-            transition: transform 0.2s;
+            margin: 25px 0; 
+            font-weight: 700;
+            font-size: 16px;
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+            transition: all 0.3s ease;
           }
-          .cta-button:hover { transform: translateY(-2px); }
-          .benefits { background: white; padding: 20px; border-radius: 4px; margin: 20px 0; }
-          .benefits ul { margin: 10px 0; padding-left: 20px; }
-          .benefits li { margin: 8px 0; }
-          .footer { margin-top: 30px; padding-top: 20px; border-top: 1px solid #e0e0e0; font-size: 12px; color: #666; text-align: center; }
-          .highlight { background-color: #fff3cd; padding: 15px; border-radius: 4px; margin: 15px 0; border-left: 4px solid #ffc107; }
+          .cta-button:hover { transform: translateY(-2px); box-shadow: 0 6px 16px rgba(102, 126, 234, 0.5); }
+          .benefits { background: #f9fafb; padding: 25px; border-radius: 8px; margin: 25px 0; border: 2px solid #e2e8f0; }
+          .benefits h3 { color: #1e293b; margin-top: 0; font-size: 20px; }
+          .benefits ul { margin: 15px 0; padding-left: 0; list-style: none; }
+          .benefits li { margin: 12px 0; padding-left: 28px; position: relative; color: #475569; }
+          .benefits li:before { content: "✓"; position: absolute; left: 0; color: #10b981; font-weight: bold; font-size: 18px; }
+          .process { background: white; padding: 25px; border-radius: 8px; margin: 25px 0; border: 2px solid #e2e8f0; }
+          .process h3 { color: #1e293b; margin-top: 0; font-size: 20px; }
+          .step { background: #f8fafc; padding: 15px; margin: 12px 0; border-radius: 6px; border-left: 3px solid #667eea; }
+          .step-number { display: inline-block; background: #667eea; color: white; width: 28px; height: 28px; border-radius: 50%; text-align: center; line-height: 28px; font-weight: bold; margin-right: 10px; }
+          .step-title { font-weight: 600; color: #1e293b; }
+          .step-desc { color: #64748b; font-size: 14px; margin: 5px 0 0 38px; }
+          .highlight { background-color: #fef3c7; padding: 18px; border-radius: 8px; margin: 20px 0; border-left: 4px solid #f59e0b; }
+          .highlight strong { color: #92400e; }
+          .support-box { background: #f0fdf4; padding: 20px; border-radius: 8px; margin: 25px 0; border-left: 4px solid #10b981; }
+          .support-box h4 { margin-top: 0; color: #065f46; }
+          .support-box p { margin: 8px 0; color: #064e3b; }
+          .contact-info { display: flex; flex-wrap: wrap; gap: 15px; margin-top: 15px; }
+          .contact-item { flex: 1; min-width: 200px; background: white; padding: 12px; border-radius: 6px; }
+          .contact-label { font-weight: 600; color: #065f46; font-size: 13px; }
+          .contact-value { color: #047857; font-size: 15px; }
+          .footer { margin-top: 30px; padding-top: 25px; border-top: 2px solid #e2e8f0; font-size: 13px; color: #64748b; text-align: center; }
+          .footer p { margin: 8px 0; }
+          @media only screen and (max-width: 600px) {
+            .container { width: 100% !important; min-width: 100% !important; padding: 0 !important; }
+            .header { padding: 30px 15px !important; }
+            .content { padding: 25px 15px !important; }
+            .header h1 { font-size: 24px !important; }
+            .benefits, .process, .support-box { padding: 20px 15px !important; }
+          }
+          @media only screen and (max-width: 480px) {
+            .header { padding: 25px 10px !important; }
+            .content { padding: 20px 10px !important; }
+            .header h1 { font-size: 22px !important; }
+          }
         </style>
       </head>
       <body>
         <div class="container">
           <div class="header">
-            <h1>🎉 Join Destination Kolkata Community</h1>
-            <p>Showcase Your ${data.listingType} to Thousands of Visitors</p>
+            <h1>� Join Destination Kolkata</h1>
+            <p>Grow Your Business with Kolkata's Premier Tourism Platform</p>
           </div>
           
           <div class="content">
             <div class="section">
-              <p>Hello <strong>${data.businessName}</strong>,</p>
-              <p>We're excited to feature your business on Destination Kolkata! We've received information about your <strong>${data.listingName}</strong> and believe it would be a great addition to our platform.</p>
+              <p style="font-size: 16px;">Dear <strong>${data.businessName}</strong>,</p>
+              <p>Greetings from <strong>Destination Kolkata</strong>!</p>
             </div>
 
-            <div class="business-info">
-              <p><span class="label">📍 Listing Type:</span> ${data.listingType}</p>
-              <p><span class="label">🏢 Business Name:</span> ${data.businessName}</p>
-              <p><span class="label">📧 Email:</span> ${data.businessEmail}</p>
+            <div class="intro">
+              <p><strong>📍 About Destination Kolkata</strong></p>
+              <p>Destination Kolkata is the city's leading online tourism platform, connecting thousands of travelers with authentic local experiences. We showcase the best hotels, restaurants, attractions, and services that make Kolkata special.</p>
+              <p style="margin-top: 12px;">We've identified your <strong>${data.listingName}</strong> as a valuable addition to our platform and would like to invite you to join our growing community of businesses.</p>
             </div>
 
             <div class="highlight">
-              <strong>✨ Why Join Us?</strong>
-              <p>Be discovered by thousands of tourists planning their Kolkata experience. Manage your listing, respond to reviews, and grow your business!</p>
+              <strong>🎁 100% FREE ONBOARDING - LIMITED TIME OFFER!</strong>
+              <p style="margin: 8px 0 0;">List your business on our platform at absolutely no cost. No hidden fees, no subscription charges - just pure visibility to reach thousands of potential customers!</p>
             </div>
 
             <div class="benefits">
-              <strong>Benefits of Listing Your Business:</strong>
+              <h3>🚀 Why Partner with Destination Kolkata?</h3>
               <ul>
-                <li>📱 Free visibility across our platform</li>
-                <li>⭐ Display customer reviews and ratings</li>
-                <li>📸 Upload photos and description</li>
-                <li>📞 Direct contact information</li>
-                <li>🎯 Reach targeted tourist audience</li>
-                <li>📊 View visitor analytics</li>
+                <li><strong>Maximum Visibility:</strong> Reach thousands of tourists and locals searching for ${data.listingType}s in Kolkata</li>
+                <li><strong>Free Forever:</strong> No listing fees, no commissions - 100% free to join and maintain your profile</li>
+                <li><strong>Build Credibility:</strong> Collect and showcase customer reviews and ratings</li>
+                <li><strong>Complete Control:</strong> Manage your business information, photos, and offerings anytime</li>
+                <li><strong>Direct Contact:</strong> Customers can reach you directly via phone, email, or website</li>
+                <li><strong>SEO Benefits:</strong> Improve your online presence with our high-ranking platform</li>
+                <li><strong>Analytics Dashboard:</strong> Track visitor views and engagement with your listing</li>
+                <li><strong>Mobile Optimized:</strong> Your listing looks great on all devices</li>
               </ul>
             </div>
 
-            <div class="section">
-              <p><strong>Ready to Get Started?</strong></p>
-              <p>Click the button below to register and complete your business listing. It only takes 5 minutes!</p>
-              <center>
-                <a href="${data.registrationLink}" class="cta-button">📋 Register & Complete Your Profile</a>
-              </center>
+            <div class="process">
+              <h3>� Simple 3-Step Registration Process</h3>
+              
+              <div class="step">
+                <span class="step-number">1</span>
+                <span class="step-title">Sign Up with Your Email</span>
+                <p class="step-desc">Click the registration button below and create your account using the same email address (<strong>${data.businessEmail}</strong>). It only takes 2 minutes!</p>
+              </div>
+
+              <div class="step">
+                <span class="step-number">2</span>
+                <span class="step-title">Admin Tags Your Property</span>
+                <p class="step-desc">Our admin team will assign <strong>${data.listingName}</strong> to your account within 24 hours (usually same day). You'll receive an email notification once the assignment is complete.</p>
+              </div>
+
+              <div class="step">
+                <span class="step-number">3</span>
+                <span class="step-title">Complete Your Listing</span>
+                <p class="step-desc">Fill in your business details, upload high-quality photos, add amenities/menu items, set operating hours, and provide contact information. The more complete your profile, the better!</p>
+              </div>
+
+              <div class="step">
+                <span class="step-number">✓</span>
+                <span class="step-title">Go Live After Approval</span>
+                <p class="step-desc">Submit your completed listing for review. Our admin team will verify the information and approve it within 1-2 business days. Once approved, your listing goes live instantly!</p>
+              </div>
+            </div>
+
+            <div class="section" style="text-align: center; margin: 35px 0;">
+              <p style="font-size: 18px; font-weight: 600; color: #1e293b; margin-bottom: 15px;">Ready to Boost Your Business?</p>
+              <a href="${data.registrationLink}" class="cta-button">� Register Now - It's FREE!</a>
+              <p style="font-size: 14px; color: #64748b; margin-top: 15px;">Complete registration in under 5 minutes</p>
             </div>
 
             ${data.message ? `<div class="highlight">${data.message}</div>` : ''}
 
+            <div class="support-box">
+              <h4>💬 Need Help? We're Here for You!</h4>
+              <p>Our support team is ready to assist you with the registration process or answer any questions you may have.</p>
+              <div class="contact-info">
+                <div class="contact-item">
+                  <div class="contact-label">📧 Email Support</div>
+                  <div class="contact-value">support@destinationkolkata.com</div>
+                </div>
+                <div class="contact-item">
+                  <div class="contact-label">📞 Phone Support</div>
+                  <div class="contact-value">+91-9876543210</div>
+                </div>
+              </div>
+              <p style="margin-top: 15px; font-size: 14px;"><strong>Support Hours:</strong> Monday - Saturday, 10:00 AM - 6:00 PM IST</p>
+            </div>
+
             <div class="section">
-              <p>If you have any questions or need assistance, reply to this email or contact our support team.</p>
-              <p>Best regards,<br><strong>Destination Kolkata Team</strong></p>
+              <p>Don't miss this opportunity to showcase your business to Kolkata's vibrant tourism community!</p>
+              <p style="margin-top: 20px;">Best regards,<br><strong>The Destination Kolkata Team</strong></p>
             </div>
 
             <div class="footer">
-              <p>This is an automated email. Please do not reply with sensitive information. For support, visit our website.</p>
+              <p><strong>Destination Kolkata</strong> - Discover the Heart of Bengal</p>
+              <p>This invitation is exclusively for ${data.businessName}. For support, contact us at support@destinationkolkata.com</p>
               <p>&copy; ${new Date().getFullYear()} Destination Kolkata. All rights reserved.</p>
             </div>
-          </div>
-        </div>
+                </div>
+              </div>
+            </td>
+          </tr>
+        </table>
       </body>
     </html>
   `;

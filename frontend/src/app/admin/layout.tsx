@@ -135,6 +135,12 @@ const navigation = [
     icon: MessageCircle,
     children: [
       {
+        name: 'Email Marketing',
+        href: '/admin/email-marketing',
+        icon: Mail,
+        description: 'Send onboarding invitations to businesses'
+      },
+      {
         name: 'Reviews',
         href: '/admin/reviews',
         icon: MessageSquare,
