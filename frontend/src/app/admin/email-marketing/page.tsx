@@ -241,6 +241,18 @@ export default function EmailMarketingPage() {
     a.click()
   }
 
+  // Calculate recipient count based on selected listing type
+  const getRecipientCount = () => {
+    if (!stats) return 0
+    
+    if (formData.listingType === 'all') {
+      return stats.withEmail
+    }
+    
+    const category = formData.listingType + 's' // e.g., 'hotel' -> 'hotels'
+    return stats.breakdown[category]?.withEmail || 0
+  }
+
   return (
     <div className="space-y-6">
       {/* Header */}
@@ -493,7 +505,7 @@ export default function EmailMarketingPage() {
               ) : (
                 <>
                   <Send className="h-4 w-4 mr-2" />
-                  Send to {stats?.withEmail || 0} Recipients
+                  Send to {getRecipientCount()} Recipients
                 </>
               )}
             </Button>
@@ -585,7 +597,7 @@ export default function EmailMarketingPage() {
 
       {/* Preview Dialog */}
       <Dialog open={previewOpen} onOpenChange={setPreviewOpen}>
-        <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto">
+        <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto bg-white">
           <DialogHeader>
             <DialogTitle>Email Preview</DialogTitle>
             <DialogDescription>

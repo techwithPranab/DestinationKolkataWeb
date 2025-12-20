@@ -69,6 +69,67 @@ const uploadToCloudinary = (buffer: Buffer, folder: string, publicId?: string): 
   });
 };
 
+// POST /api/upload - Upload single image (default route for compatibility)
+router.post('/', auth, upload.single('file'), async (req: Request, res: Response) => {
+  try {
+    const user = (req as any).user;
+
+    if (!req.file) {
+      return res.status(400).json({
+        success: false,
+        message: 'No image file provided'
+      });
+    }
+
+    const { folder = 'general' } = req.body;
+
+    // Validate folder name
+    const allowedFolders = [
+      'general',
+      'hotels',
+      'restaurants',
+      'attractions',
+      'events',
+      'sports',
+      'travel',
+      'profiles',
+      'reviews',
+      'promotions'
+    ];
+
+    const baseFolderName = folder.split('/')[0];
+    if (!allowedFolders.includes(baseFolderName)) {
+      return res.status(400).json({
+        success: false,
+        message: 'Invalid folder name'
+      });
+    }
+
+    // Generate unique public ID
+    const timestamp = Date.now();
+    const publicId = `${user.userId}_${timestamp}`;
+
+    const result = await uploadToCloudinary(req.file.buffer, folder, publicId);
+
+    res.json({
+      url: result.secure_url,
+      public_id: result.public_id,
+      width: result.width,
+      height: result.height,
+      format: result.format,
+      bytes: result.bytes
+    });
+
+  } catch (error) {
+    console.error('Error uploading image:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Error uploading image',
+      error: process.env.NODE_ENV === 'development' ? error : {}
+    });
+  }
+});
+
 // POST /api/upload/single - Upload single image
 router.post('/single', auth, upload.single('image'), async (req: Request, res: Response) => {
   try {

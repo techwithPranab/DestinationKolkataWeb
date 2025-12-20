@@ -1,10 +1,8 @@
-#!/usr/bin/env node
-
 import 'dotenv/config'
 import fs from 'fs'
 import path from 'path'
-import mongoose from 'mongoose'
 import { fileURLToPath } from 'url'
+import mongoose from 'mongoose'
 import axios from 'axios'
 import * as cheerio from 'cheerio'
 import { Hotel, Restaurant, Attraction, Event, Promotion, Sports } from '../src/models/index.js'
@@ -60,7 +58,7 @@ interface DataIngestionStats {
   timestamp: Date
 }
 
-class DataIngestionManager {
+export class DataIngestionManager {
   private readonly overpassUrl = 'https://overpass-api.de/api/interpreter'
   private readonly outputDir = DATA_DIR
   private stats: DataIngestionStats

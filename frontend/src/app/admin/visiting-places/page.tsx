@@ -147,10 +147,10 @@ export default function VisitingPlacesAdmin() {
       const response = await fetchAuthenticatedAPI(`/api/attractions?${params}`)
       const data = await response.json()
       
-      setPlaces(data.places || [])
-      setTotalPlaces(data.pagination?.total || 0)
+      setPlaces(data.data || [])
+      setTotalPlaces(data.pagination?.totalItems || 0)
       setTotalPages(data.pagination?.totalPages || 1)
-      setCurrentPage(data.pagination?.page || 1)
+      setCurrentPage(data.pagination?.currentPage || 1)
     } catch (error) {
       console.error('Error fetching places:', error)
     } finally {
@@ -164,13 +164,13 @@ export default function VisitingPlacesAdmin() {
       const response = await fetchAuthenticatedAPI('/api/attractions?status=all&page=1&limit=10000')
       const data = await response.json()
       
-      const places = data.places || []
+      const places = data.data || []
       const activeCount = places.filter((p: VisitingPlace) => p.status === 'active').length
       const pendingCount = places.filter((p: VisitingPlace) => p.status === 'pending').length
       const inactiveCount = places.filter((p: VisitingPlace) => p.status === 'inactive').length
       
       setOverallStats({
-        total: data.pagination?.total || places.length,
+        total: data.pagination?.totalItems || places.length,
         active: activeCount,
         pending: pendingCount,
         inactive: inactiveCount

@@ -366,10 +366,13 @@ export default function PromotionsAdmin() {
         </div>
         <Dialog open={isAddModalOpen} onOpenChange={setIsAddModalOpen}>
           <DialogTrigger asChild>
-            <Button onClick={() => {
-              resetForm()
-              setEditingPromotion(null)
-            }}>
+            <Button 
+              onClick={() => {
+                resetForm()
+                setEditingPromotion(null)
+              }}
+              className="bg-orange-500 hover:bg-orange-600 text-white"
+            >
               <Plus className="h-4 w-4 mr-2" />
               Add Promotion
             </Button>

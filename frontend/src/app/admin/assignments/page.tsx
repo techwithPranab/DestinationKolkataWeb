@@ -401,7 +401,7 @@ export default function AdminAssignmentsPage() {
                               <h3 className="font-semibold text-gray-900 truncate">{submission.title}</h3>
                               <p className="text-sm text-gray-500 capitalize">{submission.type}</p>
                               <p className="text-xs text-gray-400 mt-1">
-                                Created: {new Date(submission.createdAt).toLocaleDateString()}
+                                Created: {submission.createdAt ? new Date(submission.createdAt).toLocaleDateString() : 'N/A'}
                               </p>
                             </div>
                           </div>
@@ -499,7 +499,7 @@ export default function AdminAssignmentsPage() {
                                   Ingested Data
                                 </Badge>
                                 <p className="text-xs text-gray-400">
-                                  Created: {new Date(resource.createdAt).toLocaleDateString()}
+                                  Created: {resource.createdAt ? new Date(resource.createdAt).toLocaleDateString() : 'N/A'}
                                 </p>
                               </div>
                             </div>
