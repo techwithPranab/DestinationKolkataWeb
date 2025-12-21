@@ -68,8 +68,8 @@ export default function UsersAdmin() {
   const [users, setUsers] = useState<User[]>([])
   const [loading, setLoading] = useState(true)
   const [searchTerm, setSearchTerm] = useState('')
-  const [filterRole, setFilterRole] = useState('')
-  const [filterStatus, setFilterStatus] = useState('')
+  const [filterRole, setFilterRole] = useState('all')
+  const [filterStatus, setFilterStatus] = useState('all')
   const [isAddModalOpen, setIsAddModalOpen] = useState(false)
   const [editingUser, setEditingUser] = useState<User | null>(null)
   const [formData, setFormData] = useState({
@@ -178,8 +178,8 @@ export default function UsersAdmin() {
       phone: user.phone,
       role: user.role,
       status: user.status,
-      bio: user.profile.bio,
-      preferences: user.profile.preferences
+      bio: user.profile?.bio || '',
+      preferences: user.profile?.preferences || []
     })
     setIsAddModalOpen(true)
   }
@@ -189,8 +189,8 @@ export default function UsersAdmin() {
       name: '',
       email: '',
       phone: '',
-      role: 'Customer',
-      status: 'Active',
+      role: 'customer',
+      status: 'active',
       bio: '',
       preferences: []
     })
@@ -222,11 +222,11 @@ export default function UsersAdmin() {
 
   const getStatusColor = (status: string) => {
     switch (status) {
-      case 'Active':
+      case 'active':
         return 'bg-green-100 text-green-800'
-      case 'Inactive':
+      case 'inactive':
         return 'bg-gray-100 text-gray-800'
-      case 'Suspended':
+      case 'suspended':
         return 'bg-red-100 text-red-800'
       default:
         return 'bg-gray-100 text-gray-800'
@@ -318,12 +318,12 @@ export default function UsersAdmin() {
                   <Label htmlFor="role">Role</Label>
                   <Select value={formData.role} onValueChange={(value) => setFormData({ ...formData, role: value })}>
                     <SelectTrigger className="bg-white text-black">
-                      <SelectValue />
+                      <SelectValue placeholder="Select role" />
                     </SelectTrigger>
                     <SelectContent className='bg-white'>
-                      <SelectItem value="Admin">Admin</SelectItem>
-                      <SelectItem value="Customer">Customer</SelectItem>
-                      <SelectItem value="Moderator">Moderator</SelectItem>
+                      <SelectItem value="admin">Admin</SelectItem>
+                      <SelectItem value="customer">Customer</SelectItem>
+                      <SelectItem value="moderator">Moderator</SelectItem>
                     </SelectContent>
                   </Select>
                 </div>
@@ -334,12 +334,12 @@ export default function UsersAdmin() {
                   <Label htmlFor="status">Status</Label>
                   <Select value={formData.status} onValueChange={(value) => setFormData({ ...formData, status: value })}>
                     <SelectTrigger className="bg-white text-black">
-                      <SelectValue />
+                      <SelectValue placeholder="Select status" />
                     </SelectTrigger>
                     <SelectContent className='bg-white'>
-                      <SelectItem value="Active">Active</SelectItem>
-                      <SelectItem value="Inactive">Inactive</SelectItem>
-                      <SelectItem value="Suspended">Suspended</SelectItem>
+                      <SelectItem value="active">Active</SelectItem>
+                      <SelectItem value="inactive">Inactive</SelectItem>
+                      <SelectItem value="suspended">Suspended</SelectItem>
                     </SelectContent>
                   </Select>
                 </div>
@@ -390,9 +390,9 @@ export default function UsersAdmin() {
               </SelectTrigger>
               <SelectContent className='bg-white'>
                 <SelectItem value="all">All Roles</SelectItem>
-                <SelectItem value="Admin">Admin</SelectItem>
-                <SelectItem value="Customer">Customer</SelectItem>
-                <SelectItem value="Moderator">Moderator</SelectItem>
+                <SelectItem value="admin">Admin</SelectItem>
+                <SelectItem value="customer">Customer</SelectItem>
+                <SelectItem value="moderator">Moderator</SelectItem>
               </SelectContent>
             </Select>
             <Select value={filterStatus} onValueChange={handleStatusFilterChange}>
@@ -401,9 +401,9 @@ export default function UsersAdmin() {
               </SelectTrigger>
               <SelectContent className='bg-white'>
                 <SelectItem value="all">All Status</SelectItem>
-                <SelectItem value="Active">Active</SelectItem>
-                <SelectItem value="Inactive">Inactive</SelectItem>
-                <SelectItem value="Suspended">Suspended</SelectItem>
+                <SelectItem value="active">Active</SelectItem>
+                <SelectItem value="inactive">Inactive</SelectItem>
+                <SelectItem value="suspended">Suspended</SelectItem>
               </SelectContent>
             </Select>
           </div>
@@ -495,23 +495,26 @@ export default function UsersAdmin() {
                       {user.lastLogin ? formatDate(user.lastLogin) : 'Never'}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                      <DropdownMenu>
-                        <DropdownMenuTrigger asChild>
-                          <Button variant="ghost" className="h-8 w-8 p-0">
-                            <MoreHorizontal className="h-4 w-4" />
-                          </Button>
-                        </DropdownMenuTrigger>
-                        <DropdownMenuContent align="end">
-                          <DropdownMenuItem onClick={() => handleEdit(user)}>
-                            <Edit className="mr-2 h-4 w-4" />
-                            Edit
-                          </DropdownMenuItem>
-                          <DropdownMenuItem onClick={() => handleDelete(user._id)}>
-                            <Trash2 className="mr-2 h-4 w-4" />
-                            Delete
-                          </DropdownMenuItem>
-                        </DropdownMenuContent>
-                      </DropdownMenu>
+                      <div className="flex items-center gap-2">
+                        <Button 
+                          variant="ghost" 
+                          size="sm"
+                          onClick={() => handleEdit(user)}
+                          className="h-8 w-8 p-0 hover:bg-blue-50 hover:text-blue-600"
+                          title="Edit User"
+                        >
+                          <Edit className="h-4 w-4" />
+                        </Button>
+                        <Button 
+                          variant="ghost" 
+                          size="sm"
+                          onClick={() => handleDelete(user._id)}
+                          className="h-8 w-8 p-0 hover:bg-red-50 hover:text-red-600"
+                          title="Delete User"
+                        >
+                          <Trash2 className="h-4 w-4" />
+                        </Button>
+                      </div>
                     </td>
                   </tr>
                 ))}

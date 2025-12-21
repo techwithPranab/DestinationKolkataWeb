@@ -97,6 +97,12 @@ const navigation = [
         href: '/admin/data-ingestion',
         icon: Database,
         description: 'Import data from external sources'
+      },
+      {
+        name: 'Ingestion History',
+        href: '/admin/data-ingestion-history',
+        icon: Database,
+        description: 'View data ingestion history'
       }
     ]
   },

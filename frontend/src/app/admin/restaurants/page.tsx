@@ -234,7 +234,7 @@ export default function RestaurantsAdmin() {
         }
       },
       features: formData.features,
-      images: formData.images.map(img => img.url),
+      images: formData.images, // Send full image objects with url, alt, isPrimary
       status: formData.status
     }
 
@@ -254,14 +254,20 @@ export default function RestaurantsAdmin() {
       })
 
       if (response.ok) {
+        const result = await response.json()
         await fetchRestaurants()
         await fetchOverallStats()
         resetForm()
         setIsAddModalOpen(false)
         setEditingRestaurant(null)
+        alert(editingRestaurant ? 'Restaurant updated successfully!' : 'Restaurant created successfully!')
+      } else {
+        const errorData = await response.json()
+        alert(`Failed to save restaurant: ${errorData.message || 'Unknown error'}`)
       }
     } catch (error) {
       console.error('Error saving restaurant:', error)
+      alert(`Error saving restaurant: ${error instanceof Error ? error.message : 'Network error'}`)
     }
   }
 
@@ -274,9 +280,14 @@ export default function RestaurantsAdmin() {
         if (response.ok) {
           await fetchRestaurants()
           await fetchOverallStats()
+          alert('Restaurant deleted successfully!')
+        } else {
+          const errorData = await response.json()
+          alert(`Failed to delete restaurant: ${errorData.message || 'Unknown error'}`)
         }
       } catch (error) {
         console.error('Error deleting restaurant:', error)
+        alert(`Error deleting restaurant: ${error instanceof Error ? error.message : 'Network error'}`)
       }
     }
   }
@@ -377,7 +388,7 @@ export default function RestaurantsAdmin() {
             <form onSubmit={handleSubmit} className="space-y-4">
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <Label htmlFor="name">Restaurant Name</Label>
+                  <Label htmlFor="name">Restaurant Name *</Label>
                   <Input
                     id="name"
                     value={formData.name}
@@ -402,7 +413,7 @@ export default function RestaurantsAdmin() {
               </div>
 
               <div>
-                <Label htmlFor="description">Description</Label>
+                <Label htmlFor="description">Description *</Label>
                 <Textarea
                   id="description"
                   value={formData.description}
@@ -413,7 +424,7 @@ export default function RestaurantsAdmin() {
 
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <Label htmlFor="phone">Phone</Label>
+                  <Label htmlFor="phone">Phone *</Label>
                   <Input
                     id="phone"
                     value={formData.phone}
@@ -423,7 +434,7 @@ export default function RestaurantsAdmin() {
                   />
                 </div>
                 <div>
-                  <Label htmlFor="email">Email</Label>
+                  <Label htmlFor="email">Email *</Label>
                   <Input
                     id="email"
                     type="email"
@@ -476,7 +487,7 @@ export default function RestaurantsAdmin() {
 
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <Label htmlFor="openTime">Opening Time</Label>
+                  <Label htmlFor="openTime">Opening Time *</Label>
                   <Input
                     id="openTime"
                     type="time"
@@ -487,7 +498,7 @@ export default function RestaurantsAdmin() {
                   />
                 </div>
                 <div>
-                  <Label htmlFor="closeTime">Closing Time</Label>
+                  <Label htmlFor="closeTime">Closing Time *</Label>
                   <Input
                     id="closeTime"
                     type="time"

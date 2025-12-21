@@ -256,13 +256,19 @@ export default function HotelsAdmin() {
       })
 
       if (response.ok) {
+        const result = await response.json()
         await fetchHotels(currentPage)
         resetForm()
         setIsAddModalOpen(false)
         setEditingHotel(null)
+        alert(editingHotel ? 'Hotel updated successfully!' : 'Hotel created successfully!')
+      } else {
+        const errorData = await response.json()
+        alert(`Failed to save hotel: ${errorData.message || 'Unknown error'}`)
       }
     } catch (error) {
       console.error('Error saving hotel:', error)
+      alert(`Error saving hotel: ${error instanceof Error ? error.message : 'Network error'}`)
     }
   }
 
@@ -274,9 +280,14 @@ export default function HotelsAdmin() {
         })
         if (response.ok) {
           await fetchHotels(currentPage)
+          alert('Hotel deleted successfully!')
+        } else {
+          const errorData = await response.json()
+          alert(`Failed to delete hotel: ${errorData.message || 'Unknown error'}`)
         }
       } catch (error) {
         console.error('Error deleting hotel:', error)
+        alert(`Error deleting hotel: ${error instanceof Error ? error.message : 'Network error'}`)
       }
     }
   }
@@ -441,7 +452,7 @@ export default function HotelsAdmin() {
               </div>
 
               <div>
-                <Label htmlFor="name">Hotel Name</Label>
+                <Label htmlFor="name">Hotel Name *</Label>
                 <Input
                   id="name"
                   value={formData.name}
@@ -452,7 +463,7 @@ export default function HotelsAdmin() {
               </div>
 
               <div>
-                <Label htmlFor="description">Description</Label>
+                <Label htmlFor="description">Description *</Label>
                 <Textarea
                   id="description"
                   value={formData.description}
@@ -524,7 +535,7 @@ export default function HotelsAdmin() {
 
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <Label htmlFor="phone">Phone</Label>
+                  <Label htmlFor="phone">Phone *</Label>
                   <Input
                     id="phone"
                     value={formData.phone}
@@ -534,7 +545,7 @@ export default function HotelsAdmin() {
                   />
                 </div>
                 <div>
-                  <Label htmlFor="email">Email</Label>
+                  <Label htmlFor="email">Email *</Label>
                   <Input
                     id="email"
                     type="email"
@@ -592,7 +603,7 @@ export default function HotelsAdmin() {
 
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <Label htmlFor="priceMin">Price Range (Min)</Label>
+                  <Label htmlFor="priceMin">Price Range (Min) *</Label>
                   <Input
                     id="priceMin"
                     type="number"
@@ -610,7 +621,7 @@ export default function HotelsAdmin() {
                   />
                 </div>
                 <div>
-                  <Label htmlFor="priceMax">Price Range (Max)</Label>
+                  <Label htmlFor="priceMax">Price Range (Max) *</Label>
                   <Input
                     id="priceMax"
                     type="number"
@@ -631,7 +642,7 @@ export default function HotelsAdmin() {
 
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <Label htmlFor="checkIn">Check-in Time</Label>
+                  <Label htmlFor="checkIn">Check-in Time *</Label>
                   <Input
                     id="checkIn"
                     type="time"
@@ -642,7 +653,7 @@ export default function HotelsAdmin() {
                   />
                 </div>
                 <div>
-                  <Label htmlFor="checkOut">Check-out Time</Label>
+                  <Label htmlFor="checkOut">Check-out Time *</Label>
                   <Input
                     id="checkOut"
                     type="time"

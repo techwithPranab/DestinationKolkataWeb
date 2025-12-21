@@ -102,22 +102,42 @@ export class DataIngestionManager {
   }
 
   /**
-   * Fetch data from Overpass API
+   * Fetch data from Overpass API with retry logic
    */
-  async fetchFromOverpass(query: string): Promise<OSMResponse> {
-    try {
-      console.log('📡 Fetching data from Overpass API...')
-      const response = await axios.post(this.overpassUrl, query, {
-        headers: {
-          'Content-Type': 'text/plain'
-        },
-        timeout: 30000
-      })
-      return response.data
-    } catch (error) {
-      console.error('❌ Error fetching from Overpass API:', error)
-      throw error
+  async fetchFromOverpass(query: string, maxRetries: number = 2): Promise<OSMResponse> {
+    let lastError: any
+
+    for (let attempt = 1; attempt <= maxRetries; attempt++) {
+      try {
+        console.log(`📡 Fetching data from Overpass API... (attempt ${attempt}/${maxRetries})`)
+        const response = await axios.post(this.overpassUrl, query, {
+          headers: {
+            'Content-Type': 'text/plain'
+          },
+          timeout: 90000 // Increased to 90 seconds for complex queries
+        })
+        return response.data
+      } catch (error: any) {
+        lastError = error
+        console.error(`❌ Attempt ${attempt} failed:`, error.message)
+
+        if (error.response?.status === 504 || error.code === 'ECONNABORTED') {
+          if (attempt < maxRetries) {
+            const delay = Math.min(5000 * attempt, 30000) // Longer delays: 5s, 10s, max 30s
+            console.log(`⏳ Retrying in ${delay}ms...`)
+            await this.sleep(delay)
+            continue
+          }
+        }
+
+        // For other errors, don't retry
+        break
+      }
     }
+
+    console.error('❌ All retry attempts failed. Using sample data as fallback.')
+    // Return empty data structure as fallback
+    return { elements: [] }
   }
 
   /**

@@ -34,7 +34,7 @@ export default function ReportPage() {
     setErrorMessage('')
 
     try {
-      const response = await fetchAPI('/api/report', {
+      const response = await fetchAPI('/api/report/public', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

@@ -87,13 +87,32 @@ export default function ImageUpload({
         const fullFolder = subfolder ? folder + '/' + subfolder : folder
         formData.append('folder', fullFolder)
 
+        // Get authentication token
+        const token = localStorage.getItem('adminToken') || localStorage.getItem('authToken')
+        
+        const headers: HeadersInit = {}
+        if (token) {
+          headers['Authorization'] = `Bearer ${token}`
+        }
+
         const response = await fetch((process.env.NEXT_PUBLIC_BACKEND_URL || 'http://localhost:5000') + '/api/upload', {
           method: 'POST',
+          headers,
           body: formData,
         })
 
         if (!response.ok) {
-          throw new Error('Failed to upload ' + file.name)
+          let errorMessage = `Failed to upload ${file.name}`;
+          try {
+            const errorData = await response.json();
+            if (errorData.message) {
+              errorMessage = errorData.message;
+            }
+          } catch (e) {
+            // If we can't parse the error response, use the status text
+            errorMessage = `Failed to upload ${file.name}: ${response.status} ${response.statusText}`;
+          }
+          throw new Error(errorMessage);
         }
 
         const result: UploadedImage = await response.json()
@@ -108,7 +127,8 @@ export default function ImageUpload({
       }
     } catch (error) {
       console.error('Upload error:', error)
-      alert('Failed to upload image. Please try again.')
+      const errorMessage = error instanceof Error ? error.message : 'Failed to upload image. Please try again.'
+      alert(errorMessage)
     } finally {
       setUploading(false)
     }

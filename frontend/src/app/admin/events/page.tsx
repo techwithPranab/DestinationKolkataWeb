@@ -228,8 +228,8 @@ export default function EventsAdmin() {
 
     try {
       const url = editingEvent 
-        ? `/api/admin/events/${editingEvent._id}`
-        : `/api/admin/events`
+        ? `/api/events/${editingEvent._id}`
+        : `/api/events`
       
       const method = editingEvent ? 'PUT' : 'POST'
       

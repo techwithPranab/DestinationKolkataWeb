@@ -2,7 +2,7 @@ import { Router, Request, Response } from 'express';
 import mongoose from 'mongoose';
 import dbConnect from '../lib/db';
 import { Hotel } from '../models';
-import { optionalAuth, requireAdmin } from '../middleware/auth';
+import { authenticateToken, optionalAuth, requireAdmin, requireCustomerOrAdmin, requireOwnership } from '../middleware/auth';
 import { PipelineStage } from 'mongoose';
 
 const router = Router();
@@ -284,11 +284,13 @@ router.get('/', optionalAuth, async (req: Request, res: Response) => {
 });
 
 // POST /api/hotels - Create new hotel
-router.post('/', requireAdmin, async (req: Request, res: Response) => {
+// POST /api/hotels - Create new hotel
+router.post('/', authenticateToken, requireCustomerOrAdmin, async (req: Request, res: Response) => {
   try {
     await dbConnect();
     
     const body = req.body;
+    const user = (req as any).user;
     
     // Validate required fields
     const requiredFields = ['name', 'description', 'location', 'priceRange', 'category'];
@@ -301,9 +303,10 @@ router.post('/', requireAdmin, async (req: Request, res: Response) => {
       });
     }
 
-    // Create new hotel
+    // Create new hotel with createdBy field
     const hotel = new Hotel({
       ...body,
+      createdBy: user?.userId, // Track who created this listing
       status: 'pending', // Requires approval
       createdAt: new Date(),
       updatedAt: new Date()
@@ -321,6 +324,93 @@ router.post('/', requireAdmin, async (req: Request, res: Response) => {
     res.status(400).json({
       success: false,
       message: 'Failed to create hotel',
+      error: process.env.NODE_ENV === 'development' ? error : undefined
+    });
+  }
+});
+
+// PUT /api/hotels/:id - Update hotel
+router.put('/:id', authenticateToken, requireCustomerOrAdmin, requireOwnership(Hotel, 'id'), async (req: Request, res: Response) => {
+  try {
+    await dbConnect();
+
+    const { id } = req.params;
+    const body = req.body;
+
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+      return res.status(400).json({
+        success: false,
+        message: 'Invalid hotel ID'
+      });
+    }
+
+    // Handle images field - convert string URL to proper image object format if needed
+    let updateData = { ...body, updatedAt: new Date() };
+    if (body.images && typeof body.images === 'string') {
+      // If images is a string URL, convert to array format
+      updateData.images = [{ url: body.images, alt: body.name || 'Hotel image', isPrimary: true }];
+    }
+
+    const hotel = await Hotel.findByIdAndUpdate(
+      id,
+      updateData,
+      { new: true, runValidators: true }
+    );
+
+    if (!hotel) {
+      return res.status(404).json({
+        success: false,
+        message: 'Hotel not found'
+      });
+    }
+
+    res.status(200).json({
+      success: true,
+      data: hotel,
+      message: 'Hotel updated successfully'
+    });
+  } catch (error) {
+    console.error('Error updating hotel:', error);
+    res.status(400).json({
+      success: false,
+      message: 'Failed to update hotel',
+      error: process.env.NODE_ENV === 'development' ? error : undefined
+    });
+  }
+});
+
+// DELETE /api/hotels/:id - Delete hotel
+router.delete('/:id', authenticateToken, requireCustomerOrAdmin, requireOwnership(Hotel, 'id'), async (req: Request, res: Response) => {
+  try {
+    await dbConnect();
+    
+    const { id } = req.params;
+    
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+      return res.status(400).json({
+        success: false,
+        message: 'Invalid hotel ID'
+      });
+    }
+
+    const hotel = await Hotel.findByIdAndDelete(id);
+
+    if (!hotel) {
+      return res.status(404).json({
+        success: false,
+        message: 'Hotel not found'
+      });
+    }
+
+    res.status(200).json({
+      success: true,
+      message: 'Hotel deleted successfully'
+    });
+  } catch (error) {
+    console.error('Error deleting hotel:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Failed to delete hotel',
       error: process.env.NODE_ENV === 'development' ? error : undefined
     });
   }

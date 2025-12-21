@@ -362,15 +362,18 @@ router.post('/', async (req: Request, res: Response) => {
       });
     }
 
+    // Normalize type to lowercase to match enum values
+    const normalizedType = type.toLowerCase();
+
     const feedback = new Feedback({
-      type,
+      type: normalizedType,
       subject,
       message,
       email,
       rating,
       likes: Array.isArray(likes) ? likes : [],
       dislikes: Array.isArray(dislikes) ? dislikes : [],
-      category: category || 'General',
+      category: category || 'website',
       status: 'new',
       priority: 'medium',
       viewCount: 0

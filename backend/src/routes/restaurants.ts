@@ -2,7 +2,7 @@ import { Router, Request, Response } from 'express';
 import mongoose from 'mongoose';
 import dbConnect from '../lib/db';
 import { Restaurant } from '../models';
-import { optionalAuth, requireAdmin } from '../middleware/auth';
+import { authenticateToken, optionalAuth, requireAdmin, requireCustomerOrAdmin, requireOwnership } from '../middleware/auth';
 import { PipelineStage } from 'mongoose';
 
 const router = Router();
@@ -275,11 +275,13 @@ router.get('/', optionalAuth, async (req: Request, res: Response) => {
 });
 
 // POST /api/restaurants - Create new restaurant
-router.post('/', requireAdmin, async (req: Request, res: Response) => {
+// POST /api/restaurants - Create new restaurant
+router.post('/', authenticateToken, requireCustomerOrAdmin, async (req: Request, res: Response) => {
   try {
     await dbConnect();
     
     const body = req.body;
+    const user = (req as any).user;
     
     // Validate required fields
     const requiredFields = ['name', 'description', 'location', 'cuisine'];
@@ -292,9 +294,10 @@ router.post('/', requireAdmin, async (req: Request, res: Response) => {
       });
     }
 
-    // Create new restaurant
+    // Create new restaurant with createdBy field
     const restaurant = new Restaurant({
       ...body,
+      createdBy: user?.userId, // Track who created this listing
       status: 'pending',
       createdAt: new Date(),
       updatedAt: new Date()
@@ -312,6 +315,111 @@ router.post('/', requireAdmin, async (req: Request, res: Response) => {
     res.status(400).json({
       success: false,
       message: 'Failed to create restaurant',
+      error: process.env.NODE_ENV === 'development' ? error : undefined
+    });
+  }
+});
+
+// PUT /api/restaurants/:id - Update restaurant
+router.put('/:id', authenticateToken, requireCustomerOrAdmin, requireOwnership(Restaurant, 'id'), async (req: Request, res: Response) => {
+  try {
+    await dbConnect();
+
+    const { id } = req.params;
+    const body = req.body;
+
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+      return res.status(400).json({
+        success: false,
+        message: 'Invalid restaurant ID'
+      });
+    }
+
+    // Handle images field - convert string URL to proper image object format if needed
+    let updateData = { ...body, updatedAt: new Date() };
+    
+    // Debug logging
+    console.log('Update request body.images type:', typeof body.images);
+    console.log('Update request body.images value:', JSON.stringify(body.images));
+    
+    if (body.images) {
+      if (typeof body.images === 'string') {
+        // If images is a string URL, convert to array format
+        updateData.images = [{ url: body.images, alt: body.name || 'Restaurant image', isPrimary: true }];
+      } else if (Array.isArray(body.images)) {
+        // Check if it's an array of strings or objects
+        if (body.images.length > 0 && typeof body.images[0] === 'string') {
+          // Array of string URLs - convert each to object
+          updateData.images = body.images.map((url: string, index: number) => ({
+            url,
+            alt: body.name || 'Restaurant image',
+            isPrimary: index === 0
+          }));
+        }
+        // If already array of objects, it will be used as-is
+      }
+    }
+
+    const restaurant = await Restaurant.findByIdAndUpdate(
+      id,
+      updateData,
+      { new: true, runValidators: true }
+    );
+
+    if (!restaurant) {
+      return res.status(404).json({
+        success: false,
+        message: 'Restaurant not found'
+      });
+    }
+
+    res.status(200).json({
+      success: true,
+      data: restaurant,
+      message: 'Restaurant updated successfully'
+    });
+  } catch (error) {
+    console.error('Error updating restaurant:', error);
+    res.status(400).json({
+      success: false,
+      message: 'Failed to update restaurant',
+      error: process.env.NODE_ENV === 'development' ? error : undefined
+    });
+  }
+});
+
+// DELETE /api/restaurants/:id - Delete restaurant
+router.delete('/:id', authenticateToken, requireCustomerOrAdmin, requireOwnership(Restaurant, 'id'), async (req: Request, res: Response) => {
+  try {
+    await dbConnect();
+    
+    const { id } = req.params;
+    
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+      return res.status(400).json({
+        success: false,
+        message: 'Invalid restaurant ID'
+      });
+    }
+
+    const restaurant = await Restaurant.findByIdAndDelete(id);
+
+    if (!restaurant) {
+      return res.status(404).json({
+        success: false,
+        message: 'Restaurant not found'
+      });
+    }
+
+    res.status(200).json({
+      success: true,
+      message: 'Restaurant deleted successfully'
+    });
+  } catch (error) {
+    console.error('Error deleting restaurant:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Failed to delete restaurant',
       error: process.env.NODE_ENV === 'development' ? error : undefined
     });
   }

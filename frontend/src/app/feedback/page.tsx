@@ -40,12 +40,31 @@ export default function FeedbackPage() {
     setErrorMessage('')
 
     try {
+      // Map feedbackType to type for backend compatibility
+      const submissionData: {
+        type: string;
+        subject: string;
+        message: string;
+        email: string;
+        rating?: number;
+      } = {
+        type: formData.feedbackType,
+        subject: formData.subject,
+        message: formData.message,
+        email: formData.email
+      }
+
+      // Only include rating if it's greater than 0
+      if (formData.rating > 0) {
+        submissionData.rating = formData.rating
+      }
+
       const response = await fetchAPI('/api/feedback', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(formData),
+        body: JSON.stringify(submissionData),
       })
 
       if (response.ok) {

@@ -56,7 +56,7 @@ interface ReportIssue {
   description: string
   evidence?: string
   email?: string
-  status: 'new' | 'investigating' | 'resolved' | 'dismissed'
+  status: 'open' | 'investigating' | 'resolved' | 'closed'
   priority: 'low' | 'medium' | 'high' | 'urgent'
   category: string
   createdAt: string
@@ -99,10 +99,10 @@ const severityOptions = [
 ]
 
 const statusOptions = [
-  { value: 'new', label: 'New', color: 'bg-blue-100 text-blue-800' },
+  { value: 'open', label: 'Open', color: 'bg-blue-100 text-blue-800' },
   { value: 'investigating', label: 'Investigating', color: 'bg-purple-100 text-purple-800' },
   { value: 'resolved', label: 'Resolved', color: 'bg-green-100 text-green-800' },
-  { value: 'dismissed', label: 'Dismissed', color: 'bg-red-100 text-red-800' }
+  { value: 'closed', label: 'Closed', color: 'bg-red-100 text-red-800' }
 ]
 
 const priorityOptions = [
@@ -278,9 +278,9 @@ export default function ReportIssuesAdmin() {
           <CardContent className="p-6">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm font-medium text-gray-600">New</p>
+                <p className="text-sm font-medium text-gray-600">Open</p>
                 <p className="text-2xl font-bold text-blue-600">
-                  {issues.filter(i => i.status === 'new').length}
+                  {issues.filter(i => i.status === 'open').length}
                 </p>
               </div>
               <div className="h-8 w-8 bg-blue-100 rounded-full flex items-center justify-center">
@@ -466,23 +466,26 @@ export default function ReportIssuesAdmin() {
                           </div>
                         </TableCell>
                         <TableCell>
-                          <DropdownMenu>
-                            <DropdownMenuTrigger asChild>
-                              <Button variant="ghost" size="sm">
-                                <MoreHorizontal className="h-4 w-4" />
-                              </Button>
-                            </DropdownMenuTrigger>
-                            <DropdownMenuContent align="end">
-                              <DropdownMenuItem onClick={() => handleViewIssue(item)}>
-                                <Eye className="h-4 w-4 mr-2" />
-                                View Details
-                              </DropdownMenuItem>
-                              <DropdownMenuItem onClick={() => handleUpdateIssue(item)}>
-                                <CheckCircle className="h-4 w-4 mr-2" />
-                                Update Status
-                              </DropdownMenuItem>
-                            </DropdownMenuContent>
-                          </DropdownMenu>
+                          <div className="flex items-center gap-2">
+                            <Button 
+                              variant="ghost" 
+                              size="sm"
+                              onClick={() => handleViewIssue(item)}
+                              className="h-8 w-8 p-0 hover:bg-blue-50 hover:text-blue-600"
+                              title="View Details"
+                            >
+                              <Eye className="h-4 w-4" />
+                            </Button>
+                            <Button 
+                              variant="ghost" 
+                              size="sm"
+                              onClick={() => handleUpdateIssue(item)}
+                              className="h-8 w-8 p-0 hover:bg-green-50 hover:text-green-600"
+                              title="Update Status"
+                            >
+                              <CheckCircle className="h-4 w-4" />
+                            </Button>
+                          </div>
                         </TableCell>
                       </TableRow>
                     ))
@@ -539,7 +542,7 @@ export default function ReportIssuesAdmin() {
 
       {/* View Issue Modal */}
       <Dialog open={isViewModalOpen} onOpenChange={setIsViewModalOpen}>
-        <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
+        <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto bg-white">
           <DialogHeader>
             <DialogTitle>Issue Details</DialogTitle>
             <DialogDescription>
@@ -660,7 +663,7 @@ export default function ReportIssuesAdmin() {
 
       {/* Update Issue Modal */}
       <Dialog open={isUpdateModalOpen} onOpenChange={setIsUpdateModalOpen}>
-        <DialogContent className="max-w-md">
+        <DialogContent className="max-w-md bg-white">
           <DialogHeader>
             <DialogTitle>Update Issue Status</DialogTitle>
             <DialogDescription>

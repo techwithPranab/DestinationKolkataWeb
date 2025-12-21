@@ -115,7 +115,11 @@ const sportsSchema = new Schema({
     count: { type: Number, default: 10 }
   },
   tags: [{ type: String }],
-  status: { type: String, default: 'active' },
+  status: { 
+    type: String, 
+    enum: ['pending', 'active', 'inactive', 'rejected'],
+    default: 'pending' 
+  },
   featured: { type: Boolean, default: false },
   promoted: { type: Boolean, default: false },
   osmId: { type: Number, sparse: true },

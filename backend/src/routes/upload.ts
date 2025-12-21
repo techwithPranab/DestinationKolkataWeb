@@ -83,7 +83,7 @@ router.post('/', auth, upload.single('file'), async (req: Request, res: Response
 
     const { folder = 'general' } = req.body;
 
-    // Validate folder name
+    // Validate folder name - support both simple folder names and full paths with 'destination-kolkata' prefix
     const allowedFolders = [
       'general',
       'hotels',
@@ -97,11 +97,15 @@ router.post('/', auth, upload.single('file'), async (req: Request, res: Response
       'promotions'
     ];
 
-    const baseFolderName = folder.split('/')[0];
+    // Handle both 'destination-kolkata/hotels' and 'hotels' formats
+    const baseFolderName = folder.includes('destination-kolkata/') 
+      ? folder.replace('destination-kolkata/', '').split('/')[0]
+      : folder.split('/')[0];
+      
     if (!allowedFolders.includes(baseFolderName)) {
       return res.status(400).json({
         success: false,
-        message: 'Invalid folder name'
+        message: `Invalid folder name: ${baseFolderName}. Allowed folders: ${allowedFolders.join(', ')}`
       });
     }
 

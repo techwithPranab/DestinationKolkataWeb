@@ -1,5 +1,5 @@
 import { Router, Request, Response } from 'express';
-import { authenticateToken as auth } from '../middleware/auth';
+import { authenticateToken as auth, requireCustomerOrAdmin, requireOwnership } from '../middleware/auth';
 import { Travel, TravelTip } from '../models';
 import mongoose from 'mongoose';
 
@@ -213,18 +213,15 @@ router.get('/:id', async (req: Request, res: Response) => {
 });
 
 // POST /api/travel - Create new travel information (admin only)
-router.post('/', auth, async (req: Request, res: Response) => {
+// POST /api/travel - Create new travel information
+router.post('/', auth, requireCustomerOrAdmin, async (req: Request, res: Response) => {
   try {
     const user = (req as any).user;
-    
-    if (user.role !== 'admin') {
-      return res.status(403).json({
-        success: false,
-        message: 'Access denied. Admin role required.'
-      });
-    }
 
-    const travelInfo = new Travel(req.body);
+    const travelInfo = new Travel({
+      ...req.body,
+      createdBy: user?.userId // Track who created this listing
+    });
     await travelInfo.save();
 
     res.status(201).json({
@@ -274,18 +271,12 @@ router.post('/tips', auth, async (req: Request, res: Response) => {
   }
 });
 
-// PUT /api/travel/:id - Update travel information (admin only)
-router.put('/:id', auth, async (req: Request, res: Response) => {
+// PUT /api/travel/:id - Update travel information
+router.put('/:id', auth, requireCustomerOrAdmin, requireOwnership(Travel, 'id'), async (req: Request, res: Response) => {
   try {
     const user = (req as any).user;
     const { id } = req.params;
-    
-    if (user.role !== 'admin') {
-      return res.status(403).json({
-        success: false,
-        message: 'Access denied. Admin role required.'
-      });
-    }
+    const body = req.body;
 
     if (!mongoose.Types.ObjectId.isValid(id)) {
       return res.status(400).json({
@@ -294,7 +285,14 @@ router.put('/:id', auth, async (req: Request, res: Response) => {
       });
     }
 
-    const travelInfo = await Travel.findByIdAndUpdate(id, req.body, {
+    // Handle images field - convert string URL to proper image object format if needed
+    let updateData = { ...body, updatedAt: new Date() };
+    if (body.images && typeof body.images === 'string') {
+      // If images is a string URL, convert to array format
+      updateData.images = [{ url: body.images, alt: body.name || 'Travel information image', isPrimary: true }];
+    }
+
+    const travelInfo = await Travel.findByIdAndUpdate(id, updateData, {
       new: true,
       runValidators: true
     });
@@ -323,17 +321,11 @@ router.put('/:id', auth, async (req: Request, res: Response) => {
 });
 
 // DELETE /api/travel/:id - Delete travel information (admin only)
-router.delete('/:id', auth, async (req: Request, res: Response) => {
+// DELETE /api/travel/:id - Delete travel information
+router.delete('/:id', auth, requireCustomerOrAdmin, requireOwnership(Travel, 'id'), async (req: Request, res: Response) => {
   try {
     const user = (req as any).user;
     const { id } = req.params;
-    
-    if (user.role !== 'admin') {
-      return res.status(403).json({
-        success: false,
-        message: 'Access denied. Admin role required.'
-      });
-    }
 
     if (!mongoose.Types.ObjectId.isValid(id)) {
       return res.status(400).json({

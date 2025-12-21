@@ -1,6 +1,7 @@
 import { Router, Request, Response } from 'express';
 import dbConnect from '../lib/db';
 import { Event } from '../models';
+import { authenticateToken, requireAdmin, requireCustomerOrAdmin, requireOwnership } from '../middleware/auth';
 
 const router = Router();
 
@@ -54,10 +55,15 @@ router.get('/', async (req: Request, res: Response) => {
 });
 
 // POST /api/events - Create new event
-router.post('/', async (req: Request, res: Response) => {
+router.post('/', authenticateToken, requireCustomerOrAdmin, async (req: Request, res: Response) => {
   try {
     await dbConnect();
-    const event = new Event(req.body);
+    const user = (req as any).user;
+    
+    const event = new Event({
+      ...req.body,
+      createdBy: user?.userId // Track who created this listing
+    });
     const savedEvent = await event.save();
     
     res.status(201).json({
@@ -95,6 +101,98 @@ router.get('/:id', async (req: Request, res: Response) => {
     res.status(500).json({
       success: false,
       message: 'Failed to fetch event'
+    });
+  }
+});
+
+// PUT /api/events/:id - Update an event
+router.put('/:id', authenticateToken, requireCustomerOrAdmin, requireOwnership(Event, 'id'), async (req: Request, res: Response) => {
+  try {
+    const { id } = req.params;
+    const body = req.body;
+
+    // Validate MongoDB ObjectId
+    if (!id.match(/^[0-9a-fA-F]{24}$/)) {
+      return res.status(400).json({
+        success: false,
+        message: 'Invalid event ID format'
+      });
+    }
+
+    await dbConnect();
+
+    // Handle images field - convert string URL to proper image object format if needed
+    let updateData = { ...body, updatedAt: new Date() };
+    if (body.images && typeof body.images === 'string') {
+      // If images is a string URL, convert to array format
+      updateData.images = [{ url: body.images, alt: body.name || 'Event image', isPrimary: true }];
+    }
+
+    // Update the event
+    const updatedEvent = await Event.findByIdAndUpdate(
+      id,
+      updateData,
+      { new: true, runValidators: true }
+    );
+
+    if (!updatedEvent) {
+      return res.status(404).json({
+        success: false,
+        message: 'Event not found'
+      });
+    }
+
+    res.status(200).json({
+      success: true,
+      message: 'Event updated successfully',
+      data: updatedEvent
+    });
+  } catch (error) {
+    console.error('Error updating event:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Failed to update event',
+      error: process.env.NODE_ENV === 'development' ? error : undefined
+    });
+  }
+});
+
+// DELETE /api/events/:id - Delete an event
+router.delete('/:id', authenticateToken, requireCustomerOrAdmin, requireOwnership(Event, 'id'), async (req: Request, res: Response) => {
+  try {
+    const { id } = req.params;
+
+    // Validate MongoDB ObjectId
+    if (!id.match(/^[0-9a-fA-F]{24}$/)) {
+      return res.status(400).json({
+        success: false,
+        message: 'Invalid event ID format'
+      });
+    }
+
+    await dbConnect();
+
+    // Delete the event
+    const deletedEvent = await Event.findByIdAndDelete(id);
+
+    if (!deletedEvent) {
+      return res.status(404).json({
+        success: false,
+        message: 'Event not found'
+      });
+    }
+
+    res.status(200).json({
+      success: true,
+      message: 'Event deleted successfully',
+      data: deletedEvent
+    });
+  } catch (error) {
+    console.error('Error deleting event:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Failed to delete event',
+      error: process.env.NODE_ENV === 'development' ? error : undefined
     });
   }
 });

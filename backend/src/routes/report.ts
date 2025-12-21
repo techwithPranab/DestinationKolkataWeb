@@ -423,4 +423,59 @@ router.get('/stats/overview', authenticateToken, async (req: Request, res: Respo
   }
 });
 
+// POST /api/report/public - Submit a public issue report (no authentication required)
+router.post('/public', async (req: Request, res: Response) => {
+  try {
+    const { db } = await connectToDatabase();
+    const { reportType, businessName, location, description, evidence, email } = req.body;
+
+    // Validation
+    if (!reportType || !businessName || !description) {
+      return res.status(400).json({
+        success: false,
+        message: 'Report type, business name, and description are required'
+      });
+    }
+
+    // Validate email if provided
+    if (email && !/^\S+@\S+\.\S+$/.test(email)) {
+      return res.status(400).json({
+        success: false,
+        message: 'Invalid email format'
+      });
+    }
+
+    const newReport = {
+      reportType,
+      businessName,
+      location: location || '',
+      description: description.trim(),
+      evidence: evidence || '',
+      email: email || '',
+      status: 'pending',
+      createdAt: new Date(),
+      updatedAt: new Date()
+    };
+
+    const result = await db.collection('report-issues').insertOne(newReport);
+
+    res.status(201).json({
+      success: true,
+      message: 'Report submitted successfully. We will review it shortly.',
+      data: {
+        reportId: result.insertedId
+      }
+    });
+
+  } catch (error) {
+    console.error('Error submitting public report:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Failed to submit report',
+      error: process.env.NODE_ENV === 'development' ? error : {}
+    });
+  }
+});
+
 export default router;
+

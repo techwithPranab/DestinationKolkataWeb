@@ -76,6 +76,9 @@ export const requireRole = (roles: string | string[]) => {
 // Admin middleware
 export const requireAdmin = requireRole(['admin', 'super_admin']);
 
+// Customer or Admin middleware - allows both customers and admins
+export const requireCustomerOrAdmin = requireRole(['customer', 'user', 'admin', 'super_admin']);
+
 // Optional authentication (doesn't fail if no token)
 export const optionalAuth = async (req: Request, res: Response, next: NextFunction) => {
   try {
@@ -97,4 +100,65 @@ export const optionalAuth = async (req: Request, res: Response, next: NextFuncti
   }
 
   next();
+};
+
+// Ownership validation middleware - checks if user owns the resource
+// Admins bypass this check and can access any resource
+export const requireOwnership = (Model: any, resourceIdParam: string = 'id') => {
+  return async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const user = req.user;
+      
+      if (!user) {
+        return res.status(401).json({
+          success: false,
+          message: 'Authentication required'
+        });
+      }
+
+      // Admins can access any resource
+      if (user.role === 'admin' || user.role === 'super_admin') {
+        return next();
+      }
+
+      // For customers, check ownership
+      const resourceId = req.params[resourceIdParam];
+      
+      if (!resourceId) {
+        return res.status(400).json({
+          success: false,
+          message: 'Resource ID is required'
+        });
+      }
+
+      // Connect to database to check ownership
+      const { db } = await connectToDatabase();
+      const resource = await Model.findById(resourceId);
+
+      if (!resource) {
+        return res.status(404).json({
+          success: false,
+          message: 'Resource not found'
+        });
+      }
+
+      // Check if resource has createdBy field and if it matches the user
+      if (resource.createdBy && resource.createdBy.toString() !== user.userId) {
+        return res.status(403).json({
+          success: false,
+          message: 'You do not have permission to modify this resource'
+        });
+      }
+
+      // If no createdBy field exists, allow access (for backward compatibility)
+      // In production, you might want to restrict this
+      next();
+    } catch (error) {
+      console.error('Ownership validation error:', error);
+      return res.status(500).json({
+        success: false,
+        message: 'Failed to validate ownership'
+      });
+    }
+  };
 };

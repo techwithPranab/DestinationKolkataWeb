@@ -1,5 +1,5 @@
 import { Router, Request, Response } from 'express';
-import { authenticateToken as auth } from '../middleware/auth';
+import { authenticateToken as auth, requireCustomerOrAdmin, requireOwnership } from '../middleware/auth';
 import { Promotion } from '../models';
 import mongoose from 'mongoose';
 
@@ -245,16 +245,10 @@ router.get('/:id', async (req: Request, res: Response) => {
 });
 
 // POST /api/promotions - Create new promotion (business/admin only)
-router.post('/', auth, async (req: Request, res: Response) => {
+// POST /api/promotions - Create new promotion
+router.post('/', auth, requireCustomerOrAdmin, async (req: Request, res: Response) => {
   try {
     const user = (req as any).user;
-    
-    if (!['admin', 'business'].includes(user.role)) {
-      return res.status(403).json({
-        success: false,
-        message: 'Access denied. Admin or business role required.'
-      });
-    }
 
     // Validate required fields
     const { title, description, business, businessType, validFrom, validUntil } = req.body;
@@ -271,7 +265,10 @@ router.post('/', auth, async (req: Request, res: Response) => {
       req.body.code = `PROMO${Date.now().toString().slice(-6)}`;
     }
 
-    const promotion = new Promotion(req.body);
+    const promotion = new Promotion({
+      ...req.body,
+      createdBy: user?.userId // Track who created this listing
+    });
     await promotion.save();
 
     res.status(201).json({
@@ -290,18 +287,12 @@ router.post('/', auth, async (req: Request, res: Response) => {
   }
 });
 
-// PUT /api/promotions/:id - Update promotion (business/admin only)
-router.put('/:id', auth, async (req: Request, res: Response) => {
+// PUT /api/promotions/:id - Update promotion
+router.put('/:id', auth, requireCustomerOrAdmin, requireOwnership(Promotion, 'id'), async (req: Request, res: Response) => {
   try {
     const user = (req as any).user;
     const { id } = req.params;
-    
-    if (!['admin', 'business'].includes(user.role)) {
-      return res.status(403).json({
-        success: false,
-        message: 'Access denied. Admin or business role required.'
-      });
-    }
+    const body = req.body;
 
     if (!mongoose.Types.ObjectId.isValid(id)) {
       return res.status(400).json({
@@ -310,7 +301,14 @@ router.put('/:id', auth, async (req: Request, res: Response) => {
       });
     }
 
-    const promotion = await Promotion.findByIdAndUpdate(id, req.body, {
+    // Handle images field - convert string URL to proper image object format if needed
+    let updateData = { ...body, updatedAt: new Date() };
+    if (body.images && typeof body.images === 'string') {
+      // If images is a string URL, convert to array format
+      updateData.images = [{ url: body.images, alt: body.name || 'Promotion image', isPrimary: true }];
+    }
+
+    const promotion = await Promotion.findByIdAndUpdate(id, updateData, {
       new: true,
       runValidators: true
     });
@@ -379,18 +377,11 @@ router.post('/:id/use', async (req: Request, res: Response) => {
   }
 });
 
-// DELETE /api/promotions/:id - Delete promotion (admin only)
-router.delete('/:id', auth, async (req: Request, res: Response) => {
+// DELETE /api/promotions/:id - Delete promotion
+router.delete('/:id', auth, requireCustomerOrAdmin, requireOwnership(Promotion, 'id'), async (req: Request, res: Response) => {
   try {
     const user = (req as any).user;
     const { id } = req.params;
-    
-    if (user.role !== 'admin') {
-      return res.status(403).json({
-        success: false,
-        message: 'Access denied. Admin role required.'
-      });
-    }
 
     if (!mongoose.Types.ObjectId.isValid(id)) {
       return res.status(400).json({

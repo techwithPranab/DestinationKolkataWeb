@@ -90,14 +90,14 @@
     ],
     "amenities": [],
     "rating": {
-      "average": 4.378939178085542,
-      "count": 190
+      "average": 3.69808333277187,
+      "count": 115
     },
     "deliveryPartners": [
       "Swiggy",
       "Zomato"
     ],
-    "reservationRequired": true,
+    "reservationRequired": false,
     "avgMealCost": 250,
     "tags": [
       "cafe"
@@ -202,10 +202,13 @@
     ],
     "amenities": [],
     "rating": {
-      "average": 3.6428698092732614,
-      "count": 107
+      "average": 4.426136920723879,
+      "count": 123
     },
-    "deliveryPartners": [],
+    "deliveryPartners": [
+      "Swiggy",
+      "Zomato"
+    ],
     "reservationRequired": false,
     "avgMealCost": 500,
     "tags": [
@@ -309,8 +312,8 @@
     ],
     "amenities": [],
     "rating": {
-      "average": 4.808909252379448,
-      "count": 63
+      "average": 4.956693446414413,
+      "count": 77
     },
     "deliveryPartners": [],
     "reservationRequired": false,
@@ -416,8 +419,8 @@
     ],
     "amenities": [],
     "rating": {
-      "average": 3.440640473956877,
-      "count": 55
+      "average": 3.6581576440566685,
+      "count": 48
     },
     "deliveryPartners": [],
     "reservationRequired": false,
@@ -524,13 +527,10 @@
     ],
     "amenities": [],
     "rating": {
-      "average": 3.1145833274533765,
-      "count": 26
+      "average": 4.673200107370262,
+      "count": 34
     },
-    "deliveryPartners": [
-      "Swiggy",
-      "Zomato"
-    ],
+    "deliveryPartners": [],
     "reservationRequired": true,
     "avgMealCost": 500,
     "tags": [
@@ -640,8 +640,8 @@
       "Takeaway"
     ],
     "rating": {
-      "average": 4.305853114695532,
-      "count": 107
+      "average": 3.1627170918842817,
+      "count": 106
     },
     "deliveryPartners": [
       "Swiggy",
@@ -750,14 +750,11 @@
     ],
     "amenities": [],
     "rating": {
-      "average": 4.74444776144197,
-      "count": 78
+      "average": 3.661123605439475,
+      "count": 143
     },
-    "deliveryPartners": [
-      "Swiggy",
-      "Zomato"
-    ],
-    "reservationRequired": true,
+    "deliveryPartners": [],
+    "reservationRequired": false,
     "avgMealCost": 150,
     "tags": [
       "fast_food"
@@ -860,11 +857,11 @@
     ],
     "amenities": [],
     "rating": {
-      "average": 3.7191038283951645,
-      "count": 88
+      "average": 3.3537650137914676,
+      "count": 86
     },
     "deliveryPartners": [],
-    "reservationRequired": true,
+    "reservationRequired": false,
     "avgMealCost": 150,
     "tags": [
       "fast_food"
@@ -967,8 +964,8 @@
     ],
     "amenities": [],
     "rating": {
-      "average": 4.477705336417938,
-      "count": 41
+      "average": 3.2780148891378698,
+      "count": 51
     },
     "deliveryPartners": [
       "Swiggy",
@@ -1079,11 +1076,14 @@
       "Takeaway"
     ],
     "rating": {
-      "average": 3.1711358993133367,
-      "count": 172
+      "average": 4.902466235659311,
+      "count": 20
     },
-    "deliveryPartners": [],
-    "reservationRequired": false,
+    "deliveryPartners": [
+      "Swiggy",
+      "Zomato"
+    ],
+    "reservationRequired": true,
     "avgMealCost": 150,
     "tags": [
       "fast_food"
@@ -1186,11 +1186,14 @@
     ],
     "amenities": [],
     "rating": {
-      "average": 4.230825836863039,
-      "count": 158
+      "average": 4.708504909547658,
+      "count": 113
     },
-    "deliveryPartners": [],
-    "reservationRequired": false,
+    "deliveryPartners": [
+      "Swiggy",
+      "Zomato"
+    ],
+    "reservationRequired": true,
     "avgMealCost": 500,
     "tags": [
       "restaurant"
@@ -1295,8 +1298,8 @@
     ],
     "amenities": [],
     "rating": {
-      "average": 3.774780018392213,
-      "count": 91
+      "average": 3.4496522186256584,
+      "count": 130
     },
     "deliveryPartners": [
       "Swiggy",
@@ -1405,14 +1408,14 @@
     ],
     "amenities": [],
     "rating": {
-      "average": 3.6863083582332608,
-      "count": 141
+      "average": 3.0243693948823984,
+      "count": 183
     },
     "deliveryPartners": [
       "Swiggy",
       "Zomato"
     ],
-    "reservationRequired": true,
+    "reservationRequired": false,
     "avgMealCost": 500,
     "tags": [
       "restaurant"
@@ -1515,13 +1518,10 @@
     ],
     "amenities": [],
     "rating": {
-      "average": 4.2329017779590234,
-      "count": 189
+      "average": 3.144960819537911,
+      "count": 115
     },
-    "deliveryPartners": [
-      "Swiggy",
-      "Zomato"
-    ],
+    "deliveryPartners": [],
     "reservationRequired": false,
     "avgMealCost": 500,
     "tags": [
@@ -1627,11 +1627,11 @@
       "Takeaway"
     ],
     "rating": {
-      "average": 4.645048547413488,
-      "count": 11
+      "average": 4.584060394709448,
+      "count": 25
     },
     "deliveryPartners": [],
-    "reservationRequired": false,
+    "reservationRequired": true,
     "avgMealCost": 150,
     "tags": [
       "fast_food"
@@ -1736,13 +1736,10 @@
       "Takeaway"
     ],
     "rating": {
-      "average": 4.393429185594791,
-      "count": 103
+      "average": 3.040765903374905,
+      "count": 146
     },
-    "deliveryPartners": [
-      "Swiggy",
-      "Zomato"
-    ],
+    "deliveryPartners": [],
     "reservationRequired": false,
     "avgMealCost": 150,
     "tags": [
@@ -1848,10 +1845,13 @@
       "Takeaway"
     ],
     "rating": {
-      "average": 3.898394270510868,
-      "count": 36
+      "average": 4.22650681051673,
+      "count": 166
     },
-    "deliveryPartners": [],
+    "deliveryPartners": [
+      "Swiggy",
+      "Zomato"
+    ],
     "reservationRequired": false,
     "avgMealCost": 150,
     "tags": [
@@ -1955,8 +1955,8 @@
     ],
     "amenities": [],
     "rating": {
-      "average": 4.910826132454176,
-      "count": 79
+      "average": 3.5944832017098123,
+      "count": 54
     },
     "deliveryPartners": [
       "Swiggy",
@@ -2065,14 +2065,11 @@
     ],
     "amenities": [],
     "rating": {
-      "average": 3.041872261373491,
+      "average": 4.798814947349921,
       "count": 125
     },
-    "deliveryPartners": [
-      "Swiggy",
-      "Zomato"
-    ],
-    "reservationRequired": true,
+    "deliveryPartners": [],
+    "reservationRequired": false,
     "avgMealCost": 500,
     "tags": [
       "restaurant"
@@ -2177,8 +2174,8 @@
       "Takeaway"
     ],
     "rating": {
-      "average": 4.923747271004868,
-      "count": 40
+      "average": 4.143920805570353,
+      "count": 39
     },
     "deliveryPartners": [
       "Swiggy",
@@ -2287,10 +2284,13 @@
     ],
     "amenities": [],
     "rating": {
-      "average": 4.603769180723325,
-      "count": 22
+      "average": 4.512277669754452,
+      "count": 191
     },
-    "deliveryPartners": [],
+    "deliveryPartners": [
+      "Swiggy",
+      "Zomato"
+    ],
     "reservationRequired": false,
     "avgMealCost": 500,
     "tags": [
@@ -2394,13 +2394,10 @@
     ],
     "amenities": [],
     "rating": {
-      "average": 3.8577526890965306,
-      "count": 198
+      "average": 4.439981019322726,
+      "count": 35
     },
-    "deliveryPartners": [
-      "Swiggy",
-      "Zomato"
-    ],
+    "deliveryPartners": [],
     "reservationRequired": false,
     "avgMealCost": 500,
     "tags": [
@@ -2504,11 +2501,11 @@
     ],
     "amenities": [],
     "rating": {
-      "average": 4.991082633964636,
-      "count": 110
+      "average": 3.8265041912902924,
+      "count": 133
     },
     "deliveryPartners": [],
-    "reservationRequired": true,
+    "reservationRequired": false,
     "avgMealCost": 500,
     "tags": [
       "restaurant"
@@ -2611,8 +2608,8 @@
     ],
     "amenities": [],
     "rating": {
-      "average": 3.732290461956994,
-      "count": 173
+      "average": 3.599413139487708,
+      "count": 165
     },
     "deliveryPartners": [
       "Swiggy",
@@ -2721,10 +2718,13 @@
     ],
     "amenities": [],
     "rating": {
-      "average": 4.511242416991571,
-      "count": 156
+      "average": 4.850494632967974,
+      "count": 86
     },
-    "deliveryPartners": [],
+    "deliveryPartners": [
+      "Swiggy",
+      "Zomato"
+    ],
     "reservationRequired": false,
     "avgMealCost": 500,
     "tags": [
@@ -2830,11 +2830,14 @@
     ],
     "amenities": [],
     "rating": {
-      "average": 4.3835469986316635,
-      "count": 177
+      "average": 3.6153647481136617,
+      "count": 179
     },
-    "deliveryPartners": [],
-    "reservationRequired": false,
+    "deliveryPartners": [
+      "Swiggy",
+      "Zomato"
+    ],
+    "reservationRequired": true,
     "avgMealCost": 500,
     "tags": [
       "restaurant"
@@ -2939,14 +2942,11 @@
       "Takeaway"
     ],
     "rating": {
-      "average": 4.45175700300386,
-      "count": 100
+      "average": 3.208128934351985,
+      "count": 37
     },
-    "deliveryPartners": [
-      "Swiggy",
-      "Zomato"
-    ],
-    "reservationRequired": true,
+    "deliveryPartners": [],
+    "reservationRequired": false,
     "avgMealCost": 150,
     "tags": [
       "fast_food"
@@ -3049,8 +3049,8 @@
     ],
     "amenities": [],
     "rating": {
-      "average": 4.743189532930539,
-      "count": 116
+      "average": 4.322658403789814,
+      "count": 150
     },
     "deliveryPartners": [],
     "reservationRequired": false,
@@ -3156,8 +3156,8 @@
     ],
     "amenities": [],
     "rating": {
-      "average": 4.1558414119158344,
-      "count": 125
+      "average": 4.493357363204448,
+      "count": 30
     },
     "deliveryPartners": [],
     "reservationRequired": false,
@@ -3265,8 +3265,8 @@
       "Takeaway"
     ],
     "rating": {
-      "average": 3.8933339445505832,
-      "count": 103
+      "average": 3.943453323852476,
+      "count": 105
     },
     "deliveryPartners": [],
     "reservationRequired": false,
@@ -3374,13 +3374,10 @@
       "Takeaway"
     ],
     "rating": {
-      "average": 4.081776944651349,
-      "count": 68
+      "average": 4.1511833552555055,
+      "count": 133
     },
-    "deliveryPartners": [
-      "Swiggy",
-      "Zomato"
-    ],
+    "deliveryPartners": [],
     "reservationRequired": false,
     "avgMealCost": 250,
     "tags": [
@@ -3484,8 +3481,8 @@
     ],
     "amenities": [],
     "rating": {
-      "average": 3.5865433114500065,
-      "count": 65
+      "average": 3.385568167201513,
+      "count": 50
     },
     "deliveryPartners": [
       "Swiggy",
@@ -3594,8 +3591,8 @@
     ],
     "amenities": [],
     "rating": {
-      "average": 4.997705782378688,
-      "count": 122
+      "average": 4.280202269408859,
+      "count": 152
     },
     "deliveryPartners": [
       "Swiggy",
@@ -3704,14 +3701,11 @@
     ],
     "amenities": [],
     "rating": {
-      "average": 4.2041318774706085,
-      "count": 41
+      "average": 3.7489690747050277,
+      "count": 88
     },
-    "deliveryPartners": [
-      "Swiggy",
-      "Zomato"
-    ],
-    "reservationRequired": true,
+    "deliveryPartners": [],
+    "reservationRequired": false,
     "avgMealCost": 500,
     "tags": [
       "restaurant"
@@ -3814,11 +3808,11 @@
     ],
     "amenities": [],
     "rating": {
-      "average": 4.7611327090063265,
-      "count": 199
+      "average": 3.0004154600641604,
+      "count": 196
     },
     "deliveryPartners": [],
-    "reservationRequired": true,
+    "reservationRequired": false,
     "avgMealCost": 500,
     "tags": [
       "restaurant"
@@ -3921,14 +3915,14 @@
     ],
     "amenities": [],
     "rating": {
-      "average": 4.901406835197845,
-      "count": 40
+      "average": 4.763898028231219,
+      "count": 53
     },
     "deliveryPartners": [
       "Swiggy",
       "Zomato"
     ],
-    "reservationRequired": false,
+    "reservationRequired": true,
     "avgMealCost": 250,
     "tags": [
       "cafe"
@@ -4033,14 +4027,14 @@
       "Takeaway"
     ],
     "rating": {
-      "average": 4.562726347784874,
-      "count": 41
+      "average": 3.1089480855691005,
+      "count": 21
     },
     "deliveryPartners": [
       "Swiggy",
       "Zomato"
     ],
-    "reservationRequired": true,
+    "reservationRequired": false,
     "avgMealCost": 250,
     "tags": [
       "cafe"
@@ -4143,13 +4137,10 @@
     ],
     "amenities": [],
     "rating": {
-      "average": 3.5599811804163193,
-      "count": 96
+      "average": 3.533582267939373,
+      "count": 16
     },
-    "deliveryPartners": [
-      "Swiggy",
-      "Zomato"
-    ],
+    "deliveryPartners": [],
     "reservationRequired": true,
     "avgMealCost": 500,
     "tags": [
@@ -4253,13 +4244,10 @@
     ],
     "amenities": [],
     "rating": {
-      "average": 4.319200471156206,
-      "count": 58
+      "average": 4.260196253344193,
+      "count": 111
     },
-    "deliveryPartners": [
-      "Swiggy",
-      "Zomato"
-    ],
+    "deliveryPartners": [],
     "reservationRequired": false,
     "avgMealCost": 250,
     "tags": [
@@ -4364,11 +4352,14 @@
     ],
     "amenities": [],
     "rating": {
-      "average": 3.8693356245722237,
-      "count": 44
+      "average": 4.019218546761399,
+      "count": 151
     },
-    "deliveryPartners": [],
-    "reservationRequired": false,
+    "deliveryPartners": [
+      "Swiggy",
+      "Zomato"
+    ],
+    "reservationRequired": true,
     "avgMealCost": 150,
     "tags": [
       "fast_food"
@@ -4474,10 +4465,13 @@
       "Takeaway"
     ],
     "rating": {
-      "average": 3.794780866441907,
-      "count": 174
+      "average": 3.711384652391799,
+      "count": 186
     },
-    "deliveryPartners": [],
+    "deliveryPartners": [
+      "Swiggy",
+      "Zomato"
+    ],
     "reservationRequired": false,
     "avgMealCost": 250,
     "tags": [
@@ -4581,10 +4575,13 @@
     ],
     "amenities": [],
     "rating": {
-      "average": 3.868066076615907,
-      "count": 122
+      "average": 3.95692788809834,
+      "count": 38
     },
-    "deliveryPartners": [],
+    "deliveryPartners": [
+      "Swiggy",
+      "Zomato"
+    ],
     "reservationRequired": false,
     "avgMealCost": 500,
     "tags": [
@@ -4688,8 +4685,8 @@
     ],
     "amenities": [],
     "rating": {
-      "average": 3.598131606772954,
-      "count": 196
+      "average": 3.163709637858884,
+      "count": 58
     },
     "deliveryPartners": [],
     "reservationRequired": false,
@@ -4795,14 +4792,14 @@
     ],
     "amenities": [],
     "rating": {
-      "average": 3.959812897600217,
-      "count": 168
+      "average": 3.63205506475139,
+      "count": 98
     },
     "deliveryPartners": [
       "Swiggy",
       "Zomato"
     ],
-    "reservationRequired": true,
+    "reservationRequired": false,
     "avgMealCost": 500,
     "tags": [
       "restaurant"
@@ -4905,10 +4902,13 @@
     ],
     "amenities": [],
     "rating": {
-      "average": 3.617271923970467,
-      "count": 64
+      "average": 3.4878320291267437,
+      "count": 161
     },
-    "deliveryPartners": [],
+    "deliveryPartners": [
+      "Swiggy",
+      "Zomato"
+    ],
     "reservationRequired": false,
     "avgMealCost": 250,
     "tags": [
@@ -5014,8 +5014,8 @@
       "Takeaway"
     ],
     "rating": {
-      "average": 4.3200914690748045,
-      "count": 65
+      "average": 3.476505253501913,
+      "count": 80
     },
     "deliveryPartners": [
       "Swiggy",
@@ -5124,14 +5124,11 @@
     ],
     "amenities": [],
     "rating": {
-      "average": 4.760674328113518,
-      "count": 127
+      "average": 4.800500326284681,
+      "count": 202
     },
-    "deliveryPartners": [
-      "Swiggy",
-      "Zomato"
-    ],
-    "reservationRequired": true,
+    "deliveryPartners": [],
+    "reservationRequired": false,
     "avgMealCost": 500,
     "tags": [
       "restaurant"
@@ -5234,13 +5231,10 @@
     ],
     "amenities": [],
     "rating": {
-      "average": 3.4269743409725315,
-      "count": 29
+      "average": 4.354926521464981,
+      "count": 27
     },
-    "deliveryPartners": [
-      "Swiggy",
-      "Zomato"
-    ],
+    "deliveryPartners": [],
     "reservationRequired": false,
     "avgMealCost": 500,
     "tags": [
@@ -5344,8 +5338,8 @@
     ],
     "amenities": [],
     "rating": {
-      "average": 3.716538551781893,
-      "count": 138
+      "average": 4.190204851095601,
+      "count": 56
     },
     "deliveryPartners": [
       "Swiggy",
@@ -5454,8 +5448,8 @@
     ],
     "amenities": [],
     "rating": {
-      "average": 4.178588502339748,
-      "count": 189
+      "average": 4.613564308107549,
+      "count": 72
     },
     "deliveryPartners": [
       "Swiggy",
@@ -5564,13 +5558,10 @@
     ],
     "amenities": [],
     "rating": {
-      "average": 4.8495514460241065,
-      "count": 142
+      "average": 4.7412312975908275,
+      "count": 128
     },
-    "deliveryPartners": [
-      "Swiggy",
-      "Zomato"
-    ],
+    "deliveryPartners": [],
     "reservationRequired": false,
     "avgMealCost": 500,
     "tags": [
@@ -5676,11 +5667,11 @@
     ],
     "amenities": [],
     "rating": {
-      "average": 4.922619691581814,
-      "count": 44
+      "average": 4.493819968277983,
+      "count": 78
     },
     "deliveryPartners": [],
-    "reservationRequired": false,
+    "reservationRequired": true,
     "avgMealCost": 500,
     "tags": [
       "restaurant"
@@ -5783,8 +5774,8 @@
     ],
     "amenities": [],
     "rating": {
-      "average": 4.047826929709608,
-      "count": 138
+      "average": 3.208320763053089,
+      "count": 79
     },
     "deliveryPartners": [],
     "reservationRequired": false,
@@ -5890,11 +5881,14 @@
     ],
     "amenities": [],
     "rating": {
-      "average": 3.177494730189398,
-      "count": 66
+      "average": 4.018908407562924,
+      "count": 163
     },
-    "deliveryPartners": [],
-    "reservationRequired": true,
+    "deliveryPartners": [
+      "Swiggy",
+      "Zomato"
+    ],
+    "reservationRequired": false,
     "avgMealCost": 500,
     "tags": [
       "restaurant"
@@ -5997,13 +5991,10 @@
     ],
     "amenities": [],
     "rating": {
-      "average": 4.296189185142509,
-      "count": 64
+      "average": 4.0347860016515185,
+      "count": 9
     },
-    "deliveryPartners": [
-      "Swiggy",
-      "Zomato"
-    ],
+    "deliveryPartners": [],
     "reservationRequired": false,
     "avgMealCost": 500,
     "tags": [
@@ -6107,14 +6098,14 @@
     ],
     "amenities": [],
     "rating": {
-      "average": 4.21892975232416,
-      "count": 151
+      "average": 3.956836537572915,
+      "count": 154
     },
     "deliveryPartners": [
       "Swiggy",
       "Zomato"
     ],
-    "reservationRequired": true,
+    "reservationRequired": false,
     "avgMealCost": 500,
     "tags": [
       "restaurant"
@@ -6217,11 +6208,14 @@
     ],
     "amenities": [],
     "rating": {
-      "average": 3.29212097385621,
-      "count": 52
+      "average": 3.2355069344921588,
+      "count": 157
     },
-    "deliveryPartners": [],
-    "reservationRequired": true,
+    "deliveryPartners": [
+      "Swiggy",
+      "Zomato"
+    ],
+    "reservationRequired": false,
     "avgMealCost": 500,
     "tags": [
       "restaurant"
@@ -6324,13 +6318,10 @@
     ],
     "amenities": [],
     "rating": {
-      "average": 4.055952577000621,
-      "count": 42
+      "average": 3.1660053988065067,
+      "count": 200
     },
-    "deliveryPartners": [
-      "Swiggy",
-      "Zomato"
-    ],
+    "deliveryPartners": [],
     "reservationRequired": false,
     "avgMealCost": 250,
     "tags": [
@@ -6436,10 +6427,13 @@
       "Takeaway"
     ],
     "rating": {
-      "average": 3.0449812300568193,
-      "count": 162
+      "average": 3.6252027225391625,
+      "count": 185
     },
-    "deliveryPartners": [],
+    "deliveryPartners": [
+      "Swiggy",
+      "Zomato"
+    ],
     "reservationRequired": false,
     "avgMealCost": 250,
     "tags": [
@@ -6543,8 +6537,8 @@
     ],
     "amenities": [],
     "rating": {
-      "average": 3.172661914341437,
-      "count": 193
+      "average": 3.17363958245713,
+      "count": 116
     },
     "deliveryPartners": [],
     "reservationRequired": false,
@@ -6652,13 +6646,10 @@
     ],
     "amenities": [],
     "rating": {
-      "average": 3.6721328088081755,
-      "count": 18
+      "average": 3.1638710756239603,
+      "count": 143
     },
-    "deliveryPartners": [
-      "Swiggy",
-      "Zomato"
-    ],
+    "deliveryPartners": [],
     "reservationRequired": false,
     "avgMealCost": 500,
     "tags": [
@@ -6762,13 +6753,10 @@
     ],
     "amenities": [],
     "rating": {
-      "average": 4.929246452577042,
-      "count": 51
+      "average": 3.857058857339413,
+      "count": 158
     },
-    "deliveryPartners": [
-      "Swiggy",
-      "Zomato"
-    ],
+    "deliveryPartners": [],
     "reservationRequired": true,
     "avgMealCost": 500,
     "tags": [
@@ -6874,10 +6862,13 @@
       "Takeaway"
     ],
     "rating": {
-      "average": 3.1863897496967533,
-      "count": 35
+      "average": 3.4877517181841653,
+      "count": 178
     },
-    "deliveryPartners": [],
+    "deliveryPartners": [
+      "Swiggy",
+      "Zomato"
+    ],
     "reservationRequired": false,
     "avgMealCost": 150,
     "tags": [
@@ -6981,8 +6972,8 @@
     ],
     "amenities": [],
     "rating": {
-      "average": 4.49794115945498,
-      "count": 161
+      "average": 4.458837576757611,
+      "count": 195
     },
     "deliveryPartners": [],
     "reservationRequired": true,
@@ -7088,10 +7079,13 @@
     ],
     "amenities": [],
     "rating": {
-      "average": 4.753310486459345,
-      "count": 87
+      "average": 4.955906226163254,
+      "count": 83
     },
-    "deliveryPartners": [],
+    "deliveryPartners": [
+      "Swiggy",
+      "Zomato"
+    ],
     "reservationRequired": false,
     "avgMealCost": 150,
     "tags": [
@@ -7195,8 +7189,8 @@
     ],
     "amenities": [],
     "rating": {
-      "average": 4.382690572381591,
-      "count": 102
+      "average": 4.175252142933311,
+      "count": 131
     },
     "deliveryPartners": [
       "Swiggy",
@@ -7306,11 +7300,14 @@
     ],
     "amenities": [],
     "rating": {
-      "average": 4.9358938867051,
-      "count": 199
+      "average": 4.801837454088103,
+      "count": 71
     },
-    "deliveryPartners": [],
-    "reservationRequired": true,
+    "deliveryPartners": [
+      "Swiggy",
+      "Zomato"
+    ],
+    "reservationRequired": false,
     "avgMealCost": 500,
     "tags": [
       "restaurant"
@@ -7415,10 +7412,13 @@
       "Takeaway"
     ],
     "rating": {
-      "average": 3.7323987203989133,
-      "count": 142
+      "average": 3.6279263393663554,
+      "count": 199
     },
-    "deliveryPartners": [],
+    "deliveryPartners": [
+      "Swiggy",
+      "Zomato"
+    ],
     "reservationRequired": false,
     "avgMealCost": 500,
     "tags": [
@@ -7522,14 +7522,14 @@
     ],
     "amenities": [],
     "rating": {
-      "average": 3.050240015198592,
-      "count": 29
+      "average": 4.340684400940981,
+      "count": 121
     },
     "deliveryPartners": [
       "Swiggy",
       "Zomato"
     ],
-    "reservationRequired": false,
+    "reservationRequired": true,
     "avgMealCost": 150,
     "tags": [
       "fast_food"
@@ -7632,10 +7632,13 @@
     ],
     "amenities": [],
     "rating": {
-      "average": 4.2101178746793355,
-      "count": 149
+      "average": 4.138301536197563,
+      "count": 39
     },
-    "deliveryPartners": [],
+    "deliveryPartners": [
+      "Swiggy",
+      "Zomato"
+    ],
     "reservationRequired": false,
     "avgMealCost": 500,
     "tags": [
@@ -7739,13 +7742,10 @@
     ],
     "amenities": [],
     "rating": {
-      "average": 4.220702350798044,
-      "count": 136
+      "average": 4.224382711862434,
+      "count": 117
     },
-    "deliveryPartners": [
-      "Swiggy",
-      "Zomato"
-    ],
+    "deliveryPartners": [],
     "reservationRequired": true,
     "avgMealCost": 500,
     "tags": [
@@ -7849,8 +7849,8 @@
     ],
     "amenities": [],
     "rating": {
-      "average": 3.356385298380174,
-      "count": 136
+      "average": 3.8635666264222275,
+      "count": 73
     },
     "deliveryPartners": [
       "Swiggy",
@@ -7959,8 +7959,8 @@
     ],
     "amenities": [],
     "rating": {
-      "average": 4.934593367145058,
-      "count": 138
+      "average": 4.569319221726848,
+      "count": 180
     },
     "deliveryPartners": [
       "Swiggy",
@@ -8071,8 +8071,8 @@
       "Takeaway"
     ],
     "rating": {
-      "average": 3.7281176318166134,
-      "count": 76
+      "average": 3.3134206333699723,
+      "count": 46
     },
     "deliveryPartners": [
       "Swiggy",
@@ -8183,14 +8183,11 @@
       "Takeaway"
     ],
     "rating": {
-      "average": 4.833313917158328,
-      "count": 155
+      "average": 4.537499448838464,
+      "count": 51
     },
-    "deliveryPartners": [
-      "Swiggy",
-      "Zomato"
-    ],
-    "reservationRequired": false,
+    "deliveryPartners": [],
+    "reservationRequired": true,
     "avgMealCost": 250,
     "tags": [
       "cafe"
@@ -8296,11 +8293,11 @@
       "Takeaway"
     ],
     "rating": {
-      "average": 4.051094702724347,
-      "count": 159
+      "average": 4.061403329372055,
+      "count": 91
     },
     "deliveryPartners": [],
-    "reservationRequired": true,
+    "reservationRequired": false,
     "avgMealCost": 500,
     "tags": [
       "restaurant"
@@ -8403,11 +8400,11 @@
     ],
     "amenities": [],
     "rating": {
-      "average": 4.885685049201676,
-      "count": 33
+      "average": 3.6394556618168554,
+      "count": 17
     },
     "deliveryPartners": [],
-    "reservationRequired": true,
+    "reservationRequired": false,
     "avgMealCost": 500,
     "tags": [
       "restaurant"
@@ -8510,13 +8507,10 @@
     ],
     "amenities": [],
     "rating": {
-      "average": 3.970275105732257,
-      "count": 82
+      "average": 3.143441818546399,
+      "count": 199
     },
-    "deliveryPartners": [
-      "Swiggy",
-      "Zomato"
-    ],
+    "deliveryPartners": [],
     "reservationRequired": false,
     "avgMealCost": 150,
     "tags": [
@@ -8622,14 +8616,14 @@
       "Takeaway"
     ],
     "rating": {
-      "average": 4.1002322406492056,
-      "count": 7
+      "average": 3.004173866260079,
+      "count": 69
     },
     "deliveryPartners": [
       "Swiggy",
       "Zomato"
     ],
-    "reservationRequired": false,
+    "reservationRequired": true,
     "avgMealCost": 150,
     "tags": [
       "fast_food"
@@ -8732,8 +8726,8 @@
     ],
     "amenities": [],
     "rating": {
-      "average": 4.4350321768238805,
-      "count": 72
+      "average": 3.6708519529287633,
+      "count": 188
     },
     "deliveryPartners": [],
     "reservationRequired": false,
@@ -8841,11 +8835,14 @@
       "Takeaway"
     ],
     "rating": {
-      "average": 3.2808908001174313,
-      "count": 52
+      "average": 3.7918018605003936,
+      "count": 99
     },
-    "deliveryPartners": [],
-    "reservationRequired": false,
+    "deliveryPartners": [
+      "Swiggy",
+      "Zomato"
+    ],
+    "reservationRequired": true,
     "avgMealCost": 250,
     "tags": [
       "cafe"
@@ -8948,13 +8945,10 @@
     ],
     "amenities": [],
     "rating": {
-      "average": 4.945541280317896,
-      "count": 47
+      "average": 4.001138653609057,
+      "count": 82
     },
-    "deliveryPartners": [
-      "Swiggy",
-      "Zomato"
-    ],
+    "deliveryPartners": [],
     "reservationRequired": false,
     "avgMealCost": 500,
     "tags": [
@@ -9063,14 +9057,11 @@
     ],
     "amenities": [],
     "rating": {
-      "average": 4.48901853367134,
-      "count": 75
+      "average": 3.6115042023792645,
+      "count": 171
     },
-    "deliveryPartners": [
-      "Swiggy",
-      "Zomato"
-    ],
-    "reservationRequired": false,
+    "deliveryPartners": [],
+    "reservationRequired": true,
     "avgMealCost": 500,
     "tags": [
       "restaurant"
@@ -9173,11 +9164,11 @@
     ],
     "amenities": [],
     "rating": {
-      "average": 3.1476602689624875,
-      "count": 117
+      "average": 3.596391184751319,
+      "count": 18
     },
     "deliveryPartners": [],
-    "reservationRequired": false,
+    "reservationRequired": true,
     "avgMealCost": 500,
     "tags": [
       "restaurant"
@@ -9280,14 +9271,14 @@
     ],
     "amenities": [],
     "rating": {
-      "average": 4.279829718863515,
-      "count": 62
+      "average": 4.970194671866032,
+      "count": 170
     },
     "deliveryPartners": [
       "Swiggy",
       "Zomato"
     ],
-    "reservationRequired": true,
+    "reservationRequired": false,
     "avgMealCost": 250,
     "tags": [
       "cafe"
@@ -9394,14 +9385,14 @@
       "Takeaway"
     ],
     "rating": {
-      "average": 4.869355668701534,
-      "count": 108
+      "average": 3.605989726446767,
+      "count": 74
     },
     "deliveryPartners": [
       "Swiggy",
       "Zomato"
     ],
-    "reservationRequired": true,
+    "reservationRequired": false,
     "avgMealCost": 500,
     "tags": [
       "restaurant"
@@ -9506,13 +9497,10 @@
       "Takeaway"
     ],
     "rating": {
-      "average": 4.162189470927965,
-      "count": 200
+      "average": 3.153500209881106,
+      "count": 20
     },
-    "deliveryPartners": [
-      "Swiggy",
-      "Zomato"
-    ],
+    "deliveryPartners": [],
     "reservationRequired": false,
     "avgMealCost": 500,
     "tags": [
@@ -9619,14 +9607,14 @@
       "Takeaway"
     ],
     "rating": {
-      "average": 4.813975859229918,
-      "count": 77
+      "average": 3.54388796588752,
+      "count": 107
     },
     "deliveryPartners": [
       "Swiggy",
       "Zomato"
     ],
-    "reservationRequired": true,
+    "reservationRequired": false,
     "avgMealCost": 150,
     "tags": [
       "fast_food"
@@ -9729,14 +9717,11 @@
     ],
     "amenities": [],
     "rating": {
-      "average": 3.5385909695993316,
-      "count": 140
+      "average": 4.269835044576654,
+      "count": 66
     },
-    "deliveryPartners": [
-      "Swiggy",
-      "Zomato"
-    ],
-    "reservationRequired": true,
+    "deliveryPartners": [],
+    "reservationRequired": false,
     "avgMealCost": 500,
     "tags": [
       "restaurant"
@@ -9844,11 +9829,14 @@
       "Takeaway"
     ],
     "rating": {
-      "average": 4.664543785294377,
-      "count": 127
+      "average": 3.72235633379888,
+      "count": 181
     },
-    "deliveryPartners": [],
-    "reservationRequired": true,
+    "deliveryPartners": [
+      "Swiggy",
+      "Zomato"
+    ],
+    "reservationRequired": false,
     "avgMealCost": 500,
     "tags": [
       "restaurant"
@@ -9951,14 +9939,11 @@
     ],
     "amenities": [],
     "rating": {
-      "average": 4.794626333811307,
-      "count": 101
+      "average": 3.9373091429234344,
+      "count": 61
     },
-    "deliveryPartners": [
-      "Swiggy",
-      "Zomato"
-    ],
-    "reservationRequired": false,
+    "deliveryPartners": [],
+    "reservationRequired": true,
     "avgMealCost": 500,
     "tags": [
       "restaurant"
@@ -10070,8 +10055,8 @@
     ],
     "amenities": [],
     "rating": {
-      "average": 3.4748274378064425,
-      "count": 80
+      "average": 3.3803700532881913,
+      "count": 172
     },
     "deliveryPartners": [],
     "reservationRequired": false,
@@ -10178,11 +10163,14 @@
     ],
     "amenities": [],
     "rating": {
-      "average": 3.676732470651865,
-      "count": 73
+      "average": 3.437642120055911,
+      "count": 191
     },
-    "deliveryPartners": [],
-    "reservationRequired": false,
+    "deliveryPartners": [
+      "Swiggy",
+      "Zomato"
+    ],
+    "reservationRequired": true,
     "avgMealCost": 500,
     "tags": [
       "restaurant"
@@ -10285,10 +10273,13 @@
     ],
     "amenities": [],
     "rating": {
-      "average": 4.962332844068346,
-      "count": 46
+      "average": 4.8522919977787655,
+      "count": 158
     },
-    "deliveryPartners": [],
+    "deliveryPartners": [
+      "Swiggy",
+      "Zomato"
+    ],
     "reservationRequired": false,
     "avgMealCost": 150,
     "tags": [
@@ -10392,13 +10383,10 @@
     ],
     "amenities": [],
     "rating": {
-      "average": 4.684551942874491,
-      "count": 59
+      "average": 4.0712727055795925,
+      "count": 171
     },
-    "deliveryPartners": [
-      "Swiggy",
-      "Zomato"
-    ],
+    "deliveryPartners": [],
     "reservationRequired": false,
     "avgMealCost": 500,
     "tags": [
@@ -10502,11 +10490,11 @@
     ],
     "amenities": [],
     "rating": {
-      "average": 4.315108143985143,
-      "count": 179
+      "average": 3.4552760821417494,
+      "count": 128
     },
     "deliveryPartners": [],
-    "reservationRequired": false,
+    "reservationRequired": true,
     "avgMealCost": 150,
     "tags": [
       "fast_food"
@@ -10609,11 +10597,14 @@
     ],
     "amenities": [],
     "rating": {
-      "average": 4.118244499834407,
-      "count": 149
+      "average": 3.8413568863093674,
+      "count": 52
     },
-    "deliveryPartners": [],
-    "reservationRequired": true,
+    "deliveryPartners": [
+      "Swiggy",
+      "Zomato"
+    ],
+    "reservationRequired": false,
     "avgMealCost": 150,
     "tags": [
       "fast_food"
@@ -10718,13 +10709,10 @@
       "Takeaway"
     ],
     "rating": {
-      "average": 3.059467504919998,
-      "count": 113
+      "average": 4.859700725673175,
+      "count": 84
     },
-    "deliveryPartners": [
-      "Swiggy",
-      "Zomato"
-    ],
+    "deliveryPartners": [],
     "reservationRequired": false,
     "avgMealCost": 500,
     "tags": [
@@ -10828,8 +10816,8 @@
     ],
     "amenities": [],
     "rating": {
-      "average": 4.280322845519706,
-      "count": 154
+      "average": 4.426281241995312,
+      "count": 5
     },
     "deliveryPartners": [
       "Swiggy",
@@ -10940,14 +10928,11 @@
       "Takeaway"
     ],
     "rating": {
-      "average": 4.033562444387993,
-      "count": 146
+      "average": 4.286120743963655,
+      "count": 15
     },
-    "deliveryPartners": [
-      "Swiggy",
-      "Zomato"
-    ],
-    "reservationRequired": false,
+    "deliveryPartners": [],
+    "reservationRequired": true,
     "avgMealCost": 150,
     "tags": [
       "fast_food"
@@ -11050,11 +11035,11 @@
     ],
     "amenities": [],
     "rating": {
-      "average": 4.850158045675274,
-      "count": 146
+      "average": 3.35448212521658,
+      "count": 38
     },
     "deliveryPartners": [],
-    "reservationRequired": true,
+    "reservationRequired": false,
     "avgMealCost": 500,
     "tags": [
       "restaurant"
@@ -11157,14 +11142,11 @@
     ],
     "amenities": [],
     "rating": {
-      "average": 4.5322659060972565,
-      "count": 87
+      "average": 3.6303207011318355,
+      "count": 160
     },
-    "deliveryPartners": [
-      "Swiggy",
-      "Zomato"
-    ],
-    "reservationRequired": false,
+    "deliveryPartners": [],
+    "reservationRequired": true,
     "avgMealCost": 500,
     "tags": [
       "restaurant"
@@ -11267,13 +11249,10 @@
     ],
     "amenities": [],
     "rating": {
-      "average": 3.7745234764093234,
-      "count": 12
+      "average": 4.539501984291622,
+      "count": 35
     },
-    "deliveryPartners": [
-      "Swiggy",
-      "Zomato"
-    ],
+    "deliveryPartners": [],
     "reservationRequired": false,
     "avgMealCost": 150,
     "tags": [
@@ -11380,14 +11359,14 @@
     ],
     "amenities": [],
     "rating": {
-      "average": 4.949290585144729,
-      "count": 68
+      "average": 3.251298673402896,
+      "count": 30
     },
     "deliveryPartners": [
       "Swiggy",
       "Zomato"
     ],
-    "reservationRequired": false,
+    "reservationRequired": true,
     "avgMealCost": 500,
     "tags": [
       "restaurant"
@@ -11490,8 +11469,8 @@
     ],
     "amenities": [],
     "rating": {
-      "average": 4.910580013745391,
-      "count": 180
+      "average": 4.926777983470206,
+      "count": 6
     },
     "deliveryPartners": [
       "Swiggy",
@@ -11600,8 +11579,8 @@
     ],
     "amenities": [],
     "rating": {
-      "average": 4.234276393762293,
-      "count": 175
+      "average": 3.283486027007703,
+      "count": 61
     },
     "deliveryPartners": [],
     "reservationRequired": false,
@@ -11707,8 +11686,8 @@
     ],
     "amenities": [],
     "rating": {
-      "average": 4.316810844505141,
-      "count": 75
+      "average": 3.628511226090974,
+      "count": 133
     },
     "deliveryPartners": [],
     "reservationRequired": false,
@@ -11814,8 +11793,8 @@
     ],
     "amenities": [],
     "rating": {
-      "average": 3.440043014161314,
-      "count": 36
+      "average": 3.611528392052075,
+      "count": 196
     },
     "deliveryPartners": [
       "Swiggy",
@@ -11927,13 +11906,10 @@
     ],
     "amenities": [],
     "rating": {
-      "average": 4.046310352331141,
-      "count": 55
+      "average": 4.836067903245783,
+      "count": 57
     },
-    "deliveryPartners": [
-      "Swiggy",
-      "Zomato"
-    ],
+    "deliveryPartners": [],
     "reservationRequired": false,
     "avgMealCost": 150,
     "tags": [
@@ -12037,10 +12013,13 @@
     ],
     "amenities": [],
     "rating": {
-      "average": 4.413143861510752,
-      "count": 155
+      "average": 3.5487080419303636,
+      "count": 118
     },
-    "deliveryPartners": [],
+    "deliveryPartners": [
+      "Swiggy",
+      "Zomato"
+    ],
     "reservationRequired": false,
     "avgMealCost": 150,
     "tags": [
@@ -12144,14 +12123,11 @@
     ],
     "amenities": [],
     "rating": {
-      "average": 3.742008784601665,
-      "count": 85
+      "average": 3.1104418777367826,
+      "count": 172
     },
-    "deliveryPartners": [
-      "Swiggy",
-      "Zomato"
-    ],
-    "reservationRequired": false,
+    "deliveryPartners": [],
+    "reservationRequired": true,
     "avgMealCost": 500,
     "tags": [
       "restaurant"
@@ -12256,8 +12232,8 @@
       "Takeaway"
     ],
     "rating": {
-      "average": 4.080829783465364,
-      "count": 152
+      "average": 3.3487051874939504,
+      "count": 100
     },
     "deliveryPartners": [
       "Swiggy",
@@ -12368,8 +12344,8 @@
       "Takeaway"
     ],
     "rating": {
-      "average": 3.205756810540945,
-      "count": 194
+      "average": 4.4232192303555165,
+      "count": 123
     },
     "deliveryPartners": [],
     "reservationRequired": false,
@@ -12475,8 +12451,8 @@
     ],
     "amenities": [],
     "rating": {
-      "average": 4.143577763441028,
-      "count": 79
+      "average": 3.9539589511741235,
+      "count": 145
     },
     "deliveryPartners": [],
     "reservationRequired": false,
@@ -12582,8 +12558,8 @@
     ],
     "amenities": [],
     "rating": {
-      "average": 4.221942138188785,
-      "count": 144
+      "average": 3.2657831114422065,
+      "count": 85
     },
     "deliveryPartners": [
       "Swiggy",
@@ -12692,8 +12668,8 @@
     ],
     "amenities": [],
     "rating": {
-      "average": 4.278522832532699,
-      "count": 32
+      "average": 4.133692318515305,
+      "count": 59
     },
     "deliveryPartners": [],
     "reservationRequired": false,
@@ -12731,7 +12707,7 @@
       "phone": [
         "+913322848556"
       ],
-      "email": "info@arsalanrestaurants.com",
+      "email": "",
       "website": "https://arsalanrestaurants.com/",
       "socialMedia": {}
     },
@@ -12803,8 +12779,8 @@
       "Home Delivery"
     ],
     "rating": {
-      "average": 3.4923623967493738,
-      "count": 22
+      "average": 3.5272383767071487,
+      "count": 134
     },
     "deliveryPartners": [],
     "reservationRequired": false,
@@ -12910,13 +12886,10 @@
     ],
     "amenities": [],
     "rating": {
-      "average": 3.8578003389139432,
-      "count": 53
+      "average": 4.453686427348773,
+      "count": 151
     },
-    "deliveryPartners": [
-      "Swiggy",
-      "Zomato"
-    ],
+    "deliveryPartners": [],
     "reservationRequired": false,
     "avgMealCost": 500,
     "tags": [
@@ -13020,8 +12993,8 @@
     ],
     "amenities": [],
     "rating": {
-      "average": 3.648925006157514,
-      "count": 181
+      "average": 3.4389139133310698,
+      "count": 158
     },
     "deliveryPartners": [
       "Swiggy",
@@ -13130,14 +13103,14 @@
     ],
     "amenities": [],
     "rating": {
-      "average": 3.8715248332264633,
-      "count": 142
+      "average": 3.559371919048319,
+      "count": 20
     },
     "deliveryPartners": [
       "Swiggy",
       "Zomato"
     ],
-    "reservationRequired": true,
+    "reservationRequired": false,
     "avgMealCost": 500,
     "tags": [
       "restaurant"
@@ -13240,14 +13213,11 @@
     ],
     "amenities": [],
     "rating": {
-      "average": 3.030651666348575,
-      "count": 18
+      "average": 3.4400371345144882,
+      "count": 204
     },
-    "deliveryPartners": [
-      "Swiggy",
-      "Zomato"
-    ],
-    "reservationRequired": false,
+    "deliveryPartners": [],
+    "reservationRequired": true,
     "avgMealCost": 500,
     "tags": [
       "restaurant"
@@ -13350,13 +13320,10 @@
     ],
     "amenities": [],
     "rating": {
-      "average": 4.599771254964683,
-      "count": 160
+      "average": 4.098960408186342,
+      "count": 95
     },
-    "deliveryPartners": [
-      "Swiggy",
-      "Zomato"
-    ],
+    "deliveryPartners": [],
     "reservationRequired": false,
     "avgMealCost": 500,
     "tags": [
@@ -13460,11 +13427,11 @@
     ],
     "amenities": [],
     "rating": {
-      "average": 4.754795354783752,
-      "count": 114
+      "average": 3.927449274427228,
+      "count": 71
     },
     "deliveryPartners": [],
-    "reservationRequired": true,
+    "reservationRequired": false,
     "avgMealCost": 500,
     "tags": [
       "restaurant"
@@ -13567,11 +13534,11 @@
     ],
     "amenities": [],
     "rating": {
-      "average": 3.0647484838711203,
-      "count": 151
+      "average": 4.708595909747638,
+      "count": 60
     },
     "deliveryPartners": [],
-    "reservationRequired": true,
+    "reservationRequired": false,
     "avgMealCost": 500,
     "tags": [
       "restaurant"
@@ -13674,10 +13641,13 @@
     ],
     "amenities": [],
     "rating": {
-      "average": 4.197407591216751,
-      "count": 102
+      "average": 4.551720366512441,
+      "count": 40
     },
-    "deliveryPartners": [],
+    "deliveryPartners": [
+      "Swiggy",
+      "Zomato"
+    ],
     "reservationRequired": false,
     "avgMealCost": 500,
     "tags": [
@@ -13781,10 +13751,13 @@
     ],
     "amenities": [],
     "rating": {
-      "average": 3.2455810974667814,
-      "count": 25
+      "average": 3.2405482825141774,
+      "count": 155
     },
-    "deliveryPartners": [],
+    "deliveryPartners": [
+      "Swiggy",
+      "Zomato"
+    ],
     "reservationRequired": false,
     "avgMealCost": 500,
     "tags": [
@@ -13888,11 +13861,14 @@
     ],
     "amenities": [],
     "rating": {
-      "average": 4.0865770467475055,
-      "count": 91
+      "average": 4.30492946917994,
+      "count": 132
     },
-    "deliveryPartners": [],
-    "reservationRequired": true,
+    "deliveryPartners": [
+      "Swiggy",
+      "Zomato"
+    ],
+    "reservationRequired": false,
     "avgMealCost": 500,
     "tags": [
       "restaurant"
@@ -13995,14 +13971,11 @@
     ],
     "amenities": [],
     "rating": {
-      "average": 3.8586689644160015,
-      "count": 19
+      "average": 3.590405330286828,
+      "count": 195
     },
-    "deliveryPartners": [
-      "Swiggy",
-      "Zomato"
-    ],
-    "reservationRequired": false,
+    "deliveryPartners": [],
+    "reservationRequired": true,
     "avgMealCost": 500,
     "tags": [
       "restaurant"
@@ -14105,14 +14078,14 @@
     ],
     "amenities": [],
     "rating": {
-      "average": 3.578419081641143,
-      "count": 31
+      "average": 3.6820701078946216,
+      "count": 175
     },
     "deliveryPartners": [
       "Swiggy",
       "Zomato"
     ],
-    "reservationRequired": true,
+    "reservationRequired": false,
     "avgMealCost": 250,
     "tags": [
       "cafe"
@@ -14215,8 +14188,8 @@
     ],
     "amenities": [],
     "rating": {
-      "average": 3.6685865034974503,
-      "count": 183
+      "average": 4.58596783119822,
+      "count": 78
     },
     "deliveryPartners": [
       "Swiggy",
@@ -14325,14 +14298,14 @@
     ],
     "amenities": [],
     "rating": {
-      "average": 4.1351536829811435,
-      "count": 19
+      "average": 4.507313881157266,
+      "count": 69
     },
     "deliveryPartners": [
       "Swiggy",
       "Zomato"
     ],
-    "reservationRequired": true,
+    "reservationRequired": false,
     "avgMealCost": 250,
     "tags": [
       "cafe"
@@ -14435,14 +14408,11 @@
     ],
     "amenities": [],
     "rating": {
-      "average": 3.003048970557299,
-      "count": 151
+      "average": 4.508054509908844,
+      "count": 142
     },
-    "deliveryPartners": [
-      "Swiggy",
-      "Zomato"
-    ],
-    "reservationRequired": true,
+    "deliveryPartners": [],
+    "reservationRequired": false,
     "avgMealCost": 500,
     "tags": [
       "restaurant"
@@ -14545,10 +14515,13 @@
     ],
     "amenities": [],
     "rating": {
-      "average": 4.840701280287563,
-      "count": 121
+      "average": 3.262777677129959,
+      "count": 161
     },
-    "deliveryPartners": [],
+    "deliveryPartners": [
+      "Swiggy",
+      "Zomato"
+    ],
     "reservationRequired": false,
     "avgMealCost": 500,
     "tags": [
@@ -14652,13 +14625,10 @@
     ],
     "amenities": [],
     "rating": {
-      "average": 4.031203749188309,
-      "count": 116
+      "average": 4.994524492776846,
+      "count": 160
     },
-    "deliveryPartners": [
-      "Swiggy",
-      "Zomato"
-    ],
+    "deliveryPartners": [],
     "reservationRequired": false,
     "avgMealCost": 500,
     "tags": [
@@ -14764,13 +14734,10 @@
     ],
     "amenities": [],
     "rating": {
-      "average": 3.700651803343256,
-      "count": 123
+      "average": 3.6056526209842916,
+      "count": 85
     },
-    "deliveryPartners": [
-      "Swiggy",
-      "Zomato"
-    ],
+    "deliveryPartners": [],
     "reservationRequired": false,
     "avgMealCost": 500,
     "tags": [
@@ -14875,14 +14842,14 @@
     ],
     "amenities": [],
     "rating": {
-      "average": 3.242364404325542,
-      "count": 107
+      "average": 4.602473543513832,
+      "count": 152
     },
     "deliveryPartners": [
       "Swiggy",
       "Zomato"
     ],
-    "reservationRequired": false,
+    "reservationRequired": true,
     "avgMealCost": 500,
     "tags": [
       "restaurant"
@@ -14985,11 +14952,11 @@
     ],
     "amenities": [],
     "rating": {
-      "average": 3.4758470401132144,
-      "count": 143
+      "average": 4.209438025156626,
+      "count": 111
     },
     "deliveryPartners": [],
-    "reservationRequired": false,
+    "reservationRequired": true,
     "avgMealCost": 500,
     "tags": [
       "restaurant"
@@ -15094,8 +15061,8 @@
     ],
     "amenities": [],
     "rating": {
-      "average": 3.955254423124684,
-      "count": 86
+      "average": 4.379860714362966,
+      "count": 176
     },
     "deliveryPartners": [
       "Swiggy",
@@ -15204,8 +15171,8 @@
     ],
     "amenities": [],
     "rating": {
-      "average": 3.3504397716821015,
-      "count": 69
+      "average": 4.835848405209303,
+      "count": 173
     },
     "deliveryPartners": [
       "Swiggy",
@@ -15314,11 +15281,14 @@
     ],
     "amenities": [],
     "rating": {
-      "average": 4.461922763247352,
-      "count": 37
+      "average": 4.750601016863134,
+      "count": 181
     },
-    "deliveryPartners": [],
-    "reservationRequired": false,
+    "deliveryPartners": [
+      "Swiggy",
+      "Zomato"
+    ],
+    "reservationRequired": true,
     "avgMealCost": 150,
     "tags": [
       "fast_food"
@@ -15421,10 +15391,13 @@
     ],
     "amenities": [],
     "rating": {
-      "average": 3.1429776124499744,
-      "count": 156
+      "average": 4.902395654559809,
+      "count": 38
     },
-    "deliveryPartners": [],
+    "deliveryPartners": [
+      "Swiggy",
+      "Zomato"
+    ],
     "reservationRequired": false,
     "avgMealCost": 500,
     "tags": [
@@ -15528,14 +15501,11 @@
     ],
     "amenities": [],
     "rating": {
-      "average": 3.7693088695993016,
-      "count": 80
+      "average": 4.108337531121977,
+      "count": 67
     },
-    "deliveryPartners": [
-      "Swiggy",
-      "Zomato"
-    ],
-    "reservationRequired": true,
+    "deliveryPartners": [],
+    "reservationRequired": false,
     "avgMealCost": 500,
     "tags": [
       "restaurant"
@@ -15638,13 +15608,10 @@
     ],
     "amenities": [],
     "rating": {
-      "average": 4.753650313709976,
-      "count": 35
+      "average": 3.79612553758623,
+      "count": 163
     },
-    "deliveryPartners": [
-      "Swiggy",
-      "Zomato"
-    ],
+    "deliveryPartners": [],
     "reservationRequired": false,
     "avgMealCost": 500,
     "tags": [
@@ -15752,10 +15719,13 @@
       "Takeaway"
     ],
     "rating": {
-      "average": 3.2899422500858106,
-      "count": 145
+      "average": 4.002091522071629,
+      "count": 103
     },
-    "deliveryPartners": [],
+    "deliveryPartners": [
+      "Swiggy",
+      "Zomato"
+    ],
     "reservationRequired": false,
     "avgMealCost": 500,
     "tags": [
@@ -15859,11 +15829,14 @@
     ],
     "amenities": [],
     "rating": {
-      "average": 4.352062996889651,
-      "count": 170
+      "average": 4.027658681378529,
+      "count": 8
     },
-    "deliveryPartners": [],
-    "reservationRequired": false,
+    "deliveryPartners": [
+      "Swiggy",
+      "Zomato"
+    ],
+    "reservationRequired": true,
     "avgMealCost": 150,
     "tags": [
       "fast_food"
@@ -15971,11 +15944,11 @@
     ],
     "amenities": [],
     "rating": {
-      "average": 4.359797414208494,
-      "count": 136
+      "average": 4.212269461672138,
+      "count": 117
     },
     "deliveryPartners": [],
-    "reservationRequired": true,
+    "reservationRequired": false,
     "avgMealCost": 500,
     "tags": [
       "restaurant"
@@ -16081,8 +16054,8 @@
     ],
     "amenities": [],
     "rating": {
-      "average": 3.0968467221786256,
-      "count": 192
+      "average": 4.569976213105934,
+      "count": 125
     },
     "deliveryPartners": [
       "Swiggy",
@@ -16191,10 +16164,13 @@
     ],
     "amenities": [],
     "rating": {
-      "average": 4.817710750948472,
-      "count": 99
+      "average": 3.3718922514632537,
+      "count": 156
     },
-    "deliveryPartners": [],
+    "deliveryPartners": [
+      "Swiggy",
+      "Zomato"
+    ],
     "reservationRequired": true,
     "avgMealCost": 500,
     "tags": [
@@ -16298,10 +16274,13 @@
     ],
     "amenities": [],
     "rating": {
-      "average": 4.967653533343725,
-      "count": 45
+      "average": 4.774031056307309,
+      "count": 129
     },
-    "deliveryPartners": [],
+    "deliveryPartners": [
+      "Swiggy",
+      "Zomato"
+    ],
     "reservationRequired": false,
     "avgMealCost": 150,
     "tags": [
@@ -16405,11 +16384,14 @@
     ],
     "amenities": [],
     "rating": {
-      "average": 3.3835239448964325,
-      "count": 63
+      "average": 4.3548493871460305,
+      "count": 6
     },
-    "deliveryPartners": [],
-    "reservationRequired": true,
+    "deliveryPartners": [
+      "Swiggy",
+      "Zomato"
+    ],
+    "reservationRequired": false,
     "avgMealCost": 500,
     "tags": [
       "restaurant"
@@ -16514,14 +16496,11 @@
     ],
     "amenities": [],
     "rating": {
-      "average": 3.5380267286407516,
-      "count": 190
+      "average": 4.211263723312633,
+      "count": 155
     },
-    "deliveryPartners": [
-      "Swiggy",
-      "Zomato"
-    ],
-    "reservationRequired": false,
+    "deliveryPartners": [],
+    "reservationRequired": true,
     "avgMealCost": 500,
     "tags": [
       "restaurant"
@@ -16624,14 +16603,14 @@
     ],
     "amenities": [],
     "rating": {
-      "average": 3.3478838594401887,
-      "count": 173
+      "average": 3.279921687896375,
+      "count": 184
     },
     "deliveryPartners": [
       "Swiggy",
       "Zomato"
     ],
-    "reservationRequired": false,
+    "reservationRequired": true,
     "avgMealCost": 150,
     "tags": [
       "fast_food"
@@ -16734,14 +16713,14 @@
     ],
     "amenities": [],
     "rating": {
-      "average": 4.893275538935827,
-      "count": 29
+      "average": 4.85187501918981,
+      "count": 188
     },
     "deliveryPartners": [
       "Swiggy",
       "Zomato"
     ],
-    "reservationRequired": true,
+    "reservationRequired": false,
     "avgMealCost": 500,
     "tags": [
       "restaurant"
@@ -16844,8 +16823,8 @@
     ],
     "amenities": [],
     "rating": {
-      "average": 3.7262206135112486,
-      "count": 174
+      "average": 3.5698316963846093,
+      "count": 129
     },
     "deliveryPartners": [],
     "reservationRequired": false,
@@ -16953,10 +16932,13 @@
       "Takeaway"
     ],
     "rating": {
-      "average": 3.772689607732693,
-      "count": 162
+      "average": 4.371357883312668,
+      "count": 69
     },
-    "deliveryPartners": [],
+    "deliveryPartners": [
+      "Swiggy",
+      "Zomato"
+    ],
     "reservationRequired": false,
     "avgMealCost": 250,
     "tags": [
@@ -17064,14 +17046,11 @@
       "Takeaway"
     ],
     "rating": {
-      "average": 3.6160049483326344,
-      "count": 144
+      "average": 3.2245888210661855,
+      "count": 201
     },
-    "deliveryPartners": [
-      "Swiggy",
-      "Zomato"
-    ],
-    "reservationRequired": false,
+    "deliveryPartners": [],
+    "reservationRequired": true,
     "avgMealCost": 150,
     "tags": [
       "fast_food"
@@ -17176,11 +17155,11 @@
       "Takeaway"
     ],
     "rating": {
-      "average": 3.8177785838875224,
-      "count": 160
+      "average": 3.143186478893325,
+      "count": 72
     },
     "deliveryPartners": [],
-    "reservationRequired": false,
+    "reservationRequired": true,
     "avgMealCost": 150,
     "tags": [
       "fast_food"
@@ -17287,13 +17266,10 @@
     ],
     "amenities": [],
     "rating": {
-      "average": 3.018320130054824,
-      "count": 22
+      "average": 3.002602771155756,
+      "count": 45
     },
-    "deliveryPartners": [
-      "Swiggy",
-      "Zomato"
-    ],
+    "deliveryPartners": [],
     "reservationRequired": false,
     "avgMealCost": 500,
     "tags": [
@@ -17399,13 +17375,10 @@
     ],
     "amenities": [],
     "rating": {
-      "average": 4.0331776492530285,
-      "count": 29
+      "average": 3.8292527651815504,
+      "count": 46
     },
-    "deliveryPartners": [
-      "Swiggy",
-      "Zomato"
-    ],
+    "deliveryPartners": [],
     "reservationRequired": false,
     "avgMealCost": 500,
     "tags": [
@@ -17509,8 +17482,8 @@
     ],
     "amenities": [],
     "rating": {
-      "average": 3.0948452265753774,
-      "count": 201
+      "average": 3.825452594070078,
+      "count": 21
     },
     "deliveryPartners": [],
     "reservationRequired": false,
@@ -17618,13 +17591,10 @@
       "Takeaway"
     ],
     "rating": {
-      "average": 4.45522359861043,
-      "count": 51
+      "average": 3.5811195824502042,
+      "count": 24
     },
-    "deliveryPartners": [
-      "Swiggy",
-      "Zomato"
-    ],
+    "deliveryPartners": [],
     "reservationRequired": true,
     "avgMealCost": 250,
     "tags": [
@@ -17728,13 +17698,10 @@
     ],
     "amenities": [],
     "rating": {
-      "average": 3.4464846244775043,
-      "count": 26
+      "average": 3.6307290993439185,
+      "count": 199
     },
-    "deliveryPartners": [
-      "Swiggy",
-      "Zomato"
-    ],
+    "deliveryPartners": [],
     "reservationRequired": false,
     "avgMealCost": 150,
     "tags": [
@@ -17840,13 +17807,10 @@
     ],
     "amenities": [],
     "rating": {
-      "average": 4.198684518000961,
-      "count": 101
+      "average": 3.926395996271765,
+      "count": 110
     },
-    "deliveryPartners": [
-      "Swiggy",
-      "Zomato"
-    ],
+    "deliveryPartners": [],
     "reservationRequired": false,
     "avgMealCost": 250,
     "tags": [
@@ -17950,8 +17914,8 @@
     ],
     "amenities": [],
     "rating": {
-      "average": 3.6387636255461198,
-      "count": 127
+      "average": 3.786919118907823,
+      "count": 71
     },
     "deliveryPartners": [],
     "reservationRequired": false,
@@ -18057,13 +18021,10 @@
     ],
     "amenities": [],
     "rating": {
-      "average": 3.6463110855156367,
-      "count": 198
+      "average": 4.547039137477768,
+      "count": 152
     },
-    "deliveryPartners": [
-      "Swiggy",
-      "Zomato"
-    ],
+    "deliveryPartners": [],
     "reservationRequired": false,
     "avgMealCost": 500,
     "tags": [
@@ -18167,8 +18128,8 @@
     ],
     "amenities": [],
     "rating": {
-      "average": 4.816370032282965,
-      "count": 92
+      "average": 4.555336135652349,
+      "count": 183
     },
     "deliveryPartners": [
       "Swiggy",
@@ -18281,10 +18242,13 @@
     ],
     "amenities": [],
     "rating": {
-      "average": 4.934798882938116,
-      "count": 22
+      "average": 4.380729646713251,
+      "count": 26
     },
-    "deliveryPartners": [],
+    "deliveryPartners": [
+      "Swiggy",
+      "Zomato"
+    ],
     "reservationRequired": false,
     "avgMealCost": 500,
     "tags": [
@@ -18397,11 +18361,11 @@
     ],
     "amenities": [],
     "rating": {
-      "average": 4.841271411209689,
-      "count": 119
+      "average": 3.5381588342612833,
+      "count": 141
     },
     "deliveryPartners": [],
-    "reservationRequired": false,
+    "reservationRequired": true,
     "avgMealCost": 500,
     "tags": [
       "restaurant"
@@ -18504,10 +18468,13 @@
     ],
     "amenities": [],
     "rating": {
-      "average": 3.68537927094019,
-      "count": 57
+      "average": 4.997707920497917,
+      "count": 187
     },
-    "deliveryPartners": [],
+    "deliveryPartners": [
+      "Swiggy",
+      "Zomato"
+    ],
     "reservationRequired": false,
     "avgMealCost": 500,
     "tags": [
@@ -18613,8 +18580,8 @@
       "Takeaway"
     ],
     "rating": {
-      "average": 4.051741082912976,
-      "count": 118
+      "average": 4.448172856887271,
+      "count": 26
     },
     "deliveryPartners": [
       "Swiggy",
@@ -18723,11 +18690,11 @@
     ],
     "amenities": [],
     "rating": {
-      "average": 3.358745545431028,
-      "count": 25
+      "average": 3.7179004511416243,
+      "count": 162
     },
     "deliveryPartners": [],
-    "reservationRequired": false,
+    "reservationRequired": true,
     "avgMealCost": 500,
     "tags": [
       "restaurant"
@@ -18835,8 +18802,8 @@
       "Takeaway"
     ],
     "rating": {
-      "average": 3.8817884687759348,
-      "count": 75
+      "average": 4.294792287605068,
+      "count": 199
     },
     "deliveryPartners": [
       "Swiggy",
@@ -18950,13 +18917,10 @@
       "Takeaway"
     ],
     "rating": {
-      "average": 4.898751397732236,
-      "count": 164
+      "average": 4.364409600600919,
+      "count": 139
     },
-    "deliveryPartners": [
-      "Swiggy",
-      "Zomato"
-    ],
+    "deliveryPartners": [],
     "reservationRequired": false,
     "avgMealCost": 250,
     "tags": [
@@ -19060,8 +19024,8 @@
     ],
     "amenities": [],
     "rating": {
-      "average": 4.866598687635412,
-      "count": 96
+      "average": 4.990404293425868,
+      "count": 45
     },
     "deliveryPartners": [],
     "reservationRequired": false,
@@ -19169,11 +19133,14 @@
       "Takeaway"
     ],
     "rating": {
-      "average": 4.445430583998806,
-      "count": 37
+      "average": 4.2733068400103065,
+      "count": 33
     },
-    "deliveryPartners": [],
-    "reservationRequired": true,
+    "deliveryPartners": [
+      "Swiggy",
+      "Zomato"
+    ],
+    "reservationRequired": false,
     "avgMealCost": 250,
     "tags": [
       "cafe"
@@ -19276,11 +19243,11 @@
     ],
     "amenities": [],
     "rating": {
-      "average": 3.600659038902051,
-      "count": 85
+      "average": 4.414956247164261,
+      "count": 84
     },
     "deliveryPartners": [],
-    "reservationRequired": true,
+    "reservationRequired": false,
     "avgMealCost": 150,
     "tags": [
       "fast_food"
@@ -19384,11 +19351,11 @@
     ],
     "amenities": [],
     "rating": {
-      "average": 4.58836514992718,
-      "count": 123
+      "average": 3.3186073457958654,
+      "count": 193
     },
     "deliveryPartners": [],
-    "reservationRequired": false,
+    "reservationRequired": true,
     "avgMealCost": 500,
     "tags": [
       "restaurant"
@@ -19491,13 +19458,10 @@
     ],
     "amenities": [],
     "rating": {
-      "average": 4.4491621085123825,
-      "count": 178
+      "average": 3.1971909626839103,
+      "count": 136
     },
-    "deliveryPartners": [
-      "Swiggy",
-      "Zomato"
-    ],
+    "deliveryPartners": [],
     "reservationRequired": false,
     "avgMealCost": 500,
     "tags": [
@@ -19601,13 +19565,10 @@
     ],
     "amenities": [],
     "rating": {
-      "average": 3.5171341175172346,
-      "count": 178
+      "average": 4.543208548323654,
+      "count": 70
     },
-    "deliveryPartners": [
-      "Swiggy",
-      "Zomato"
-    ],
+    "deliveryPartners": [],
     "reservationRequired": false,
     "avgMealCost": 500,
     "tags": [
@@ -19711,11 +19672,11 @@
     ],
     "amenities": [],
     "rating": {
-      "average": 4.327650329236995,
-      "count": 165
+      "average": 4.998237309734236,
+      "count": 69
     },
     "deliveryPartners": [],
-    "reservationRequired": false,
+    "reservationRequired": true,
     "avgMealCost": 150,
     "tags": [
       "fast_food"
@@ -19823,14 +19784,14 @@
     ],
     "amenities": [],
     "rating": {
-      "average": 4.6407808915884665,
-      "count": 166
+      "average": 3.4410049906086093,
+      "count": 170
     },
     "deliveryPartners": [
       "Swiggy",
       "Zomato"
     ],
-    "reservationRequired": false,
+    "reservationRequired": true,
     "avgMealCost": 250,
     "tags": [
       "cafe"
@@ -19938,8 +19899,8 @@
       "Takeaway"
     ],
     "rating": {
-      "average": 4.790690901366078,
-      "count": 36
+      "average": 4.888509976648547,
+      "count": 68
     },
     "deliveryPartners": [
       "Swiggy",
@@ -20050,11 +20011,11 @@
       "Takeaway"
     ],
     "rating": {
-      "average": 4.240513826813212,
-      "count": 199
+      "average": 3.32219420078418,
+      "count": 91
     },
     "deliveryPartners": [],
-    "reservationRequired": true,
+    "reservationRequired": false,
     "avgMealCost": 250,
     "tags": [
       "cafe"
@@ -20157,11 +20118,11 @@
     ],
     "amenities": [],
     "rating": {
-      "average": 4.573410046343193,
-      "count": 143
+      "average": 3.7492558707074815,
+      "count": 171
     },
     "deliveryPartners": [],
-    "reservationRequired": false,
+    "reservationRequired": true,
     "avgMealCost": 500,
     "tags": [
       "restaurant"
@@ -20266,11 +20227,11 @@
       "Outdoor Seating"
     ],
     "rating": {
-      "average": 3.909271011978357,
-      "count": 29
+      "average": 3.088023569796769,
+      "count": 120
     },
     "deliveryPartners": [],
-    "reservationRequired": true,
+    "reservationRequired": false,
     "avgMealCost": 250,
     "tags": [
       "cafe"
@@ -20375,8 +20336,8 @@
       "Takeaway"
     ],
     "rating": {
-      "average": 4.567389755192922,
-      "count": 58
+      "average": 4.129586418585052,
+      "count": 66
     },
     "deliveryPartners": [
       "Swiggy",
@@ -20487,13 +20448,10 @@
       "Home Delivery"
     ],
     "rating": {
-      "average": 4.06977740133425,
-      "count": 12
+      "average": 4.658444595455077,
+      "count": 42
     },
-    "deliveryPartners": [
-      "Swiggy",
-      "Zomato"
-    ],
+    "deliveryPartners": [],
     "reservationRequired": false,
     "avgMealCost": 150,
     "tags": [
@@ -20602,8 +20560,8 @@
     ],
     "amenities": [],
     "rating": {
-      "average": 3.3070256577168,
-      "count": 76
+      "average": 4.435455178898289,
+      "count": 98
     },
     "deliveryPartners": [
       "Swiggy",
@@ -20712,10 +20670,13 @@
     ],
     "amenities": [],
     "rating": {
-      "average": 3.3431840470220573,
-      "count": 164
+      "average": 4.835840105362557,
+      "count": 144
     },
-    "deliveryPartners": [],
+    "deliveryPartners": [
+      "Swiggy",
+      "Zomato"
+    ],
     "reservationRequired": false,
     "avgMealCost": 150,
     "tags": [
@@ -20819,13 +20780,10 @@
     ],
     "amenities": [],
     "rating": {
-      "average": 3.1684809878499576,
-      "count": 188
+      "average": 4.714937958260255,
+      "count": 12
     },
-    "deliveryPartners": [
-      "Swiggy",
-      "Zomato"
-    ],
+    "deliveryPartners": [],
     "reservationRequired": false,
     "avgMealCost": 150,
     "tags": [
@@ -20932,11 +20890,11 @@
     ],
     "amenities": [],
     "rating": {
-      "average": 4.7653756446430116,
-      "count": 131
+      "average": 3.8804800257504932,
+      "count": 140
     },
     "deliveryPartners": [],
-    "reservationRequired": true,
+    "reservationRequired": false,
     "avgMealCost": 500,
     "tags": [
       "restaurant"
@@ -21039,11 +20997,14 @@
     ],
     "amenities": [],
     "rating": {
-      "average": 3.732748744420543,
-      "count": 27
+      "average": 3.5758129778377703,
+      "count": 151
     },
-    "deliveryPartners": [],
-    "reservationRequired": true,
+    "deliveryPartners": [
+      "Swiggy",
+      "Zomato"
+    ],
+    "reservationRequired": false,
     "avgMealCost": 500,
     "tags": [
       "restaurant"
@@ -21146,13 +21107,10 @@
     ],
     "amenities": [],
     "rating": {
-      "average": 3.6685985479112837,
-      "count": 74
+      "average": 4.737815477826288,
+      "count": 64
     },
-    "deliveryPartners": [
-      "Swiggy",
-      "Zomato"
-    ],
+    "deliveryPartners": [],
     "reservationRequired": false,
     "avgMealCost": 500,
     "tags": [
@@ -21256,11 +21214,11 @@
     ],
     "amenities": [],
     "rating": {
-      "average": 4.655001049574394,
-      "count": 177
+      "average": 4.730811338397409,
+      "count": 200
     },
     "deliveryPartners": [],
-    "reservationRequired": false,
+    "reservationRequired": true,
     "avgMealCost": 500,
     "tags": [
       "restaurant"
@@ -21363,11 +21321,11 @@
     ],
     "amenities": [],
     "rating": {
-      "average": 4.562856114223958,
-      "count": 203
+      "average": 4.521500170891101,
+      "count": 139
     },
     "deliveryPartners": [],
-    "reservationRequired": false,
+    "reservationRequired": true,
     "avgMealCost": 150,
     "tags": [
       "fast_food"
@@ -21470,13 +21428,10 @@
     ],
     "amenities": [],
     "rating": {
-      "average": 3.3204476157656706,
-      "count": 79
+      "average": 4.225546882652488,
+      "count": 89
     },
-    "deliveryPartners": [
-      "Swiggy",
-      "Zomato"
-    ],
+    "deliveryPartners": [],
     "reservationRequired": false,
     "avgMealCost": 500,
     "tags": [
@@ -21580,10 +21535,13 @@
     ],
     "amenities": [],
     "rating": {
-      "average": 4.801552914299365,
-      "count": 111
+      "average": 4.526210983915398,
+      "count": 146
     },
-    "deliveryPartners": [],
+    "deliveryPartners": [
+      "Swiggy",
+      "Zomato"
+    ],
     "reservationRequired": false,
     "avgMealCost": 500,
     "tags": [
@@ -21687,14 +21645,11 @@
     ],
     "amenities": [],
     "rating": {
-      "average": 4.507203084074037,
-      "count": 95
+      "average": 3.763781791743739,
+      "count": 103
     },
-    "deliveryPartners": [
-      "Swiggy",
-      "Zomato"
-    ],
-    "reservationRequired": false,
+    "deliveryPartners": [],
+    "reservationRequired": true,
     "avgMealCost": 500,
     "tags": [
       "restaurant"
@@ -21801,10 +21756,13 @@
     ],
     "amenities": [],
     "rating": {
-      "average": 4.6359594400694135,
-      "count": 50
+      "average": 4.006167682763424,
+      "count": 98
     },
-    "deliveryPartners": [],
+    "deliveryPartners": [
+      "Swiggy",
+      "Zomato"
+    ],
     "reservationRequired": false,
     "avgMealCost": 500,
     "tags": [
@@ -21912,13 +21870,10 @@
     ],
     "amenities": [],
     "rating": {
-      "average": 4.776040963196438,
-      "count": 150
+      "average": 3.32055580980494,
+      "count": 149
     },
-    "deliveryPartners": [
-      "Swiggy",
-      "Zomato"
-    ],
+    "deliveryPartners": [],
     "reservationRequired": false,
     "avgMealCost": 250,
     "tags": [
@@ -22026,10 +21981,13 @@
     ],
     "amenities": [],
     "rating": {
-      "average": 4.791371750135487,
-      "count": 93
+      "average": 4.175340958616669,
+      "count": 135
     },
-    "deliveryPartners": [],
+    "deliveryPartners": [
+      "Swiggy",
+      "Zomato"
+    ],
     "reservationRequired": false,
     "avgMealCost": 500,
     "tags": [
@@ -22135,14 +22093,11 @@
       "Takeaway"
     ],
     "rating": {
-      "average": 3.1592435870120776,
-      "count": 44
+      "average": 3.9900764353403915,
+      "count": 174
     },
-    "deliveryPartners": [
-      "Swiggy",
-      "Zomato"
-    ],
-    "reservationRequired": true,
+    "deliveryPartners": [],
+    "reservationRequired": false,
     "avgMealCost": 150,
     "tags": [
       "fast_food"
@@ -22249,14 +22204,14 @@
       "Takeaway"
     ],
     "rating": {
-      "average": 3.6984444747747487,
-      "count": 137
+      "average": 4.866290215707206,
+      "count": 194
     },
     "deliveryPartners": [
       "Swiggy",
       "Zomato"
     ],
-    "reservationRequired": true,
+    "reservationRequired": false,
     "avgMealCost": 150,
     "tags": [
       "fast_food"
@@ -22359,13 +22314,10 @@
     ],
     "amenities": [],
     "rating": {
-      "average": 4.390583008756154,
-      "count": 99
+      "average": 4.658553713719747,
+      "count": 13
     },
-    "deliveryPartners": [
-      "Swiggy",
-      "Zomato"
-    ],
+    "deliveryPartners": [],
     "reservationRequired": false,
     "avgMealCost": 150,
     "tags": [
@@ -22471,11 +22423,11 @@
     ],
     "amenities": [],
     "rating": {
-      "average": 3.350909981713918,
-      "count": 53
+      "average": 4.34137394142936,
+      "count": 102
     },
     "deliveryPartners": [],
-    "reservationRequired": false,
+    "reservationRequired": true,
     "avgMealCost": 500,
     "tags": [
       "restaurant"
@@ -22578,14 +22530,14 @@
     ],
     "amenities": [],
     "rating": {
-      "average": 4.4061853663291775,
-      "count": 31
+      "average": 4.672410553073006,
+      "count": 158
     },
     "deliveryPartners": [
       "Swiggy",
       "Zomato"
     ],
-    "reservationRequired": true,
+    "reservationRequired": false,
     "avgMealCost": 250,
     "tags": [
       "cafe"
@@ -22688,14 +22640,14 @@
     ],
     "amenities": [],
     "rating": {
-      "average": 3.1479730683826963,
-      "count": 27
+      "average": 4.952441247617838,
+      "count": 85
     },
     "deliveryPartners": [
       "Swiggy",
       "Zomato"
     ],
-    "reservationRequired": true,
+    "reservationRequired": false,
     "avgMealCost": 150,
     "tags": [
       "fast_food"
@@ -22798,10 +22750,13 @@
     ],
     "amenities": [],
     "rating": {
-      "average": 3.5313806910783327,
-      "count": 29
+      "average": 3.0127262639321737,
+      "count": 188
     },
-    "deliveryPartners": [],
+    "deliveryPartners": [
+      "Swiggy",
+      "Zomato"
+    ],
     "reservationRequired": true,
     "avgMealCost": 150,
     "tags": [
@@ -22905,14 +22860,11 @@
     ],
     "amenities": [],
     "rating": {
-      "average": 4.58817676489336,
-      "count": 27
+      "average": 4.675297736591418,
+      "count": 33
     },
-    "deliveryPartners": [
-      "Swiggy",
-      "Zomato"
-    ],
-    "reservationRequired": false,
+    "deliveryPartners": [],
+    "reservationRequired": true,
     "avgMealCost": 150,
     "tags": [
       "fast_food"
@@ -23017,11 +22969,11 @@
       "Takeaway"
     ],
     "rating": {
-      "average": 4.374521160294149,
-      "count": 129
+      "average": 3.7604364364173453,
+      "count": 112
     },
     "deliveryPartners": [],
-    "reservationRequired": false,
+    "reservationRequired": true,
     "avgMealCost": 150,
     "tags": [
       "fast_food"
@@ -23126,13 +23078,10 @@
       "Takeaway"
     ],
     "rating": {
-      "average": 4.454984631173808,
-      "count": 59
+      "average": 3.673799468192372,
+      "count": 51
     },
-    "deliveryPartners": [
-      "Swiggy",
-      "Zomato"
-    ],
+    "deliveryPartners": [],
     "reservationRequired": false,
     "avgMealCost": 250,
     "tags": [
@@ -23236,10 +23185,13 @@
     ],
     "amenities": [],
     "rating": {
-      "average": 3.7662006588388115,
-      "count": 164
+      "average": 4.927575666334658,
+      "count": 177
     },
-    "deliveryPartners": [],
+    "deliveryPartners": [
+      "Swiggy",
+      "Zomato"
+    ],
     "reservationRequired": false,
     "avgMealCost": 500,
     "tags": [
@@ -23345,14 +23297,14 @@
       "Takeaway"
     ],
     "rating": {
-      "average": 3.15397941326668,
-      "count": 192
+      "average": 3.7300152733418934,
+      "count": 60
     },
     "deliveryPartners": [
       "Swiggy",
       "Zomato"
     ],
-    "reservationRequired": false,
+    "reservationRequired": true,
     "avgMealCost": 150,
     "tags": [
       "fast_food"
@@ -23455,14 +23407,14 @@
     ],
     "amenities": [],
     "rating": {
-      "average": 3.391843355749298,
-      "count": 110
+      "average": 3.362993013131706,
+      "count": 69
     },
     "deliveryPartners": [
       "Swiggy",
       "Zomato"
     ],
-    "reservationRequired": true,
+    "reservationRequired": false,
     "avgMealCost": 500,
     "tags": [
       "restaurant"
@@ -23568,11 +23520,11 @@
     ],
     "amenities": [],
     "rating": {
-      "average": 3.598570851763223,
-      "count": 133
+      "average": 4.6548498447962,
+      "count": 57
     },
     "deliveryPartners": [],
-    "reservationRequired": false,
+    "reservationRequired": true,
     "avgMealCost": 500,
     "tags": [
       "restaurant"
@@ -23680,14 +23632,11 @@
       "Takeaway"
     ],
     "rating": {
-      "average": 4.677266267484688,
-      "count": 18
+      "average": 4.541677824279158,
+      "count": 81
     },
-    "deliveryPartners": [
-      "Swiggy",
-      "Zomato"
-    ],
-    "reservationRequired": false,
+    "deliveryPartners": [],
+    "reservationRequired": true,
     "avgMealCost": 500,
     "tags": [
       "restaurant"
@@ -23793,14 +23742,11 @@
     ],
     "amenities": [],
     "rating": {
-      "average": 4.466068434129586,
-      "count": 192
+      "average": 3.749336130256256,
+      "count": 25
     },
-    "deliveryPartners": [
-      "Swiggy",
-      "Zomato"
-    ],
-    "reservationRequired": true,
+    "deliveryPartners": [],
+    "reservationRequired": false,
     "avgMealCost": 500,
     "tags": [
       "restaurant"
@@ -23910,8 +23856,8 @@
       "Takeaway"
     ],
     "rating": {
-      "average": 4.912170846786397,
-      "count": 29
+      "average": 4.016572998137552,
+      "count": 13
     },
     "deliveryPartners": [],
     "reservationRequired": false,
@@ -24018,8 +23964,8 @@
     ],
     "amenities": [],
     "rating": {
-      "average": 3.088153195459263,
-      "count": 120
+      "average": 3.61479689759425,
+      "count": 59
     },
     "deliveryPartners": [],
     "reservationRequired": false,
@@ -24125,8 +24071,8 @@
     ],
     "amenities": [],
     "rating": {
-      "average": 3.107264801779582,
-      "count": 169
+      "average": 4.957406067260374,
+      "count": 186
     },
     "deliveryPartners": [
       "Swiggy",
@@ -24235,11 +24181,14 @@
     ],
     "amenities": [],
     "rating": {
-      "average": 3.3099390965054165,
-      "count": 192
+      "average": 3.5018171820247086,
+      "count": 13
     },
-    "deliveryPartners": [],
-    "reservationRequired": false,
+    "deliveryPartners": [
+      "Swiggy",
+      "Zomato"
+    ],
+    "reservationRequired": true,
     "avgMealCost": 500,
     "tags": [
       "restaurant"
@@ -24352,14 +24301,11 @@
     ],
     "amenities": [],
     "rating": {
-      "average": 4.771335099970727,
-      "count": 91
+      "average": 4.638240939693926,
+      "count": 127
     },
-    "deliveryPartners": [
-      "Swiggy",
-      "Zomato"
-    ],
-    "reservationRequired": true,
+    "deliveryPartners": [],
+    "reservationRequired": false,
     "avgMealCost": 500,
     "tags": [
       "restaurant"
@@ -24462,13 +24408,10 @@
     ],
     "amenities": [],
     "rating": {
-      "average": 4.258529635468966,
-      "count": 116
+      "average": 3.343284842641854,
+      "count": 178
     },
-    "deliveryPartners": [
-      "Swiggy",
-      "Zomato"
-    ],
+    "deliveryPartners": [],
     "reservationRequired": false,
     "avgMealCost": 250,
     "tags": [
@@ -24572,13 +24515,10 @@
     ],
     "amenities": [],
     "rating": {
-      "average": 4.494637988953606,
-      "count": 78
+      "average": 4.2740442777337915,
+      "count": 27
     },
-    "deliveryPartners": [
-      "Swiggy",
-      "Zomato"
-    ],
+    "deliveryPartners": [],
     "reservationRequired": false,
     "avgMealCost": 500,
     "tags": [
@@ -24682,10 +24622,13 @@
     ],
     "amenities": [],
     "rating": {
-      "average": 4.985655121280006,
-      "count": 67
+      "average": 4.481719970119739,
+      "count": 195
     },
-    "deliveryPartners": [],
+    "deliveryPartners": [
+      "Swiggy",
+      "Zomato"
+    ],
     "reservationRequired": false,
     "avgMealCost": 250,
     "tags": [
@@ -24789,10 +24732,13 @@
     ],
     "amenities": [],
     "rating": {
-      "average": 3.894478098776466,
-      "count": 168
+      "average": 3.8013991843305885,
+      "count": 107
     },
-    "deliveryPartners": [],
+    "deliveryPartners": [
+      "Swiggy",
+      "Zomato"
+    ],
     "reservationRequired": false,
     "avgMealCost": 250,
     "tags": [
@@ -24896,11 +24842,11 @@
     ],
     "amenities": [],
     "rating": {
-      "average": 4.451535413483221,
-      "count": 14
+      "average": 4.83496987389163,
+      "count": 199
     },
     "deliveryPartners": [],
-    "reservationRequired": true,
+    "reservationRequired": false,
     "avgMealCost": 250,
     "tags": [
       "cafe"
@@ -25003,13 +24949,10 @@
     ],
     "amenities": [],
     "rating": {
-      "average": 4.005364222847415,
-      "count": 58
+      "average": 4.068917003290922,
+      "count": 5
     },
-    "deliveryPartners": [
-      "Swiggy",
-      "Zomato"
-    ],
+    "deliveryPartners": [],
     "reservationRequired": true,
     "avgMealCost": 250,
     "tags": [
@@ -25113,14 +25056,11 @@
     ],
     "amenities": [],
     "rating": {
-      "average": 4.547338471687028,
-      "count": 55
+      "average": 3.272070113349171,
+      "count": 164
     },
-    "deliveryPartners": [
-      "Swiggy",
-      "Zomato"
-    ],
-    "reservationRequired": true,
+    "deliveryPartners": [],
+    "reservationRequired": false,
     "avgMealCost": 250,
     "tags": [
       "cafe"
@@ -25223,11 +25163,11 @@
     ],
     "amenities": [],
     "rating": {
-      "average": 4.936825258237671,
-      "count": 94
+      "average": 3.8147986728434122,
+      "count": 67
     },
     "deliveryPartners": [],
-    "reservationRequired": true,
+    "reservationRequired": false,
     "avgMealCost": 250,
     "tags": [
       "cafe"
@@ -25330,13 +25270,10 @@
     ],
     "amenities": [],
     "rating": {
-      "average": 3.868984195651329,
-      "count": 32
+      "average": 4.222850578045961,
+      "count": 38
     },
-    "deliveryPartners": [
-      "Swiggy",
-      "Zomato"
-    ],
+    "deliveryPartners": [],
     "reservationRequired": true,
     "avgMealCost": 250,
     "tags": [
@@ -25440,11 +25377,14 @@
     ],
     "amenities": [],
     "rating": {
-      "average": 3.112258023070184,
-      "count": 75
+      "average": 4.401843872604121,
+      "count": 81
     },
-    "deliveryPartners": [],
-    "reservationRequired": true,
+    "deliveryPartners": [
+      "Swiggy",
+      "Zomato"
+    ],
+    "reservationRequired": false,
     "avgMealCost": 500,
     "tags": [
       "restaurant"
@@ -25547,8 +25487,8 @@
     ],
     "amenities": [],
     "rating": {
-      "average": 3.2600388251195467,
-      "count": 92
+      "average": 4.52800584905107,
+      "count": 91
     },
     "deliveryPartners": [
       "Swiggy",
@@ -25657,11 +25597,11 @@
     ],
     "amenities": [],
     "rating": {
-      "average": 4.60594159084073,
-      "count": 8
+      "average": 3.371811327265727,
+      "count": 123
     },
     "deliveryPartners": [],
-    "reservationRequired": false,
+    "reservationRequired": true,
     "avgMealCost": 500,
     "tags": [
       "restaurant"
@@ -25768,14 +25708,14 @@
       "Takeaway"
     ],
     "rating": {
-      "average": 4.3250604371478945,
-      "count": 14
+      "average": 4.71559313159959,
+      "count": 37
     },
     "deliveryPartners": [
       "Swiggy",
       "Zomato"
     ],
-    "reservationRequired": true,
+    "reservationRequired": false,
     "avgMealCost": 500,
     "tags": [
       "restaurant"
@@ -25878,10 +25818,13 @@
     ],
     "amenities": [],
     "rating": {
-      "average": 3.047521375240608,
-      "count": 172
+      "average": 3.990363301687034,
+      "count": 183
     },
-    "deliveryPartners": [],
+    "deliveryPartners": [
+      "Swiggy",
+      "Zomato"
+    ],
     "reservationRequired": false,
     "avgMealCost": 500,
     "tags": [
@@ -25985,10 +25928,13 @@
     ],
     "amenities": [],
     "rating": {
-      "average": 3.911531889728565,
-      "count": 49
+      "average": 4.444187905492893,
+      "count": 197
     },
-    "deliveryPartners": [],
+    "deliveryPartners": [
+      "Swiggy",
+      "Zomato"
+    ],
     "reservationRequired": false,
     "avgMealCost": 500,
     "tags": [
@@ -26092,8 +26038,8 @@
     ],
     "amenities": [],
     "rating": {
-      "average": 4.365839220310297,
-      "count": 201
+      "average": 4.19237142828762,
+      "count": 112
     },
     "deliveryPartners": [],
     "reservationRequired": false,
@@ -26199,8 +26145,8 @@
     ],
     "amenities": [],
     "rating": {
-      "average": 3.620648884460542,
-      "count": 134
+      "average": 4.9318649385324544,
+      "count": 188
     },
     "deliveryPartners": [
       "Swiggy",
@@ -26309,14 +26255,14 @@
     ],
     "amenities": [],
     "rating": {
-      "average": 4.558436663273527,
-      "count": 89
+      "average": 3.7789031871364447,
+      "count": 137
     },
     "deliveryPartners": [
       "Swiggy",
       "Zomato"
     ],
-    "reservationRequired": true,
+    "reservationRequired": false,
     "avgMealCost": 500,
     "tags": [
       "restaurant"
@@ -26419,11 +26365,11 @@
     ],
     "amenities": [],
     "rating": {
-      "average": 3.29426267764721,
-      "count": 186
+      "average": 3.8381318103715745,
+      "count": 66
     },
     "deliveryPartners": [],
-    "reservationRequired": false,
+    "reservationRequired": true,
     "avgMealCost": 500,
     "tags": [
       "restaurant"
@@ -26526,11 +26472,11 @@
     ],
     "amenities": [],
     "rating": {
-      "average": 4.166687454591977,
-      "count": 93
+      "average": 4.001973870934663,
+      "count": 104
     },
     "deliveryPartners": [],
-    "reservationRequired": true,
+    "reservationRequired": false,
     "avgMealCost": 500,
     "tags": [
       "restaurant"
@@ -26633,8 +26579,8 @@
     ],
     "amenities": [],
     "rating": {
-      "average": 3.8227634042951113,
-      "count": 182
+      "average": 4.900720431745624,
+      "count": 192
     },
     "deliveryPartners": [],
     "reservationRequired": false,
@@ -26740,10 +26686,13 @@
     ],
     "amenities": [],
     "rating": {
-      "average": 3.72836294039401,
-      "count": 195
+      "average": 3.0444725868403277,
+      "count": 123
     },
-    "deliveryPartners": [],
+    "deliveryPartners": [
+      "Swiggy",
+      "Zomato"
+    ],
     "reservationRequired": false,
     "avgMealCost": 500,
     "tags": [
@@ -26849,8 +26798,8 @@
     ],
     "amenities": [],
     "rating": {
-      "average": 4.949207778378462,
-      "count": 86
+      "average": 3.513621060631762,
+      "count": 167
     },
     "deliveryPartners": [],
     "reservationRequired": false,
@@ -26956,10 +26905,13 @@
     ],
     "amenities": [],
     "rating": {
-      "average": 4.930288928914203,
-      "count": 41
+      "average": 4.724058824498828,
+      "count": 202
     },
-    "deliveryPartners": [],
+    "deliveryPartners": [
+      "Swiggy",
+      "Zomato"
+    ],
     "reservationRequired": false,
     "avgMealCost": 500,
     "tags": [
@@ -27067,11 +27019,14 @@
       "Home Delivery"
     ],
     "rating": {
-      "average": 4.003090178808403,
-      "count": 159
+      "average": 4.468139749550109,
+      "count": 64
     },
-    "deliveryPartners": [],
-    "reservationRequired": true,
+    "deliveryPartners": [
+      "Swiggy",
+      "Zomato"
+    ],
+    "reservationRequired": false,
     "avgMealCost": 500,
     "tags": [
       "restaurant"
@@ -27176,10 +27131,13 @@
     ],
     "amenities": [],
     "rating": {
-      "average": 4.886806806366202,
-      "count": 102
+      "average": 4.4681425390788245,
+      "count": 146
     },
-    "deliveryPartners": [],
+    "deliveryPartners": [
+      "Swiggy",
+      "Zomato"
+    ],
     "reservationRequired": false,
     "avgMealCost": 150,
     "tags": [
@@ -27284,14 +27242,14 @@
     ],
     "amenities": [],
     "rating": {
-      "average": 3.324277396293707,
-      "count": 78
+      "average": 3.973186505580556,
+      "count": 204
     },
     "deliveryPartners": [
       "Swiggy",
       "Zomato"
     ],
-    "reservationRequired": true,
+    "reservationRequired": false,
     "avgMealCost": 150,
     "tags": [
       "fast_food"
@@ -27394,11 +27352,14 @@
     ],
     "amenities": [],
     "rating": {
-      "average": 4.8379138826022,
-      "count": 120
+      "average": 3.2663464044876394,
+      "count": 201
     },
-    "deliveryPartners": [],
-    "reservationRequired": true,
+    "deliveryPartners": [
+      "Swiggy",
+      "Zomato"
+    ],
+    "reservationRequired": false,
     "avgMealCost": 500,
     "tags": [
       "restaurant"
@@ -27501,11 +27462,14 @@
     ],
     "amenities": [],
     "rating": {
-      "average": 3.7205661639407728,
-      "count": 178
+      "average": 4.627637891180053,
+      "count": 88
     },
-    "deliveryPartners": [],
-    "reservationRequired": true,
+    "deliveryPartners": [
+      "Swiggy",
+      "Zomato"
+    ],
+    "reservationRequired": false,
     "avgMealCost": 150,
     "tags": [
       "fast_food"
@@ -27608,14 +27572,11 @@
     ],
     "amenities": [],
     "rating": {
-      "average": 3.4902825105608213,
-      "count": 71
+      "average": 4.012816986259623,
+      "count": 93
     },
-    "deliveryPartners": [
-      "Swiggy",
-      "Zomato"
-    ],
-    "reservationRequired": false,
+    "deliveryPartners": [],
+    "reservationRequired": true,
     "avgMealCost": 500,
     "tags": [
       "restaurant"
@@ -27718,10 +27679,13 @@
     ],
     "amenities": [],
     "rating": {
-      "average": 3.432728434119721,
-      "count": 166
+      "average": 3.94272817634189,
+      "count": 172
     },
-    "deliveryPartners": [],
+    "deliveryPartners": [
+      "Swiggy",
+      "Zomato"
+    ],
     "reservationRequired": false,
     "avgMealCost": 500,
     "tags": [
@@ -27825,10 +27789,13 @@
     ],
     "amenities": [],
     "rating": {
-      "average": 3.644023824941643,
-      "count": 148
+      "average": 3.1603800397818946,
+      "count": 74
     },
-    "deliveryPartners": [],
+    "deliveryPartners": [
+      "Swiggy",
+      "Zomato"
+    ],
     "reservationRequired": false,
     "avgMealCost": 500,
     "tags": [
@@ -27934,8 +27901,8 @@
     ],
     "amenities": [],
     "rating": {
-      "average": 3.722420019416842,
-      "count": 70
+      "average": 3.8013378330343195,
+      "count": 106
     },
     "deliveryPartners": [
       "Swiggy",
@@ -28046,8 +28013,8 @@
     ],
     "amenities": [],
     "rating": {
-      "average": 4.6362959028586435,
-      "count": 159
+      "average": 4.436492789867475,
+      "count": 24
     },
     "deliveryPartners": [],
     "reservationRequired": false,
@@ -28155,14 +28122,11 @@
     ],
     "amenities": [],
     "rating": {
-      "average": 4.4218839829151655,
-      "count": 18
+      "average": 3.4313383516707554,
+      "count": 59
     },
-    "deliveryPartners": [
-      "Swiggy",
-      "Zomato"
-    ],
-    "reservationRequired": true,
+    "deliveryPartners": [],
+    "reservationRequired": false,
     "avgMealCost": 500,
     "tags": [
       "restaurant"
@@ -28268,10 +28232,13 @@
     ],
     "amenities": [],
     "rating": {
-      "average": 3.44370440236309,
-      "count": 167
+      "average": 4.46454049685418,
+      "count": 103
     },
-    "deliveryPartners": [],
+    "deliveryPartners": [
+      "Swiggy",
+      "Zomato"
+    ],
     "reservationRequired": false,
     "avgMealCost": 500,
     "tags": [
@@ -28375,11 +28342,11 @@
     ],
     "amenities": [],
     "rating": {
-      "average": 3.9276419193028445,
-      "count": 25
+      "average": 3.8950213453274007,
+      "count": 24
     },
     "deliveryPartners": [],
-    "reservationRequired": false,
+    "reservationRequired": true,
     "avgMealCost": 500,
     "tags": [
       "restaurant"
@@ -28483,8 +28450,8 @@
     ],
     "amenities": [],
     "rating": {
-      "average": 3.27922321797127,
-      "count": 200
+      "average": 3.1176897471900986,
+      "count": 175
     },
     "deliveryPartners": [
       "Swiggy",
@@ -28594,8 +28561,8 @@
     ],
     "amenities": [],
     "rating": {
-      "average": 4.125333934785646,
-      "count": 54
+      "average": 4.7372633745923345,
+      "count": 177
     },
     "deliveryPartners": [],
     "reservationRequired": false,
@@ -28703,10 +28670,13 @@
       "Takeaway"
     ],
     "rating": {
-      "average": 3.4056084166278846,
-      "count": 118
+      "average": 4.591628889716975,
+      "count": 204
     },
-    "deliveryPartners": [],
+    "deliveryPartners": [
+      "Swiggy",
+      "Zomato"
+    ],
     "reservationRequired": false,
     "avgMealCost": 250,
     "tags": [
@@ -28811,13 +28781,10 @@
     ],
     "amenities": [],
     "rating": {
-      "average": 4.844300925928012,
-      "count": 96
+      "average": 4.517576581896995,
+      "count": 23
     },
-    "deliveryPartners": [
-      "Swiggy",
-      "Zomato"
-    ],
+    "deliveryPartners": [],
     "reservationRequired": false,
     "avgMealCost": 250,
     "tags": [
@@ -28921,14 +28888,11 @@
     ],
     "amenities": [],
     "rating": {
-      "average": 3.913824885967157,
-      "count": 146
+      "average": 3.547193795355432,
+      "count": 168
     },
-    "deliveryPartners": [
-      "Swiggy",
-      "Zomato"
-    ],
-    "reservationRequired": false,
+    "deliveryPartners": [],
+    "reservationRequired": true,
     "avgMealCost": 500,
     "tags": [
       "restaurant"
@@ -29031,8 +28995,8 @@
     ],
     "amenities": [],
     "rating": {
-      "average": 3.300007129576351,
-      "count": 190
+      "average": 4.806461128708062,
+      "count": 26
     },
     "deliveryPartners": [
       "Swiggy",
@@ -29141,14 +29105,11 @@
     ],
     "amenities": [],
     "rating": {
-      "average": 4.9462461820579104,
-      "count": 151
+      "average": 4.493843018035666,
+      "count": 139
     },
-    "deliveryPartners": [
-      "Swiggy",
-      "Zomato"
-    ],
-    "reservationRequired": true,
+    "deliveryPartners": [],
+    "reservationRequired": false,
     "avgMealCost": 250,
     "tags": [
       "cafe"
@@ -29251,10 +29212,13 @@
     ],
     "amenities": [],
     "rating": {
-      "average": 4.835225579181959,
-      "count": 140
+      "average": 4.49268106474166,
+      "count": 112
     },
-    "deliveryPartners": [],
+    "deliveryPartners": [
+      "Swiggy",
+      "Zomato"
+    ],
     "reservationRequired": true,
     "avgMealCost": 250,
     "tags": [
@@ -29358,13 +29322,10 @@
     ],
     "amenities": [],
     "rating": {
-      "average": 3.443453986127344,
-      "count": 98
+      "average": 3.498211244188137,
+      "count": 83
     },
-    "deliveryPartners": [
-      "Swiggy",
-      "Zomato"
-    ],
+    "deliveryPartners": [],
     "reservationRequired": false,
     "avgMealCost": 500,
     "tags": [
@@ -29468,13 +29429,10 @@
     ],
     "amenities": [],
     "rating": {
-      "average": 3.789896635281269,
-      "count": 21
+      "average": 3.2761815467704523,
+      "count": 176
     },
-    "deliveryPartners": [
-      "Swiggy",
-      "Zomato"
-    ],
+    "deliveryPartners": [],
     "reservationRequired": false,
     "avgMealCost": 250,
     "tags": [
@@ -29578,8 +29536,8 @@
     ],
     "amenities": [],
     "rating": {
-      "average": 3.35675517555623,
-      "count": 32
+      "average": 4.632193292548249,
+      "count": 195
     },
     "deliveryPartners": [
       "Swiggy",
@@ -29690,11 +29648,11 @@
       "Takeaway"
     ],
     "rating": {
-      "average": 4.568041185109214,
-      "count": 153
+      "average": 4.070987398971404,
+      "count": 56
     },
     "deliveryPartners": [],
-    "reservationRequired": true,
+    "reservationRequired": false,
     "avgMealCost": 150,
     "tags": [
       "fast_food"
@@ -29799,14 +29757,14 @@
     ],
     "amenities": [],
     "rating": {
-      "average": 4.875979234304343,
-      "count": 18
+      "average": 4.457461564122109,
+      "count": 74
     },
     "deliveryPartners": [
       "Swiggy",
       "Zomato"
     ],
-    "reservationRequired": true,
+    "reservationRequired": false,
     "avgMealCost": 250,
     "tags": [
       "cafe"
@@ -29909,14 +29867,14 @@
     ],
     "amenities": [],
     "rating": {
-      "average": 4.914989466685599,
-      "count": 117
+      "average": 4.782856352468584,
+      "count": 72
     },
     "deliveryPartners": [
       "Swiggy",
       "Zomato"
     ],
-    "reservationRequired": false,
+    "reservationRequired": true,
     "avgMealCost": 500,
     "tags": [
       "restaurant"
@@ -30019,14 +29977,11 @@
     ],
     "amenities": [],
     "rating": {
-      "average": 4.066160986880709,
-      "count": 74
+      "average": 3.720989527757521,
+      "count": 78
     },
-    "deliveryPartners": [
-      "Swiggy",
-      "Zomato"
-    ],
-    "reservationRequired": false,
+    "deliveryPartners": [],
+    "reservationRequired": true,
     "avgMealCost": 500,
     "tags": [
       "restaurant"
@@ -30141,14 +30096,14 @@
       "Takeaway"
     ],
     "rating": {
-      "average": 3.7092144383455987,
-      "count": 140
+      "average": 3.4589489922305345,
+      "count": 198
     },
     "deliveryPartners": [
       "Swiggy",
       "Zomato"
     ],
-    "reservationRequired": true,
+    "reservationRequired": false,
     "avgMealCost": 250,
     "tags": [
       "cafe"
@@ -30252,10 +30207,13 @@
     ],
     "amenities": [],
     "rating": {
-      "average": 4.829601667715227,
-      "count": 180
+      "average": 3.412149878357203,
+      "count": 181
     },
-    "deliveryPartners": [],
+    "deliveryPartners": [
+      "Swiggy",
+      "Zomato"
+    ],
     "reservationRequired": false,
     "avgMealCost": 500,
     "tags": [
@@ -30364,8 +30322,8 @@
     ],
     "amenities": [],
     "rating": {
-      "average": 4.611113720918404,
-      "count": 159
+      "average": 4.9739596877742365,
+      "count": 160
     },
     "deliveryPartners": [],
     "reservationRequired": false,
@@ -30472,14 +30430,11 @@
     ],
     "amenities": [],
     "rating": {
-      "average": 3.9171014732763325,
-      "count": 146
+      "average": 4.068506401129822,
+      "count": 151
     },
-    "deliveryPartners": [
-      "Swiggy",
-      "Zomato"
-    ],
-    "reservationRequired": true,
+    "deliveryPartners": [],
+    "reservationRequired": false,
     "avgMealCost": 500,
     "tags": [
       "restaurant"
@@ -30582,8 +30537,8 @@
     ],
     "amenities": [],
     "rating": {
-      "average": 3.222890691381636,
-      "count": 157
+      "average": 3.7127874314696236,
+      "count": 8
     },
     "deliveryPartners": [],
     "reservationRequired": true,
@@ -30689,8 +30644,8 @@
     ],
     "amenities": [],
     "rating": {
-      "average": 3.6127873848997165,
-      "count": 57
+      "average": 4.153475543141452,
+      "count": 160
     },
     "deliveryPartners": [],
     "reservationRequired": false,
@@ -30796,11 +30751,14 @@
     ],
     "amenities": [],
     "rating": {
-      "average": 4.549335821385569,
-      "count": 81
+      "average": 3.095516217179986,
+      "count": 11
     },
-    "deliveryPartners": [],
-    "reservationRequired": false,
+    "deliveryPartners": [
+      "Swiggy",
+      "Zomato"
+    ],
+    "reservationRequired": true,
     "avgMealCost": 250,
     "tags": [
       "cafe"
@@ -30903,8 +30861,8 @@
     ],
     "amenities": [],
     "rating": {
-      "average": 3.486711336249956,
-      "count": 53
+      "average": 4.587247263937996,
+      "count": 202
     },
     "deliveryPartners": [],
     "reservationRequired": false,
@@ -31010,14 +30968,11 @@
     ],
     "amenities": [],
     "rating": {
-      "average": 4.512302356005178,
-      "count": 103
+      "average": 3.6055687459293595,
+      "count": 57
     },
-    "deliveryPartners": [
-      "Swiggy",
-      "Zomato"
-    ],
-    "reservationRequired": false,
+    "deliveryPartners": [],
+    "reservationRequired": true,
     "avgMealCost": 250,
     "tags": [
       "cafe"
@@ -31124,11 +31079,14 @@
       "Outdoor Seating"
     ],
     "rating": {
-      "average": 4.146177324575258,
-      "count": 155
+      "average": 4.731407427646355,
+      "count": 25
     },
-    "deliveryPartners": [],
-    "reservationRequired": false,
+    "deliveryPartners": [
+      "Swiggy",
+      "Zomato"
+    ],
+    "reservationRequired": true,
     "avgMealCost": 250,
     "tags": [
       "cafe"
@@ -31231,14 +31189,14 @@
     ],
     "amenities": [],
     "rating": {
-      "average": 3.9282241120470935,
-      "count": 113
+      "average": 3.0512695953550755,
+      "count": 32
     },
     "deliveryPartners": [
       "Swiggy",
       "Zomato"
     ],
-    "reservationRequired": true,
+    "reservationRequired": false,
     "avgMealCost": 500,
     "tags": [
       "restaurant"
@@ -31341,13 +31299,10 @@
     ],
     "amenities": [],
     "rating": {
-      "average": 4.885076456968312,
-      "count": 121
+      "average": 4.922850957359657,
+      "count": 51
     },
-    "deliveryPartners": [
-      "Swiggy",
-      "Zomato"
-    ],
+    "deliveryPartners": [],
     "reservationRequired": false,
     "avgMealCost": 150,
     "tags": [
@@ -31453,10 +31408,13 @@
     ],
     "amenities": [],
     "rating": {
-      "average": 4.759566605327222,
-      "count": 125
+      "average": 3.5308353164279307,
+      "count": 34
     },
-    "deliveryPartners": [],
+    "deliveryPartners": [
+      "Swiggy",
+      "Zomato"
+    ],
     "reservationRequired": false,
     "avgMealCost": 500,
     "tags": [
@@ -31561,10 +31519,13 @@
     ],
     "amenities": [],
     "rating": {
-      "average": 4.09346191802607,
-      "count": 167
+      "average": 3.173910454460389,
+      "count": 190
     },
-    "deliveryPartners": [],
+    "deliveryPartners": [
+      "Swiggy",
+      "Zomato"
+    ],
     "reservationRequired": false,
     "avgMealCost": 150,
     "tags": [
@@ -31670,10 +31631,13 @@
       "Takeaway"
     ],
     "rating": {
-      "average": 4.320079073428418,
-      "count": 89
+      "average": 3.4025309314182675,
+      "count": 183
     },
-    "deliveryPartners": [],
+    "deliveryPartners": [
+      "Swiggy",
+      "Zomato"
+    ],
     "reservationRequired": false,
     "avgMealCost": 250,
     "tags": [
@@ -31779,8 +31743,8 @@
     ],
     "amenities": [],
     "rating": {
-      "average": 4.60647681099627,
-      "count": 96
+      "average": 3.886917462367213,
+      "count": 105
     },
     "deliveryPartners": [],
     "reservationRequired": false,
@@ -31888,14 +31852,14 @@
     ],
     "amenities": [],
     "rating": {
-      "average": 3.4668584227390378,
-      "count": 47
+      "average": 3.317300278128418,
+      "count": 84
     },
     "deliveryPartners": [
       "Swiggy",
       "Zomato"
     ],
-    "reservationRequired": false,
+    "reservationRequired": true,
     "avgMealCost": 500,
     "tags": [
       "restaurant"
@@ -32000,10 +31964,13 @@
     ],
     "amenities": [],
     "rating": {
-      "average": 3.163829081315399,
-      "count": 105
+      "average": 3.201172681956564,
+      "count": 202
     },
-    "deliveryPartners": [],
+    "deliveryPartners": [
+      "Swiggy",
+      "Zomato"
+    ],
     "reservationRequired": false,
     "avgMealCost": 150,
     "tags": [
@@ -32111,14 +32078,14 @@
       "Takeaway"
     ],
     "rating": {
-      "average": 3.119220178259241,
-      "count": 41
+      "average": 3.389246356513547,
+      "count": 169
     },
     "deliveryPartners": [
       "Swiggy",
       "Zomato"
     ],
-    "reservationRequired": true,
+    "reservationRequired": false,
     "avgMealCost": 150,
     "tags": [
       "fast_food"
@@ -32221,14 +32188,14 @@
     ],
     "amenities": [],
     "rating": {
-      "average": 3.161914871093404,
-      "count": 178
+      "average": 3.8966621518457765,
+      "count": 189
     },
     "deliveryPartners": [
       "Swiggy",
       "Zomato"
     ],
-    "reservationRequired": false,
+    "reservationRequired": true,
     "avgMealCost": 500,
     "tags": [
       "restaurant"
@@ -32331,8 +32298,8 @@
     ],
     "amenities": [],
     "rating": {
-      "average": 4.982572075250943,
-      "count": 158
+      "average": 4.892690136183923,
+      "count": 201
     },
     "deliveryPartners": [
       "Swiggy",
@@ -32441,13 +32408,10 @@
     ],
     "amenities": [],
     "rating": {
-      "average": 3.5107103590567057,
-      "count": 151
+      "average": 4.646179676807096,
+      "count": 70
     },
-    "deliveryPartners": [
-      "Swiggy",
-      "Zomato"
-    ],
+    "deliveryPartners": [],
     "reservationRequired": false,
     "avgMealCost": 250,
     "tags": [
@@ -32551,13 +32515,10 @@
     ],
     "amenities": [],
     "rating": {
-      "average": 3.6954204789565166,
-      "count": 130
+      "average": 3.9146490429740006,
+      "count": 16
     },
-    "deliveryPartners": [
-      "Swiggy",
-      "Zomato"
-    ],
+    "deliveryPartners": [],
     "reservationRequired": false,
     "avgMealCost": 500,
     "tags": [
@@ -32663,10 +32624,13 @@
       "Takeaway"
     ],
     "rating": {
-      "average": 3.7781637913317483,
-      "count": 14
+      "average": 3.6480436642001175,
+      "count": 86
     },
-    "deliveryPartners": [],
+    "deliveryPartners": [
+      "Swiggy",
+      "Zomato"
+    ],
     "reservationRequired": true,
     "avgMealCost": 250,
     "tags": [
@@ -32770,10 +32734,13 @@
     ],
     "amenities": [],
     "rating": {
-      "average": 3.9010307397706208,
-      "count": 139
+      "average": 3.0124860702054894,
+      "count": 18
     },
-    "deliveryPartners": [],
+    "deliveryPartners": [
+      "Swiggy",
+      "Zomato"
+    ],
     "reservationRequired": false,
     "avgMealCost": 500,
     "tags": [
@@ -32877,8 +32844,8 @@
     ],
     "amenities": [],
     "rating": {
-      "average": 4.811097298009232,
-      "count": 156
+      "average": 3.8896247984011367,
+      "count": 190
     },
     "deliveryPartners": [
       "Swiggy",
@@ -32987,14 +32954,11 @@
     ],
     "amenities": [],
     "rating": {
-      "average": 4.536350715937024,
-      "count": 85
+      "average": 3.8165316110836516,
+      "count": 119
     },
-    "deliveryPartners": [
-      "Swiggy",
-      "Zomato"
-    ],
-    "reservationRequired": false,
+    "deliveryPartners": [],
+    "reservationRequired": true,
     "avgMealCost": 500,
     "tags": [
       "restaurant"
@@ -33097,10 +33061,13 @@
     ],
     "amenities": [],
     "rating": {
-      "average": 4.6507733096851,
-      "count": 86
+      "average": 3.7523392990693445,
+      "count": 25
     },
-    "deliveryPartners": [],
+    "deliveryPartners": [
+      "Swiggy",
+      "Zomato"
+    ],
     "reservationRequired": false,
     "avgMealCost": 500,
     "tags": [
@@ -33206,10 +33173,13 @@
       "Takeaway"
     ],
     "rating": {
-      "average": 4.102688899115552,
-      "count": 199
+      "average": 4.140397375792662,
+      "count": 114
     },
-    "deliveryPartners": [],
+    "deliveryPartners": [
+      "Swiggy",
+      "Zomato"
+    ],
     "reservationRequired": false,
     "avgMealCost": 150,
     "tags": [
@@ -33313,13 +33283,10 @@
     ],
     "amenities": [],
     "rating": {
-      "average": 4.27817252691869,
-      "count": 20
+      "average": 3.758451819907049,
+      "count": 49
     },
-    "deliveryPartners": [
-      "Swiggy",
-      "Zomato"
-    ],
+    "deliveryPartners": [],
     "reservationRequired": false,
     "avgMealCost": 500,
     "tags": [
@@ -33425,11 +33392,14 @@
     ],
     "amenities": [],
     "rating": {
-      "average": 3.4121137908538905,
-      "count": 9
+      "average": 3.4154865857921135,
+      "count": 186
     },
-    "deliveryPartners": [],
-    "reservationRequired": true,
+    "deliveryPartners": [
+      "Swiggy",
+      "Zomato"
+    ],
+    "reservationRequired": false,
     "avgMealCost": 150,
     "tags": [
       "fast_food"
@@ -33534,8 +33504,8 @@
     ],
     "amenities": [],
     "rating": {
-      "average": 4.913045271867599,
-      "count": 24
+      "average": 4.548469188468522,
+      "count": 145
     },
     "deliveryPartners": [
       "Swiggy",
@@ -33644,11 +33614,11 @@
     ],
     "amenities": [],
     "rating": {
-      "average": 3.6523909524584663,
-      "count": 186
+      "average": 3.9531220292396956,
+      "count": 36
     },
     "deliveryPartners": [],
-    "reservationRequired": false,
+    "reservationRequired": true,
     "avgMealCost": 150,
     "tags": [
       "fast_food"
@@ -33753,8 +33723,8 @@
     ],
     "amenities": [],
     "rating": {
-      "average": 4.921058162067883,
-      "count": 139
+      "average": 4.998279905911077,
+      "count": 149
     },
     "deliveryPartners": [
       "Swiggy",
@@ -33865,14 +33835,14 @@
     ],
     "amenities": [],
     "rating": {
-      "average": 3.717777161999499,
-      "count": 53
+      "average": 3.207522627333579,
+      "count": 108
     },
     "deliveryPartners": [
       "Swiggy",
       "Zomato"
     ],
-    "reservationRequired": false,
+    "reservationRequired": true,
     "avgMealCost": 150,
     "tags": [
       "fast_food"
@@ -33975,14 +33945,14 @@
     ],
     "amenities": [],
     "rating": {
-      "average": 4.3894000076794715,
-      "count": 70
+      "average": 4.710509201126932,
+      "count": 131
     },
     "deliveryPartners": [
       "Swiggy",
       "Zomato"
     ],
-    "reservationRequired": true,
+    "reservationRequired": false,
     "avgMealCost": 250,
     "tags": [
       "cafe"
@@ -34085,10 +34055,13 @@
     ],
     "amenities": [],
     "rating": {
-      "average": 4.183483575612261,
-      "count": 124
+      "average": 3.610412916904443,
+      "count": 21
     },
-    "deliveryPartners": [],
+    "deliveryPartners": [
+      "Swiggy",
+      "Zomato"
+    ],
     "reservationRequired": false,
     "avgMealCost": 500,
     "tags": [
@@ -34194,14 +34167,11 @@
     ],
     "amenities": [],
     "rating": {
-      "average": 3.6984203759367564,
-      "count": 42
+      "average": 3.0223363301853046,
+      "count": 196
     },
-    "deliveryPartners": [
-      "Swiggy",
-      "Zomato"
-    ],
-    "reservationRequired": true,
+    "deliveryPartners": [],
+    "reservationRequired": false,
     "avgMealCost": 500,
     "tags": [
       "restaurant"
@@ -34307,13 +34277,10 @@
     ],
     "amenities": [],
     "rating": {
-      "average": 3.8732917591681812,
-      "count": 51
+      "average": 4.908436059666437,
+      "count": 136
     },
-    "deliveryPartners": [
-      "Swiggy",
-      "Zomato"
-    ],
+    "deliveryPartners": [],
     "reservationRequired": false,
     "avgMealCost": 500,
     "tags": [
@@ -34419,11 +34386,14 @@
     ],
     "amenities": [],
     "rating": {
-      "average": 4.751945557374783,
-      "count": 200
+      "average": 4.081917711302696,
+      "count": 5
     },
-    "deliveryPartners": [],
-    "reservationRequired": false,
+    "deliveryPartners": [
+      "Swiggy",
+      "Zomato"
+    ],
+    "reservationRequired": true,
     "avgMealCost": 500,
     "tags": [
       "restaurant"
@@ -34528,8 +34498,8 @@
     ],
     "amenities": [],
     "rating": {
-      "average": 3.7901198174438595,
-      "count": 186
+      "average": 4.434064766444886,
+      "count": 91
     },
     "deliveryPartners": [],
     "reservationRequired": false,
@@ -34637,11 +34607,14 @@
     ],
     "amenities": [],
     "rating": {
-      "average": 4.248871967524203,
-      "count": 190
+      "average": 4.949440303738468,
+      "count": 61
     },
-    "deliveryPartners": [],
-    "reservationRequired": false,
+    "deliveryPartners": [
+      "Swiggy",
+      "Zomato"
+    ],
+    "reservationRequired": true,
     "avgMealCost": 500,
     "tags": [
       "restaurant"
@@ -34744,14 +34717,11 @@
     ],
     "amenities": [],
     "rating": {
-      "average": 4.286153506996341,
-      "count": 83
+      "average": 3.0998228508830725,
+      "count": 137
     },
-    "deliveryPartners": [
-      "Swiggy",
-      "Zomato"
-    ],
-    "reservationRequired": true,
+    "deliveryPartners": [],
+    "reservationRequired": false,
     "avgMealCost": 150,
     "tags": [
       "fast_food"
@@ -34856,10 +34826,13 @@
       "Takeaway"
     ],
     "rating": {
-      "average": 3.621094075290916,
-      "count": 122
+      "average": 4.449978823957993,
+      "count": 154
     },
-    "deliveryPartners": [],
+    "deliveryPartners": [
+      "Swiggy",
+      "Zomato"
+    ],
     "reservationRequired": true,
     "avgMealCost": 150,
     "tags": [
@@ -34965,11 +34938,14 @@
       "Takeaway"
     ],
     "rating": {
-      "average": 3.7782911503579184,
-      "count": 10
+      "average": 3.669207373268576,
+      "count": 114
     },
-    "deliveryPartners": [],
-    "reservationRequired": false,
+    "deliveryPartners": [
+      "Swiggy",
+      "Zomato"
+    ],
+    "reservationRequired": true,
     "avgMealCost": 150,
     "tags": [
       "fast_food"
@@ -35072,10 +35048,13 @@
     ],
     "amenities": [],
     "rating": {
-      "average": 3.751119250652573,
-      "count": 10
+      "average": 4.68976016575223,
+      "count": 97
     },
-    "deliveryPartners": [],
+    "deliveryPartners": [
+      "Swiggy",
+      "Zomato"
+    ],
     "reservationRequired": false,
     "avgMealCost": 500,
     "tags": [
@@ -35179,10 +35158,13 @@
     ],
     "amenities": [],
     "rating": {
-      "average": 3.5866110615855904,
-      "count": 198
+      "average": 3.160914859584341,
+      "count": 5
     },
-    "deliveryPartners": [],
+    "deliveryPartners": [
+      "Swiggy",
+      "Zomato"
+    ],
     "reservationRequired": false,
     "avgMealCost": 150,
     "tags": [
@@ -35286,14 +35268,11 @@
     ],
     "amenities": [],
     "rating": {
-      "average": 4.4640859913961,
-      "count": 183
+      "average": 4.355423303311121,
+      "count": 82
     },
-    "deliveryPartners": [
-      "Swiggy",
-      "Zomato"
-    ],
-    "reservationRequired": true,
+    "deliveryPartners": [],
+    "reservationRequired": false,
     "avgMealCost": 150,
     "tags": [
       "fast_food"
@@ -35398,10 +35377,13 @@
       "Takeaway"
     ],
     "rating": {
-      "average": 3.4916084834858414,
-      "count": 45
+      "average": 4.6498066563332685,
+      "count": 157
     },
-    "deliveryPartners": [],
+    "deliveryPartners": [
+      "Swiggy",
+      "Zomato"
+    ],
     "reservationRequired": false,
     "avgMealCost": 150,
     "tags": [
@@ -35507,11 +35489,11 @@
       "Takeaway"
     ],
     "rating": {
-      "average": 4.698693791211944,
-      "count": 18
+      "average": 4.767108004205469,
+      "count": 111
     },
     "deliveryPartners": [],
-    "reservationRequired": true,
+    "reservationRequired": false,
     "avgMealCost": 150,
     "tags": [
       "fast_food"
@@ -35618,8 +35600,8 @@
       "Takeaway"
     ],
     "rating": {
-      "average": 4.210494815061027,
-      "count": 75
+      "average": 3.956245977713064,
+      "count": 17
     },
     "deliveryPartners": [],
     "reservationRequired": false,
@@ -35727,14 +35709,14 @@
       "Takeaway"
     ],
     "rating": {
-      "average": 3.156557486709769,
-      "count": 110
+      "average": 4.012120916940944,
+      "count": 198
     },
     "deliveryPartners": [
       "Swiggy",
       "Zomato"
     ],
-    "reservationRequired": true,
+    "reservationRequired": false,
     "avgMealCost": 150,
     "tags": [
       "fast_food"
@@ -35839,11 +35821,11 @@
       "Takeaway"
     ],
     "rating": {
-      "average": 4.645043989353116,
-      "count": 151
+      "average": 3.4988025442099455,
+      "count": 84
     },
     "deliveryPartners": [],
-    "reservationRequired": true,
+    "reservationRequired": false,
     "avgMealCost": 150,
     "tags": [
       "fast_food"
@@ -35948,13 +35930,10 @@
       "Takeaway"
     ],
     "rating": {
-      "average": 3.5431844433376596,
-      "count": 10
+      "average": 4.563412768828336,
+      "count": 121
     },
-    "deliveryPartners": [
-      "Swiggy",
-      "Zomato"
-    ],
+    "deliveryPartners": [],
     "reservationRequired": false,
     "avgMealCost": 150,
     "tags": [
@@ -36060,11 +36039,11 @@
       "Takeaway"
     ],
     "rating": {
-      "average": 4.217813440960346,
-      "count": 74
+      "average": 4.996118497110436,
+      "count": 130
     },
     "deliveryPartners": [],
-    "reservationRequired": false,
+    "reservationRequired": true,
     "avgMealCost": 150,
     "tags": [
       "fast_food"
@@ -36169,10 +36148,13 @@
       "Takeaway"
     ],
     "rating": {
-      "average": 3.5957148222536,
-      "count": 194
+      "average": 4.928862571917389,
+      "count": 127
     },
-    "deliveryPartners": [],
+    "deliveryPartners": [
+      "Swiggy",
+      "Zomato"
+    ],
     "reservationRequired": false,
     "avgMealCost": 150,
     "tags": [
@@ -36278,8 +36260,8 @@
       "Takeaway"
     ],
     "rating": {
-      "average": 3.1914518338379603,
-      "count": 123
+      "average": 3.505092510760452,
+      "count": 58
     },
     "deliveryPartners": [],
     "reservationRequired": false,
@@ -36387,10 +36369,13 @@
       "Takeaway"
     ],
     "rating": {
-      "average": 4.935967863399329,
-      "count": 105
+      "average": 4.929655489407027,
+      "count": 28
     },
-    "deliveryPartners": [],
+    "deliveryPartners": [
+      "Swiggy",
+      "Zomato"
+    ],
     "reservationRequired": false,
     "avgMealCost": 150,
     "tags": [
@@ -36496,8 +36481,8 @@
     ],
     "amenities": [],
     "rating": {
-      "average": 4.424555678520221,
-      "count": 169
+      "average": 4.91527128626222,
+      "count": 7
     },
     "deliveryPartners": [],
     "reservationRequired": false,
@@ -36605,8 +36590,8 @@
     ],
     "amenities": [],
     "rating": {
-      "average": 4.0755388745547325,
-      "count": 82
+      "average": 4.536622383196946,
+      "count": 11
     },
     "deliveryPartners": [
       "Swiggy",
@@ -36719,14 +36704,14 @@
       "Takeaway"
     ],
     "rating": {
-      "average": 3.8846199808414985,
-      "count": 69
+      "average": 3.9037969843389657,
+      "count": 154
     },
     "deliveryPartners": [
       "Swiggy",
       "Zomato"
     ],
-    "reservationRequired": true,
+    "reservationRequired": false,
     "avgMealCost": 250,
     "tags": [
       "cafe"
@@ -36831,14 +36816,11 @@
     ],
     "amenities": [],
     "rating": {
-      "average": 4.951372582427575,
-      "count": 190
+      "average": 4.233732124848944,
+      "count": 171
     },
-    "deliveryPartners": [
-      "Swiggy",
-      "Zomato"
-    ],
-    "reservationRequired": false,
+    "deliveryPartners": [],
+    "reservationRequired": true,
     "avgMealCost": 500,
     "tags": [
       "restaurant"
@@ -36945,8 +36927,8 @@
       "Takeaway"
     ],
     "rating": {
-      "average": 4.791224321704712,
-      "count": 167
+      "average": 3.640428464794361,
+      "count": 195
     },
     "deliveryPartners": [],
     "reservationRequired": true,
@@ -37052,8 +37034,8 @@
     ],
     "amenities": [],
     "rating": {
-      "average": 4.8386006565859345,
-      "count": 202
+      "average": 3.5693370982698123,
+      "count": 118
     },
     "deliveryPartners": [],
     "reservationRequired": false,
@@ -37159,14 +37141,11 @@
     ],
     "amenities": [],
     "rating": {
-      "average": 3.096790834733866,
-      "count": 172
+      "average": 4.133403027076145,
+      "count": 188
     },
-    "deliveryPartners": [
-      "Swiggy",
-      "Zomato"
-    ],
-    "reservationRequired": false,
+    "deliveryPartners": [],
+    "reservationRequired": true,
     "avgMealCost": 500,
     "tags": [
       "restaurant"
@@ -37269,8 +37248,8 @@
     ],
     "amenities": [],
     "rating": {
-      "average": 4.510119255450625,
-      "count": 155
+      "average": 3.4000058004484117,
+      "count": 134
     },
     "deliveryPartners": [
       "Swiggy",
@@ -37381,10 +37360,13 @@
     ],
     "amenities": [],
     "rating": {
-      "average": 3.6162836588602914,
-      "count": 103
+      "average": 4.953817100895374,
+      "count": 168
     },
-    "deliveryPartners": [],
+    "deliveryPartners": [
+      "Swiggy",
+      "Zomato"
+    ],
     "reservationRequired": false,
     "avgMealCost": 500,
     "tags": [
@@ -37492,14 +37474,11 @@
       "Takeaway"
     ],
     "rating": {
-      "average": 4.652994280194385,
-      "count": 42
+      "average": 4.746966609175902,
+      "count": 6
     },
-    "deliveryPartners": [
-      "Swiggy",
-      "Zomato"
-    ],
-    "reservationRequired": true,
+    "deliveryPartners": [],
+    "reservationRequired": false,
     "avgMealCost": 150,
     "tags": [
       "fast_food"
@@ -37607,8 +37586,8 @@
     ],
     "amenities": [],
     "rating": {
-      "average": 4.489023873518226,
-      "count": 96
+      "average": 3.829463512964858,
+      "count": 73
     },
     "deliveryPartners": [
       "Swiggy",
@@ -37717,11 +37696,14 @@
     ],
     "amenities": [],
     "rating": {
-      "average": 3.6775646188447038,
-      "count": 131
+      "average": 3.0964997739024036,
+      "count": 55
     },
-    "deliveryPartners": [],
-    "reservationRequired": true,
+    "deliveryPartners": [
+      "Swiggy",
+      "Zomato"
+    ],
+    "reservationRequired": false,
     "avgMealCost": 250,
     "tags": [
       "cafe"
@@ -37824,14 +37806,14 @@
     ],
     "amenities": [],
     "rating": {
-      "average": 3.465846248042473,
-      "count": 54
+      "average": 4.162278675011759,
+      "count": 25
     },
     "deliveryPartners": [
       "Swiggy",
       "Zomato"
     ],
-    "reservationRequired": false,
+    "reservationRequired": true,
     "avgMealCost": 250,
     "tags": [
       "cafe"
@@ -37934,14 +37916,11 @@
     ],
     "amenities": [],
     "rating": {
-      "average": 4.775977616271136,
-      "count": 9
+      "average": 3.2684768367987407,
+      "count": 132
     },
-    "deliveryPartners": [
-      "Swiggy",
-      "Zomato"
-    ],
-    "reservationRequired": true,
+    "deliveryPartners": [],
+    "reservationRequired": false,
     "avgMealCost": 500,
     "tags": [
       "restaurant"
@@ -38046,8 +38025,8 @@
       "Takeaway"
     ],
     "rating": {
-      "average": 4.6606576026117175,
-      "count": 196
+      "average": 3.7131108462304194,
+      "count": 43
     },
     "deliveryPartners": [],
     "reservationRequired": false,
@@ -38155,13 +38134,10 @@
       "Takeaway"
     ],
     "rating": {
-      "average": 4.4531717204808,
-      "count": 25
+      "average": 3.8432428638476037,
+      "count": 204
     },
-    "deliveryPartners": [
-      "Swiggy",
-      "Zomato"
-    ],
+    "deliveryPartners": [],
     "reservationRequired": false,
     "avgMealCost": 150,
     "tags": [
@@ -38267,13 +38243,10 @@
       "Takeaway"
     ],
     "rating": {
-      "average": 4.122931039793594,
-      "count": 158
+      "average": 3.077029410863967,
+      "count": 45
     },
-    "deliveryPartners": [
-      "Swiggy",
-      "Zomato"
-    ],
+    "deliveryPartners": [],
     "reservationRequired": false,
     "avgMealCost": 150,
     "tags": [
@@ -38377,11 +38350,11 @@
     ],
     "amenities": [],
     "rating": {
-      "average": 4.733247801439526,
-      "count": 178
+      "average": 4.0954218914294245,
+      "count": 19
     },
     "deliveryPartners": [],
-    "reservationRequired": true,
+    "reservationRequired": false,
     "avgMealCost": 150,
     "tags": [
       "fast_food"
@@ -38484,14 +38457,11 @@
     ],
     "amenities": [],
     "rating": {
-      "average": 3.6587953209482196,
-      "count": 174
+      "average": 3.064366117719646,
+      "count": 177
     },
-    "deliveryPartners": [
-      "Swiggy",
-      "Zomato"
-    ],
-    "reservationRequired": true,
+    "deliveryPartners": [],
+    "reservationRequired": false,
     "avgMealCost": 500,
     "tags": [
       "restaurant"
@@ -38596,13 +38566,10 @@
     ],
     "amenities": [],
     "rating": {
-      "average": 4.266923899317111,
-      "count": 51
+      "average": 3.6804440464104347,
+      "count": 89
     },
-    "deliveryPartners": [
-      "Swiggy",
-      "Zomato"
-    ],
+    "deliveryPartners": [],
     "reservationRequired": false,
     "avgMealCost": 500,
     "tags": [
@@ -38706,14 +38673,14 @@
     ],
     "amenities": [],
     "rating": {
-      "average": 4.830471823943771,
-      "count": 75
+      "average": 3.556549460417033,
+      "count": 169
     },
     "deliveryPartners": [
       "Swiggy",
       "Zomato"
     ],
-    "reservationRequired": true,
+    "reservationRequired": false,
     "avgMealCost": 500,
     "tags": [
       "restaurant"
@@ -38818,10 +38785,13 @@
       "Takeaway"
     ],
     "rating": {
-      "average": 3.3275659407221663,
-      "count": 138
+      "average": 4.9322993711458345,
+      "count": 146
     },
-    "deliveryPartners": [],
+    "deliveryPartners": [
+      "Swiggy",
+      "Zomato"
+    ],
     "reservationRequired": false,
     "avgMealCost": 250,
     "tags": [
@@ -38925,14 +38895,14 @@
     ],
     "amenities": [],
     "rating": {
-      "average": 4.841897864007236,
-      "count": 29
+      "average": 4.577276584446313,
+      "count": 201
     },
     "deliveryPartners": [
       "Swiggy",
       "Zomato"
     ],
-    "reservationRequired": true,
+    "reservationRequired": false,
     "avgMealCost": 250,
     "tags": [
       "cafe"
@@ -39035,11 +39005,11 @@
     ],
     "amenities": [],
     "rating": {
-      "average": 3.6304486737728436,
-      "count": 41
+      "average": 3.89952839132539,
+      "count": 34
     },
     "deliveryPartners": [],
-    "reservationRequired": false,
+    "reservationRequired": true,
     "avgMealCost": 250,
     "tags": [
       "cafe"
@@ -39142,13 +39112,10 @@
     ],
     "amenities": [],
     "rating": {
-      "average": 3.8131603181198432,
-      "count": 133
+      "average": 4.250629982250539,
+      "count": 165
     },
-    "deliveryPartners": [
-      "Swiggy",
-      "Zomato"
-    ],
+    "deliveryPartners": [],
     "reservationRequired": false,
     "avgMealCost": 150,
     "tags": [
@@ -39252,11 +39219,14 @@
     ],
     "amenities": [],
     "rating": {
-      "average": 3.282807752566949,
-      "count": 41
+      "average": 3.1507870761627355,
+      "count": 197
     },
-    "deliveryPartners": [],
-    "reservationRequired": true,
+    "deliveryPartners": [
+      "Swiggy",
+      "Zomato"
+    ],
+    "reservationRequired": false,
     "avgMealCost": 150,
     "tags": [
       "fast_food"
@@ -39359,11 +39329,14 @@
     ],
     "amenities": [],
     "rating": {
-      "average": 4.785393252768305,
-      "count": 156
+      "average": 3.0646757094981756,
+      "count": 85
     },
-    "deliveryPartners": [],
-    "reservationRequired": false,
+    "deliveryPartners": [
+      "Swiggy",
+      "Zomato"
+    ],
+    "reservationRequired": true,
     "avgMealCost": 500,
     "tags": [
       "restaurant"
@@ -39474,10 +39447,13 @@
       "WiFi"
     ],
     "rating": {
-      "average": 3.9861040279473356,
-      "count": 38
+      "average": 4.568160666960494,
+      "count": 186
     },
-    "deliveryPartners": [],
+    "deliveryPartners": [
+      "Swiggy",
+      "Zomato"
+    ],
     "reservationRequired": false,
     "avgMealCost": 250,
     "tags": [
@@ -39581,8 +39557,8 @@
     ],
     "amenities": [],
     "rating": {
-      "average": 3.5411622404461554,
-      "count": 113
+      "average": 4.512630624493264,
+      "count": 27
     },
     "deliveryPartners": [
       "Swiggy",
@@ -39691,11 +39667,14 @@
     ],
     "amenities": [],
     "rating": {
-      "average": 4.345951017449952,
-      "count": 158
+      "average": 3.373214745228824,
+      "count": 191
     },
-    "deliveryPartners": [],
-    "reservationRequired": true,
+    "deliveryPartners": [
+      "Swiggy",
+      "Zomato"
+    ],
+    "reservationRequired": false,
     "avgMealCost": 150,
     "tags": [
       "fast_food"
@@ -39799,13 +39778,10 @@
     ],
     "amenities": [],
     "rating": {
-      "average": 3.2186231368260727,
-      "count": 33
+      "average": 3.419081200171994,
+      "count": 30
     },
-    "deliveryPartners": [
-      "Swiggy",
-      "Zomato"
-    ],
+    "deliveryPartners": [],
     "reservationRequired": false,
     "avgMealCost": 150,
     "tags": [
@@ -39909,14 +39885,11 @@
     ],
     "amenities": [],
     "rating": {
-      "average": 3.3020130950168225,
-      "count": 171
+      "average": 4.239993428456245,
+      "count": 115
     },
-    "deliveryPartners": [
-      "Swiggy",
-      "Zomato"
-    ],
-    "reservationRequired": true,
+    "deliveryPartners": [],
+    "reservationRequired": false,
     "avgMealCost": 500,
     "tags": [
       "restaurant"
@@ -40019,13 +39992,10 @@
     ],
     "amenities": [],
     "rating": {
-      "average": 3.0952199524534167,
-      "count": 118
+      "average": 4.950377698647874,
+      "count": 147
     },
-    "deliveryPartners": [
-      "Swiggy",
-      "Zomato"
-    ],
+    "deliveryPartners": [],
     "reservationRequired": false,
     "avgMealCost": 150,
     "tags": [
@@ -40129,13 +40099,10 @@
     ],
     "amenities": [],
     "rating": {
-      "average": 3.6485218570936175,
-      "count": 144
+      "average": 3.104699954194506,
+      "count": 84
     },
-    "deliveryPartners": [
-      "Swiggy",
-      "Zomato"
-    ],
+    "deliveryPartners": [],
     "reservationRequired": false,
     "avgMealCost": 250,
     "tags": [
@@ -40239,11 +40206,11 @@
     ],
     "amenities": [],
     "rating": {
-      "average": 3.595143992726847,
-      "count": 114
+      "average": 4.683935205986572,
+      "count": 17
     },
     "deliveryPartners": [],
-    "reservationRequired": false,
+    "reservationRequired": true,
     "avgMealCost": 150,
     "tags": [
       "fast_food"
@@ -40346,14 +40313,11 @@
     ],
     "amenities": [],
     "rating": {
-      "average": 4.635879270162606,
-      "count": 54
+      "average": 4.56836012207832,
+      "count": 129
     },
-    "deliveryPartners": [
-      "Swiggy",
-      "Zomato"
-    ],
-    "reservationRequired": false,
+    "deliveryPartners": [],
+    "reservationRequired": true,
     "avgMealCost": 500,
     "tags": [
       "restaurant"
@@ -40456,14 +40420,14 @@
     ],
     "amenities": [],
     "rating": {
-      "average": 3.2325262566127653,
-      "count": 184
+      "average": 3.2557730556360247,
+      "count": 110
     },
     "deliveryPartners": [
       "Swiggy",
       "Zomato"
     ],
-    "reservationRequired": false,
+    "reservationRequired": true,
     "avgMealCost": 500,
     "tags": [
       "restaurant"
@@ -40566,14 +40530,11 @@
     ],
     "amenities": [],
     "rating": {
-      "average": 4.907303099434225,
-      "count": 165
+      "average": 3.8127995284647676,
+      "count": 90
     },
-    "deliveryPartners": [
-      "Swiggy",
-      "Zomato"
-    ],
-    "reservationRequired": false,
+    "deliveryPartners": [],
+    "reservationRequired": true,
     "avgMealCost": 500,
     "tags": [
       "restaurant"
@@ -40680,8 +40641,8 @@
       "WiFi"
     ],
     "rating": {
-      "average": 3.075877523618083,
-      "count": 151
+      "average": 3.631806113810067,
+      "count": 26
     },
     "deliveryPartners": [],
     "reservationRequired": false,
@@ -40788,14 +40749,11 @@
     ],
     "amenities": [],
     "rating": {
-      "average": 3.9629388876103255,
-      "count": 95
+      "average": 3.8628381128863483,
+      "count": 111
     },
-    "deliveryPartners": [
-      "Swiggy",
-      "Zomato"
-    ],
-    "reservationRequired": false,
+    "deliveryPartners": [],
+    "reservationRequired": true,
     "avgMealCost": 500,
     "tags": [
       "Kolkata",
@@ -40903,11 +40861,14 @@
     ],
     "amenities": [],
     "rating": {
-      "average": 3.0813113591157957,
-      "count": 136
+      "average": 3.648524275253267,
+      "count": 140
     },
-    "deliveryPartners": [],
-    "reservationRequired": true,
+    "deliveryPartners": [
+      "Swiggy",
+      "Zomato"
+    ],
+    "reservationRequired": false,
     "avgMealCost": 500,
     "tags": [
       "restaurant"
@@ -41010,14 +40971,14 @@
     ],
     "amenities": [],
     "rating": {
-      "average": 3.8726963493489763,
-      "count": 162
+      "average": 3.09600108117402,
+      "count": 77
     },
     "deliveryPartners": [
       "Swiggy",
       "Zomato"
     ],
-    "reservationRequired": false,
+    "reservationRequired": true,
     "avgMealCost": 500,
     "tags": [
       "restaurant"
@@ -41120,10 +41081,13 @@
     ],
     "amenities": [],
     "rating": {
-      "average": 3.5300434655871165,
-      "count": 146
+      "average": 4.17319558529216,
+      "count": 23
     },
-    "deliveryPartners": [],
+    "deliveryPartners": [
+      "Swiggy",
+      "Zomato"
+    ],
     "reservationRequired": false,
     "avgMealCost": 250,
     "tags": [
@@ -41230,11 +41194,11 @@
     ],
     "amenities": [],
     "rating": {
-      "average": 3.6308110592069363,
-      "count": 173
+      "average": 3.7726952579381816,
+      "count": 62
     },
     "deliveryPartners": [],
-    "reservationRequired": true,
+    "reservationRequired": false,
     "avgMealCost": 150,
     "tags": [
       "fast_food"
@@ -41340,13 +41304,10 @@
     ],
     "amenities": [],
     "rating": {
-      "average": 4.547651345376337,
-      "count": 138
+      "average": 4.869094413896262,
+      "count": 89
     },
-    "deliveryPartners": [
-      "Swiggy",
-      "Zomato"
-    ],
+    "deliveryPartners": [],
     "reservationRequired": false,
     "avgMealCost": 500,
     "tags": [
@@ -41452,8 +41413,8 @@
       "Takeaway"
     ],
     "rating": {
-      "average": 3.2320458539865555,
-      "count": 196
+      "average": 3.6604999058590675,
+      "count": 146
     },
     "deliveryPartners": [],
     "reservationRequired": false,
@@ -41559,8 +41520,8 @@
     ],
     "amenities": [],
     "rating": {
-      "average": 4.7249614460553335,
-      "count": 93
+      "average": 4.8751848950859795,
+      "count": 32
     },
     "deliveryPartners": [],
     "reservationRequired": false,
@@ -41670,13 +41631,10 @@
     ],
     "amenities": [],
     "rating": {
-      "average": 3.030121158437639,
-      "count": 138
+      "average": 3.554793599015042,
+      "count": 121
     },
-    "deliveryPartners": [
-      "Swiggy",
-      "Zomato"
-    ],
+    "deliveryPartners": [],
     "reservationRequired": true,
     "avgMealCost": 150,
     "tags": [
@@ -41783,14 +41741,11 @@
     ],
     "amenities": [],
     "rating": {
-      "average": 4.029456095021617,
-      "count": 73
+      "average": 3.566724287685009,
+      "count": 101
     },
-    "deliveryPartners": [
-      "Swiggy",
-      "Zomato"
-    ],
-    "reservationRequired": false,
+    "deliveryPartners": [],
+    "reservationRequired": true,
     "avgMealCost": 150,
     "tags": [
       "fast_food"
@@ -41893,8 +41848,8 @@
     ],
     "amenities": [],
     "rating": {
-      "average": 3.6814675293321497,
-      "count": 171
+      "average": 3.329035735547541,
+      "count": 116
     },
     "deliveryPartners": [
       "Swiggy",
@@ -42005,11 +41960,11 @@
       "Home Delivery"
     ],
     "rating": {
-      "average": 3.2385282140716645,
-      "count": 200
+      "average": 3.425711820042753,
+      "count": 66
     },
     "deliveryPartners": [],
-    "reservationRequired": false,
+    "reservationRequired": true,
     "avgMealCost": 500,
     "tags": [
       "restaurant"
@@ -42112,11 +42067,11 @@
     ],
     "amenities": [],
     "rating": {
-      "average": 3.875487844361173,
-      "count": 133
+      "average": 3.2560050302592245,
+      "count": 197
     },
     "deliveryPartners": [],
-    "reservationRequired": false,
+    "reservationRequired": true,
     "avgMealCost": 500,
     "tags": [
       "restaurant"
@@ -42221,11 +42176,11 @@
       "Takeaway"
     ],
     "rating": {
-      "average": 4.157749374250613,
-      "count": 37
+      "average": 3.1062957414547414,
+      "count": 151
     },
     "deliveryPartners": [],
-    "reservationRequired": false,
+    "reservationRequired": true,
     "avgMealCost": 150,
     "tags": [
       "fast_food"
@@ -42328,14 +42283,11 @@
     ],
     "amenities": [],
     "rating": {
-      "average": 4.403119916437905,
-      "count": 202
+      "average": 3.5458740524443084,
+      "count": 117
     },
-    "deliveryPartners": [
-      "Swiggy",
-      "Zomato"
-    ],
-    "reservationRequired": false,
+    "deliveryPartners": [],
+    "reservationRequired": true,
     "avgMealCost": 250,
     "tags": [
       "cafe"
@@ -42438,8 +42390,8 @@
     ],
     "amenities": [],
     "rating": {
-      "average": 3.3624202178324043,
-      "count": 190
+      "average": 3.352129125268193,
+      "count": 80
     },
     "deliveryPartners": [],
     "reservationRequired": false,
@@ -42545,11 +42497,14 @@
     ],
     "amenities": [],
     "rating": {
-      "average": 4.615939113374191,
-      "count": 43
+      "average": 4.055490750197283,
+      "count": 51
     },
-    "deliveryPartners": [],
-    "reservationRequired": false,
+    "deliveryPartners": [
+      "Swiggy",
+      "Zomato"
+    ],
+    "reservationRequired": true,
     "avgMealCost": 500,
     "tags": [
       "restaurant"
@@ -42652,10 +42607,13 @@
     ],
     "amenities": [],
     "rating": {
-      "average": 3.8808416524884235,
-      "count": 91
+      "average": 4.06182473416853,
+      "count": 102
     },
-    "deliveryPartners": [],
+    "deliveryPartners": [
+      "Swiggy",
+      "Zomato"
+    ],
     "reservationRequired": false,
     "avgMealCost": 250,
     "tags": [
@@ -42759,10 +42717,13 @@
     ],
     "amenities": [],
     "rating": {
-      "average": 3.021529511161298,
-      "count": 122
+      "average": 4.572437446813664,
+      "count": 140
     },
-    "deliveryPartners": [],
+    "deliveryPartners": [
+      "Swiggy",
+      "Zomato"
+    ],
     "reservationRequired": false,
     "avgMealCost": 150,
     "tags": [
@@ -42866,8 +42827,8 @@
     ],
     "amenities": [],
     "rating": {
-      "average": 3.997418399302701,
-      "count": 59
+      "average": 4.3374942166265855,
+      "count": 179
     },
     "deliveryPartners": [],
     "reservationRequired": true,
@@ -42973,10 +42934,13 @@
     ],
     "amenities": [],
     "rating": {
-      "average": 4.466900360349895,
-      "count": 41
+      "average": 4.262813641076226,
+      "count": 100
     },
-    "deliveryPartners": [],
+    "deliveryPartners": [
+      "Swiggy",
+      "Zomato"
+    ],
     "reservationRequired": false,
     "avgMealCost": 250,
     "tags": [
@@ -43091,8 +43055,8 @@
       "Home Delivery"
     ],
     "rating": {
-      "average": 4.669527226895127,
-      "count": 106
+      "average": 4.563684705484704,
+      "count": 76
     },
     "deliveryPartners": [
       "Swiggy",
@@ -43204,8 +43168,8 @@
       "Takeaway"
     ],
     "rating": {
-      "average": 3.902518399920631,
-      "count": 164
+      "average": 3.240523315268723,
+      "count": 119
     },
     "deliveryPartners": [
       "Swiggy",
@@ -43318,14 +43282,11 @@
     ],
     "amenities": [],
     "rating": {
-      "average": 4.770334720699271,
-      "count": 50
+      "average": 3.613259066387124,
+      "count": 96
     },
-    "deliveryPartners": [
-      "Swiggy",
-      "Zomato"
-    ],
-    "reservationRequired": true,
+    "deliveryPartners": [],
+    "reservationRequired": false,
     "avgMealCost": 500,
     "tags": [
       "restaurant"
@@ -43432,10 +43393,13 @@
       "Outdoor Seating"
     ],
     "rating": {
-      "average": 4.804784257703302,
-      "count": 136
+      "average": 4.220920323375745,
+      "count": 52
     },
-    "deliveryPartners": [],
+    "deliveryPartners": [
+      "Swiggy",
+      "Zomato"
+    ],
     "reservationRequired": true,
     "avgMealCost": 250,
     "tags": [
@@ -43540,14 +43504,14 @@
     ],
     "amenities": [],
     "rating": {
-      "average": 3.5830170101784105,
-      "count": 38
+      "average": 4.624771329513263,
+      "count": 184
     },
     "deliveryPartners": [
       "Swiggy",
       "Zomato"
     ],
-    "reservationRequired": true,
+    "reservationRequired": false,
     "avgMealCost": 500,
     "tags": [
       "restaurant"
@@ -43650,13 +43614,10 @@
     ],
     "amenities": [],
     "rating": {
-      "average": 3.579889556638071,
+      "average": 3.090957070174005,
       "count": 196
     },
-    "deliveryPartners": [
-      "Swiggy",
-      "Zomato"
-    ],
+    "deliveryPartners": [],
     "reservationRequired": false,
     "avgMealCost": 500,
     "tags": [
@@ -43761,14 +43722,14 @@
     ],
     "amenities": [],
     "rating": {
-      "average": 4.1083884654927125,
-      "count": 115
+      "average": 3.5234497735678634,
+      "count": 39
     },
     "deliveryPartners": [
       "Swiggy",
       "Zomato"
     ],
-    "reservationRequired": false,
+    "reservationRequired": true,
     "avgMealCost": 150,
     "tags": [
       "fast_food"
@@ -43886,14 +43847,14 @@
       "Takeaway"
     ],
     "rating": {
-      "average": 4.433152963576433,
-      "count": 137
+      "average": 3.412967757425085,
+      "count": 58
     },
     "deliveryPartners": [
       "Swiggy",
       "Zomato"
     ],
-    "reservationRequired": false,
+    "reservationRequired": true,
     "avgMealCost": 250,
     "tags": [
       "Kolkata",
@@ -43997,8 +43958,8 @@
     ],
     "amenities": [],
     "rating": {
-      "average": 4.760735205770374,
-      "count": 42
+      "average": 4.834834496037059,
+      "count": 31
     },
     "deliveryPartners": [
       "Swiggy",
@@ -44109,10 +44070,13 @@
       "Takeaway"
     ],
     "rating": {
-      "average": 3.38735066803299,
-      "count": 173
+      "average": 4.057093252578231,
+      "count": 130
     },
-    "deliveryPartners": [],
+    "deliveryPartners": [
+      "Swiggy",
+      "Zomato"
+    ],
     "reservationRequired": false,
     "avgMealCost": 150,
     "tags": [
@@ -44216,14 +44180,14 @@
     ],
     "amenities": [],
     "rating": {
-      "average": 3.640422644263841,
-      "count": 185
+      "average": 3.198749733970861,
+      "count": 46
     },
     "deliveryPartners": [
       "Swiggy",
       "Zomato"
     ],
-    "reservationRequired": false,
+    "reservationRequired": true,
     "avgMealCost": 500,
     "tags": [
       "restaurant"
@@ -44326,11 +44290,14 @@
     ],
     "amenities": [],
     "rating": {
-      "average": 3.506647627734169,
-      "count": 122
+      "average": 3.5306294320764526,
+      "count": 41
     },
-    "deliveryPartners": [],
-    "reservationRequired": false,
+    "deliveryPartners": [
+      "Swiggy",
+      "Zomato"
+    ],
+    "reservationRequired": true,
     "avgMealCost": 250,
     "tags": [
       "cafe"
@@ -44435,8 +44402,8 @@
       "Takeaway"
     ],
     "rating": {
-      "average": 4.4153905761324195,
-      "count": 47
+      "average": 4.638275615885253,
+      "count": 130
     },
     "deliveryPartners": [],
     "reservationRequired": false,
@@ -44546,8 +44513,8 @@
       "Takeaway"
     ],
     "rating": {
-      "average": 4.098863515960112,
-      "count": 156
+      "average": 4.180154025761963,
+      "count": 77
     },
     "deliveryPartners": [
       "Swiggy",
@@ -44659,14 +44626,14 @@
       "Takeaway"
     ],
     "rating": {
-      "average": 3.050131119889347,
-      "count": 72
+      "average": 3.083848253837742,
+      "count": 180
     },
     "deliveryPartners": [
       "Swiggy",
       "Zomato"
     ],
-    "reservationRequired": false,
+    "reservationRequired": true,
     "avgMealCost": 150,
     "tags": [
       "fast_food"
@@ -44778,11 +44745,14 @@
       "Takeaway"
     ],
     "rating": {
-      "average": 4.268302273587519,
-      "count": 8
+      "average": 3.8540211595265994,
+      "count": 111
     },
-    "deliveryPartners": [],
-    "reservationRequired": true,
+    "deliveryPartners": [
+      "Swiggy",
+      "Zomato"
+    ],
+    "reservationRequired": false,
     "avgMealCost": 500,
     "tags": [
       "restaurant"
@@ -44893,10 +44863,13 @@
       "Takeaway"
     ],
     "rating": {
-      "average": 3.5460681048299465,
-      "count": 120
+      "average": 4.411147839840671,
+      "count": 9
     },
-    "deliveryPartners": [],
+    "deliveryPartners": [
+      "Swiggy",
+      "Zomato"
+    ],
     "reservationRequired": false,
     "avgMealCost": 500,
     "tags": [
@@ -45002,8 +44975,8 @@
       "Takeaway"
     ],
     "rating": {
-      "average": 3.381926025400185,
-      "count": 60
+      "average": 4.458219065133246,
+      "count": 21
     },
     "deliveryPartners": [
       "Swiggy",
@@ -45114,14 +45087,14 @@
       "Takeaway"
     ],
     "rating": {
-      "average": 4.124892069629892,
-      "count": 177
+      "average": 4.014179529494742,
+      "count": 49
     },
     "deliveryPartners": [
       "Swiggy",
       "Zomato"
     ],
-    "reservationRequired": true,
+    "reservationRequired": false,
     "avgMealCost": 150,
     "tags": [
       "fast_food"
@@ -45227,14 +45200,14 @@
       "Takeaway"
     ],
     "rating": {
-      "average": 4.272491902069531,
-      "count": 171
+      "average": 4.713038013630161,
+      "count": 183
     },
     "deliveryPartners": [
       "Swiggy",
       "Zomato"
     ],
-    "reservationRequired": true,
+    "reservationRequired": false,
     "avgMealCost": 150,
     "tags": [
       "fast_food"
@@ -45352,11 +45325,11 @@
       "Takeaway"
     ],
     "rating": {
-      "average": 4.091376209783153,
-      "count": 162
+      "average": 4.661816701866954,
+      "count": 43
     },
     "deliveryPartners": [],
-    "reservationRequired": false,
+    "reservationRequired": true,
     "avgMealCost": 500,
     "tags": [
       "Kolkata",
@@ -45460,14 +45433,14 @@
     ],
     "amenities": [],
     "rating": {
-      "average": 4.562468140303171,
-      "count": 163
+      "average": 4.701951551172071,
+      "count": 105
     },
     "deliveryPartners": [
       "Swiggy",
       "Zomato"
     ],
-    "reservationRequired": false,
+    "reservationRequired": true,
     "avgMealCost": 500,
     "tags": [
       "restaurant"
@@ -45572,8 +45545,8 @@
     ],
     "amenities": [],
     "rating": {
-      "average": 4.605636714869826,
-      "count": 101
+      "average": 4.987947212420422,
+      "count": 6
     },
     "deliveryPartners": [
       "Swiggy",
@@ -45694,11 +45667,14 @@
     ],
     "amenities": [],
     "rating": {
-      "average": 3.0263798496226877,
-      "count": 13
+      "average": 3.70437321106763,
+      "count": 113
     },
-    "deliveryPartners": [],
-    "reservationRequired": true,
+    "deliveryPartners": [
+      "Swiggy",
+      "Zomato"
+    ],
+    "reservationRequired": false,
     "avgMealCost": 500,
     "tags": [
       "Howrah",
@@ -45804,14 +45780,14 @@
     ],
     "amenities": [],
     "rating": {
-      "average": 4.6093333400048415,
-      "count": 138
+      "average": 3.8097903395360837,
+      "count": 79
     },
     "deliveryPartners": [
       "Swiggy",
       "Zomato"
     ],
-    "reservationRequired": false,
+    "reservationRequired": true,
     "avgMealCost": 500,
     "tags": [
       "restaurant"
@@ -45917,13 +45893,10 @@
       "Takeaway"
     ],
     "rating": {
-      "average": 4.542953223428039,
-      "count": 30
+      "average": 3.697394883113831,
+      "count": 94
     },
-    "deliveryPartners": [
-      "Swiggy",
-      "Zomato"
-    ],
+    "deliveryPartners": [],
     "reservationRequired": false,
     "avgMealCost": 250,
     "tags": [
@@ -46030,11 +46003,11 @@
       "Takeaway"
     ],
     "rating": {
-      "average": 3.013398385954387,
-      "count": 30
+      "average": 4.215911582806628,
+      "count": 46
     },
     "deliveryPartners": [],
-    "reservationRequired": false,
+    "reservationRequired": true,
     "avgMealCost": 250,
     "tags": [
       "cafe"
@@ -46139,8 +46112,8 @@
       "Outdoor Seating"
     ],
     "rating": {
-      "average": 4.327931065718576,
-      "count": 158
+      "average": 4.4853378251517535,
+      "count": 113
     },
     "deliveryPartners": [
       "Swiggy",
@@ -46251,14 +46224,11 @@
     ],
     "amenities": [],
     "rating": {
-      "average": 3.7065688990036696,
-      "count": 99
+      "average": 4.364627670055306,
+      "count": 53
     },
-    "deliveryPartners": [
-      "Swiggy",
-      "Zomato"
-    ],
-    "reservationRequired": true,
+    "deliveryPartners": [],
+    "reservationRequired": false,
     "avgMealCost": 500,
     "tags": [
       "restaurant"
@@ -46363,11 +46333,14 @@
     ],
     "amenities": [],
     "rating": {
-      "average": 4.9645444748060195,
-      "count": 191
+      "average": 3.4396802066052667,
+      "count": 161
     },
-    "deliveryPartners": [],
-    "reservationRequired": false,
+    "deliveryPartners": [
+      "Swiggy",
+      "Zomato"
+    ],
+    "reservationRequired": true,
     "avgMealCost": 500,
     "tags": [
       "restaurant"
@@ -46472,14 +46445,11 @@
     ],
     "amenities": [],
     "rating": {
-      "average": 3.070247050485804,
-      "count": 100
+      "average": 3.901444777650648,
+      "count": 124
     },
-    "deliveryPartners": [
-      "Swiggy",
-      "Zomato"
-    ],
-    "reservationRequired": false,
+    "deliveryPartners": [],
+    "reservationRequired": true,
     "avgMealCost": 500,
     "tags": [
       "restaurant"
@@ -46582,13 +46552,10 @@
     ],
     "amenities": [],
     "rating": {
-      "average": 4.769738290963029,
-      "count": 193
+      "average": 3.876578522996271,
+      "count": 112
     },
-    "deliveryPartners": [
-      "Swiggy",
-      "Zomato"
-    ],
+    "deliveryPartners": [],
     "reservationRequired": false,
     "avgMealCost": 500,
     "tags": [
@@ -46692,11 +46659,14 @@
     ],
     "amenities": [],
     "rating": {
-      "average": 3.6873185640767376,
-      "count": 34
+      "average": 3.9077825068311296,
+      "count": 39
     },
-    "deliveryPartners": [],
-    "reservationRequired": true,
+    "deliveryPartners": [
+      "Swiggy",
+      "Zomato"
+    ],
+    "reservationRequired": false,
     "avgMealCost": 150,
     "tags": [
       "fast_food"
@@ -46801,14 +46771,14 @@
       "Outdoor Seating"
     ],
     "rating": {
-      "average": 4.7642553675301444,
-      "count": 68
+      "average": 3.3683998461533986,
+      "count": 184
     },
     "deliveryPartners": [
       "Swiggy",
       "Zomato"
     ],
-    "reservationRequired": false,
+    "reservationRequired": true,
     "avgMealCost": 250,
     "tags": [
       "cafe"
@@ -46911,8 +46881,8 @@
     ],
     "amenities": [],
     "rating": {
-      "average": 3.99012708605356,
-      "count": 153
+      "average": 3.625162602828469,
+      "count": 124
     },
     "deliveryPartners": [
       "Swiggy",
@@ -47025,13 +46995,10 @@
       "Home Delivery"
     ],
     "rating": {
-      "average": 4.039763469749527,
-      "count": 76
+      "average": 3.1180014487414947,
+      "count": 197
     },
-    "deliveryPartners": [
-      "Swiggy",
-      "Zomato"
-    ],
+    "deliveryPartners": [],
     "reservationRequired": false,
     "avgMealCost": 500,
     "tags": [
@@ -47135,13 +47102,10 @@
     ],
     "amenities": [],
     "rating": {
-      "average": 3.35515321485242,
-      "count": 116
+      "average": 3.706012468181686,
+      "count": 38
     },
-    "deliveryPartners": [
-      "Swiggy",
-      "Zomato"
-    ],
+    "deliveryPartners": [],
     "reservationRequired": false,
     "avgMealCost": 500,
     "tags": [
@@ -47247,8 +47211,8 @@
       "Takeaway"
     ],
     "rating": {
-      "average": 4.19362951920802,
-      "count": 77
+      "average": 3.2503369467977237,
+      "count": 43
     },
     "deliveryPartners": [],
     "reservationRequired": false,
@@ -47356,8 +47320,8 @@
     ],
     "amenities": [],
     "rating": {
-      "average": 4.994964813898207,
-      "count": 70
+      "average": 4.32086639114547,
+      "count": 155
     },
     "deliveryPartners": [
       "Swiggy",
@@ -47466,14 +47430,14 @@
     ],
     "amenities": [],
     "rating": {
-      "average": 3.8560866843422565,
-      "count": 129
+      "average": 3.1312414622221003,
+      "count": 44
     },
     "deliveryPartners": [
       "Swiggy",
       "Zomato"
     ],
-    "reservationRequired": false,
+    "reservationRequired": true,
     "avgMealCost": 150,
     "tags": [
       "fast_food"
@@ -47578,10 +47542,13 @@
     ],
     "amenities": [],
     "rating": {
-      "average": 4.8863109960625195,
-      "count": 199
+      "average": 4.9598695444191225,
+      "count": 177
     },
-    "deliveryPartners": [],
+    "deliveryPartners": [
+      "Swiggy",
+      "Zomato"
+    ],
     "reservationRequired": false,
     "avgMealCost": 150,
     "tags": [
@@ -47685,13 +47652,10 @@
     ],
     "amenities": [],
     "rating": {
-      "average": 4.47113032409008,
-      "count": 108
+      "average": 4.847211464615879,
+      "count": 110
     },
-    "deliveryPartners": [
-      "Swiggy",
-      "Zomato"
-    ],
+    "deliveryPartners": [],
     "reservationRequired": true,
     "avgMealCost": 150,
     "tags": [
@@ -47795,11 +47759,14 @@
     ],
     "amenities": [],
     "rating": {
-      "average": 3.770168656225696,
-      "count": 61
+      "average": 4.181762795858305,
+      "count": 101
     },
-    "deliveryPartners": [],
-    "reservationRequired": false,
+    "deliveryPartners": [
+      "Swiggy",
+      "Zomato"
+    ],
+    "reservationRequired": true,
     "avgMealCost": 150,
     "tags": [
       "fast_food"
@@ -47902,10 +47869,13 @@
     ],
     "amenities": [],
     "rating": {
-      "average": 4.661779233621071,
-      "count": 132
+      "average": 4.221423537997534,
+      "count": 72
     },
-    "deliveryPartners": [],
+    "deliveryPartners": [
+      "Swiggy",
+      "Zomato"
+    ],
     "reservationRequired": true,
     "avgMealCost": 500,
     "tags": [
@@ -48009,10 +47979,13 @@
     ],
     "amenities": [],
     "rating": {
-      "average": 4.387055471314483,
-      "count": 35
+      "average": 4.568905545978521,
+      "count": 172
     },
-    "deliveryPartners": [],
+    "deliveryPartners": [
+      "Swiggy",
+      "Zomato"
+    ],
     "reservationRequired": true,
     "avgMealCost": 150,
     "tags": [
@@ -48116,8 +48089,8 @@
     ],
     "amenities": [],
     "rating": {
-      "average": 3.2728137899054,
-      "count": 116
+      "average": 3.678214329109466,
+      "count": 26
     },
     "deliveryPartners": [],
     "reservationRequired": true,
@@ -48223,14 +48196,14 @@
     ],
     "amenities": [],
     "rating": {
-      "average": 3.5988554403164166,
-      "count": 202
+      "average": 4.599987837684108,
+      "count": 31
     },
     "deliveryPartners": [
       "Swiggy",
       "Zomato"
     ],
-    "reservationRequired": false,
+    "reservationRequired": true,
     "avgMealCost": 150,
     "tags": [
       "fast_food"
@@ -48333,13 +48306,10 @@
     ],
     "amenities": [],
     "rating": {
-      "average": 4.08017358400074,
-      "count": 118
+      "average": 4.922514911669848,
+      "count": 5
     },
-    "deliveryPartners": [
-      "Swiggy",
-      "Zomato"
-    ],
+    "deliveryPartners": [],
     "reservationRequired": false,
     "avgMealCost": 150,
     "tags": [
@@ -48447,11 +48417,14 @@
       "Takeaway"
     ],
     "rating": {
-      "average": 3.7821890583668387,
-      "count": 123
+      "average": 3.5836328926823313,
+      "count": 13
     },
-    "deliveryPartners": [],
-    "reservationRequired": true,
+    "deliveryPartners": [
+      "Swiggy",
+      "Zomato"
+    ],
+    "reservationRequired": false,
     "avgMealCost": 150,
     "tags": [
       "Kolkata",
@@ -48557,8 +48530,8 @@
     ],
     "amenities": [],
     "rating": {
-      "average": 3.380522703031863,
-      "count": 130
+      "average": 3.5253392863908983,
+      "count": 55
     },
     "deliveryPartners": [],
     "reservationRequired": false,
@@ -48669,14 +48642,14 @@
       "Takeaway"
     ],
     "rating": {
-      "average": 3.990258356822381,
-      "count": 7
+      "average": 3.477953026923266,
+      "count": 83
     },
     "deliveryPartners": [
       "Swiggy",
       "Zomato"
     ],
-    "reservationRequired": false,
+    "reservationRequired": true,
     "avgMealCost": 250,
     "tags": [
       "Kolkata",
@@ -48784,10 +48757,13 @@
       "Takeaway"
     ],
     "rating": {
-      "average": 3.287891014267872,
-      "count": 97
+      "average": 3.1816705203907736,
+      "count": 76
     },
-    "deliveryPartners": [],
+    "deliveryPartners": [
+      "Swiggy",
+      "Zomato"
+    ],
     "reservationRequired": false,
     "avgMealCost": 150,
     "tags": [
@@ -48898,13 +48874,10 @@
       "Outdoor Seating"
     ],
     "rating": {
-      "average": 3.894084476636265,
-      "count": 109
+      "average": 4.144820780795154,
+      "count": 110
     },
-    "deliveryPartners": [
-      "Swiggy",
-      "Zomato"
-    ],
+    "deliveryPartners": [],
     "reservationRequired": false,
     "avgMealCost": 250,
     "tags": [
@@ -49010,10 +48983,13 @@
     ],
     "amenities": [],
     "rating": {
-      "average": 4.354012039829992,
-      "count": 57
+      "average": 3.2353193312350608,
+      "count": 199
     },
-    "deliveryPartners": [],
+    "deliveryPartners": [
+      "Swiggy",
+      "Zomato"
+    ],
     "reservationRequired": false,
     "avgMealCost": 500,
     "tags": [
@@ -49120,13 +49096,10 @@
     ],
     "amenities": [],
     "rating": {
-      "average": 4.3522531186123015,
-      "count": 70
+      "average": 4.396916031588413,
+      "count": 53
     },
-    "deliveryPartners": [
-      "Swiggy",
-      "Zomato"
-    ],
+    "deliveryPartners": [],
     "reservationRequired": false,
     "avgMealCost": 250,
     "tags": [
@@ -49231,13 +49204,10 @@
     ],
     "amenities": [],
     "rating": {
-      "average": 3.1037649350052896,
-      "count": 160
+      "average": 4.036750750804021,
+      "count": 31
     },
-    "deliveryPartners": [
-      "Swiggy",
-      "Zomato"
-    ],
+    "deliveryPartners": [],
     "reservationRequired": false,
     "avgMealCost": 500,
     "tags": [
@@ -49356,14 +49326,14 @@
       "Outdoor Seating"
     ],
     "rating": {
-      "average": 3.0476902194297257,
-      "count": 203
+      "average": 3.0279417489589515,
+      "count": 115
     },
     "deliveryPartners": [
       "Swiggy",
       "Zomato"
     ],
-    "reservationRequired": true,
+    "reservationRequired": false,
     "avgMealCost": 250,
     "tags": [
       "Kolkata",
@@ -49467,8 +49437,8 @@
     ],
     "amenities": [],
     "rating": {
-      "average": 3.389866616302564,
-      "count": 149
+      "average": 3.381603084025306,
+      "count": 109
     },
     "deliveryPartners": [
       "Swiggy",
@@ -49577,8 +49547,8 @@
     ],
     "amenities": [],
     "rating": {
-      "average": 3.662901978980926,
-      "count": 202
+      "average": 3.1570546231341434,
+      "count": 38
     },
     "deliveryPartners": [
       "Swiggy",
@@ -49687,11 +49657,14 @@
     ],
     "amenities": [],
     "rating": {
-      "average": 3.201164494229924,
-      "count": 24
+      "average": 3.0121681855873383,
+      "count": 55
     },
-    "deliveryPartners": [],
-    "reservationRequired": true,
+    "deliveryPartners": [
+      "Swiggy",
+      "Zomato"
+    ],
+    "reservationRequired": false,
     "avgMealCost": 500,
     "tags": [
       "restaurant"
@@ -49802,11 +49775,14 @@
       "Outdoor Seating"
     ],
     "rating": {
-      "average": 3.3731849107261223,
-      "count": 26
+      "average": 3.8040167094339727,
+      "count": 192
     },
-    "deliveryPartners": [],
-    "reservationRequired": false,
+    "deliveryPartners": [
+      "Swiggy",
+      "Zomato"
+    ],
+    "reservationRequired": true,
     "avgMealCost": 250,
     "tags": [
       "KOLKATA",
@@ -49910,8 +49886,8 @@
     ],
     "amenities": [],
     "rating": {
-      "average": 3.3144052332646714,
-      "count": 193
+      "average": 4.052977472528066,
+      "count": 167
     },
     "deliveryPartners": [],
     "reservationRequired": false,
@@ -50017,11 +49993,14 @@
     ],
     "amenities": [],
     "rating": {
-      "average": 4.8493285849786485,
-      "count": 123
+      "average": 3.4597142330799073,
+      "count": 49
     },
-    "deliveryPartners": [],
-    "reservationRequired": true,
+    "deliveryPartners": [
+      "Swiggy",
+      "Zomato"
+    ],
+    "reservationRequired": false,
     "avgMealCost": 500,
     "tags": [
       "restaurant"
@@ -50126,13 +50105,10 @@
     ],
     "amenities": [],
     "rating": {
-      "average": 4.765238400796965,
-      "count": 147
+      "average": 3.8570314718872716,
+      "count": 71
     },
-    "deliveryPartners": [
-      "Swiggy",
-      "Zomato"
-    ],
+    "deliveryPartners": [],
     "reservationRequired": false,
     "avgMealCost": 500,
     "tags": [
@@ -50238,8 +50214,8 @@
     ],
     "amenities": [],
     "rating": {
-      "average": 4.249181844214622,
-      "count": 167
+      "average": 4.0355011267943315,
+      "count": 104
     },
     "deliveryPartners": [],
     "reservationRequired": false,
@@ -50348,14 +50324,14 @@
     ],
     "amenities": [],
     "rating": {
-      "average": 4.986058380914202,
-      "count": 199
+      "average": 4.225055148315338,
+      "count": 84
     },
     "deliveryPartners": [
       "Swiggy",
       "Zomato"
     ],
-    "reservationRequired": true,
+    "reservationRequired": false,
     "avgMealCost": 500,
     "tags": [
       "restaurant"
@@ -50458,10 +50434,13 @@
     ],
     "amenities": [],
     "rating": {
-      "average": 3.341416123663609,
-      "count": 176
+      "average": 4.188668736324386,
+      "count": 26
     },
-    "deliveryPartners": [],
+    "deliveryPartners": [
+      "Swiggy",
+      "Zomato"
+    ],
     "reservationRequired": true,
     "avgMealCost": 250,
     "tags": [
@@ -50567,14 +50546,11 @@
       "Takeaway"
     ],
     "rating": {
-      "average": 4.735079794036068,
-      "count": 94
+      "average": 3.6347506082462018,
+      "count": 176
     },
-    "deliveryPartners": [
-      "Swiggy",
-      "Zomato"
-    ],
-    "reservationRequired": false,
+    "deliveryPartners": [],
+    "reservationRequired": true,
     "avgMealCost": 150,
     "tags": [
       "fast_food"
@@ -50684,11 +50660,14 @@
     ],
     "amenities": [],
     "rating": {
-      "average": 4.420038444831099,
-      "count": 135
+      "average": 4.291254139642702,
+      "count": 20
     },
-    "deliveryPartners": [],
-    "reservationRequired": true,
+    "deliveryPartners": [
+      "Swiggy",
+      "Zomato"
+    ],
+    "reservationRequired": false,
     "avgMealCost": 500,
     "tags": [
       "restaurant"
@@ -50791,8 +50770,8 @@
     ],
     "amenities": [],
     "rating": {
-      "average": 4.038157324398717,
-      "count": 86
+      "average": 3.3852681933525366,
+      "count": 117
     },
     "deliveryPartners": [],
     "reservationRequired": false,
@@ -50898,13 +50877,10 @@
     ],
     "amenities": [],
     "rating": {
-      "average": 3.42696650390554,
-      "count": 167
+      "average": 4.3836995416939,
+      "count": 183
     },
-    "deliveryPartners": [
-      "Swiggy",
-      "Zomato"
-    ],
+    "deliveryPartners": [],
     "reservationRequired": false,
     "avgMealCost": 150,
     "tags": [
@@ -51008,13 +50984,10 @@
     ],
     "amenities": [],
     "rating": {
-      "average": 3.579940928323472,
-      "count": 84
+      "average": 4.7614511663031855,
+      "count": 17
     },
-    "deliveryPartners": [
-      "Swiggy",
-      "Zomato"
-    ],
+    "deliveryPartners": [],
     "reservationRequired": true,
     "avgMealCost": 500,
     "tags": [
@@ -51118,14 +51091,14 @@
     ],
     "amenities": [],
     "rating": {
-      "average": 3.5581588844935585,
-      "count": 159
+      "average": 4.479493233136298,
+      "count": 67
     },
     "deliveryPartners": [
       "Swiggy",
       "Zomato"
     ],
-    "reservationRequired": false,
+    "reservationRequired": true,
     "avgMealCost": 250,
     "tags": [
       "cafe"
@@ -51234,11 +51207,14 @@
     ],
     "amenities": [],
     "rating": {
-      "average": 4.9887483463222555,
-      "count": 169
+      "average": 3.7751944726973963,
+      "count": 5
     },
-    "deliveryPartners": [],
-    "reservationRequired": false,
+    "deliveryPartners": [
+      "Swiggy",
+      "Zomato"
+    ],
+    "reservationRequired": true,
     "avgMealCost": 250,
     "tags": [
       "cafe"
@@ -51346,8 +51322,8 @@
     ],
     "amenities": [],
     "rating": {
-      "average": 3.1608162243117612,
-      "count": 153
+      "average": 3.511424809983389,
+      "count": 105
     },
     "deliveryPartners": [
       "Swiggy",
@@ -51457,14 +51433,14 @@
     ],
     "amenities": [],
     "rating": {
-      "average": 4.588920249775983,
-      "count": 179
+      "average": 3.347660219598482,
+      "count": 52
     },
     "deliveryPartners": [
       "Swiggy",
       "Zomato"
     ],
-    "reservationRequired": false,
+    "reservationRequired": true,
     "avgMealCost": 250,
     "tags": [
       "cafe"
@@ -51567,10 +51543,13 @@
     ],
     "amenities": [],
     "rating": {
-      "average": 3.01035185321261,
-      "count": 190
+      "average": 4.0944978624788995,
+      "count": 124
     },
-    "deliveryPartners": [],
+    "deliveryPartners": [
+      "Swiggy",
+      "Zomato"
+    ],
     "reservationRequired": false,
     "avgMealCost": 500,
     "tags": [
@@ -51674,14 +51653,14 @@
     ],
     "amenities": [],
     "rating": {
-      "average": 3.669344034473853,
-      "count": 186
+      "average": 3.8360132956643045,
+      "count": 96
     },
     "deliveryPartners": [
       "Swiggy",
       "Zomato"
     ],
-    "reservationRequired": true,
+    "reservationRequired": false,
     "avgMealCost": 250,
     "tags": [
       "cafe"
@@ -51786,11 +51765,11 @@
     ],
     "amenities": [],
     "rating": {
-      "average": 4.280618365761459,
-      "count": 94
+      "average": 4.320374078200745,
+      "count": 122
     },
     "deliveryPartners": [],
-    "reservationRequired": true,
+    "reservationRequired": false,
     "avgMealCost": 500,
     "tags": [
       "restaurant"
@@ -51893,8 +51872,8 @@
     ],
     "amenities": [],
     "rating": {
-      "average": 4.182801520536946,
-      "count": 139
+      "average": 3.743145955246093,
+      "count": 10
     },
     "deliveryPartners": [
       "Swiggy",
@@ -52005,8 +51984,8 @@
     ],
     "amenities": [],
     "rating": {
-      "average": 4.79293408791516,
-      "count": 108
+      "average": 4.111095708648733,
+      "count": 201
     },
     "deliveryPartners": [],
     "reservationRequired": false,
@@ -52113,13 +52092,10 @@
     ],
     "amenities": [],
     "rating": {
-      "average": 4.472487767682264,
-      "count": 15
+      "average": 4.33322284441202,
+      "count": 130
     },
-    "deliveryPartners": [
-      "Swiggy",
-      "Zomato"
-    ],
+    "deliveryPartners": [],
     "reservationRequired": false,
     "avgMealCost": 500,
     "tags": [
@@ -52223,8 +52199,8 @@
     ],
     "amenities": [],
     "rating": {
-      "average": 4.99363945715924,
-      "count": 49
+      "average": 4.588022405438583,
+      "count": 115
     },
     "deliveryPartners": [],
     "reservationRequired": false,
@@ -52331,11 +52307,14 @@
     ],
     "amenities": [],
     "rating": {
-      "average": 4.211188433762497,
-      "count": 56
+      "average": 4.313215908701135,
+      "count": 169
     },
-    "deliveryPartners": [],
-    "reservationRequired": true,
+    "deliveryPartners": [
+      "Swiggy",
+      "Zomato"
+    ],
+    "reservationRequired": false,
     "avgMealCost": 500,
     "tags": [
       "restaurant"
@@ -52441,14 +52420,11 @@
     ],
     "amenities": [],
     "rating": {
-      "average": 4.02909422919956,
-      "count": 20
+      "average": 3.9213206301867083,
+      "count": 185
     },
-    "deliveryPartners": [
-      "Swiggy",
-      "Zomato"
-    ],
-    "reservationRequired": true,
+    "deliveryPartners": [],
+    "reservationRequired": false,
     "avgMealCost": 500,
     "tags": [
       "restaurant"
@@ -52551,8 +52527,8 @@
     ],
     "amenities": [],
     "rating": {
-      "average": 4.224730904416103,
-      "count": 14
+      "average": 3.729227020455985,
+      "count": 124
     },
     "deliveryPartners": [
       "Swiggy",
@@ -52663,11 +52639,11 @@
     ],
     "amenities": [],
     "rating": {
-      "average": 4.714385076980021,
-      "count": 126
+      "average": 3.990140717367426,
+      "count": 112
     },
     "deliveryPartners": [],
-    "reservationRequired": true,
+    "reservationRequired": false,
     "avgMealCost": 150,
     "tags": [
       "fast_food"
@@ -52770,8 +52746,8 @@
     ],
     "amenities": [],
     "rating": {
-      "average": 3.0777418333024658,
-      "count": 136
+      "average": 3.7246270832803456,
+      "count": 64
     },
     "deliveryPartners": [],
     "reservationRequired": false,
@@ -52879,10 +52855,13 @@
       "Takeaway"
     ],
     "rating": {
-      "average": 3.450113227843695,
-      "count": 84
+      "average": 3.585084240548161,
+      "count": 198
     },
-    "deliveryPartners": [],
+    "deliveryPartners": [
+      "Swiggy",
+      "Zomato"
+    ],
     "reservationRequired": false,
     "avgMealCost": 150,
     "tags": [
@@ -52986,13 +52965,10 @@
     ],
     "amenities": [],
     "rating": {
-      "average": 4.726822499827732,
-      "count": 124
+      "average": 3.823254270485939,
+      "count": 84
     },
-    "deliveryPartners": [
-      "Swiggy",
-      "Zomato"
-    ],
+    "deliveryPartners": [],
     "reservationRequired": false,
     "avgMealCost": 500,
     "tags": [
@@ -53096,8 +53072,8 @@
     ],
     "amenities": [],
     "rating": {
-      "average": 3.88353624942406,
-      "count": 95
+      "average": 4.989856224083205,
+      "count": 88
     },
     "deliveryPartners": [
       "Swiggy",
@@ -53206,10 +53182,13 @@
     ],
     "amenities": [],
     "rating": {
-      "average": 3.1628133027989094,
-      "count": 20
+      "average": 3.2699916979828774,
+      "count": 194
     },
-    "deliveryPartners": [],
+    "deliveryPartners": [
+      "Swiggy",
+      "Zomato"
+    ],
     "reservationRequired": false,
     "avgMealCost": 500,
     "tags": [
@@ -53313,10 +53292,13 @@
     ],
     "amenities": [],
     "rating": {
-      "average": 4.332264545780324,
-      "count": 130
+      "average": 4.137945054493137,
+      "count": 158
     },
-    "deliveryPartners": [],
+    "deliveryPartners": [
+      "Swiggy",
+      "Zomato"
+    ],
     "reservationRequired": false,
     "avgMealCost": 500,
     "tags": [
@@ -53420,11 +53402,11 @@
     ],
     "amenities": [],
     "rating": {
-      "average": 3.173912062588609,
-      "count": 167
+      "average": 3.1238111450378994,
+      "count": 100
     },
     "deliveryPartners": [],
-    "reservationRequired": true,
+    "reservationRequired": false,
     "avgMealCost": 500,
     "tags": [
       "restaurant"
@@ -53530,8 +53512,8 @@
       "Takeaway"
     ],
     "rating": {
-      "average": 4.7926197225845915,
-      "count": 193
+      "average": 3.3131650044189933,
+      "count": 154
     },
     "deliveryPartners": [],
     "reservationRequired": true,
@@ -53641,11 +53623,14 @@
       "Takeaway"
     ],
     "rating": {
-      "average": 4.8740280184808356,
-      "count": 167
+      "average": 3.488701995466952,
+      "count": 125
     },
-    "deliveryPartners": [],
-    "reservationRequired": false,
+    "deliveryPartners": [
+      "Swiggy",
+      "Zomato"
+    ],
+    "reservationRequired": true,
     "avgMealCost": 500,
     "tags": [
       "North 24 Parganas",
@@ -53751,10 +53736,13 @@
     ],
     "amenities": [],
     "rating": {
-      "average": 4.864418419345056,
-      "count": 102
+      "average": 3.5571315384958533,
+      "count": 104
     },
-    "deliveryPartners": [],
+    "deliveryPartners": [
+      "Swiggy",
+      "Zomato"
+    ],
     "reservationRequired": false,
     "avgMealCost": 500,
     "tags": [
@@ -53858,14 +53846,14 @@
     ],
     "amenities": [],
     "rating": {
-      "average": 3.7191370050999026,
-      "count": 153
+      "average": 3.1438241942340768,
+      "count": 115
     },
     "deliveryPartners": [
       "Swiggy",
       "Zomato"
     ],
-    "reservationRequired": false,
+    "reservationRequired": true,
     "avgMealCost": 250,
     "tags": [
       "cafe"
@@ -53968,13 +53956,10 @@
     ],
     "amenities": [],
     "rating": {
-      "average": 4.523800985148084,
-      "count": 9
+      "average": 3.7092066232629874,
+      "count": 170
     },
-    "deliveryPartners": [
-      "Swiggy",
-      "Zomato"
-    ],
+    "deliveryPartners": [],
     "reservationRequired": false,
     "avgMealCost": 500,
     "tags": [

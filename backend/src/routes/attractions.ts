@@ -2,7 +2,7 @@ import { Router, Request, Response } from 'express';
 import mongoose from 'mongoose';
 import dbConnect from '../lib/db';
 import { Attraction } from '../models';
-import { optionalAuth, requireAdmin } from '../middleware/auth';
+import { authenticateToken, optionalAuth, requireAdmin, requireCustomerOrAdmin, requireOwnership } from '../middleware/auth';
 
 const router = Router();
 
@@ -108,14 +108,19 @@ router.get('/', optionalAuth, async (req: Request, res: Response) => {
 });
 
 // POST /api/attractions - Create new attraction
-router.post('/', requireAdmin, async (req: Request, res: Response) => {
+// POST /api/attractions - Create new attraction
+router.post('/', authenticateToken, requireCustomerOrAdmin, async (req: Request, res: Response) => {
   try {
     await dbConnect();
     
     const attractionData = req.body;
+    const user = (req as any).user;
     
-    // Create new attraction
-    const attraction = new Attraction(attractionData);
+    // Create new attraction with createdBy field
+    const attraction = new Attraction({
+      ...attractionData,
+      createdBy: user?.userId // Track who created this listing
+    });
     const savedAttraction = await attraction.save();
     
     res.status(201).json({
@@ -178,6 +183,94 @@ router.get('/:id', optionalAuth, async (req: Request, res: Response) => {
     res.status(500).json({
       success: false,
       message: 'Failed to fetch attraction',
+      error: process.env.NODE_ENV === 'development' ? error : undefined
+    });
+  }
+});
+
+// PUT /api/attractions/:id - Update an attraction
+router.put('/:id', authenticateToken, requireCustomerOrAdmin, requireOwnership(Attraction, 'id'), async (req: Request, res: Response) => {
+  try {
+    const { id } = req.params;
+    const body = req.body;
+
+    // Validate MongoDB ObjectId
+    if (!id.match(/^[0-9a-fA-F]{24}$/)) {
+      return res.status(400).json({
+        success: false,
+        message: 'Invalid attraction ID format'
+      });
+    }
+
+    // Handle images field - convert string URL to proper image object format if needed
+    let updateData = { ...body, updatedAt: new Date() };
+    if (body.images && typeof body.images === 'string') {
+      // If images is a string URL, convert to array format
+      updateData.images = [{ url: body.images, alt: body.name || 'Attraction image', isPrimary: true }];
+    }
+
+    // Update the attraction
+    const updatedAttraction = await Attraction.findByIdAndUpdate(
+      id,
+      updateData,
+      { new: true, runValidators: true }
+    );
+
+    if (!updatedAttraction) {
+      return res.status(404).json({
+        success: false,
+        message: 'Attraction not found'
+      });
+    }
+
+    res.status(200).json({
+      success: true,
+      message: 'Attraction updated successfully',
+      data: updatedAttraction
+    });
+  } catch (error) {
+    console.error('Error updating attraction:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Failed to update attraction',
+      error: process.env.NODE_ENV === 'development' ? error : undefined
+    });
+  }
+});
+
+// DELETE /api/attractions/:id - Delete an attraction
+router.delete('/:id', authenticateToken, requireCustomerOrAdmin, requireOwnership(Attraction, 'id'), async (req: Request, res: Response) => {
+  try {
+    const { id } = req.params;
+
+    // Validate MongoDB ObjectId
+    if (!id.match(/^[0-9a-fA-F]{24}$/)) {
+      return res.status(400).json({
+        success: false,
+        message: 'Invalid attraction ID format'
+      });
+    }
+
+    // Delete the attraction
+    const deletedAttraction = await Attraction.findByIdAndDelete(id);
+
+    if (!deletedAttraction) {
+      return res.status(404).json({
+        success: false,
+        message: 'Attraction not found'
+      });
+    }
+
+    res.status(200).json({
+      success: true,
+      message: 'Attraction deleted successfully',
+      data: deletedAttraction
+    });
+  } catch (error) {
+    console.error('Error deleting attraction:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Failed to delete attraction',
       error: process.env.NODE_ENV === 'development' ? error : undefined
     });
   }
