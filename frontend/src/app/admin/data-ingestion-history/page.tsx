@@ -45,7 +45,7 @@ interface IngestionHistory {
     source?: string
     initiatedBy?: string
     fileName?: string
-    [key: string]: any
+    [key: string]: unknown
   }
   startTime: Date
   endTime?: Date
